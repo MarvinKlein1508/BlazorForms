@@ -10,7 +10,7 @@
                 <div class="toolbar">
                     <button type="button" class="btn btn-danger" @onclick="() => Rows.Remove(row)"><i class="fa-solid fa-trash"></i></button>
                 </div>
-                <Dropzone Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
+                <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
                     <div class="grid-container">
                         <div class="grid-item">
                             <Dropzone Items="column.Elements" OnItemDrop="OnItemDroppedAsync" TItem="FormElement" Context="element">
@@ -44,7 +44,7 @@
         }
     };
 
-    public FormRow? SelectedFormRow { get; set; }
+
     public List<FormRow> Rows { get; set; } = new()
     {
         new FormRow(2),
@@ -53,6 +53,18 @@
         new FormRow(1),
         new FormRow(1)
     };
+
+    public Task OnColumnDroppedAsync(FormColumn column)
+    {
+        var list = Rows.Where(x => !x.Columns.Any()).ToList();
+
+        foreach (var item in list)
+        {
+            Rows.Remove(item);
+        }
+
+        return Task.CompletedTask;
+    }
 
     public Task OnItemDroppedAsync(FormElement element)
     {
