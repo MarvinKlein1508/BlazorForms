@@ -124,11 +124,11 @@
 }
 
 .plk-dd-in-transit {
-    opacity: 0;
+    opacity: 0.6;
 }
 
     .plk-dd-in-transit > div {
-        opacity: 0;
+        opacity: 0.6;
     }
 
 @keyframes blinker {
