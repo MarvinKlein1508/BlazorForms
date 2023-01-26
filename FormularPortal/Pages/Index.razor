@@ -1,0 +1,131 @@
+﻿@page "/"
+@layout EmptyLayout
+<PageTitle>Index</PageTitle>
+<div id="form-wrapper">
+    <div id="form-editor">
+        <button type="button" class="btn btn-success" @onclick="AddRowAsync">Neue Zeile</button>
+
+        <div class="grid-container">
+            <Dropzone Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row row")">
+                <div class="toolbar">
+                    <button type="button" class="btn btn-danger" @onclick="() => Rows.Remove(row)"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <Dropzone Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
+                    <div class="grid-container">
+                        <div class="grid-item">
+                            <Dropzone Items="column.Elements" OnItemDrop="OnItemDroppedAsync" TItem="FormElement" Context="element">
+                                <div class="formular-element grid-item">
+                                    @element
+                                </div>
+                            </Dropzone>
+                        </div>
+                    </div>
+                </Dropzone>
+            </Dropzone>
+        </div>
+    </div>
+    <ul id="element-toolbar">
+        <Dropzone Class="flex-container" Items="Elemente" Accepts="(x,y) => false">
+            <li>@context</li>
+        </Dropzone>
+    </ul>
+</div>
+
+@code {
+    public List<FormElement> Elemente { get; set; } = new()
+    {
+        new FormElement
+        {
+            Name = "Text"
+        },
+        new FormElement
+        {
+            Name ="Datum"
+        }
+    };
+
+    public FormRow? SelectedFormRow { get; set; }
+    public List<FormRow> Rows { get; set; } = new()
+    {
+        new FormRow(2),
+        new FormRow(1),
+        new FormRow(1),
+        new FormRow(1),
+        new FormRow(1)
+    };
+
+    public Task OnItemDroppedAsync(FormElement element)
+    {
+        Elemente = new()
+        {
+            new FormElement
+            {
+                Name = "Text"
+            },
+            new FormElement
+            {
+                Name ="Datum"
+            }
+        };
+        return Task.CompletedTask;
+    }
+
+    public Task AddRowAsync()
+    {
+        Rows.Add(new FormRow(1));
+
+        return Task.CompletedTask;
+    }
+
+
+
+
+    public class FormRow
+    {
+        public List<FormColumn> Columns { get; set; } = new();
+
+        public FormRow()
+        {
+
+        }
+
+        public FormRow(int columns)
+        {
+            for (int i = 0; i < columns; i++)
+            {
+                Columns.Add(new FormColumn());
+            }
+        }
+    }
+
+    public class FormColumn
+    {
+        public List<FormElement> Elements { get; set; } = new();
+
+        public FormColumn()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                FormElement.Anzahl++;
+                Elements.Add(new FormElement
+                    {
+                        Name = FormElement.Anzahl.ToString()
+                    });
+            }
+        }
+
+
+    }
+
+    public class FormElement
+    {
+        public static int Anzahl = 0;
+        public string Name { get; set; } = string.Empty;
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+}
+
+
