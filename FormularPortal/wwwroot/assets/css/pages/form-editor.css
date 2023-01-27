@@ -58,8 +58,13 @@
 }
 
 
+.grid-container {
+    height: 100%;
+}
 
-
+.plk-dd-dropzone.large-dropzone {
+    height: 100%;
+}
 
 
 .toolbar {

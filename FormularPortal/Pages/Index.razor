@@ -7,7 +7,7 @@
 <div id="form-wrapper">
     <div id="form-editor">
         <div class="grid-container">
-            <Dropzone Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row row")">
+            <Dropzone Class="large-dropzone" Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
                 <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
                     <div class="grid-container">
                         <div class="grid-item">
@@ -21,6 +21,7 @@
                 </Dropzone>
             </Dropzone>
         </div>
+        
     </div>
     <div class="toolbar-wrapper">
         <h4>Toolbar</h4>
