@@ -12,7 +12,7 @@
     <base href="~/" />
     
     <link rel="shortcut icon" href="assets/images/logo/favicon.ico" type="image/x-icon">
-    
+   
     @if (Request.Path.Value != "/")
     {
         <link rel="stylesheet" href="assets/css/main/app.css">
@@ -20,6 +20,7 @@
     }
     else
     {
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
         <link rel="stylesheet" href="assets/css/main/app.css">
         <link rel="stylesheet" href="assets/css/pages/form-editor.css" />
     }
@@ -68,6 +69,15 @@
     <script src="_framework/blazor.server.js"></script>
 
     <script src="_content/CKEditor/min.ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+
+    <script>
+        // options are optional ;)
+        MobileDragDrop.polyfill({
+            // use this to make use of the scroll behaviour
+            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+        });
+    </script>
     <script>
         Blazor.defaultReconnectionHandler._reconnectCallback = function (d) {
             document.location.reload();
