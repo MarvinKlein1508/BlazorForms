@@ -46,20 +46,9 @@ StateHasChanged();
         </ul>
 
         <div class="delete-zone"
-             @ondrop:stopPropagation
-             @ondragenter:stopPropagation
-             @ondragend:stopPropagation
-             @ondragover:stopPropagation
-             @ondragleave:stopPropagation
-             @ondragstart:stopPropagation
-            @ondrop="() => {
-if(dragDropServiceRows.ActiveItem is not null)
-{
-    Rows.Remove(dragDropServiceRows.ActiveItem);
-}
-
-
-}">
+             ondragover="event.preventDefault();"
+            ondragstart="event.dataTransfer.setData('', event.target.id);"
+             @ondrop="() => DropDelete()">
             
         </div>
         
@@ -67,6 +56,23 @@ if(dragDropServiceRows.ActiveItem is not null)
 </div>
 
 @code {
+
+    public void DropDelete()
+    {
+        if (dragDropServiceRows.ActiveItem is not null)
+        {
+            dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
+        }
+        else if(dragDropServiceColumns.ActiveItem is not null)
+        {
+            dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
+            CheckForEmptyRows();
+        }
+        else if(dragDropService.ActiveItem is not null)
+        {
+            dragDropService.Items.Remove(dragDropService.ActiveItem);
+        }
+    }
     public List<IFormItem> löschListe = new()
     {
         new FormRow(1)
@@ -125,14 +131,19 @@ if(dragDropServiceRows.ActiveItem is not null)
 
     public Task OnColumnDroppedAsync(FormColumn column)
     {
+        CheckForEmptyRows();
+
+        return Task.CompletedTask;
+    }
+
+    private void CheckForEmptyRows()
+    {
         var list = Rows.Where(x => !x.Columns.Any()).ToList();
 
         foreach (var item in list)
         {
             Rows.Remove(item);
         }
-
-        return Task.CompletedTask;
     }
 
     public Task AddRowAsync()
