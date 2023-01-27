@@ -238,4 +238,9 @@
     .plk-dd-dropzone {
         display: initial;
     }
+    
+    .formular-row .formular-column {
+        margin-right: 0 !important;
+    }
+
 }
