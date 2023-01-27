@@ -1,10 +1,11 @@
 ﻿@page "/"
 @layout EmptyLayout
+@inject DragDropService<FormElement> dragDropService
+@inject DragDropService<FormRow> dragDropServiceRows
+@inject DragDropService<FormColumn> dragDropServiceColumns
 <PageTitle>Index</PageTitle>
 <div id="form-wrapper">
     <div id="form-editor">
-        <button type="button" class="btn btn-success" @onclick="AddRowAsync">Neue Zeile</button>
-
         <div class="grid-container">
             <Dropzone Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row row")">
                 <div class="toolbar">
@@ -13,7 +14,7 @@
                 <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
                     <div class="grid-container">
                         <div class="grid-item">
-                            <Dropzone Items="column.Elements" OnItemDrop="OnItemDroppedAsync" TItem="FormElement" Context="element">
+                            <Dropzone Items="column.Elements" Context="element">
                                 <div class="formular-element grid-item">
                                     @element
                                 </div>
@@ -24,24 +25,92 @@
             </Dropzone>
         </div>
     </div>
-    <ul id="element-toolbar">
-        <Dropzone Class="flex-container" Items="Elemente" Accepts="(x,y) => false">
-            <li>@context</li>
-        </Dropzone>
-    </ul>
+    <div class="toolbar-wrapper">
+        <h4>Toolbar</h4>
+        <ul id="element-toolbar">
+            <li draggable="true" class="toolbar-element" @ondragstart="() => {
+dragDropServiceRows.ActiveItem = new FormRow(1);
+dragDropServiceRows.Items = new List<FormRow>();
+StateHasChanged();
+}">Neue Zeile</li>
+
+            <li draggable="true" class="toolbar-element" @ondragstart="() => {
+dragDropServiceColumns.ActiveItem = new FormColumn();
+dragDropServiceColumns.Items = new List<FormColumn>();
+StateHasChanged();
+}">Neue Column</li>
+            @foreach (var item in Elemente)
+            {
+                <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
+            }
+        </ul>
+
+        <div class="delete-zone"
+             @ondrop:stopPropagation
+             @ondragenter:stopPropagation
+             @ondragend:stopPropagation
+             @ondragover:stopPropagation
+             @ondragleave:stopPropagation
+             @ondragstart:stopPropagation
+            @ondrop="() => {
+if(dragDropServiceRows.ActiveItem is not null)
+{
+    Rows.Remove(dragDropServiceRows.ActiveItem);
+}
+
+
+}">
+            
+        </div>
+        
+    </div>
 </div>
 
 @code {
+    public List<IFormItem> löschListe = new()
+    {
+        new FormRow(1)
+    };
     public List<FormElement> Elemente { get; set; } = new()
     {
         new FormElement
         {
-            Name = "Text"
+            Name = "Textfeld"
         },
         new FormElement
         {
             Name ="Datum"
+        },
+        new FormElement
+        {
+            Name ="Select"
+        },
+        new FormElement
+        {
+            Name ="checkbox"
+        },
+        new FormElement
+        {
+            Name ="Textarea"
+        },
+        new FormElement
+        {
+            Name ="Datei"
+        },
+        new FormElement
+        {
+            Name ="Zahl"
         }
+        ,
+        new FormElement
+        {
+            Name ="Tabelle"
+        },
+        new FormElement
+        {
+            Name ="Text"
+        }
+
     };
 
 
@@ -66,22 +135,6 @@
         return Task.CompletedTask;
     }
 
-    public Task OnItemDroppedAsync(FormElement element)
-    {
-        Elemente = new()
-        {
-            new FormElement
-            {
-                Name = "Text"
-            },
-            new FormElement
-            {
-                Name ="Datum"
-            }
-        };
-        return Task.CompletedTask;
-    }
-
     public Task AddRowAsync()
     {
         Rows.Add(new FormRow(1));
@@ -89,10 +142,17 @@
         return Task.CompletedTask;
     }
 
+    public Task OnToolbarElementDragStartAsync(FormElement element)
+    {
+        dragDropService.ActiveItem = (FormElement)element.Clone();
+        dragDropService.Items = new List<FormElement>();
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
+    public interface IFormItem {}
 
-
-    public class FormRow
+    public class FormRow : IFormItem
     {
         public List<FormColumn> Columns { get; set; } = new();
 
@@ -110,7 +170,7 @@
         }
     }
 
-    public class FormColumn
+    public class FormColumn : IFormItem
     {
         public List<FormElement> Elements { get; set; } = new();
 
@@ -129,10 +189,18 @@
 
     }
 
-    public class FormElement
+    public class FormElement : IFormItem, ICloneable
     {
         public static int Anzahl = 0;
         public string Name { get; set; } = string.Empty;
+
+        public object Clone()
+        {
+            object tmp = this.MemberwiseClone();
+
+            return tmp;
+        }
+
         public override string ToString()
         {
             return Name;

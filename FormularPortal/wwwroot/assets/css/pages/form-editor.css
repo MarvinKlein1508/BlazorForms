@@ -12,34 +12,55 @@
 
 #form-wrapper {
     height: 100vh;
+    height: 100dvh;
     position: relative;
+    display: grid;
+    grid-template-columns: 7fr 1fr;
 }
 
-#form-editor {
-    background-color: #eeeded;
-    padding: 1em;
-    height: calc(100vh - 50px);
-    position: relative;
-    overflow: auto;
+.toolbar-wrapper h4 {
+    text-align: center;
+    padding: 1em 0;
 }
-
 #element-toolbar {
-    background-color: aqua;
-    height: 50px;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    padding: 0;
+    margin: 0;
 }
-
-.plk-dd-dropzone.flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#element-toolbar li {
+.toolbar-element {
     list-style: none;
+    display: block;
+    padding: 1em;
+    cursor: grab;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: -1px;
+    margin-left: -1px;
+    background-color: #fff;
 }
+
+    .toolbar-element.toolbar-element-zeile {
+        background-color: #198754;
+        border-color: #198754;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    #form-editor {
+        background-color: #eeeded;
+        padding: 1em;
+        position: relative;
+        overflow: auto;
+    }
+
+.delete-zone {
+    background: red;
+    min-height: 10em;
+}
+
+
+
+
+
 
 .toolbar {
     text-align: right;

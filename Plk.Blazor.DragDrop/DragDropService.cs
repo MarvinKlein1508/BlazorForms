@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Plk.Blazor.DragDrop.Test")]
 namespace Plk.Blazor.DragDrop;
 
-internal class DragDropService<T>
+public class DragDropService<T>
 {
     /// <summary>
     /// Currently Active Item
@@ -30,17 +30,9 @@ internal class DragDropService<T>
     /// </summary>
     public void Reset()
     {
-        //ShouldRender = true;
         ActiveItem = default;
         ActiveSpacerId = null;
         Items = null;
         DragTargetItem = default;
-
-        StateHasChanged?.Invoke(this, EventArgs.Empty);
     }
-
-    public bool ShouldRender { get; } = true;
-
-    // Notify subscribers that there is a need for rerender
-    public EventHandler StateHasChanged { get; set; }
 }
