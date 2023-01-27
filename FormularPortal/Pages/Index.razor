@@ -8,9 +8,6 @@
     <div id="form-editor">
         <div class="grid-container">
             <Dropzone Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row row")">
-                <div class="toolbar">
-                    <button type="button" class="btn btn-danger" @onclick="() => Rows.Remove(row)"><i class="fa-solid fa-trash"></i></button>
-                </div>
                 <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
                     <div class="grid-container">
                         <div class="grid-item">
@@ -75,7 +72,7 @@ StateHasChanged();
     }
     public List<IFormItem> löschListe = new()
     {
-        new FormRow(1)
+        
     };
     public List<FormElement> Elemente { get; set; } = new()
     {
