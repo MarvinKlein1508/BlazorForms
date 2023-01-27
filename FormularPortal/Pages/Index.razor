@@ -21,7 +21,7 @@
                 </Dropzone>
             </Dropzone>
         </div>
-        
+
     </div>
     <div class="toolbar-wrapper">
         <h4>Toolbar</h4>
@@ -43,13 +43,15 @@ StateHasChanged();
             }
         </ul>
 
-        <div class="delete-zone"
-             ondragover="event.preventDefault();"
-            ondragstart="event.dataTransfer.setData('', event.target.id);"
-             @ondrop="() => DropDelete()">
-            
+        <div class="delete-wrapper">
+            <div class="delete-zone"
+                 ondragover="event.preventDefault();"
+                 ondragstart="event.dataTransfer.setData('', event.target.id);"
+                 @ondrop="() => DropDelete()">
+                 <i class="fa-solid fa-trash"></i>
+            </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -61,19 +63,19 @@ StateHasChanged();
         {
             dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
         }
-        else if(dragDropServiceColumns.ActiveItem is not null)
+        else if (dragDropServiceColumns.ActiveItem is not null)
         {
             dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
             CheckForEmptyRows();
         }
-        else if(dragDropService.ActiveItem is not null)
+        else if (dragDropService.ActiveItem is not null)
         {
             dragDropService.Items.Remove(dragDropService.ActiveItem);
         }
     }
     public List<IFormItem> löschListe = new()
     {
-        
+
     };
     public List<FormElement> Elemente { get; set; } = new()
     {
@@ -159,7 +161,7 @@ StateHasChanged();
         return Task.CompletedTask;
     }
 
-    public interface IFormItem {}
+    public interface IFormItem { }
 
     public class FormRow : IFormItem
     {

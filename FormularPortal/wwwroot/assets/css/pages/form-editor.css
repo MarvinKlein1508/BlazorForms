@@ -52,10 +52,23 @@
         overflow: auto;
     }
 
-.delete-zone {
-    background: red;
-    min-height: 10em;
+.delete-wrapper {
+    padding: .5em;
 }
+.delete-zone {
+    border: 2px dashed #f66363;
+    border-radius: .5em;
+    min-height: 10em;
+    display: flex;
+    align-items: center;
+}
+    .delete-zone i {
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        opacity: .6;
+        color: #f66363;
+    }
 
 
 .grid-container {
