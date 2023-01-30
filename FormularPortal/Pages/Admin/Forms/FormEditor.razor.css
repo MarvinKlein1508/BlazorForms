@@ -48,6 +48,8 @@
     background-color: #eeeded;
     position: relative;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -68,6 +70,7 @@
 
 .form-grid-editor {
     padding: 1em;
+    flex: 1;
 }
 
 .delete-wrapper {
