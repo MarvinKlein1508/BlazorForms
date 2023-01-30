@@ -1,7 +1,6 @@
 ﻿namespace FormularPortal.Core.Models
 {
-    public class FormSelectElement : FormElement
+    public class FormSelectElement : FormElementWithOptions
     {
-        public List<FormElementOption> Options { get; set; } = new List<FormElementOption>();
     }
 }

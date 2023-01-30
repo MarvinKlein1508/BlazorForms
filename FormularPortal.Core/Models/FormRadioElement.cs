@@ -1,7 +1,7 @@
 ﻿namespace FormularPortal.Core.Models
 {
-    public class FormRadioElement : FormElement
+    public class FormRadioElement : FormElementWithOptions
     {
-        public List<FormElementOption> Options { get; set; } = new List<FormElementOption>();
+
     }
 }

@@ -47,10 +47,26 @@
 
     #form-editor {
         background-color: #eeeded;
-        padding: 1em;
+        
         position: relative;
         overflow: auto;
     }
+
+.btn {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+#topbar {
+    background-color: rgb(242, 247, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.form-grid-editor {
+    padding: 1em;
+}
 
 .delete-wrapper {
     padding: .5em;
