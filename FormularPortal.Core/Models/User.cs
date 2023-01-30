@@ -18,5 +18,7 @@
         public string Salt { get; set; } = string.Empty;
         [CompareField("origin")]
         public string Origin { get; set; } = string.Empty;
+
+        public List<Permission> Permissions { get; set; } = new();
     }
 }

@@ -1,14 +1,15 @@
 ﻿using FormularPortal.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Services
 {
     public class UserService : IModelService<User, int>
     {
+        private readonly PermissionService _permissionService;
+
+        public UserService(PermissionService permissionService)
+        {
+            _permissionService = permissionService;
+        }
         public async Task CreateAsync(User input, SqlController sqlController)
         {
             string sql = @"INSERT INTO users
@@ -42,6 +43,8 @@ VALUES
                 SALT = input.Salt,
                 ORIGIN = input.Origin
             });
+
+            await _permissionService.UpdateUserPermissionsAsync(input, sqlController);
         }
 
         public async Task DeleteAsync(User input, SqlController sqlController)
@@ -65,7 +68,7 @@ VALUES
 
             if (user is not null)
             {
-                //user.Berechtigungen = await GetUserBerechtigungAsync(user, sqlController);
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, sqlController);
             }
 
             return user;
@@ -81,8 +84,24 @@ VALUES
 
             if (user is not null)
             {
-                //user.Berechtigungen = await GetUserBerechtigungAsync(user, sqlController);
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, sqlController);
             }
+            return user;
+        }
+        public async Task<User?> GetAsync(string username, SqlController sqlController)
+        {
+            string sql = @"SELECT * FROM users WHERE UPPER(username) = UPPER(@USERNAME) AND herkunft = 'local'";
+
+            var user = await sqlController.GetFirstAsync<User>(sql, new
+            {
+                USERNAME = username
+            });
+
+            if (user is not null)
+            {
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, sqlController);
+            }
+
             return user;
         }
         public Task UpdateAsync(User input, SqlController sqlController)

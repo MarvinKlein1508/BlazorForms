@@ -1,4 +1,77 @@
 ﻿@page
+@using FormularPortal.Core.Services;
 @model FormularPortal.Pages.Account.LoginModel
 @{
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Messeportal</title>
+    <link rel="stylesheet" href="/assets/css/main/app.css">
+    <link rel="stylesheet" href="/assets/css/pages/auth.css">
+    <link rel="stylesheet" href="/assets/extensions/fontawesome/css/all.min.css" />
+    <link rel="shortcut icon" href="/assets/images/logo/favicon.ico" type="image/x-icon">
+
+
+    <link href='/assets/images/logo/apple-touch.png' rel='apple-touch-icon'>
+    <link href='/assets/images/logo/apple-touch-57x57.png' rel='apple-touch-icon' sizes='57x57'>
+    <link href='/assets/images/logo/apple-touch-72x72.png' rel='apple-touch-icon' sizes='72x72'>
+    <link href='/assets/images/logo/apple-touch-76x76.png' rel='apple-touch-icon' sizes='76x76'>
+    <link href='/assets/images/logo/apple-touch-114x114.png' rel='apple-touch-icon' sizes='114x114'>
+    <link href='/assets/images/logo/apple-touch-120x120.png' rel='apple-touch-icon' sizes='120x120'>
+    <link href='/assets/images/logo/apple-touch-144x144.png' rel='apple-touch-icon' sizes='144x144'>
+    <link href='/assets/images/logo/apple-touch-152x152.png' rel='apple-touch-icon' sizes='152x152'>
+    <link href='/assets/images/logo/apple-touch-180x180.png' rel='apple-touch-icon' sizes='180x180'>
+
+    <link href="/site.webmanifest" rel="manifest" />
+</head>
+
+<body>
+    <div id="auth">
+
+        <div class="row h-100">
+            <div class="col-lg-6 offset-lg-3 col-12">
+                <div id="auth-left">
+                    <div class="auth-logo">
+                        
+                    </div>
+                    <h2 class="auth-title">Login</h2>
+                    <p class="auth-subtitle mb-5">Zum Messeportal.</p>
+
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input asp-for="Input.Username" type="text" class="form-control form-control-xl" placeholder="Username">
+                            <div class="form-control-icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input asp-for="Input.Password" type="password" class="form-control form-control-xl" placeholder="Passwort">
+                            <div class="form-control-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-check form-check-lg d-flex align-items-end">
+                            <input asp-for="Input.RememberMe" class="form-check-input me-2" id="flexCheckDefault">
+                            <label asp-for="Input.RememberMe" class="form-check-label text-gray-600" for="flexCheckDefault">
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5 mb-3">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
