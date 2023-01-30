@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseControllerProvider;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +19,14 @@ namespace FormularPortal.Core.Services
         /// <param name="input"></param>
         /// <param name="fbController"></param>
         /// <returns></returns>
-        Task CreateAsync(T input, SqlController sqlController);
+        Task CreateAsync(T input, IDbController dbController);
         /// <summary>
         /// Aktualisiert den Datensatz für das Objekt in der Datenbank
         /// </summary>
         /// <param name="input"></param>
         /// <param name="fbController"></param>
         /// <returns></returns>
-        Task UpdateAsync(T input, SqlController sqlController);
+        Task UpdateAsync(T input, IDbController dbController);
 
         /// <summary>
         /// Löscht den Datensatz für das Objekt aus der Datenbank
@@ -33,7 +34,7 @@ namespace FormularPortal.Core.Services
         /// <param name="input"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
-        Task DeleteAsync(T input, SqlController sqlController);
+        Task DeleteAsync(T input, IDbController dbController);
     }
     /// <summary>
     /// <inheritdoc/>
@@ -53,7 +54,7 @@ namespace FormularPortal.Core.Services
         /// <returns>
         /// Wenn das Objekt in der Datenbank für den Identifier existiert, dann wird dieses zurückgeben. Ansonsten wird null zurückgegeben.
         /// </returns>
-        Task<T?> GetAsync(TIdentifier identifier, SqlController sqlController);
+        Task<T?> GetAsync(TIdentifier identifier, IDbController dbController);
     }
     /// <summary>
     /// Erweitert die Standard CRUD Operations um eine Suchmöglichkeit mit Filtern
@@ -69,14 +70,14 @@ namespace FormularPortal.Core.Services
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
-        Task<List<T>> GetAsync(TFilter filter, SqlController sqlController);
+        Task<List<T>> GetAsync(TFilter filter, IDbController dbController);
         /// <summary>
         /// Ruft die Anzahl der Ergebnisse auf Basis des Filters ab.
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
-        Task<int> GetTotalAsync(TFilter filter, SqlController sqlController);
+        Task<int> GetTotalAsync(TFilter filter, IDbController dbController);
         /// <summary>
         /// Generiert für einen Filter die SQL-WHERE Klausel
         /// </summary>

@@ -24,6 +24,8 @@ namespace FormularPortal.Core.Services
             new FormLabelElement { Name = "Label"}
         };
 
+        public static List<Permission> Permissions { get; set; } = new();
+
         private static IConfiguration? _configuration;
 
         public static async Task InitAsync(IConfiguration configuration)
@@ -31,6 +33,8 @@ namespace FormularPortal.Core.Services
             _configuration = configuration;
 
             // TODO: Load anything required
+            //using SqlController sqlController = new SqlController(AppdatenService.ConnectionString);
+            //Permissions = await PermissionService.GetAllAsync(sqlController);
         }
 
         public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;

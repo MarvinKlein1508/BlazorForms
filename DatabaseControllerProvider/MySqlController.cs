@@ -1,21 +1,15 @@
 ﻿using Dapper;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
-namespace FormularPortal.Core
+namespace DatabaseControllerProvider
 {
-    public sealed class SqlController : IDisposable
+    public sealed class MySqlController : IDisposable, IDbController<MySqlConnection, MySqlCommand, MySqlTransaction>
     {
         private bool _disposedValue;
-        private SqlConnection Connection => Command.Connection;
+        public MySqlConnection Connection => Command.Connection;
+        public MySqlTransaction? Transaction => Command.Transaction;
+        public MySqlCommand Command { get; }
         public string CommandText => Command.CommandText ?? String.Empty;
-        public SqlTransaction? Transaction => Command.Transaction;
-        private SqlCommand Command { get; set; }
 
         /// <summary>
         /// Ruft den ConnectionString zur aktuellen Datenbank ab.
@@ -23,38 +17,17 @@ namespace FormularPortal.Core
         public string ConnectionString { get; }
 
         #region Konstruktoren
-        public SqlController(string connectionString)
+        public MySqlController(string connectionString)
         {
             ConnectionString = connectionString;
-            Command = new SqlCommand
+            Command = new MySqlCommand
             {
-                Connection = new SqlConnection(ConnectionString)
+                Connection = new MySqlConnection(ConnectionString)
             };
 
             Command.Connection.Open();
         }
-        static SqlController()
-        {
 
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
-            SqlMapper.RemoveTypeMap(typeof(Guid));
-            SqlMapper.RemoveTypeMap(typeof(Guid?));
-
-            // INIT Dapper for CompareField
-            foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldName))
-            {
-                SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-                    type,
-                    (type, columnName) =>
-                    {
-                        PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
-
-                        return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) : prop;
-
-                    }
-                ));
-            }
-        }
         #endregion
         #region SQL-Methoden
         public async Task QueryAsync(string sqlCommand, object? param = null)
@@ -87,7 +60,7 @@ namespace FormularPortal.Core
                 throw new InvalidOperationException($"Es konnte keine Transaction gestartet werden, da bereits eine Transaction läuft");
             }
 
-            Command.Transaction = (SqlTransaction)await Connection.BeginTransactionAsync();
+            Command.Transaction = (MySqlTransaction)await Connection.BeginTransactionAsync();
         }
         /// <summary>
         /// Committed alle Änderungen aus der Pipe-Line
@@ -143,7 +116,7 @@ namespace FormularPortal.Core
             }
         }
 
-        ~SqlController()
+        ~MySqlController()
         {
             // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in der Methode "Dispose(bool disposing)" ein.
             Dispose(disposing: false);
@@ -156,5 +129,10 @@ namespace FormularPortal.Core
             GC.SuppressFinalize(this);
         }
         #endregion
+
+        public string GetLastIdSql()
+        {
+            return "SELECT LAST_INSERT_ID();";
+        }
     }
 }

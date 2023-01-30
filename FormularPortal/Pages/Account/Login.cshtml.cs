@@ -13,20 +13,23 @@ using System.Web;
 using System.Xml.Linq;
 using System.DirectoryServices.Protocols;
 using FormularPortal.Core.Models;
+using DatabaseControllerProvider;
 
 namespace FormularPortal.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly DbProviderService _dbProviderService;
         private readonly UserService _userService;
 
         [BindProperty]
         public LoginInput Input { get; set; } = new LoginInput();
         public string? ReturnUrl { get; set; }
 
-        public LoginModel(UserService userService)
+        public LoginModel(DbProviderService dbProviderService, UserService userService)
         {
+            _dbProviderService = dbProviderService;
             _userService = userService;
         }
 
@@ -52,8 +55,8 @@ namespace FormularPortal.Pages.Account
             {
 
                 // Erst prüfen wir gegen die Datenbank
-                using SqlController sqlController = new SqlController(AppdatenService.ConnectionString);
-                User? mitarbeiter = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, sqlController) : null;
+                IDbController dbController = _dbProviderService.GetDbController("mssql", AppdatenService.ConnectionString);
+                User? mitarbeiter = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.
                 if (mitarbeiter is not null)
@@ -136,7 +139,7 @@ namespace FormularPortal.Pages.Account
                                 throw new InvalidOperationException();
                             }
 
-                            mitarbeiter = await _userService.GetAsync((Guid)guid, sqlController);
+                            mitarbeiter = await _userService.GetAsync((Guid)guid, dbController);
 
                             if (mitarbeiter is null)
                             {
@@ -158,7 +161,7 @@ namespace FormularPortal.Pages.Account
                                 //    }
                                 //}
 
-                                await _userService.CreateAsync(mitarbeiter, sqlController);
+                                await _userService.CreateAsync(mitarbeiter, dbController);
                                 //AppdatenService.ActiveDirectoryUserExists = true;
                             }
 
