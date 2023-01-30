@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormularPortal.Core.Models
+namespace FormularPortal.Core.Services
 {
-    public class Formular
+    public interface IModelService
     {
     }
 }
