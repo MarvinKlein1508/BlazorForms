@@ -55,7 +55,7 @@ namespace FormularPortal.Pages.Account
             {
 
                 // Erst prüfen wir gegen die Datenbank
-                IDbController dbController = _dbProviderService.GetDbController("mssql", AppdatenService.ConnectionString);
+                IDbController dbController = _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
                 User? mitarbeiter = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.

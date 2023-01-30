@@ -36,7 +36,7 @@ namespace FormularPortal.Core.Services
             //using SqlController sqlController = new SqlController(AppdatenService.ConnectionString);
             //Permissions = await PermissionService.GetAllAsync(sqlController);
         }
-
+        public static string DbProvider => _configuration?["DbProvider"] ?? string.Empty;
         public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;
         public static bool IsLdapLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
         public static bool IsLocalLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
