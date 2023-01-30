@@ -16,7 +16,7 @@
         <div class="form-grid-editor">
             <div class="grid-container">
                 <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
-                    <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
+                    <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
                         <div class="grid-container">
                             <div class="grid-item">
                                 <Dropzone Items="column.Elements" Context="element">
