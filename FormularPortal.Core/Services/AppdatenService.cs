@@ -33,5 +33,12 @@ namespace FormularPortal.Core.Services
             // TODO: Load anything required
         }
 
+        public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;
+        public static bool IsLdapLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
+        public static bool IsLocalLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
+        public static string LdapServer => _configuration?["Login:LDAP_SERVER"] ?? string.Empty;
+        public static string LdapDomainServer => _configuration?["Login:DOMAIN_SERVER"] ?? string.Empty;
+        public static string LdapDistinguishedName => _configuration?["Login:DistinguishedName"] ?? string.Empty;
+
     }
 }
