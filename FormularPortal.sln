@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormularPortal.Core", "Form
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plk.Blazor.DragDrop", "Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj", "{6D55BD27-2CA5-4794-A9EB-DC213906F16E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{715ADD3A-DD6E-416F-9412-ECC251CAA351}"
+	ProjectSection(SolutionItems) = preProject
+		MSSQL_INSTALL.sql = MSSQL_INSTALL.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
