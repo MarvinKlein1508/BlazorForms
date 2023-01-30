@@ -21,6 +21,8 @@ namespace FormularPortal.Pages.Admin.Forms
     {
         public Form Input { get; set; } = new Form();
         public FormElement? SelectedFormElement { get; set; }
+
+        public bool EditFormProperties { get; set; }
         protected override Task OnParametersSetAsync()
         {
             return base.OnParametersSetAsync();
