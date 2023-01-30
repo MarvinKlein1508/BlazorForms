@@ -257,3 +257,9 @@
     }
 
 }
+.element-wrapper {
+    display: flex;
+    padding: .5em;
+    align-items: center;
+    justify-content: space-between;
+}

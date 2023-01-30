@@ -1,0 +1,66 @@
+﻿@inherits ModalBase
+
+<div class="modal fade show" style="display: block;">
+    <div class="@ModalSizeClass">
+        <div class="modal-content @(DoubleOverlay ? "double-overlay" : "")">
+            <div class="modal-header">
+                <h5 class="modal-title">@Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => OnClosed.InvokeAsync()"></button>
+            </div>
+            <div class="modal-body">
+                @ChildContent
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn me-1 @CloseBtnClass" data-bs-dismiss="modal" @onclick="() => { OnDeclined.InvokeAsync(); OnClosed.InvokeAsync(); }">@DeclineText</button>
+                @if (ConfirmBedingung)
+                {
+                    @if (_confirmIsLoading)
+                    {
+                        <button class="@ConfirmButtonClass" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="visually-hidden">Loading...</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="@ConfirmButtonClass" data-bs-dismiss="modal" @onclick="Confirm">@ConfirmText</button>
+                    }
+                }
+                else
+                {
+                    <button type="button" class="@ConfirmButtonClass" disabled>@ConfirmText</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show"></div>
+
+
+@code {
+
+
+    [Parameter] public EventCallback OnDeclined { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+
+    [Parameter] public EventCallback OnConfirmed { get; set; }
+
+    [Parameter] public string ConfirmText { get; set; } = "Ja";
+    [Parameter] public string DeclineText { get; set; } = "Nein";
+    [Parameter] public bool ConfirmBedingung { get; set; } = true;
+
+    [Parameter] public string ConfirmButtonClass { get; set; } = "btn btn-success";
+
+    private bool _confirmIsLoading;
+
+    private async Task Confirm()
+    {
+        _confirmIsLoading = true;
+        await OnConfirmed.InvokeAsync();
+        await OnClosed.InvokeAsync();
+        _confirmIsLoading = false;
+    }
+}

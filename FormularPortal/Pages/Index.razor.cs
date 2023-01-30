@@ -21,6 +21,7 @@ namespace FormularPortal.Pages
     public partial class Index
     {
         public List<FormRow> Rows { get; set; } = new();
+        public FormElement? SelectedFormElement { get; set; }
         protected override Task OnParametersSetAsync()
         {
             Rows.Add(new FormRow(1));

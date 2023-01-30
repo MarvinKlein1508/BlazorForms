@@ -14,7 +14,7 @@
                         <div class="grid-item">
                             <Dropzone Items="column.Elements" Context="element">
                                 <div class="formular-element grid-item">
-                                    @element
+                                    <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => SelectedFormElement = element"><i class="fa-solid fa-edit"></i></button></div>
                                 </div>
                             </Dropzone>
                         </div>
@@ -46,6 +46,24 @@
 
     </div>
 </div>
+
+@if (SelectedFormElement is not null)
+{
+    <ConfirmModal Title="Element bearbeiten"
+        OnClosed="() => SelectedFormElement = null">
+        <EditForm Model="SelectedFormElement">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required autocomplete="off" />
+                        <label for="formelement-name">Name</label>
+                        <ValidationMessage For="() => SelectedFormElement.Name" />
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </ConfirmModal>
+}
 
 
 
