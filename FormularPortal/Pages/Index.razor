@@ -1,6 +1,7 @@
 ﻿@page "/"
 @layout EmptyLayout
-@inject DragDropService<FormElement> dragDropService
+@using FormularPortal.Core.Models
+@inject DragDropService<FormElement> dragDropServiceElements
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
 <PageTitle>Index</PageTitle>
@@ -26,18 +27,9 @@
     <div class="toolbar-wrapper">
         <h4>Toolbar</h4>
         <ul id="element-toolbar">
-            <li draggable="true" class="toolbar-element" @ondragstart="() => {
-dragDropServiceRows.ActiveItem = new FormRow(1);
-dragDropServiceRows.Items = new List<FormRow>();
-StateHasChanged();
-}">Neue Zeile</li>
-
-            <li draggable="true" class="toolbar-element" @ondragstart="() => {
-dragDropServiceColumns.ActiveItem = new FormColumn();
-dragDropServiceColumns.Items = new List<FormColumn>();
-StateHasChanged();
-}">Neue Column</li>
-            @foreach (var item in Elemente)
+            <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
+            <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Column</li>
+            @foreach (var item in AppdatenService.Elements)
             {
                 <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
             }
@@ -55,168 +47,6 @@ StateHasChanged();
     </div>
 </div>
 
-@code {
 
-    public void DropDelete()
-    {
-        if (dragDropServiceRows.ActiveItem is not null)
-        {
-            dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
-        }
-        else if (dragDropServiceColumns.ActiveItem is not null)
-        {
-            dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
-            CheckForEmptyRows();
-        }
-        else if (dragDropService.ActiveItem is not null)
-        {
-            dragDropService.Items.Remove(dragDropService.ActiveItem);
-        }
-    }
-    public List<IFormItem> löschListe = new()
-    {
-
-    };
-    public List<FormElement> Elemente { get; set; } = new()
-    {
-        new FormElement
-        {
-            Name = "Textfeld"
-        },
-        new FormElement
-        {
-            Name ="Datum"
-        },
-        new FormElement
-        {
-            Name ="Select"
-        },
-        new FormElement
-        {
-            Name ="checkbox"
-        },
-        new FormElement
-        {
-            Name ="Textarea"
-        },
-        new FormElement
-        {
-            Name ="Datei"
-        },
-        new FormElement
-        {
-            Name ="Zahl"
-        }
-        ,
-        new FormElement
-        {
-            Name ="Tabelle"
-        },
-        new FormElement
-        {
-            Name ="Text"
-        }
-
-    };
-
-
-    public List<FormRow> Rows { get; set; } = new()
-    {
-        new FormRow(2),
-        new FormRow(1),
-        new FormRow(1),
-        new FormRow(1),
-        new FormRow(1)
-    };
-
-    public Task OnColumnDroppedAsync(FormColumn column)
-    {
-        CheckForEmptyRows();
-
-        return Task.CompletedTask;
-    }
-
-    private void CheckForEmptyRows()
-    {
-        var list = Rows.Where(x => !x.Columns.Any()).ToList();
-
-        foreach (var item in list)
-        {
-            Rows.Remove(item);
-        }
-    }
-
-    public Task AddRowAsync()
-    {
-        Rows.Add(new FormRow(1));
-
-        return Task.CompletedTask;
-    }
-
-    public Task OnToolbarElementDragStartAsync(FormElement element)
-    {
-        dragDropService.ActiveItem = (FormElement)element.Clone();
-        dragDropService.Items = new List<FormElement>();
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
-
-    public interface IFormItem { }
-
-    public class FormRow : IFormItem
-    {
-        public List<FormColumn> Columns { get; set; } = new();
-
-        public FormRow()
-        {
-
-        }
-
-        public FormRow(int columns)
-        {
-            for (int i = 0; i < columns; i++)
-            {
-                Columns.Add(new FormColumn());
-            }
-        }
-    }
-
-    public class FormColumn : IFormItem
-    {
-        public List<FormElement> Elements { get; set; } = new();
-
-        public FormColumn()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                FormElement.Anzahl++;
-                Elements.Add(new FormElement
-                    {
-                        Name = FormElement.Anzahl.ToString()
-                    });
-            }
-        }
-
-
-    }
-
-    public class FormElement : IFormItem, ICloneable
-    {
-        public static int Anzahl = 0;
-        public string Name { get; set; } = string.Empty;
-
-        public object Clone()
-        {
-            object tmp = this.MemberwiseClone();
-
-            return tmp;
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-    }
-}
 
 
