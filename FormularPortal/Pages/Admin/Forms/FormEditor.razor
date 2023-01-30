@@ -14,7 +14,7 @@
 
         <div class="form-grid-editor">
             <div class="grid-container">
-                <Dropzone Class="large-dropzone" Items="Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
+                <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
                     <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")">
                         <div class="grid-container">
                             <div class="grid-item">

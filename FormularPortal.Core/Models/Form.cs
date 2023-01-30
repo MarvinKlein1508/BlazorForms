@@ -13,5 +13,14 @@ namespace FormularPortal.Core.Models
         public bool IsOnlyAvailableForLoggedInUsers { get; set; }
         public bool IsActive { get; set; }
         public List<FormRow> Rows { get; set; } = new();
+
+        public void RemoveEmptyRows()
+        {
+            var list = Rows.Where(x => !x.Columns.Any()).ToList();
+            foreach (var item in list)
+            {
+                Rows.Remove(item);
+            }
+        }
     }
 }

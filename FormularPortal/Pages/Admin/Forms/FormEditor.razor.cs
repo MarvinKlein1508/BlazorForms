@@ -19,11 +19,10 @@ namespace FormularPortal.Pages.Admin.Forms
 {
     public partial class FormEditor
     {
-        public List<FormRow> Rows { get; set; } = new();
+        public Form Input { get; set; } = new Form();
         public FormElement? SelectedFormElement { get; set; }
         protected override Task OnParametersSetAsync()
         {
-            Rows.Add(new FormRow(1));
             return base.OnParametersSetAsync();
         }
         public void DropDelete()
@@ -35,7 +34,7 @@ namespace FormularPortal.Pages.Admin.Forms
             else if (dragDropServiceColumns.ActiveItem is not null)
             {
                 dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
-                CheckForEmptyRows();
+                Input.RemoveEmptyRows();
             }
             else if (dragDropServiceElements.ActiveItem is not null)
             {
@@ -46,7 +45,7 @@ namespace FormularPortal.Pages.Admin.Forms
 
         public Task OnColumnDroppedAsync(FormColumn column)
         {
-            CheckForEmptyRows();
+            Input.RemoveEmptyRows();
             return Task.CompletedTask;
         }
 
@@ -64,14 +63,7 @@ namespace FormularPortal.Pages.Admin.Forms
             StateHasChanged();
         }
 
-        private void CheckForEmptyRows()
-        {
-            var list = Rows.Where(x => !x.Columns.Any()).ToList();
-            foreach (var item in list)
-            {
-                Rows.Remove(item);
-            }
-        }
+
 
 
 
