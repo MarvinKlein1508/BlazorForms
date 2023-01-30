@@ -1,4 +1,5 @@
 ﻿using FormularPortal.Core.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,14 @@ namespace FormularPortal.Core.Services
 {
     public static class AppdatenService
     {
+        private static IConfiguration? _configuration;
+
+        public static async Task InitAsync(IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+            // TODO: Load anything required
+        }
         public static List<FormElement> Elements { get; } = new List<FormElement>
         {
             new FormTextElement { Name = "Text" },
