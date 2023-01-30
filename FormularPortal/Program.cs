@@ -21,13 +21,13 @@ namespace FormularPortal
                 });
             builder.Services.AddBlazorDragDrop();
 
-            await AppdatenService.InitAsync(builder.Configuration);
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
 #if DEBUG
 
-            builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), false, true);
+            builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), true, true);
 #endif
+            await AppdatenService.InitAsync(builder.Configuration);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
