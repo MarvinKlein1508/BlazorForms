@@ -1,0 +1,246 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+::deep .formular-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#form-wrapper {
+    height: 100vh;
+    height: 100dvh;
+    position: relative;
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+}
+
+.toolbar-wrapper h4 {
+    text-align: center;
+    padding: 1em 0;
+}
+
+#element-toolbar {
+    padding: 0;
+    margin: 0;
+}
+
+.toolbar-element {
+    list-style: none;
+    display: block;
+    padding: 1em;
+    cursor: grab;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: -1px;
+    margin-left: -1px;
+    background-color: #fff;
+}
+
+    .toolbar-element.toolbar-element-zeile {
+        background-color: #198754;
+        border-color: #198754;
+        cursor: pointer;
+        color: #fff;
+    }
+
+#form-editor {
+    background-color: #eeeded;
+    position: relative;
+    overflow: auto;
+}
+
+.btn {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+#topbar {
+    background-color: rgb(242, 247, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-grid-editor {
+    padding: 1em;
+}
+
+.delete-wrapper {
+    padding: .5em;
+}
+
+.delete-zone {
+    border: 2px dashed #f66363;
+    border-radius: .5em;
+    min-height: 10em;
+    display: flex;
+    align-items: center;
+}
+
+    .delete-zone i {
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        opacity: .6;
+        color: #f66363;
+    }
+
+
+::deep .grid-container {
+    height: 100%;
+}
+
+::deep .plk-dd-dropzone.large-dropzone {
+    height: 100%;
+}
+
+
+.toolbar {
+    text-align: right;
+    padding-bottom: 0.5em;
+}
+
+/* Drag & Drop */
+
+/*add this to avoid flickering*/
+::deep .plk-dd-inprogess > * {
+    pointer-events: none;
+}
+
+/*dropzone style style*/
+::deep .plk-dd-dropzone {
+    min-height: 50px;
+}
+
+/*drag drop styles*/
+
+::deep .plk-dd-spacing {
+    height: 10px;
+}
+
+::deep .plk-dd-spacing-dragged-over {
+    padding: 25px;
+}
+
+::deep .plk-dd-dragged-over {
+    background-color: lightgray;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+    ::deep .plk-dd-dragged-over > div {
+        background-color: lightgray;
+        opacity: 0.6;
+        animation: blinker 1s linear infinite;
+    }
+
+::deep .plk-dd-dragged-over-denied {
+    background-color: red;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+::deep .plk-dd-in-transit {
+    opacity: 0.6;
+}
+
+    ::deep .plk-dd-in-transit > div {
+        opacity: 0.6;
+    }
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+/*for flex demo*/
+
+::deep .plk-flex .plk-dd-spacing {
+    width: 20px;
+    height: auto;
+}
+
+::deep .plk-flex .plk-dd-dragged-over {
+    background-color: lightgray;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+::deep .plk-flex .plk-dd-dragged-over > div {
+    background-color: lightgray;
+    opacity: 0.9;
+    animation: blinker 1s linear infinite;
+}
+
+::deep .plk-flex .plk-dd-in-transit {
+    background-color: orangered;
+}
+
+::deep .plk-flex .plk-dd-in-transit > div {
+    background-color: orangered;
+}
+
+::deep .plk-dd-noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+::deep .formular-row {
+    border: 1px dashed red;
+    border-radius: .5em;
+    background-color: #fff;
+    padding: 1em;
+    display: flex;
+}
+
+::deep .formular-column {
+    flex: 1;
+    border: 2px dashed orange;
+    border-radius: .5em;
+    padding: 1em;
+}
+
+::deep .formular-row .formular-column:not(:nth-last-child(-n+2)) {
+    margin-right: 1em;
+}
+
+
+
+::deep .formular-element {
+    border: 1px solid green;
+    border-radius: .5em;
+}
+
+::deep .plk-dd-dropzone {
+    display: inherit;
+    min-width: 100%;
+}
+
+@media (max-width: 700px) {
+    ::deep .plk-dd-dropzone {
+        display: initial;
+    }
+
+    ::deep .formular-row .formular-column {
+        margin-right: 0 !important;
+    }
+}
+
+::deep .element-wrapper {
+    display: flex;
+    padding: .5em;
+    align-items: center;
+    justify-content: space-between;
+}

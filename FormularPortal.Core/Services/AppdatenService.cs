@@ -10,14 +10,6 @@ namespace FormularPortal.Core.Services
 {
     public static class AppdatenService
     {
-        private static IConfiguration? _configuration;
-
-        public static async Task InitAsync(IConfiguration configuration)
-        {
-            _configuration = configuration;
-
-            // TODO: Load anything required
-        }
         public static List<FormElement> Elements { get; } = new List<FormElement>
         {
             new FormTextElement { Name = "Text" },
@@ -31,5 +23,15 @@ namespace FormularPortal.Core.Services
             new FormTableElement { Name = "Table"},
             new FormLabelElement { Name = "Label"}
         };
+
+        private static IConfiguration? _configuration;
+
+        public static async Task InitAsync(IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+            // TODO: Load anything required
+        }
+
     }
 }

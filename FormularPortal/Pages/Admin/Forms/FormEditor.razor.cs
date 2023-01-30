@@ -11,14 +11,13 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
-using FormularPortal;
 using FormularPortal.Components;
 using Plk.Blazor.DragDrop;
 using FormularPortal.Core.Models;
 
-namespace FormularPortal.Pages
+namespace FormularPortal.Pages.Admin.Forms
 {
-    public partial class Index
+    public partial class FormEditor
     {
         public List<FormRow> Rows { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }

@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Admin\**" />
-    <Content Remove="Pages\Admin\**" />
-    <EmbeddedResource Remove="Pages\Admin\**" />
-    <None Remove="Pages\Admin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FormularPortal.Core\FormularPortal.Core.csproj" />
     <ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
   </ItemGroup>
