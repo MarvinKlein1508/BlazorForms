@@ -35,7 +35,7 @@
         <h4>Toolbar</h4>
         <ul id="element-toolbar">
             <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
-            <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Column</li>
+            <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
             @foreach (var item in AppdatenService.Elements)
             {
                 <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
