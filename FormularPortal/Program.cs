@@ -1,3 +1,4 @@
+using FormularPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Plk.Blazor.DragDrop;
@@ -7,7 +8,7 @@ namespace FormularPortal
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,13 @@ namespace FormularPortal
                 });
             builder.Services.AddBlazorDragDrop();
 
+            await AppdatenService.InitAsync(builder.Configuration);
+            builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
+
+#if DEBUG
+
+            builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), false, true);
+#endif
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
