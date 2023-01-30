@@ -21,6 +21,10 @@ namespace FormularPortal
                 });
             builder.Services.AddBlazorDragDrop();
 
+
+            builder.Services.AddScoped<PermissionService>();
+            builder.Services.AddScoped<UserService>();
+
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
 #if DEBUG

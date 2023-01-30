@@ -53,7 +53,7 @@ namespace FormularPortal.Pages.Account
 
                 // Erst prüfen wir gegen die Datenbank
                 using SqlController sqlController = new SqlController(AppdatenService.ConnectionString);
-                User? mitarbeiter = await _userService.GetAsync(Input.Username, sqlController);
+                User? mitarbeiter = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, sqlController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.
                 if (mitarbeiter is not null)
@@ -72,101 +72,103 @@ namespace FormularPortal.Pages.Account
                 else
                 {
                     // Wenn kein lokales Konto gefunden wurde, dann prüfen wir das Active-Directory
-
-                    try
+                    if (AppdatenService.IsLdapLoginEnabled)
                     {
-                        using var connection = new LdapConnection(AppdatenService.LdapServer);
+                        try
+                        {
+                            using var connection = new LdapConnection(AppdatenService.LdapServer);
 
-                        var networkCredential = new NetworkCredential(Input.Username, Input.Password, AppdatenService.LdapDomainServer);
-                        connection.SessionOptions.SecureSocketLayer = false; // Warnung kann ignoriert werden, ist ein Fehler vom Package
-                        connection.AuthType = AuthType.Negotiate;
-                        connection.Bind(networkCredential);
+                            var networkCredential = new NetworkCredential(Input.Username, Input.Password, AppdatenService.LdapDomainServer);
+                            connection.SessionOptions.SecureSocketLayer = false; // Warnung kann ignoriert werden, ist ein Fehler vom Package
+                            connection.AuthType = AuthType.Negotiate;
+                            connection.Bind(networkCredential);
 
-                        var searchRequest = new SearchRequest
-                            (
-                            AppdatenService.LdapDistinguishedName,
-            $"(SAMAccountName={Input.Username})",
-                            SearchScope.Subtree, new string[]
-                            {
+                            var searchRequest = new SearchRequest
+                                (
+                                AppdatenService.LdapDistinguishedName,
+                $"(SAMAccountName={Input.Username})",
+                                SearchScope.Subtree, new string[]
+                                {
                                 "cn",
                                 "mail",
                                 "givenName",
                                 "sn",
                                 "objectGUID"
-                            });
+                                });
 
-                        SearchResponse directoryResponse = (SearchResponse)connection.SendRequest(searchRequest);
+                            SearchResponse directoryResponse = (SearchResponse)connection.SendRequest(searchRequest);
 
-                        SearchResultEntry searchResultEntry = directoryResponse.Entries[0];
+                            SearchResultEntry searchResultEntry = directoryResponse.Entries[0];
 
-                        Dictionary<string, string> attributes = new Dictionary<string, string>();
-                        Guid? guid = null;
-                        foreach (DirectoryAttribute userReturnAttribute in searchResultEntry.Attributes.Values)
-                        {
-                            if (userReturnAttribute.Name == "objectGUID")
+                            Dictionary<string, string> attributes = new Dictionary<string, string>();
+                            Guid? guid = null;
+                            foreach (DirectoryAttribute userReturnAttribute in searchResultEntry.Attributes.Values)
                             {
-                                byte[] guidByteArray = (byte[])userReturnAttribute.GetValues(typeof(byte[]))[0];
-                                guid = new Guid(guidByteArray);
-                                attributes.Add("guid", ((Guid)guid).ToString());
+                                if (userReturnAttribute.Name == "objectGUID")
+                                {
+                                    byte[] guidByteArray = (byte[])userReturnAttribute.GetValues(typeof(byte[]))[0];
+                                    guid = new Guid(guidByteArray);
+                                    attributes.Add("guid", ((Guid)guid).ToString());
+                                }
+                                else
+                                {
+                                    attributes.Add(userReturnAttribute.Name, (string)userReturnAttribute.GetValues(typeof(string))[0]);
+                                }
                             }
-                            else
+
+                            if (!attributes.ContainsKey("mail"))
                             {
-                                attributes.Add(userReturnAttribute.Name, (string)userReturnAttribute.GetValues(typeof(string))[0]);
+                                attributes.Add("mail", string.Empty);
                             }
-                        }
 
-                        if (!attributes.ContainsKey("mail"))
-                        {
-                            attributes.Add("mail", string.Empty);
-                        }
-
-                        if (!attributes.ContainsKey("sn"))
-                        {
-                            attributes.Add("sn", string.Empty);
-                        }
-
-                        if (!attributes.ContainsKey("givenName"))
-                        {
-                            attributes.Add("givenName", string.Empty);
-                        }
-
-                        if (guid is null)
-                        {
-                            throw new InvalidOperationException();
-                        }
-
-                        mitarbeiter = await mitarbeiterService.GetAsync((Guid)guid, sqlController);
-
-                        if (mitarbeiter is null)
-                        {
-                            mitarbeiter = new User
+                            if (!attributes.ContainsKey("sn"))
                             {
-                                Username = Input.Username.ToUpper(),
-                                ActiveDirectoryGuid = (Guid)guid,
-                                Email = attributes["mail"],
-                                DisplayName = $"{attributes["givenName"]} {attributes["sn"]}",
-                                Origin = "ad"
-                            };
+                                attributes.Add("sn", string.Empty);
+                            }
 
-                            // Wenn der erste User angelegt wird, dann sollen diesem alle Berechtigungen gegeben werden
-                            //if (!AppdatenService.ActiveDirectoryUserExists)
-                            //{
-                            //    foreach (var berechtigung in AppdatenService.Berechtigungen)
-                            //    {
-                            //        mitarbeiter.Berechtigungen.Add(berechtigung);
-                            //    }
-                            //}
+                            if (!attributes.ContainsKey("givenName"))
+                            {
+                                attributes.Add("givenName", string.Empty);
+                            }
 
-                            await _userService.CreateAsync(mitarbeiter, sqlController);
-                            //AppdatenService.ActiveDirectoryUserExists = true;
+                            if (guid is null)
+                            {
+                                throw new InvalidOperationException();
+                            }
+
+                            mitarbeiter = await _userService.GetAsync((Guid)guid, sqlController);
+
+                            if (mitarbeiter is null)
+                            {
+                                mitarbeiter = new User
+                                {
+                                    Username = Input.Username.ToUpper(),
+                                    ActiveDirectoryGuid = (Guid)guid,
+                                    Email = attributes["mail"],
+                                    DisplayName = $"{attributes["givenName"]} {attributes["sn"]}",
+                                    Origin = "ad"
+                                };
+
+                                // Wenn der erste User angelegt wird, dann sollen diesem alle Berechtigungen gegeben werden
+                                //if (!AppdatenService.ActiveDirectoryUserExists)
+                                //{
+                                //    foreach (var berechtigung in AppdatenService.Berechtigungen)
+                                //    {
+                                //        mitarbeiter.Berechtigungen.Add(berechtigung);
+                                //    }
+                                //}
+
+                                await _userService.CreateAsync(mitarbeiter, sqlController);
+                                //AppdatenService.ActiveDirectoryUserExists = true;
+                            }
+
+
+
                         }
+                        catch (LdapException ex)
+                        {
 
-
-
-                    }
-                    catch (LdapException ex)
-                    {
-
+                        }
                     }
                 }
 
@@ -196,7 +198,14 @@ namespace FormularPortal.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError("login-error", "Username oder Passwort ist falsch.");
+                    if (!AppdatenService.IsLdapLoginEnabled && !AppdatenService.IsLocalLoginEnabled)
+                    {
+                        ModelState.AddModelError("login-error", "Es wurde kein Provider zum einloggen gefunden. Bitte wenden Sie sich an Ihren Administrator.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("login-error", "Username oder Passwort ist falsch.");
+                    }
                 }
             }
             return Page();
