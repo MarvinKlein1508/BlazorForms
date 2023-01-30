@@ -13,9 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 	ProjectSection(SolutionItems) = preProject
 		MSSQL_INSTALL.sql = MSSQL_INSTALL.sql
 		MYSQL_INSTALL.sql = MYSQL_INSTALL.sql
+		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseControllerProvider", "DatabaseControllerProvider\DatabaseControllerProvider.csproj", "{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseControllerProvider", "DatabaseControllerProvider\DatabaseControllerProvider.csproj", "{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
