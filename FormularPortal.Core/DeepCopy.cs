@@ -2,7 +2,7 @@
 using System.Reflection;
 #nullable disable
 
-namespace KleinLibrary.Core
+namespace FormularPortal.Core
 {
     /// <summary>
     /// Superfast deep copier class, which uses Expression trees.
