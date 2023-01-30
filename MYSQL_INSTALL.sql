@@ -1,6 +1,6 @@
 CREATE TABLE users
 (
-	user_id INTEGER IDENTITY(1,1) NOT NULL,
+	user_id INTEGER NOT NULL AUTO_INCREMENT,
 	username VARCHAR(50) NOT NULL,
 	display_name VARCHAR(100) NOT NULL,
 	active_directory_guid VARCHAR(36),
@@ -13,11 +13,11 @@ CREATE TABLE users
 
 CREATE TABLE permissions
 (
-	permission_id INTEGER IDENTITY(1,1) NOT NULL,
+	permission_id INTEGER NOT NULL AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
 	identifier VARCHAR(50) NOT NULL,
 	description text NOT NULL,
-	PRIMARY KEY(permission_id)
+	PRIMARY KEY (permission_id)
 );
 
 CREATE TABLE user_permissions
@@ -31,7 +31,7 @@ CREATE TABLE user_permissions
 
 CREATE TABLE forms
 (
-	form_id INTEGER IDENTITY(1,1) NOT NULL,
+	form_id INTEGER NOT NULL AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
@@ -40,7 +40,7 @@ CREATE TABLE forms
 
 CREATE TABLE form_rows
 (
-	row_id INTEGER IDENTITY(1,1) NOT NULL,
+	row_id INTEGER NOT NULL AUTO_INCREMENT,
 	form_id INTEGER NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	sort_order INTEGER NOT NULL DEFAULT 0,
@@ -50,7 +50,7 @@ CREATE TABLE form_rows
 
 CREATE TABLE form_columns
 (
-	column_id INTEGER IDENTITY(1,1) NOT NULL,
+	column_id INTEGER NOT NULL AUTO_INCREMENT,
 	form_id INTEGER NOT NULL,
 	row_id INTEGER NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
@@ -62,7 +62,7 @@ CREATE TABLE form_columns
 
 CREATE TABLE form_elements
 (
-	element_id INTEGER IDENTITY(1,1) NOT NULL,
+	element_id INTEGER NOT NULL AUTO_INCREMENT,
 	form_id INTEGER NOT NULL,
 	row_id INTEGER NOT NULL,
 	column_id INTEGER NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE form_elements
 
 CREATE TABLE form_elements_options
 (
-	element_option_id INTEGER IDENTITY(1,1) NOT NULL,
+	element_option_id INTEGER NOT NULL AUTO_INCREMENT,
 	element_id INTEGER NOT NULL,
 	name VARCHAR(100) NOT NULL,
 	PRIMARY KEY(element_option_id),
