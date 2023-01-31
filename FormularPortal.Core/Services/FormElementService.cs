@@ -165,5 +165,10 @@ VALUES
                 await dbController.QueryAsync(sql, input.GetParameters());
             }
         }
+
+        public async Task<List<FormElement>> GetElementsForColumns(List<int> columnIds, IDbController dbController)
+        {
+            return new List<FormElement>();
+        }
     }
 }

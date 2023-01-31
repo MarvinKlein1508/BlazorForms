@@ -1,9 +1,10 @@
 ﻿using DatabaseControllerProvider;
+using FormularPortal.Core.Filters;
 using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormService : IModelService<Form, int>
+    public class FormService : IModelService<Form, int, FormFilter>
     {
         private readonly FormRowService _formRowService;
 
@@ -43,7 +44,39 @@ VALUES
             await dbController.QueryAsync(sql, input.GetParameters());
         }
 
-        public Task<Form?> GetAsync(int identifier, IDbController dbController)
+        public async Task<Form?> GetAsync(int formId, IDbController dbController)
+        {
+            string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
+
+            Form? form = await dbController.GetFirstAsync<Form>(sql, new
+            {
+                FORM_ID = formId,
+            });
+
+            if (form is not null)
+            {
+                // TODO: Load entire form.
+            }
+
+            return form;
+        }
+
+        public Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object? GetFilterParameter(FormFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetFilterWhere(FormFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
         {
             throw new NotImplementedException();
         }

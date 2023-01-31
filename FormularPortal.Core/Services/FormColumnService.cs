@@ -98,5 +98,32 @@ column_id = @COLUMN_ID";
 
             // TODO: Delete elements which are not part of the object anymore.
         }
+
+        public async Task<List<FormColumn>> GetColumnsForRowsAsync(List<int> rowIds, IDbController dbController)
+        {
+            if (!rowIds.Any())
+            {
+                return new();
+            }
+
+            string sql = $"SELECT * FROM form_columns WHERE row_id IN ({string.Join(",", rowIds)})";
+
+            List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql);
+
+            if (columns.Any())
+            {
+                // Load elements
+                List<int> columnIds = columns.Select(x => x.ColumnId).ToList();
+
+                List<FormElement> elements = await _formElementService.GetElementsForColumns(columnIds, dbController);
+
+                foreach (var column in columns)
+                {
+                    column.Elements = elements.Where(x => x.ColumnId == column.ColumnId).ToList();
+                }
+            }
+
+            return columns;
+        }
     }
 }

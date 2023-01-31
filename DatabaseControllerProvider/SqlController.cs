@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DatabaseControllerProvider.TypeHandler;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -35,7 +36,24 @@ namespace DatabaseControllerProvider
         }
         static SqlController()
         {
+            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
 
+            // INIT Dapper for CompareField
+            foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldName))
+            {
+                SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
+                    type,
+                    (type, columnName) =>
+                    {
+                        PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
+
+                        return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) : prop;
+
+                    }
+                ));
+            }
 
         }
         #endregion

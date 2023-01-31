@@ -12,6 +12,8 @@
         public int ColumnId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
+        [CompareField("type")]
+        public string Type { get; set; } = string.Empty;
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("is_required")]

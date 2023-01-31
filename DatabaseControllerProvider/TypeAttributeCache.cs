@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace FormularPortal.Core
+namespace DatabaseControllerProvider
 {
     /// <summary>
     /// Stellt ein Cache für alle Eigenschaftzuordnungen für eine bestimmte Klasse dar. 

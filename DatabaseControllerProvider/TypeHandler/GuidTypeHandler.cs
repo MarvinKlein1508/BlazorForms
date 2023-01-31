@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System.Data;
 
-namespace FormularPortal.Core
+namespace DatabaseControllerProvider.TypeHandler
 {
     public class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
     {

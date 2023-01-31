@@ -82,5 +82,29 @@ row_id = @ROW_ID";
 
             // TODO: Delete columns which are not part of the object anymore
         }
+
+        public async Task<List<FormRow>> GetRowsForFormAsync(Form form, IDbController dbController)
+        {
+            string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID";
+
+            List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
+            {
+                FORM_ID = form.FormId,
+            });
+
+            if (rows.Any())
+            {
+                List<int> rowIds = rows.Select(x => x.RowId).ToList();
+
+                List<FormColumn> columns = await _formColumnService.GetColumnsForRowsAsync(rowIds, dbController);
+
+                foreach (var row in rows)
+                {
+                    row.Columns = columns.Where(x => x.RowId == row.RowId).ToList();
+                }
+            }
+
+            return rows;
+        }
     }
 }
