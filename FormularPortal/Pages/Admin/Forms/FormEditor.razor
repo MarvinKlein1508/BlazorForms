@@ -9,175 +9,184 @@
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
 <PageTitle>Index</PageTitle>
-<div id="form-wrapper">
-    <div id="form-editor">
-        <div id="topbar">
-            <button type="button" class="btn btn-secondary"><i class="fa-solid fa-reply"></i></button>
-            <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
-            <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
-        </div>
+@if(Input is null)
+{
+    <div class="loading-wrapper">
+        <Spinner />
+    </div>
+}
+else
+{
+    <div id="form-wrapper">
+        <div id="form-editor">
+            <div id="topbar">
+                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-reply"></i></button>
+                <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
+                <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+            </div>
 
-        <div class="form-grid-editor">
-            <div class="grid-container">
-                <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
-                    <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
-                        <div class="grid-container">
-                            <div class="grid-item">
-                                <Dropzone Items="column.Elements" Context="element">
-                                    <div class="formular-element grid-item">
-                                        <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => SelectedFormElement = element"><i class="fa-solid fa-edit"></i></button></div>
-                                    </div>
-                                </Dropzone>
+            <div class="form-grid-editor">
+                <div class="grid-container">
+                    <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
+                        <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                            <div class="grid-container">
+                                <div class="grid-item">
+                                    <Dropzone Items="column.Elements" Context="element">
+                                        <div class="formular-element grid-item">
+                                            <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => SelectedFormElement = element"><i class="fa-solid fa-edit"></i></button></div>
+                                        </div>
+                                    </Dropzone>
+                                </div>
                             </div>
-                        </div>
+                        </Dropzone>
                     </Dropzone>
-                </Dropzone>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="toolbar-wrapper">
-        <h4>Toolbar</h4>
-        <ul id="element-toolbar">
-            <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
-            <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
-            @foreach (var item in AppdatenService.Elements)
-            {
-                <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
-            }
-        </ul>
+        <div class="toolbar-wrapper">
+            <h4>Toolbar</h4>
+            <ul id="element-toolbar">
+                <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
+                <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
+                @foreach (var item in AppdatenService.Elements)
+                {
+                    <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
+                }
+            </ul>
 
-        <div class="delete-wrapper">
-            <div class="delete-zone"
+            <div class="delete-wrapper">
+                <div class="delete-zone"
                  ondragover="event.preventDefault();"
                  ondragstart="event.dataTransfer.setData('', event.target.id);"
                  @ondrop="() => DropDelete()">
-                <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-trash"></i>
+                </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
-@if (SelectedFormElement is not null)
-{
-    <ConfirmModal Title="Element bearbeiten"
+    @if (SelectedFormElement is not null)
+    {
+        <ConfirmModal Title="Element bearbeiten"
               OnClosed="() => SelectedFormElement = null">
-        <EditForm Model="SelectedFormElement">
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-floating mb-3">
-                        <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
-                        <label for="formelement-name">Name</label>
-                        <ValidationMessage For="() => SelectedFormElement.Name" />
-                    </div>
-
-                    @if (SelectedFormElement is FormNumberElement numberElement)
-                    {
+            <EditForm Model="SelectedFormElement">
+                <div class="row">
+                    <div class="col-12">
                         <div class="form-floating mb-3">
-                            <InputNumber @bind-Value="numberElement.DecimalPlaces" class="form-control" id="numberelement-decimalPlaces" placeholder="Nachkommastellen" />
-                            <label for="numberelement-decimalPlaces">Nachkommastellen</label>
-                            <ValidationMessage For="() => numberElement.DecimalPlaces" />
+                            <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
+                            <label for="formelement-name">Name</label>
+                            <ValidationMessage For="() => SelectedFormElement.Name" />
                         </div>
-                    }
+
+                        @if (SelectedFormElement is FormNumberElement numberElement)
+                        {
+                            <div class="form-floating mb-3">
+                                <InputNumber @bind-Value="numberElement.DecimalPlaces" class="form-control" id="numberelement-decimalPlaces" placeholder="Nachkommastellen" />
+                                <label for="numberelement-decimalPlaces">Nachkommastellen</label>
+                                <ValidationMessage For="() => numberElement.DecimalPlaces" />
+                            </div>
+                        }
 
 
 
-                    @if (SelectedFormElement is FormDateElement dateElement)
-                    {
+                        @if (SelectedFormElement is FormDateElement dateElement)
+                        {
+
+                            <div class="form-check">
+                                <div class="checkbox">
+                                    <InputCheckbox @bind-Value="dateElement.SetDefaultValueToCurrentDate" id="dateElement-setCurrentDate" class="form-check-input" />
+                                    <label for="dateElement-setCurrentDate">Startwert ist aktuelles Datum</label>
+                                    <ValidationMessage For="() => dateElement.SetDefaultValueToCurrentDate" />
+                                </div>
+                            </div>
+                        }
 
                         <div class="form-check">
                             <div class="checkbox">
-                                <InputCheckbox @bind-Value="dateElement.SetDefaultValueToCurrentDate" id="dateElement-setCurrentDate" class="form-check-input" />
-                                <label for="dateElement-setCurrentDate">Startwert ist aktuelles Datum</label>
-                                <ValidationMessage For="() => dateElement.SetDefaultValueToCurrentDate" />
+                                <InputCheckbox @bind-Value="SelectedFormElement.IsRequired" id="formelement-required" class="form-check-input" />
+                                <label for="formelement-required">Pflichtfeld</label>
+                                <ValidationMessage For="() => SelectedFormElement.IsRequired" />
                             </div>
                         </div>
-                    }
 
-                    <div class="form-check">
-                        <div class="checkbox">
-                            <InputCheckbox @bind-Value="SelectedFormElement.IsRequired" id="formelement-required" class="form-check-input" />
-                            <label for="formelement-required">Pflichtfeld</label>
-                            <ValidationMessage For="() => SelectedFormElement.IsRequired" />
-                        </div>
-                    </div>
-
-                    @if (SelectedFormElement is FormElementWithOptions elementWithOptions)
-                    {
-                        <h4>Optionen</h4>
-                        <div class="table-responsive">
-                            <table class="table table-xs">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Aktion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var option in elementWithOptions.Options)
-                                    {
+                        @if (SelectedFormElement is FormElementWithOptions elementWithOptions)
+                        {
+                            <h4>Optionen</h4>
+                            <div class="table-responsive">
+                                <table class="table table-xs">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <InputText @bind-Value="option.Name" class="form-control" />
-                                                <ValidationMessage For="() => option.Name" />
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger" @onclick="() => elementWithOptions.Options.Remove(option)">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
+                                            <th>Name</th>
+                                            <th>Aktion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var option in elementWithOptions.Options)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <InputText @bind-Value="option.Name" class="form-control" />
+                                                    <ValidationMessage For="() => option.Name" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" @onclick="() => elementWithOptions.Options.Remove(option)">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <button type="button" class="btn btn-success" @onclick="() => elementWithOptions.Options.Add(new())"><i class="fa-solid fa-plus"></i></button>
                                             </td>
                                         </tr>
-                                    }
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                    <tr>
-                                        <td colspan="2">
-                                            <button type="button" class="btn btn-success" @onclick="() => elementWithOptions.Options.Add(new())"><i class="fa-solid fa-plus"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    }
+                        }
+                    </div>
                 </div>
-            </div>
-        </EditForm>
-    </ConfirmModal>
-}
+            </EditForm>
+        </ConfirmModal>
+    }
 
-@if (EditFormProperties)
-{
-    <ConfirmModal Title="Formular Eigenschaften"
+    @if (EditFormProperties)
+    {
+        <ConfirmModal Title="Formular Eigenschaften"
               OnClosed="() => EditFormProperties = false">
-        <EditForm Model="Input">
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-floating mb-3">
-                        <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name" required />
-                        <label for="form-name">Name</label>
-                        <ValidationMessage For="() => Input.Name" />
-                    </div>
-
-                    <div class="form-check">
-                        <div class="checkbox">
-                            <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" />
-                            <label for="form-login-required">Login zum ausfüllen erforderlich</label>
-                            <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
+            <EditForm Model="Input">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name" required />
+                            <label for="form-name">Name</label>
+                            <ValidationMessage For="() => Input.Name" />
                         </div>
-                    </div>
 
-                    <div class="form-check">
-                        <div class="checkbox">
-                            <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
-                            <label for="form-active">Aktiv</label>
-                            <ValidationMessage For="() => Input.IsActive" />
+                        <div class="form-check">
+                            <div class="checkbox">
+                                <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" />
+                                <label for="form-login-required">Login zum ausfüllen erforderlich</label>
+                                <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <div class="checkbox">
+                                <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
+                                <label for="form-active">Aktiv</label>
+                                <ValidationMessage For="() => Input.IsActive" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </EditForm>
-    </ConfirmModal>
+            </EditForm>
+        </ConfirmModal>
+    }
 }
 
 

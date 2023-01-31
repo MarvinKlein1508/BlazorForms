@@ -24,15 +24,23 @@ namespace FormularPortal.Pages.Admin.Forms
     {
         [Parameter]
         public int FormId { get; set; }
-        public Form Input { get; set; } = new Form();
+        public Form? Input { get; set; }
         public FormElement? SelectedFormElement { get; set; }
 
         public bool EditFormProperties { get; set; }
         protected override async Task OnParametersSetAsync()
         {
-            if(FormId > 0)
+
+            if (FormId > 0)
             {
-                await LoadEditModeAsync();
+                // This Task will take some time depending on the size of the form.
+                // To not block the UI we run it in a different Task.
+                await Task.Run(async () => await LoadEditModeAsync());
+            }
+            else
+            {
+                Input = new Form();
+                Input.Rows.Add(new FormRow());
             }
         }
 

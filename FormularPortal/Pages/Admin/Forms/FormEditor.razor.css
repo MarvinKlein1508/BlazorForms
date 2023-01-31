@@ -25,6 +25,14 @@
     margin: 0;
 }
 
+.loading-wrapper {
+    display: flex;
+    height: 100vh;
+    height: 100dvh;
+    align-items: center;
+    justify-content: center;
+}
+
 .toolbar-element {
     list-style: none;
     display: block;
