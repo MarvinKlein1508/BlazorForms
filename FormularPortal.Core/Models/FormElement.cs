@@ -27,5 +27,7 @@
         }
 
         public override string ToString() => Name;
+
+        public abstract object GetParameters();
     }
 }

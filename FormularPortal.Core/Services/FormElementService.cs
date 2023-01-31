@@ -1,12 +1,5 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace FormularPortal.Core.Services
 {
@@ -47,6 +40,89 @@ sort_order = @SORT_ORDER
             });
 
             // TODO: Insert custom attribute data
+            // Custom attributes are split in the database in it's own table
+            // For example form_elements_{ELEMENT}_attributes
+            (string tableName, List<string> fields) = GetCustomAttributeSql(input);
+
+            if (!string.IsNullOrWhiteSpace(tableName))
+            {
+                sql = $@"INSERT INTO {tableName}
+(
+{String.Join($",{Environment.NewLine}", fields)}
+)
+VALUES
+(
+{String.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
+)";
+
+                await dbController.QueryAsync(sql, input.GetParameters());
+            }
+        }
+
+        private static (string tableName, List<string> fields) GetCustomAttributeSql(FormElement input)
+        {
+            string tableName = string.Empty;
+            List<string> fields = new();
+            fields.Add("element_id");
+
+            if (input is FormCheckboxElement)
+            {
+                tableName = "form_elements_checkbox_attributes";
+            }
+
+            if (input is FormDateElement)
+            {
+                tableName = "form_elements_date_attributes";
+                fields.Add("is_current_date_default");
+            }
+
+            if (input is FormFileElement)
+            {
+                tableName = "form_elements_file_attributes";
+            }
+
+            if (input is FormLabelElement)
+            {
+                tableName = "form_elements_label_attributes";
+            }
+
+            if (input is FormNumberElement)
+            {
+                tableName = "form_elements_number_attributes";
+                fields.AddRange(new string[]
+                {
+                    "decimal_places",
+                    "min_value",
+                    "max_value"
+                });
+            }
+
+            if (input is FormRadioElement)
+            {
+                tableName = "form_elements_radio_attributes";
+            }
+
+            if (input is FormSelectElement)
+            {
+                tableName = "form_elements_select_attributes";
+            }
+
+            if (input is FormTableElement)
+            {
+                tableName = "form_elements_table_attributes";
+            }
+
+            if (input is FormTextElement)
+            {
+                tableName = "form_elements_text_attributes";
+            }
+
+            if (input is FormTextareaElement)
+            {
+                tableName = "form_elements_textarea_attributes";
+            }
+
+            return (tableName, fields);
         }
 
         public async Task DeleteAsync(FormElement input, IDbController dbController)
@@ -90,6 +166,26 @@ element_id = @ELEMENT_ID";
             });
 
             // TODO: Insert custom attribute data
+
+            (string tableName, List<string> fields) = GetCustomAttributeSql(input);
+
+            if (!string.IsNullOrWhiteSpace(tableName))
+            {
+                // Delete all rows to avoid duplicate key
+                sql = $"DELETE FROM {tableName} WHERE element_id = @ELEMENT_ID";
+                await dbController.QueryAsync(sql, input.GetParameters());
+
+                sql = $@"INSERT INTO {tableName}
+(
+{String.Join($",{Environment.NewLine}", fields)}
+)
+VALUES
+(
+{String.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
+)";
+
+                await dbController.QueryAsync(sql, input.GetParameters());
+            }
         }
     }
 }
