@@ -21,6 +21,8 @@ namespace FormularPortal.Pages.Admin.Forms
 {
     public partial class FormEditor
     {
+        [Parameter]
+        public int FormId { get; set; }
         public Form Input { get; set; } = new Form();
         public FormElement? SelectedFormElement { get; set; }
 
