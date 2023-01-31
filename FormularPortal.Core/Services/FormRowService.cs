@@ -10,6 +10,12 @@ namespace FormularPortal.Core.Services
 {
     public class FormRowService : IModelService<FormRow, int>
     {
+        private readonly FormColumnService _formColumnService;
+
+        public FormRowService(FormColumnService formColumnService)
+        {
+            _formColumnService = formColumnService;
+        }
         public async Task CreateAsync(FormRow input, IDbController dbController)
         {
             string sql = @$"INSERT INTO form_rows
@@ -26,6 +32,13 @@ VALUES
 ) {dbController.GetLastIdSql()}";
 
             input.RowId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+
+            foreach (var column in input.Columns)
+            {
+                column.FormId = input.FormId;
+                column.RowId = input.RowId;
+                await _formColumnService.CreateAsync(column, dbController);
+            }
         }
 
         public async Task DeleteAsync(FormRow input, IDbController dbController)
@@ -50,6 +63,22 @@ WHERE
 row_id = @ROW_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
+
+            foreach (var column in input.Columns)
+            {
+                column.FormId = input.FormId;
+                column.RowId = input.RowId;
+                if (column.ColumnId is 0)
+                {
+                    await _formColumnService.CreateAsync(column, dbController);
+                }
+                else
+                {
+                    await _formColumnService.UpdateAsync(column, dbController);
+                }
+            }
+
+            // TODO: Delete columns which are not part of the object anymore
         }
     }
 }

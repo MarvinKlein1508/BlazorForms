@@ -70,6 +70,8 @@ form_id = @FORM_ID";
                     await _formRowService.UpdateAsync(row, dbController);
                 }
             }
+
+            // TODO: Delete rows which are not part of the object anymore.
         }
     }
 }

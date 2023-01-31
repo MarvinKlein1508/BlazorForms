@@ -1,16 +1,16 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Services
 {
     public class FormColumnService : IModelService<FormColumn, int>
     {
+        private readonly FormElementService _formElementService;
+
+        public FormColumnService(FormElementService formElementService)
+        {
+            _formElementService = formElementService;
+        }
         public async Task CreateAsync(FormColumn input, IDbController dbController)
         {
             string sql = @$"INSERT INTO form_columns 
@@ -35,6 +35,14 @@ VALUES
                 IS_ACTIVE = input.IsActive,
                 SORT_ORDER = input.SortOrder
             });
+
+            foreach (var element in input.Elements)
+            {
+                element.FormId = input.FormId;
+                element.RowId = input.RowId;
+                element.ColumnId = input.ColumnId;
+                await _formElementService.CreateAsync(element, dbController);
+            }
         }
 
         public async Task DeleteAsync(FormColumn input, IDbController dbController)
@@ -70,6 +78,23 @@ column_id = @COLUMN_ID";
                 SORT_ORDER = input.SortOrder,
                 COLUMN_ID = input.ColumnId
             });
+
+            foreach (var element in input.Elements)
+            {
+                element.FormId = input.FormId;
+                element.RowId = input.RowId;
+                element.ColumnId = input.ColumnId;
+                if (element.ElementId is 0)
+                {
+                    await _formElementService.CreateAsync(element, dbController);
+                }
+                else
+                {
+                    await _formElementService.UpdateAsync(element, dbController);
+                }
+            }
+
+            // TODO: Delete elements which are not part of the object anymore.
         }
     }
 }
