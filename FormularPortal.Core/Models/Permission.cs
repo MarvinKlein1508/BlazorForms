@@ -1,4 +1,6 @@
-﻿namespace FormularPortal.Core.Models
+﻿using DatabaseControllerProvider;
+
+namespace FormularPortal.Core.Models
 {
     public class Permission : IDbModel
     {

@@ -50,6 +50,8 @@ namespace DatabaseControllerProvider
                     }
                 ));
             }
+
+            Console.WriteLine(SingletonTypeAttributeCache.InternalCache);
         }
 
         #endregion

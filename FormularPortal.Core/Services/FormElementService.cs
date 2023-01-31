@@ -13,6 +13,7 @@ form_id,
 row_id,
 column_id,
 name,
+type,
 is_active,
 is_required,
 sort_order
@@ -23,6 +24,7 @@ VALUES
 @ROW_ID,
 @COLUMN_ID,
 @NAME,
+@TYPE,
 @IS_ACTIVE,
 @IS_REQUIRED,
 @SORT_ORDER
@@ -184,7 +186,7 @@ VALUES
                 {
                     string sql = @$"SELECT * FROM form_elements fe
 LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)
-WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join("", "", columnIds)})";
+WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
 
                     Dictionary<string, object?> parameters = new Dictionary<string, object?>
                     {
@@ -214,6 +216,9 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join("", "", columnIds)})";
                     elements.AddRange(castedElements);
                 }
             }
+
+            // We'nn need to sort the elements based on their SortOrder
+            elements.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
 
 
             return elements;

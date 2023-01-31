@@ -55,7 +55,7 @@ VALUES
 
             if (form is not null)
             {
-                // TODO: Load entire form.
+                form.Rows = await _formRowService.GetRowsForFormAsync(form, dbController);
             }
 
             return form;

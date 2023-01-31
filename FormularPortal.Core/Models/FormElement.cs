@@ -1,4 +1,6 @@
-﻿namespace FormularPortal.Core.Models
+﻿using DatabaseControllerProvider;
+
+namespace FormularPortal.Core.Models
 {
     public abstract class FormElement : ICloneable, IDbModel
     {
@@ -40,6 +42,7 @@
                 { "IS_ACTIVE", IsActive },
                 { "IS_REQUIRED", IsRequired },
                 { "SORT_ORDER", SortOrder },
+                { "TYPE", GetElementType() },
             };
         }
 

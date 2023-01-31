@@ -16,6 +16,7 @@ using Plk.Blazor.DragDrop;
 using FormularPortal.Core.Models;
 using DatabaseControllerProvider;
 using FormularPortal.Core.Services;
+using FormularPortal.Core;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -27,9 +28,24 @@ namespace FormularPortal.Pages.Admin.Forms
         public FormElement? SelectedFormElement { get; set; }
 
         public bool EditFormProperties { get; set; }
-        protected override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            return base.OnParametersSetAsync();
+            if(FormId > 0)
+            {
+                await LoadEditModeAsync();
+            }
+        }
+
+        public async Task LoadEditModeAsync()
+        {
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+
+            Form? form = await formService.GetAsync(FormId, dbController);
+
+            if (form is not null)
+            {
+                Input = form.DeepCopyByExpressionTree();
+            }
         }
         public void DropDelete()
         {
