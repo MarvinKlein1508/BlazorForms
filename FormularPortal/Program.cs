@@ -25,6 +25,10 @@ namespace FormularPortal
 
             builder.Services.AddScoped<PermissionService>();
             builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<FormService>();
+            builder.Services.AddScoped<FormRowService>();
+            builder.Services.AddScoped<FormColumnService>();
+            builder.Services.AddScoped<FormElementService>();
 
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
