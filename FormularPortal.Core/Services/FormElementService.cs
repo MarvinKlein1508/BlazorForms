@@ -108,6 +108,7 @@ VALUES
             if (input is FormTextElement)
             {
                 tableName = "form_elements_text_attributes";
+
             }
 
             if (input is FormTextareaElement)

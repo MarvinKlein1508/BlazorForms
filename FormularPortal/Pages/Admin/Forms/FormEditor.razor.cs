@@ -17,6 +17,7 @@ using FormularPortal.Core.Models;
 using DatabaseControllerProvider;
 using FormularPortal.Core.Services;
 using FormularPortal.Core;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -98,11 +99,22 @@ namespace FormularPortal.Pages.Admin.Forms
 
         public async Task SaveAsync()
         {
+            if(Input is null)
+            {
+                return; 
+            }
+
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
-
-            await formService.CreateAsync(Input, dbController);
-
+            if (Input.FormId is 0)
+            {
+                await formService.CreateAsync(Input, dbController);
+            }
+            else
+            {
+                await formService.UpdateAsync(Input, dbController);
+            }
+            
             await jsRuntime.InvokeVoidAsync("alert", "Saved");
 
         }
