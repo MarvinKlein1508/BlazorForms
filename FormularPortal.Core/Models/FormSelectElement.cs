@@ -2,9 +2,6 @@
 {
     public class FormSelectElement : FormElementWithOptions
     {
-        public FormSelectElement()
-        {
-            Type = ElementType.Select;
-        }
+        public override ElementType GetElementType() => ElementType.Select;
     }
 }

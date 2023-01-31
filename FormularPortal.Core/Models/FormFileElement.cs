@@ -2,9 +2,6 @@
 {
     public class FormFileElement : FormElement
     {
-        public FormFileElement()
-        {
-            Type = ElementType.File;
-        }
+        public override ElementType GetElementType() => ElementType.File;
     }
 }

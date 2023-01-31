@@ -2,9 +2,6 @@
 {
     public class FormLabelElement : FormElement
     {
-        public FormLabelElement()
-        {
-            Type = ElementType.Label;
-        }
+        public override ElementType GetElementType() => ElementType.Label;
     }
 }

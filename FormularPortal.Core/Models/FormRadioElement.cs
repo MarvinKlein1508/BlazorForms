@@ -2,9 +2,6 @@
 {
     public class FormRadioElement : FormElementWithOptions
     {
-        public FormRadioElement()
-        {
-            Type = ElementType.Radio;
-        }
+        public override ElementType GetElementType() => ElementType.Radio;
     }
 }

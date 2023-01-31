@@ -2,9 +2,6 @@
 {
     public class FormTableElement : FormElement
     {
-        public FormTableElement()
-        {
-            Type = ElementType.Table;
-        }
+        public override ElementType GetElementType() => ElementType.Table;
     }
 }

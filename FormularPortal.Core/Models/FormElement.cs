@@ -12,8 +12,6 @@
         public int ColumnId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
-        [CompareField("type")]
-        public ElementType Type { get; set; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("is_required")]
@@ -29,7 +27,7 @@
         }
 
         public override string ToString() => Name;
-
+        public abstract ElementType GetElementType();
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

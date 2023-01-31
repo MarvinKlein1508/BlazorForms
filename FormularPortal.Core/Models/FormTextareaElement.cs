@@ -2,9 +2,6 @@
 {
     public class FormTextareaElement : FormElement
     {
-        public FormTextareaElement()
-        {
-            Type = ElementType.Textarea;
-        }
+        public override ElementType GetElementType() => ElementType.Textarea;
     }
 }
