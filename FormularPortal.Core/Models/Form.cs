@@ -37,5 +37,14 @@ namespace FormularPortal.Core.Models
                 Rows.Remove(item);
             }
         }
+
+        public void SetRowSortOrder()
+        {
+            int rowCount = 1;
+            foreach (var row in Rows)
+            {
+                row.SortOrder = rowCount++;
+            }
+        }
     }
 }

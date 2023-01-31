@@ -31,5 +31,14 @@
                 { "SORT_ORDER", SortOrder }
             };
         }
+
+        public void SetElementSortOrder()
+        {
+            int elementCount = 1;
+            foreach (var element in Elements)
+            {
+                element.SortOrder = elementCount++;
+            }
+        }
     }
 }

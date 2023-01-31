@@ -47,5 +47,14 @@
                 { "SORT_ORDER", SortOrder }
             };
         }
+
+        public void SetColumnSortOrder()
+        {
+            int columnCount = 1;
+            foreach (var column in Columns)
+            {
+                column.SortOrder = columnCount++;
+            }
+        }
     }
 }
