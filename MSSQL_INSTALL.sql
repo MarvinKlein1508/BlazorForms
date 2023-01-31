@@ -71,7 +71,7 @@ CREATE TABLE form_elements
 	is_required TINYINT NOT NULL DEFAULT 0,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
-	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE,
+	FOREIGN KEY (form_id) REFERENCES forms(form_id),
 	FOREIGN KEY (row_id) REFERENCES form_rows(row_id),
 	FOREIGN KEY (column_id) REFERENCES form_columns(column_id) ON DELETE CASCADE
 );

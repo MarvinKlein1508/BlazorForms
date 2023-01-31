@@ -23,14 +23,14 @@ namespace FormularPortal.Core.Services
 (
 form_id,
 is_active,
-sort_order,
+sort_order
 )
 VALUES
 (
 @FORM_ID,
 @IS_ACTIVE,
 @SORT_ORDER
-) {dbController.GetLastIdSql()}";
+); {dbController.GetLastIdSql()}";
 
             input.RowId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 

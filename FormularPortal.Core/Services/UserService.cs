@@ -32,7 +32,7 @@ namespace FormularPortal.Core.Services
     @PASSWORD,
     @SALT,
     @ORIGIN
-    ) {dbController.GetLastIdSql()}";
+    ); {dbController.GetLastIdSql()}";
 
             input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 

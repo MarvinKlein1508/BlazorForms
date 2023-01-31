@@ -1,6 +1,9 @@
 ﻿@page "/Admin/FormEditor/Add"
 @layout EmptyLayout
 @using FormularPortal.Core.Models
+@inject FormService formService
+@inject DbProviderService dbProviderService
+@inject IJSRuntime jsRuntime
 @inject DragDropService<FormElement> dragDropServiceElements
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
@@ -10,7 +13,7 @@
         <div id="topbar">
             <button type="button" class="btn btn-secondary"><i class="fa-solid fa-reply"></i></button>
             <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
-            <button type="button" class="btn btn-success">Speichern</button>
+            <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
         </div>
 
         <div class="form-grid-editor">

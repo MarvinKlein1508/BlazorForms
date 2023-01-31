@@ -56,7 +56,7 @@ CREATE TABLE form_columns
 	is_active TINYINT NOT NULL DEFAULT 0,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (column_id),
-	FOREIGN KEY (form_id) REFERENCES forms(form_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE,
 	FOREIGN KEY (row_id) REFERENCES form_rows(row_id) ON DELETE CASCADE
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE form_elements
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE,
-	FOREIGN KEY (row_id) REFERENCES form_rows(row_id),
+	FOREIGN KEY (row_id) REFERENCES form_rows(row_id) ON DELETE CASCADE,
 	FOREIGN KEY (column_id) REFERENCES form_columns(column_id) ON DELETE CASCADE
 );
 

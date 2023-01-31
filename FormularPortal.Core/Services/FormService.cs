@@ -25,7 +25,7 @@ VALUES
 @NAME,
 @LOGIN_REQUIRED,
 @IS_ACTIVE
-) {dbController.GetLastIdSql()}";
+); {dbController.GetLastIdSql()}";
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 

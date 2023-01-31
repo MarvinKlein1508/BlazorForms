@@ -19,14 +19,14 @@ sort_order
 )
 VALUES
 (
-form_id = @FORM_ID,
-row_id = @ROW_ID,
-column_id = @COLUMN_ID,
-name = @NAME,
-is_active = @IS_ACTIVE,
-is_required = @IS_REQUIRED,
-sort_order = @SORT_ORDER
-) {dbController.GetLastIdSql()}";
+@FORM_ID,
+@ROW_ID,
+@COLUMN_ID,
+@NAME,
+@IS_ACTIVE,
+@IS_REQUIRED,
+@SORT_ORDER
+); {dbController.GetLastIdSql()}";
 
             input.ElementId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 

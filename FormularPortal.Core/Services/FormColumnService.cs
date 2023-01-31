@@ -27,7 +27,7 @@ VALUES
 @ROW_ID,
 @IS_ACTIVE,
 @SORT_ORDER
-) {dbController.GetLastIdSql()}";
+); {dbController.GetLastIdSql()}";
 
             input.ColumnId = await dbController.GetFirstAsync<int>(sql, new
             {

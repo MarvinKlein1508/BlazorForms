@@ -14,6 +14,8 @@ using Microsoft.JSInterop;
 using FormularPortal.Components;
 using Plk.Blazor.DragDrop;
 using FormularPortal.Core.Models;
+using DatabaseControllerProvider;
+using FormularPortal.Core.Services;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -43,38 +45,39 @@ namespace FormularPortal.Pages.Admin.Forms
                 dragDropServiceElements.Items.Remove(dragDropServiceElements.ActiveItem);
             }
         }
-
-
         public Task OnColumnDroppedAsync(FormColumn column)
         {
             Input.RemoveEmptyRows();
             return Task.CompletedTask;
         }
-
         public void StartDragColumnFromToolbar()
         {
             dragDropServiceColumns.ActiveItem = new FormColumn();
             dragDropServiceColumns.Items = new List<FormColumn>();
             StateHasChanged();
         }
-
         public void StartDragRowFromToolbar()
         {
             dragDropServiceRows.ActiveItem = new FormRow(1);
             dragDropServiceRows.Items = new List<FormRow>();
             StateHasChanged();
         }
-
-
-
-
-
         public Task OnToolbarElementDragStartAsync(FormElement element)
         {
             dragDropServiceElements.ActiveItem = (FormElement)element.Clone();
             dragDropServiceElements.Items = new List<FormElement>();
             StateHasChanged();
             return Task.CompletedTask;
+        }
+
+        public async Task SaveAsync()
+        {
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+
+            await formService.CreateAsync(Input, dbController);
+
+            await jsRuntime.InvokeVoidAsync("alert", "Saved");
+
         }
     }
 }
