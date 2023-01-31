@@ -1,11 +1,5 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace FormularPortal.Core.Services
 {
@@ -32,12 +26,7 @@ VALUES
 @IS_ACTIVE
 ) {dbController.GetLastIdSql()}";
 
-            input.FormId = await dbController.GetFirstAsync<int>(sql, new
-            {
-                @NAME = input.Name,
-                @LOGIN_REQUIRED = input.IsOnlyAvailableForLoggedInUsers,
-                @IS_ACTIVE = input.IsActive,
-            });
+            input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
             foreach (var row in input.Rows)
             {
@@ -50,10 +39,7 @@ VALUES
         {
             string sql = "DELETE FROM forms WHERE form_id = @FORM_ID";
 
-            await dbController.QueryAsync(sql, new
-            {
-                FORM_ID = input.FormId
-            });
+            await dbController.QueryAsync(sql, input.GetParameters());
         }
 
         public Task<Form?> GetAsync(int identifier, IDbController dbController)
@@ -70,13 +56,7 @@ is_active = @IS_ACTIVE
 WHERE
 form_id = @FORM_ID";
 
-            await dbController.QueryAsync(sql, new
-            {
-                NAME = input.Name,
-                LOGIN_REQUIRED = input.IsOnlyAvailableForLoggedInUsers,
-                IS_ACTIVE = input.IsActive,
-                FORM_ID = input.FormId
-            });
+            await dbController.QueryAsync(sql, input.GetParameters());
 
             foreach (var row in input.Rows)
             {

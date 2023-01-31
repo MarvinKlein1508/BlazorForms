@@ -4,7 +4,7 @@
     {
         public bool SetDefaultValueToCurrentDate { get; set; }
 
-        public override Dictionary<string, object> GetParameters()
+        public override Dictionary<string, object?> GetParameters()
         {
             var parameters = base.GetParameters();
             parameters.Add("IS_CURRENT_DATE_DEFAULT", SetDefaultValueToCurrentDate);

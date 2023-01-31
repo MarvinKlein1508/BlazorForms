@@ -28,16 +28,7 @@ is_required = @IS_REQUIRED,
 sort_order = @SORT_ORDER
 ) {dbController.GetLastIdSql()}";
 
-            input.ElementId = await dbController.GetFirstAsync<int>(sql, new
-            {
-                FORM_ID = input.FormId,
-                ROW_ID = input.RowId,
-                COLUMN_ID = input.ColumnId,
-                NAME = input.Name,
-                IS_ACTIVE = input.IsActive,
-                IS_REQUIRED = input.IsRequired,
-                SORT_ORDER = input.SortOrder
-            });
+            input.ElementId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
             // TODO: Insert custom attribute data
             // Custom attributes are split in the database in it's own table
@@ -129,10 +120,7 @@ VALUES
         {
             string sql = "DELETE FROM form_elements WHERE element_id = @ELEMENT_ID";
 
-            await dbController.QueryAsync(sql, new
-            {
-                ELEMENT_ID = input.ElementId
-            });
+            await dbController.QueryAsync(sql, input.GetParameters());
         }
 
         public Task<FormElement?> GetAsync(int identifier, IDbController dbController)
@@ -153,17 +141,7 @@ sort_order = @SORT_ORDER
 WHERE
 element_id = @ELEMENT_ID";
 
-            await dbController.QueryAsync(sql, new
-            {
-                FORM_ID = input.FormId,
-                ROW_ID = input.RowId,
-                COLUMN_ID = input.ColumnId,
-                NAME = input.Name,
-                IS_ACTIVE = input.IsActive,
-                IS_REQUIRED = input.IsRequired,
-                SORT_ORDER = input.SortOrder,
-                ELEMENT_ID = input.ElementId
-            });
+            await dbController.QueryAsync(sql, input.GetParameters());
 
             // TODO: Insert custom attribute data
 

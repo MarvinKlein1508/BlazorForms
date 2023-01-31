@@ -1,6 +1,6 @@
 ﻿namespace FormularPortal.Core.Models
 {
-    public sealed class User
+    public sealed class User : IDbModel
     {
         [CompareField("user_id")]
         public int UserId { get; set; }
@@ -20,5 +20,21 @@
         public string Origin { get; set; } = string.Empty;
 
         public List<Permission> Permissions { get; set; } = new();
+
+        public Dictionary<string, object?> GetParameters()
+        {
+            return new Dictionary<string, object?>
+            {
+                { "USER_ID", UserId },
+                { "USERNAME", Username },
+                { "DISPLAY_NAME", DisplayName },
+                { "ACTIVE_DIRECTORY_GUID", ActiveDirectoryGuid },
+                { "EMAIL", Email },
+                { "PASSWORD", Password },
+                { "SALT", Salt },
+                { "ORIGIN", Origin },
+
+            };
+        }
     }
 }

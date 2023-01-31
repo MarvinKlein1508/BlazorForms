@@ -12,7 +12,7 @@ namespace FormularPortal.Core.Models
         [CompareField("max_value")]
         public decimal MaxValue { get; set; }
 
-        public override Dictionary<string, object> GetParameters()
+        public override Dictionary<string, object?> GetParameters()
         {
             var parameters = base.GetParameters();
 

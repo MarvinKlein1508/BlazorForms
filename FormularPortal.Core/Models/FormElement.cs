@@ -1,6 +1,6 @@
 ﻿namespace FormularPortal.Core.Models
 {
-    public abstract class FormElement : ICloneable
+    public abstract class FormElement : ICloneable, IDbModel
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
@@ -28,6 +28,19 @@
 
         public override string ToString() => Name;
 
-        public abstract object GetParameters();
+        public virtual Dictionary<string, object?> GetParameters()
+        {
+            return new Dictionary<string, object?>
+            {
+                { "ELEMENT_ID", ElementId },
+                { "FORM_ID", FormId },
+                { "ROW_ID", RowId },
+                { "COLUMN_ID", ColumnId },
+                { "NAME", Name },
+                { "IS_ACTIVE", IsActive },
+                { "IS_REQUIRED", IsRequired },
+                { "SORT_ORDER", SortOrder },
+            };
+        }
     }
 }

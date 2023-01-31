@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a row within the Form.
     /// </summary>
-    public class FormRow
+    public class FormRow : IDbModel
     {
         [CompareField("row_id")]
         public int RowId { get; set; }
@@ -35,6 +35,17 @@
             {
                 Columns.Add(new FormColumn());
             }
+        }
+
+        public Dictionary<string, object?> GetParameters()
+        {
+            return new Dictionary<string, object?>
+            {
+                { "ROW_ID", RowId },
+                { "FORM_ID", FormId },
+                { "IS_ACTIVE", IsActive },
+                { "SORT_ORDER", SortOrder }
+            };
         }
     }
 }

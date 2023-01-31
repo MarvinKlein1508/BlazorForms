@@ -34,16 +34,7 @@ namespace FormularPortal.Core.Services
     @ORIGIN
     ) {dbController.GetLastIdSql()}";
 
-            input.UserId = await dbController.GetFirstAsync<int>(sql, new
-            {
-                USERNAME = input.Username,
-                DISPLAY_NAME = input.DisplayName,
-                ACTIVE_DIRECTORY_GUID = input.ActiveDirectoryGuid,
-                EMAIL = input.Email,
-                PASSWORD = input.Password,
-                SALT = input.Salt,
-                ORIGIN = input.Origin
-            });
+            input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController);
         }
