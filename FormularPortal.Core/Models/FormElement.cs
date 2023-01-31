@@ -13,7 +13,7 @@
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("type")]
-        public string Type { get; set; } = string.Empty;
+        public ElementType Type { get; set; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("is_required")]
@@ -44,5 +44,19 @@
                 { "SORT_ORDER", SortOrder },
             };
         }
+
+    }
+    public enum ElementType
+    {
+        Checkbox,
+        Date,
+        File,
+        Label,
+        Number,
+        Radio,
+        Select,
+        Table,
+        Text,
+        Textarea
     }
 }

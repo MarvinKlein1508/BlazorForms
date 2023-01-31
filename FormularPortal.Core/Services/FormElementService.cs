@@ -168,7 +168,70 @@ VALUES
 
         public async Task<List<FormElement>> GetElementsForColumns(List<int> columnIds, IDbController dbController)
         {
-            return new List<FormElement>();
+            if (!columnIds.Any())
+            {
+                return new();
+            }
+
+            List<FormElement> elements = new List<FormElement>();
+
+            foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
+            {
+                // We need to check for each type individually
+                string tableName = GetTableForElementType(elementType);
+
+                if (!string.IsNullOrWhiteSpace(tableName))
+                {
+                    string sql = @$"SELECT * FROM form_elements fe
+LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)
+WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join("", "", columnIds)})";
+
+                    Dictionary<string, object?> parameters = new Dictionary<string, object?>
+                    {
+                        { "TYPE", elementType }
+                    };
+
+                    IEnumerable<FormElement> castedElements = elementType switch
+                    {
+                        ElementType.Checkbox => await dbController.SelectDataAsync<FormCheckboxElement>(sql, parameters),
+                        ElementType.Date => await dbController.SelectDataAsync<FormDateElement>(sql, parameters),
+                        ElementType.File => await dbController.SelectDataAsync<FormFileElement>(sql, parameters),
+                        ElementType.Label => await dbController.SelectDataAsync<FormLabelElement>(sql, parameters),
+                        ElementType.Number => await dbController.SelectDataAsync<FormNumberElement>(sql, parameters),
+                        ElementType.Radio => await dbController.SelectDataAsync<FormRadioElement>(sql, parameters),
+                        ElementType.Select => await dbController.SelectDataAsync<FormSelectElement>(sql, parameters),
+                        ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters),
+                        ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters),
+                        ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters),
+                        _ => Array.Empty<FormElement>(),
+                    };
+
+                    if (elementType is ElementType.Select or ElementType.Radio)
+                    {
+                        // TODO: Load all options for this elements
+                    }
+
+                    elements.AddRange(castedElements);
+                }
+            }
+
+
+            return elements;
         }
+
+        private string GetTableForElementType(ElementType type) => type switch
+        {
+            ElementType.Checkbox => "form_elements_checkbox_attributes",
+            ElementType.Date => "form_elements_date_attributes",
+            ElementType.File => "form_elements_file_attributes",
+            ElementType.Label => "form_elements_label_attributes",
+            ElementType.Number => "form_elements_number_attributes",
+            ElementType.Radio => "form_elements_radio_attributes",
+            ElementType.Select => "form_elements_select_attributes",
+            ElementType.Table => "form_elements_table_attributes",
+            ElementType.Text => "form_elements_text_attributes",
+            ElementType.Textarea => "form_elements_textarea_attributes",
+            _ => string.Empty,
+        };
     }
 }

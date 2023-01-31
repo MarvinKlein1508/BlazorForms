@@ -2,6 +2,9 @@
 {
     public class FormTableElement : FormElement
     {
-
+        public FormTableElement()
+        {
+            Type = ElementType.Table;
+        }
     }
 }

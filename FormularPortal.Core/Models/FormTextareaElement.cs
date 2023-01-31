@@ -2,6 +2,9 @@
 {
     public class FormTextareaElement : FormElement
     {
-
+        public FormTextareaElement()
+        {
+            Type = ElementType.Textarea;
+        }
     }
 }

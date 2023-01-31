@@ -4,6 +4,10 @@
     {
         public bool SetDefaultValueToCurrentDate { get; set; }
 
+        public FormDateElement()
+        {
+            Type = ElementType.Date;
+        }
         public override Dictionary<string, object?> GetParameters()
         {
             var parameters = base.GetParameters();

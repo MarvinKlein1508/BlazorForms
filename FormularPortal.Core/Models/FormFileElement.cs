@@ -2,6 +2,9 @@
 {
     public class FormFileElement : FormElement
     {
-
+        public FormFileElement()
+        {
+            Type = ElementType.File;
+        }
     }
 }

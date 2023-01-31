@@ -2,6 +2,9 @@
 {
     public class FormRadioElement : FormElementWithOptions
     {
-
+        public FormRadioElement()
+        {
+            Type = ElementType.Radio;
+        }
     }
 }
