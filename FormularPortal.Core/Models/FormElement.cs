@@ -20,7 +20,7 @@ namespace FormularPortal.Core.Models
         public bool IsRequired { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
-
+        public int Id => ElementId;
         public object Clone()
         {
             object tmp = this.MemberwiseClone();

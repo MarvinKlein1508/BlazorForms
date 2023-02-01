@@ -8,6 +8,7 @@ namespace FormularPortal.Core.Models
 {
     public interface IDbModel
     {
+        int Id { get; }
         Dictionary<string, object?> GetParameters();
     }
 }

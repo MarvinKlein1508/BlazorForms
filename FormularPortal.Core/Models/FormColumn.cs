@@ -17,6 +17,8 @@ namespace FormularPortal.Core.Models
         public bool IsActive { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
+
+        public int Id => ColumnId;
         /// <summary>
         /// Gets or sets the elements for this column
         /// </summary>

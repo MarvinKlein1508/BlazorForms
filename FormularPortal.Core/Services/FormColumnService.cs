@@ -3,7 +3,7 @@ using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormColumnService : IModelService<FormColumn, int>
+    public class FormColumnService : FormBaseService, IModelService<FormColumn, int>
     {
         private readonly FormElementService _formElementService;
 
@@ -29,13 +29,7 @@ VALUES
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
-            input.ColumnId = await dbController.GetFirstAsync<int>(sql, new
-            {
-                FORM_ID = input.FormId,
-                ROW_ID = input.RowId,
-                IS_ACTIVE = input.IsActive,
-                SORT_ORDER = input.SortOrder
-            });
+            input.ColumnId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
             foreach (var element in input.Elements)
             {
@@ -97,24 +91,7 @@ column_id = @COLUMN_ID";
             }
 
             // Delete elements which are not part of the column anymore.
-            if (input.Elements.Any())
-            {
-                List<int> elementIds = input.Elements.Select(x => x.ElementId).ToList();
-                sql = $"DELETE FROM form_elements WHERE column_id = @COLUMN_ID AND element_id NOT IN ({string.Join(",", elementIds)})";
-                await dbController.QueryAsync(sql, new
-                {
-                    COLUMN_ID = input.ColumnId,
-                });
-            }
-            else
-            {
-                sql = "DELETE FROM form_elements WHERE column_id = @COLUMN_ID";
-                await dbController.QueryAsync(sql, new
-                {
-                    COLUMN_ID = input.ColumnId
-                });
-            }
-
+            await CleanElementsAsync(input.Elements, "form_elements", "column_id", input.ColumnId, "element_id", dbController);
         }
 
         public async Task<List<FormColumn>> GetColumnsForRowsAsync(List<int> rowIds, IDbController dbController)

@@ -17,8 +17,8 @@ namespace FormularPortal.Core.Models
         public bool IsOnlyAvailableForLoggedInUsers { get; set; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
+        public int Id => FormId;
         public List<FormRow> Rows { get; set; } = new();
-
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

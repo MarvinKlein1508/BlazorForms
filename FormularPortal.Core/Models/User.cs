@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using Org.BouncyCastle.Bcpg;
 
 namespace FormularPortal.Core.Models
 {
@@ -22,6 +23,7 @@ namespace FormularPortal.Core.Models
         public string Origin { get; set; } = string.Empty;
 
         public List<Permission> Permissions { get; set; } = new();
+        public int Id => UserId;
 
         public Dictionary<string, object?> GetParameters()
         {

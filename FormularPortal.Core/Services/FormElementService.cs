@@ -1,9 +1,10 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Models;
+using System.Net.Sockets;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormElementService : IModelService<FormElement, int>
+    public class FormElementService : FormBaseService, IModelService<FormElement, int>
     {
         public async Task CreateAsync(FormElement input, IDbController dbController)
         {
@@ -32,7 +33,6 @@ VALUES
 
             input.ElementId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
-            // TODO: Insert custom attribute data
             // Custom attributes are split in the database in it's own table
             // For example form_elements_{ELEMENT}_attributes
             (string tableName, List<string> fields) = GetCustomAttributeSql(input);
@@ -53,8 +53,47 @@ VALUES
 
 
             // TODO: Insert Custom attribute options
+            if (input is FormElementWithOptions elementWithOptions)
+            {
+                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
+            }
         }
 
+        private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, IDbController dbController)
+        {
+            string sql = string.Empty;
+            foreach (var option in input.Options)
+            {
+                option.ElementId = input.ElementId;
+                if (option.ElementOptionId is 0)
+                {
+                    sql = $@"INSERT INTO form_elements_options
+(
+    element_id,
+    name
+)
+VALUES
+(
+    @ELEMENT_ID,
+    @NAME
+); {dbController.GetLastIdSql()}";
+
+                    option.ElementOptionId = await dbController.GetFirstAsync<int>(sql, option.GetParameters());
+
+                }
+                else
+                {
+                    sql = @"UPDATE form_elements_options SET
+element_id = @ELEMENT_ID,
+name = @NAME
+WHERE
+element_option_id = @ELEMENT_OPTION_ID";
+
+                    await dbController.QueryAsync(sql, option.GetParameters());
+                }
+            }
+
+        }
         private static (string tableName, List<string> fields) GetCustomAttributeSql(FormElement input)
         {
             string tableName = string.Empty;
@@ -149,8 +188,6 @@ element_id = @ELEMENT_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
 
-            // TODO: Insert custom attribute data
-
             (string tableName, List<string> fields) = GetCustomAttributeSql(input);
 
             if (!string.IsNullOrWhiteSpace(tableName))
@@ -169,6 +206,13 @@ VALUES
 )";
 
                 await dbController.QueryAsync(sql, input.GetParameters());
+            }
+
+            if (input is FormElementWithOptions elementWithOptions)
+            {
+                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
+                // Delete options which are not part of the object anymore.
+                await CleanElementsAsync(elementWithOptions.Options, "form_elements_options", "element_id", elementWithOptions.ElementId, "element_option_id", dbController);
             }
         }
 

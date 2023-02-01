@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormRowService : IModelService<FormRow, int>
+    public class FormRowService : FormBaseService, IModelService<FormRow, int>
     {
         private readonly FormColumnService _formColumnService;
 
@@ -81,24 +81,7 @@ row_id = @ROW_ID";
             }
 
             // Delete columns which are not part of the row anymore.
-            if (input.Columns.Any())
-            {
-                List<int> columnIds = input.Columns.Select(x => x.ColumnId).ToList();
-                sql = $"DELETE FROM form_columns WHERE row_id = @ROW_ID AND column_id NOT IN ({string.Join(",", columnIds)})";
-                await dbController.QueryAsync(sql, new
-                {
-                    ROW_ID = input.RowId,
-                });
-            }
-            else
-            {
-                sql = "DELETE FROM form_columns WHERE row_id = @ROW_ID";
-                await dbController.QueryAsync(sql, new
-                {
-                    ROW_ID = input.RowId
-                });
-            }
-
+            await CleanElementsAsync(input.Columns, "form_columns", "row_id", input.RowId, "column_id", dbController);
         }
 
         public async Task<List<FormRow>> GetRowsForFormAsync(Form form, IDbController dbController)

@@ -12,7 +12,7 @@ namespace FormularPortal.Core.Models
         public string Identifier { get; set; } = string.Empty;
         [CompareField("description")]
         public string Description { get; set; } = string.Empty;
-
+        public int Id => PermissionId;
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

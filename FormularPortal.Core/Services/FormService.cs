@@ -4,7 +4,7 @@ using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormService : IModelService<Form, int, FormFilter>
+    public class FormService : FormBaseService, IModelService<Form, int, FormFilter>
     {
         private readonly FormRowService _formRowService;
 
@@ -107,23 +107,7 @@ form_id = @FORM_ID";
             }
 
             // Delete rows which are not part of the form anymore.
-            if (input.Rows.Any())
-            {
-                List<int> rowIds = input.Rows.Select(x => x.RowId).ToList();
-                sql = $"DELETE FROM form_rows WHERE form_id = @FORM_ID AND row_id NOT IN ({string.Join(",", rowIds)})";
-                await dbController.QueryAsync(sql, new
-                {
-                    FORM_ID = input.FormId,
-                });
-            }
-            else
-            {
-                sql = "DELETE FROM form_rows WHERE form_id = @FORM_ID";
-                await dbController.QueryAsync(sql, new
-                {
-                    FORM_ID = input.FormId
-                });
-            }
+            await CleanElementsAsync(input.Rows, "form_rows", "form_id", input.FormId, "row_id", dbController);
         }
     }
 }
