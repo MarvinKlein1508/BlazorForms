@@ -49,15 +49,15 @@ namespace FormularPortal.Core.Models
     }
     public enum ElementType
     {
-        Checkbox,
-        Date,
-        File,
-        Label,
-        Number,
-        Radio,
-        Select,
-        Table,
-        Text,
-        Textarea
+        Checkbox = 0,
+        Date = 1,
+        File = 2,
+        Label = 3,
+        Number = 4,
+        Radio = 5,
+        Select = 6,
+        Table = 7,
+        Text = 8,
+        Textarea = 9
     }
 }
