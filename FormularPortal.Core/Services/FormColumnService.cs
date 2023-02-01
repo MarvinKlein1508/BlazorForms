@@ -96,7 +96,25 @@ column_id = @COLUMN_ID";
                 }
             }
 
-            // TODO: Delete elements which are not part of the object anymore.
+            // Delete elements which are not part of the column anymore.
+            if (input.Elements.Any())
+            {
+                List<int> elementIds = input.Elements.Select(x => x.ElementId).ToList();
+                sql = $"DELETE FROM form_elements WHERE column_id = @COLUMN_ID AND element_id NOT IN ({string.Join(",", elementIds)})";
+                await dbController.QueryAsync(sql, new
+                {
+                    COLUMN_ID = input.ColumnId,
+                });
+            }
+            else
+            {
+                sql = "DELETE FROM form_elements WHERE column_id = @COLUMN_ID";
+                await dbController.QueryAsync(sql, new
+                {
+                    COLUMN_ID = input.ColumnId
+                });
+            }
+
         }
 
         public async Task<List<FormColumn>> GetColumnsForRowsAsync(List<int> rowIds, IDbController dbController)

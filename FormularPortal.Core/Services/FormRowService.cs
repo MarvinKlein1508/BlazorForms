@@ -80,7 +80,25 @@ row_id = @ROW_ID";
                 }
             }
 
-            // TODO: Delete columns which are not part of the object anymore
+            // Delete columns which are not part of the row anymore.
+            if (input.Columns.Any())
+            {
+                List<int> columnIds = input.Columns.Select(x => x.ColumnId).ToList();
+                sql = $"DELETE FROM form_columns WHERE row_id = @ROW_ID AND column_id NOT IN ({string.Join(",", columnIds)})";
+                await dbController.QueryAsync(sql, new
+                {
+                    ROW_ID = input.RowId,
+                });
+            }
+            else
+            {
+                sql = "DELETE FROM form_columns WHERE row_id = @ROW_ID";
+                await dbController.QueryAsync(sql, new
+                {
+                    ROW_ID = input.RowId
+                });
+            }
+
         }
 
         public async Task<List<FormRow>> GetRowsForFormAsync(Form form, IDbController dbController)

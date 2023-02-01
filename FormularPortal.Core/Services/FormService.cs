@@ -106,7 +106,24 @@ form_id = @FORM_ID";
                 }
             }
 
-            // TODO: Delete rows which are not part of the object anymore.
+            // Delete rows which are not part of the form anymore.
+            if (input.Rows.Any())
+            {
+                List<int> rowIds = input.Rows.Select(x => x.RowId).ToList();
+                sql = $"DELETE FROM form_rows WHERE form_id = @FORM_ID AND row_id NOT IN ({string.Join(",", rowIds)})";
+                await dbController.QueryAsync(sql, new
+                {
+                    FORM_ID = input.FormId,
+                });
+            }
+            else
+            {
+                sql = "DELETE FROM form_rows WHERE form_id = @FORM_ID";
+                await dbController.QueryAsync(sql, new
+                {
+                    FORM_ID = input.FormId
+                });
+            }
         }
     }
 }
