@@ -65,7 +65,7 @@ namespace FormularPortal.Pages.Admin.Forms
             else if (dragDropServiceColumns.ActiveItem is not null)
             {
                 dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
-                Input.RemoveEmptyRows();
+                Input?.RemoveEmptyRows();
             }
             else if (dragDropServiceElements.ActiveItem is not null)
             {
@@ -74,7 +74,7 @@ namespace FormularPortal.Pages.Admin.Forms
         }
         public Task OnColumnDroppedAsync(FormColumn column)
         {
-            Input.RemoveEmptyRows();
+            Input?.RemoveEmptyRows();
             return Task.CompletedTask;
         }
         public void StartDragColumnFromToolbar()
