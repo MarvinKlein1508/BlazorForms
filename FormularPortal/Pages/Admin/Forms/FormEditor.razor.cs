@@ -36,12 +36,12 @@ namespace FormularPortal.Pages.Admin.Forms
             {
                 // This Task will take some time depending on the size of the form.
                 // To not block the UI we run it in a different Task.
-                await Task.Run(async () => await LoadEditModeAsync());
+                await Task.Run(LoadEditModeAsync);
             }
             else
             {
                 Input = new Form();
-                Input.Rows.Add(new FormRow());
+                Input.Rows.Add(new FormRow(1));
             }
         }
 
@@ -99,9 +99,9 @@ namespace FormularPortal.Pages.Admin.Forms
 
         public async Task SaveAsync()
         {
-            if(Input is null)
+            if (Input is null)
             {
-                return; 
+                return;
             }
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
@@ -109,13 +109,15 @@ namespace FormularPortal.Pages.Admin.Forms
             if (Input.FormId is 0)
             {
                 await formService.CreateAsync(Input, dbController);
+                navigationManager.NavigateTo($"/Admin/FormEditor/{Input.FormId}");
             }
             else
             {
                 await formService.UpdateAsync(Input, dbController);
+                await OnParametersSetAsync();
             }
-            
-            await jsRuntime.InvokeVoidAsync("alert", "Saved");
+
+            await jsRuntime.ShowToastAsync(ToastType.success, "Form has been saved successfully.");
 
         }
     }
