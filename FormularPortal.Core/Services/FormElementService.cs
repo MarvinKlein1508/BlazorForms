@@ -256,9 +256,26 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
                         _ => Array.Empty<FormElement>(),
                     };
 
+
+                    // Load all available options for types that have a list of available options.
                     if (elementType is ElementType.Select or ElementType.Radio)
                     {
-                        // TODO: Load all options for this elements
+                        IEnumerable<FormElementWithOptions> optionElements = (IEnumerable<FormElementWithOptions>)castedElements;
+
+                        if (optionElements.Any())
+                        {
+                            List<int> elementIds = optionElements.Select(x => x.ElementId).ToList();
+
+                            sql = $"SELECT * FROM form_elements_options WHERE element_id IN ({string.Join(",", elementIds)})";
+
+                            List<FormElementOption> options = await dbController.SelectDataAsync<FormElementOption>(sql);
+
+                            foreach (var item in optionElements)
+                            {
+                                item.Options = options.Where(x => x.ElementId == item.ElementId).ToList();
+                            }
+                        }
+
                     }
 
                     elements.AddRange(castedElements);
