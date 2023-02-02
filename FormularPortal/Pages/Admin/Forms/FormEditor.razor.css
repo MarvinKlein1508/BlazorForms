@@ -20,6 +20,10 @@
     padding-top: .25em;
 }
 
+.grid-item {
+    height: 100%;
+}
+
 #element-toolbar {
     padding: 0;
     margin: 0;
@@ -225,6 +229,7 @@
     border-radius: .5em;
     padding: 1em;
 }
+
 
 ::deep .formular-row .formular-column:not(:nth-last-child(-n+2)) {
     margin-right: 1em;
