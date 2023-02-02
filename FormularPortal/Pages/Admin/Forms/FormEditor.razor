@@ -111,6 +111,56 @@ else
                             </div>
                         </div>
 
+                        <div class="form-check">
+                            <div class="checkbox">
+                                <InputCheckbox @bind-Value="SelectedFormElement.IsActive" id="formelement-active" class="form-check-input" />
+                                <label for="formelement-active">Aktiv</label>
+                                <ValidationMessage For="() => SelectedFormElement.IsActive" />
+                            </div>
+                        </div>
+
+                        @if(SelectedFormElement is FormTextElementBase textElement)
+                        {
+                            <div class="form-floating mb-3">
+                                <InputNumber @bind-Value="textElement.MinLength" class="form-control" id="textelement-minlength" placeholder="Minimumlänge" />
+                                <label for="textelement-minlength">Minimumlänge</label>
+                                <ValidationMessage For="() => textElement.MinLength" />
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <InputNumber @bind-Value="textElement.MaxLength" class="form-control" id="textelement-maxlength" placeholder="Maximumlänge" />
+                                <label for="textelement-maxlength">Maximumlänge</label>
+                                <ValidationMessage For="() => textElement.MaxLength" />
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <InputTextArea @bind-Value="textElement.RegexPattern" class="form-control" id="textelement-regex" placeholder="Regulärer Ausdruck" />
+                                <label for="textelement-regex">Regulärer Ausdruck</label>
+                                <ValidationMessage For="() => textElement.RegexPattern" />
+                            </div>
+                        }
+
+                        @if(SelectedFormElement is FormFileElement fileElement)
+                        {
+                            <div class="form-floating mb-3">
+                                <InputNumber @bind-Value="fileElement.MinSize" class="form-control" id="fileelement-minsize" placeholder="Min. Dateigröße" />
+                                <label for="fileelement-minsize">Min. Dateigröße</label>
+                                <ValidationMessage For="() => fileElement.MinSize" />
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <InputNumber @bind-Value="fileElement.MaxSize" class="form-control" id="fileelement-maxsize" placeholder="Max. Dateigröße" />
+                                <label for="fileelement-maxsize">Max. Dateigröße</label>
+                                <ValidationMessage For="() => fileElement.MaxSize" />
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <InputTextArea @bind-Value="fileElement.AcceptFileTypes" class="form-control" id="fileelement-filetypes" placeholder="Erlaubte Dateitypen" />
+                                <label for="fileelement-filetypes">Erlaubte Dateitypen</label>
+                                <ValidationMessage For="() => fileElement.AcceptFileTypes" />
+                            </div>
+                        }
+
                         @if (SelectedFormElement is FormElementWithOptions elementWithOptions)
                         {
                             <h4>Optionen</h4>
@@ -149,6 +199,8 @@ else
                             </div>
 
                         }
+                    
+                    
                     </div>
                 </div>
             </EditForm>

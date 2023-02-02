@@ -11,6 +11,8 @@ namespace FormularPortal.Core.Models
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         public int Id => ElementOptionId;
+        [CompareField("is_default_value")]
+        public bool IsDefaultValue { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
@@ -18,6 +20,7 @@ namespace FormularPortal.Core.Models
                 { "ELEMENT_OPTION_ID", ElementOptionId },
                 { "ELEMENT_ID", ElementId },
                 { "NAME", Name },
+                { "IS_DEFAULT_VALUE", IsDefaultValue },
             };
         }
     }

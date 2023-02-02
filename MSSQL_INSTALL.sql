@@ -98,6 +98,8 @@ CREATE TABLE form_elements_date_attributes
 (
 	element_id INTEGER NOT NULL,
 	is_current_date_default TINYINT NOT NULL DEFAULT 0,
+	min_value date,
+	max_value date,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -105,6 +107,9 @@ CREATE TABLE form_elements_date_attributes
 CREATE TABLE form_elements_file_attributes
 (
 	element_id INTEGER NOT NULL,
+	accept_file_types text NOT NULL DEFAULT '',
+	min_size INTEGER NOT NULL DEFAULT 0,
+	max_size INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -150,6 +155,9 @@ CREATE TABLE form_elements_table_attributes
 CREATE TABLE form_elements_textarea_attributes
 (
 	element_id INTEGER NOT NULL,
+	regex_pattern text NOT NULL DEFAULT '',
+	min_length INTEGER NOT NULL DEFAULT 0,
+	max_length INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -157,6 +165,9 @@ CREATE TABLE form_elements_textarea_attributes
 CREATE TABLE form_elements_text_attributes
 (
 	element_id INTEGER NOT NULL,
+	regex_pattern text NOT NULL DEFAULT '',
+	min_length INTEGER NOT NULL DEFAULT 0,
+	max_length INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

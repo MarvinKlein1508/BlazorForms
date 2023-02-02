@@ -1,6 +1,8 @@
-﻿namespace FormularPortal.Core.Models
+﻿using DatabaseControllerProvider;
+
+namespace FormularPortal.Core.Models
 {
-    public class FormTextareaElement : FormElement
+    public class FormTextareaElement : FormTextElementBase
     {
         public override ElementType GetElementType() => ElementType.Textarea;
     }

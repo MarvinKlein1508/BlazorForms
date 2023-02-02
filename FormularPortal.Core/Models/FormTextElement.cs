@@ -1,6 +1,6 @@
 ﻿namespace FormularPortal.Core.Models
 {
-    public class FormTextElement : FormElement
+    public class FormTextElement : FormTextElementBase
     {
         public override ElementType GetElementType() => ElementType.Text;
     }
