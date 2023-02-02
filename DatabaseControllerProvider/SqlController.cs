@@ -166,5 +166,10 @@ namespace DatabaseControllerProvider
         {
             return "SELECT SCOPE_IDENTITY();";
         }
+
+        public string GetPaginationSyntax(int pageNumber, int limit)
+        {
+            return $" OFFSET {(pageNumber - 1) * limit} ROWS FETCH NEXT {limit} ROWS ONLY";
+        }
     }
 }

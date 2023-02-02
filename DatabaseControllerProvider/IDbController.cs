@@ -15,6 +15,7 @@ namespace DatabaseControllerProvider
         Task<List<T>> SelectDataAsync<T>(string selectCommand, object? param = null);
         Task StartTransactionAsync();
         string GetLastIdSql();
+        string GetPaginationSyntax(int pageNumber, int limit);
     }
     public interface IDbController<TConnection, TCommand, TTransaction> : IDbController where TConnection : IDbConnection where TCommand : IDbCommand where TTransaction : IDbTransaction
     {

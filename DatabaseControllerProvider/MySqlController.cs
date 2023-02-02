@@ -160,5 +160,10 @@ namespace DatabaseControllerProvider
         {
             return "SELECT LAST_INSERT_ID();";
         }
+
+        public string GetPaginationSyntax(int pageNumber, int limit)
+        {
+            return $"LIMIT {(pageNumber - 1) * limit}, {limit}";
+        }
     }
 }

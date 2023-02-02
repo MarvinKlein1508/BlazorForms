@@ -1,6 +1,7 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Filters;
 using FormularPortal.Core.Models;
+using System.Text;
 
 namespace FormularPortal.Core.Services
 {
@@ -61,24 +62,70 @@ VALUES
             return form;
         }
 
-        public Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
+        public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new();
+            sb.AppendLine("SELECT * FROM forms WHERE 1 = 1");
+            sb.AppendLine(GetFilterWhere(filter));
+            sb.AppendLine(@$"  ORDER BY form_id DESC");
+            sb.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
+
+            string sql = sb.ToString();
+
+            List<Form> list = await dbController.SelectDataAsync<Form>(sql, GetFilterParameter(filter));
+
+            return list;
         }
 
         public object? GetFilterParameter(FormFilter filter)
         {
-            throw new NotImplementedException();
+            return new
+            {
+                SEARCHPHRASE = $"%{filter.SearchPhrase}%"
+            };
         }
 
         public string GetFilterWhere(FormFilter filter)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+
+            if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+            {
+                sb.AppendLine(@" AND 
+(
+    UPPER(name) LIKE @SEARCHPHRASE
+)");
+
+            }
+
+            if (filter.ShowOnlyActiveForms)
+            {
+                sb.AppendLine(" AND is_active = 1");
+            }
+
+            if (filter.ShowOnlyFormsWhichRequireLogin)
+            {
+                sb.AppendLine(" AND login_required = 1");
+            }
+
+
+
+            string sql = sb.ToString();
+            return sql;
         }
 
-        public Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
+        public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new();
+            sb.AppendLine("SELECT COUNT(*) FROM forms WHERE 1 = 1");
+            sb.AppendLine(GetFilterWhere(filter));
+
+            string sql = sb.ToString();
+
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+
+            return result;
         }
 
         public Task UpdateAsync(Form input, IDbController dbController)
