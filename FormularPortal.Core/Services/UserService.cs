@@ -100,5 +100,10 @@ namespace FormularPortal.Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateAsync(User input, User oldInputToCompare, IDbController dbController)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

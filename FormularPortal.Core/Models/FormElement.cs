@@ -2,7 +2,7 @@
 
 namespace FormularPortal.Core.Models
 {
-    public abstract class FormElement : ICloneable, IDbModel
+    public abstract class FormElement : IDbModel
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
@@ -21,12 +21,6 @@ namespace FormularPortal.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
-        public object Clone()
-        {
-            object tmp = this.MemberwiseClone();
-
-            return tmp;
-        }
 
         public override string ToString() => Name;
         public abstract ElementType GetElementType();

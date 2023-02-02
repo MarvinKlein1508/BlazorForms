@@ -26,6 +26,8 @@ namespace FormularPortal.Pages.Admin.Forms
         [Parameter]
         public int FormId { get; set; }
         public Form? Input { get; set; }
+
+        public Form StartCopy { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }
 
         public bool EditFormProperties { get; set; }
@@ -37,6 +39,7 @@ namespace FormularPortal.Pages.Admin.Forms
                 // This Task will take some time depending on the size of the form.
                 // To not block the UI we run it in a different Task.
                 await Task.Run(LoadEditModeAsync);
+
             }
             else
             {
@@ -54,6 +57,7 @@ namespace FormularPortal.Pages.Admin.Forms
             if (form is not null)
             {
                 Input = form.DeepCopyByExpressionTree();
+                StartCopy = form.DeepCopyByExpressionTree();
             }
         }
         public void DropDelete()
@@ -91,7 +95,7 @@ namespace FormularPortal.Pages.Admin.Forms
         }
         public Task OnToolbarElementDragStartAsync(FormElement element)
         {
-            dragDropServiceElements.ActiveItem = (FormElement)element.Clone();
+            dragDropServiceElements.ActiveItem = element.DeepCopyByExpressionTree();
             dragDropServiceElements.Items = new List<FormElement>();
             StateHasChanged();
             return Task.CompletedTask;
@@ -106,14 +110,35 @@ namespace FormularPortal.Pages.Admin.Forms
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
-            if (Input.FormId is 0)
+            //await dbController.StartTransactionAsync();
+
+            try
             {
-                await formService.CreateAsync(Input, dbController);
+                if (Input.FormId is 0)
+                {
+                    await formService.CreateAsync(Input, dbController);
+
+                }
+                else
+                {
+                    await formService.UpdateAsync(Input, StartCopy, dbController);
+
+                }
+
+                //await dbController.CommitChangesAsync();
+            }
+            catch (Exception)
+            {
+                //await dbController.RollbackChangesAsync();
+                throw;
+            }
+
+            if (FormId is 0)
+            {
                 navigationManager.NavigateTo($"/Admin/FormEditor/{Input.FormId}");
             }
             else
             {
-                await formService.UpdateAsync(Input, dbController);
                 await OnParametersSetAsync();
             }
 

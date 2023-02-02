@@ -17,22 +17,31 @@ namespace FormularPortal.Core.Services
         /// Speichert das Objekt in der Datenbank als neuen Datensatz.
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="fbController"></param>
+        /// <param name="dbController"></param>
         /// <returns></returns>
         Task CreateAsync(T input, IDbController dbController);
         /// <summary>
         /// Aktualisiert den Datensatz für das Objekt in der Datenbank
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="fbController"></param>
+        /// <param name="dbController"></param>
         /// <returns></returns>
         Task UpdateAsync(T input, IDbController dbController);
+
+        /// <summary>
+        /// Aktualisiert den Datensatz für das Objekt in der Datenbank
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="oldInputToCompare"
+        /// <param name="dbController"></param>
+        /// <returns></returns>
+        Task UpdateAsync(T input, T oldInputToCompare, IDbController dbController);
 
         /// <summary>
         /// Löscht den Datensatz für das Objekt aus der Datenbank
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="sqlController"></param>
+        /// <param name="dbController"></param>
         /// <returns></returns>
         Task DeleteAsync(T input, IDbController dbController);
     }

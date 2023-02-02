@@ -3,7 +3,7 @@ using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormColumnService : FormBaseService, IModelService<FormColumn, int>
+    public class FormColumnService : IModelService<FormColumn, int>
     {
         private readonly FormElementService _formElementService;
 
@@ -89,9 +89,6 @@ column_id = @COLUMN_ID";
                     await _formElementService.UpdateAsync(element, dbController);
                 }
             }
-
-            // Delete elements which are not part of the column anymore.
-            await CleanElementsAsync(input.Elements, "form_elements", "column_id", input.ColumnId, "element_id", dbController);
         }
 
         public async Task<List<FormColumn>> GetColumnsForRowsAsync(List<int> rowIds, IDbController dbController)
@@ -101,7 +98,7 @@ column_id = @COLUMN_ID";
                 return new();
             }
 
-            string sql = $"SELECT * FROM form_columns WHERE row_id IN ({string.Join(",", rowIds)})";
+            string sql = $"SELECT * FROM form_columns WHERE row_id IN ({string.Join(",", rowIds)}) ORDER BY sort_order";
 
             List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql);
 
@@ -119,6 +116,11 @@ column_id = @COLUMN_ID";
             }
 
             return columns;
+        }
+
+        public Task UpdateAsync(FormColumn input, FormColumn oldInputToCompare, IDbController dbController)
+        {
+            throw new NotImplementedException();
         }
     }
 }

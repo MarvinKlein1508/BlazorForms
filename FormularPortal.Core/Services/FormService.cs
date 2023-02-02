@@ -4,7 +4,7 @@ using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormService : FormBaseService, IModelService<Form, int, FormFilter>
+    public class FormService : IModelService<Form, int, FormFilter>
     {
         private readonly FormRowService _formRowService;
 
@@ -81,8 +81,14 @@ VALUES
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(Form input, IDbController dbController)
+        public Task UpdateAsync(Form input, IDbController dbController)
         {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
+        {
+
             input.SetRowSortOrder();
             string sql = @"UPDATE forms SET
 name = @NAME,
@@ -106,8 +112,48 @@ form_id = @FORM_ID";
                 }
             }
 
-            // Delete rows which are not part of the form anymore.
-            await CleanElementsAsync(input.Rows, "form_rows", "form_id", input.FormId, "row_id", dbController);
+
+            var (newRowIds, newColumnIds, newElementIds) = GetHashSets(input);
+            var (oldRowIds, oldColumnIds, oldElementIds) = GetHashSets(oldInputToCompare);
+
+            oldRowIds.ExceptWith(newRowIds);
+            oldColumnIds.ExceptWith(newColumnIds);
+            oldElementIds.ExceptWith(newElementIds);
+
+            await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController);
+            await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController);
+            await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
+        }
+
+        private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds) GetHashSets(Form input)
+        {
+            HashSet<int> rowIds = new();
+            HashSet<int> columnIds = new();
+            HashSet<int> elementIds = new();
+            foreach (var row in input.Rows)
+            {
+                rowIds.Add(row.RowId);
+                foreach (var column in row.Columns)
+                {
+                    columnIds.Add(column.ColumnId);
+                    foreach (var element in column.Elements)
+                    {
+                        elementIds.Add(element.ElementId);
+                    }
+                }
+            }
+
+            return (rowIds, columnIds, elementIds);
+        }
+
+        private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController)
+        {
+            string sql = string.Empty;
+            if (identifiersToDelete.Any())
+            {
+                sql = $"DELETE FROM {tableName} WHERE {identifierColumnName} IN ({string.Join(",", identifiersToDelete)})";
+                await dbController.QueryAsync(sql);
+            }
         }
     }
 }

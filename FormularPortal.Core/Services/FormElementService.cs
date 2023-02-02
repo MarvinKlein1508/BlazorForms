@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormElementService : FormBaseService, IModelService<FormElement, int>
+    public class FormElementService : IModelService<FormElement, int>
     {
         public async Task CreateAsync(FormElement input, IDbController dbController)
         {
@@ -52,7 +52,6 @@ VALUES
             }
 
 
-            // TODO: Insert Custom attribute options
             if (input is FormElementWithOptions elementWithOptions)
             {
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
@@ -212,7 +211,8 @@ VALUES
             {
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
                 // Delete options which are not part of the object anymore.
-                await CleanElementsAsync(elementWithOptions.Options, "form_elements_options", "element_id", elementWithOptions.ElementId, "element_option_id", dbController);
+                // TODO: Implement
+                //await CleanElementsAsync(elementWithOptions.Options, "form_elements_options", "element_id", elementWithOptions.ElementId, "element_option_id", dbController);
             }
         }
 
@@ -303,5 +303,10 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
             ElementType.Textarea => "form_elements_textarea_attributes",
             _ => string.Empty,
         };
+
+        public Task UpdateAsync(FormElement input, FormElement oldInputToCompare, IDbController dbController)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

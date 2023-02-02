@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Services
 {
-    public class FormRowService : FormBaseService, IModelService<FormRow, int>
+    public class FormRowService : IModelService<FormRow, int>
     {
         private readonly FormColumnService _formColumnService;
 
@@ -79,14 +79,11 @@ row_id = @ROW_ID";
                     await _formColumnService.UpdateAsync(column, dbController);
                 }
             }
-
-            // Delete columns which are not part of the row anymore.
-            await CleanElementsAsync(input.Columns, "form_columns", "row_id", input.RowId, "column_id", dbController);
         }
 
         public async Task<List<FormRow>> GetRowsForFormAsync(Form form, IDbController dbController)
         {
-            string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID";
+            string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID ORDER BY sort_order";
 
             List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
             {
@@ -106,6 +103,11 @@ row_id = @ROW_ID";
             }
 
             return rows;
+        }
+
+        public Task UpdateAsync(FormRow input, FormRow oldInputToCompare, IDbController dbController)
+        {
+            throw new NotImplementedException();
         }
     }
 }
