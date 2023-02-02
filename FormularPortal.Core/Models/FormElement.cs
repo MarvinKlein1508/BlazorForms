@@ -33,7 +33,7 @@ namespace FormularPortal.Core.Models
                 { "ELEMENT_ID", ElementId },
                 { "FORM_ID", FormId },
                 { "ROW_ID", RowId },
-                { "GUID", Guid },
+                { "GUID", Guid.ToString() },
                 { "COLUMN_ID", ColumnId },
                 { "NAME", Name },
                 { "IS_ACTIVE", IsActive },

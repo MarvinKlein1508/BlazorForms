@@ -32,7 +32,7 @@ namespace FormularPortal.Core.Models
                 { "USER_ID", UserId },
                 { "USERNAME", Username },
                 { "DISPLAY_NAME", DisplayName },
-                { "ACTIVE_DIRECTORY_GUID", ActiveDirectoryGuid },
+                { "ACTIVE_DIRECTORY_GUID", ActiveDirectoryGuid?.ToString() },
                 { "EMAIL", Email },
                 { "PASSWORD", Password },
                 { "SALT", Salt },
