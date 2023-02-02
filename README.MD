@@ -2,10 +2,10 @@
 Create dynamic PDF forms completely in the web.
 
 ## TODO
-- [ ] Save designed forms
-- [ ] Load designed forms
+- [x] Save designed forms
+- [x] Load designed forms
 - [ ] Write validators
-- [ ] Admin page for form listings
+- [x] Admin page for form listings
 - [ ] Show active forms on Dashboard
 - [ ] (BIG) Fill out form by user
 - [ ] (BIG) See & Edit fill out forms in admin panel
