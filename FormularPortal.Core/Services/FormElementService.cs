@@ -210,9 +210,27 @@ VALUES
             if (input is FormElementWithOptions elementWithOptions)
             {
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
+                
                 // Delete options which are not part of the object anymore.
-                // TODO: Implement
-                //await CleanElementsAsync(elementWithOptions.Options, "form_elements_options", "element_id", elementWithOptions.ElementId, "element_option_id", dbController);
+                if (elementWithOptions.Options.Any())
+                {
+                    List<int> optionIds = elementWithOptions.Options.Select(x => x.ElementOptionId).ToList();
+                    sql = $"DELETE FROM form_elements_options WHERE element_id = @ELEMENT_ID AND element_option_id NOT IN ({string.Join(",", optionIds)})";
+                    
+                    await dbController.QueryAsync(sql, new
+                    {
+                        ELEMENT_ID = elementWithOptions.ElementId
+                    });
+
+                }
+                else
+                {
+                    sql = "DELETE FROM form_elements_options WHERE element_id = @ELEMENT_ID";
+                    await dbController.QueryAsync(sql, new
+                    {
+                        ELEMENT_ID = elementWithOptions.ElementId
+                    });
+                }
             }
         }
 
