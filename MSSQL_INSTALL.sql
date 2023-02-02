@@ -66,6 +66,7 @@ CREATE TABLE form_elements
 	form_id INTEGER NOT NULL,
 	row_id INTEGER NOT NULL,
 	column_id INTEGER NOT NULL,
+	guid VARCHAR(36) NOT NULL,
 	name text NOT NULL,
 	type VARCHAR(20) NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,

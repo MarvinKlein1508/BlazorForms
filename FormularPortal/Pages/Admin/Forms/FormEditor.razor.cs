@@ -95,7 +95,9 @@ namespace FormularPortal.Pages.Admin.Forms
         }
         public Task OnToolbarElementDragStartAsync(FormElement element)
         {
-            dragDropServiceElements.ActiveItem = element.DeepCopyByExpressionTree();
+            var newElement = element.DeepCopyByExpressionTree();
+            newElement.GenerateGuid();
+            dragDropServiceElements.ActiveItem = newElement;
             dragDropServiceElements.Items = new List<FormElement>();
             StateHasChanged();
             return Task.CompletedTask;

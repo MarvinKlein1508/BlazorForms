@@ -13,6 +13,7 @@ namespace FormularPortal.Core.Services
 form_id,
 row_id,
 column_id,
+guid,
 name,
 type,
 is_active,
@@ -24,6 +25,7 @@ VALUES
 @FORM_ID,
 @ROW_ID,
 @COLUMN_ID,
+@GUID,
 @NAME,
 @TYPE,
 @IS_ACTIVE,
@@ -210,13 +212,13 @@ VALUES
             if (input is FormElementWithOptions elementWithOptions)
             {
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
-                
+
                 // Delete options which are not part of the object anymore.
                 if (elementWithOptions.Options.Any())
                 {
                     List<int> optionIds = elementWithOptions.Options.Select(x => x.ElementOptionId).ToList();
                     sql = $"DELETE FROM form_elements_options WHERE element_id = @ELEMENT_ID AND element_option_id NOT IN ({string.Join(",", optionIds)})";
-                    
+
                     await dbController.QueryAsync(sql, new
                     {
                         ELEMENT_ID = elementWithOptions.ElementId

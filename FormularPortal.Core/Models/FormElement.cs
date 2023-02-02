@@ -6,6 +6,8 @@ namespace FormularPortal.Core.Models
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
+        [CompareField("guid")]
+        public Guid Guid { get; set; }
         [CompareField("form_id")]
         public int FormId { get; set; }
         [CompareField("row_id")]
@@ -31,6 +33,7 @@ namespace FormularPortal.Core.Models
                 { "ELEMENT_ID", ElementId },
                 { "FORM_ID", FormId },
                 { "ROW_ID", RowId },
+                { "GUID", Guid },
                 { "COLUMN_ID", ColumnId },
                 { "NAME", Name },
                 { "IS_ACTIVE", IsActive },
@@ -40,6 +43,15 @@ namespace FormularPortal.Core.Models
             };
         }
 
+        public FormElement()
+        {
+            GenerateGuid();
+        }
+
+        public void GenerateGuid()
+        {
+            Guid = Guid.NewGuid();
+        }
     }
     public enum ElementType
     {
