@@ -47,6 +47,8 @@ namespace FormularPortal
 #if DEBUGKLEIN
             builder.Configuration.AddJsonFile(Path.Combine("D:\\", "formularportal.klein.json"), false, true);
 #endif
+
+
             await AppdatenService.InitAsync(builder.Configuration);
 
 
@@ -68,7 +70,7 @@ namespace FormularPortal
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
 
             app.MapBlazorHub();

@@ -56,20 +56,20 @@ namespace FormularPortal.Pages.Account
 
                 // Erst prüfen wir gegen die Datenbank
                 IDbController dbController = _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
-                User? mitarbeiter = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
+                User? user = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.
-                if (mitarbeiter is not null)
+                if (user is not null)
                 {
                     PasswordHasher<User> hasher = new PasswordHasher<User>();
 
-                    string passwordHashed = hasher.HashPassword(mitarbeiter, Input.Password + mitarbeiter.Salt);
+                    string passwordHashed = hasher.HashPassword(user, Input.Password + user.Salt);
 
-                    PasswordVerificationResult result = hasher.VerifyHashedPassword(mitarbeiter, mitarbeiter.Password, Input.Password + mitarbeiter.Salt);
+                    PasswordVerificationResult result = hasher.VerifyHashedPassword(user, user.Password, Input.Password + user.Salt);
                     // Das Handling läuft später auf Basis des Objektes ab.
                     if (result is PasswordVerificationResult.Failed)
                     {
-                        mitarbeiter = null;
+                        user = null;
                     }
                 }
                 else
@@ -139,11 +139,11 @@ namespace FormularPortal.Pages.Account
                                 throw new InvalidOperationException();
                             }
 
-                            mitarbeiter = await _userService.GetAsync((Guid)guid, dbController);
+                            user = await _userService.GetAsync((Guid)guid, dbController);
 
-                            if (mitarbeiter is null)
+                            if (user is null)
                             {
-                                mitarbeiter = new User
+                                user = new User
                                 {
                                     Username = Input.Username.ToUpper(),
                                     ActiveDirectoryGuid = (Guid)guid,
@@ -152,17 +152,17 @@ namespace FormularPortal.Pages.Account
                                     Origin = "ad"
                                 };
 
-                                // Wenn der erste User angelegt wird, dann sollen diesem alle Berechtigungen gegeben werden
-                                //if (!AppdatenService.ActiveDirectoryUserExists)
-                                //{
-                                //    foreach (var berechtigung in AppdatenService.Berechtigungen)
-                                //    {
-                                //        mitarbeiter.Berechtigungen.Add(berechtigung);
-                                //    }
-                                //}
+                                // Give the first user of the app all permissions
+                                if (!AppdatenService.FirstUserExists)
+                                {
+                                    foreach (var permission in AppdatenService.Permissions)
+                                    {
+                                        user.Permissions.Add(permission);
+                                    }
+                                }
 
-                                await _userService.CreateAsync(mitarbeiter, dbController);
-                                //AppdatenService.ActiveDirectoryUserExists = true;
+                                await _userService.CreateAsync(user, dbController);
+                                AppdatenService.FirstUserExists = true;
                             }
 
 
@@ -176,17 +176,17 @@ namespace FormularPortal.Pages.Account
                 }
 
                 // Wenn wir ein Mitarbeiter Objekt haben, dann können wir uns einloggen, ansonsten ist irgendwas schief gelaufen
-                if (mitarbeiter is not null)
+                if (user is not null)
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim("userId", mitarbeiter.UserId.ToString()),
+                        new Claim("userId", user.UserId.ToString()),
                     };
 
-                    //foreach (var berechtigung in mitarbeiter.Berechtigungen)
-                    //{
-                    //    claims.Add(new Claim(ClaimTypes.Role, berechtigung.Identifier));
-                    //}
+                    foreach (var permission in user.Permissions)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, permission.Identifier));
+                    }
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

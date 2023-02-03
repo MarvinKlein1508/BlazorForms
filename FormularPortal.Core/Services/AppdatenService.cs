@@ -1,4 +1,5 @@
-﻿using FormularPortal.Core.Models;
+﻿using DatabaseControllerProvider;
+using FormularPortal.Core.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace FormularPortal.Core.Services
 {
     public static class AppdatenService
     {
+        public static bool FirstUserExists { get; set; } = false;
         public static List<FormElement> Elements { get; } = new List<FormElement>
         {
             new FormTextElement { Name = "Text" },
@@ -28,13 +30,14 @@ namespace FormularPortal.Core.Services
 
         private static IConfiguration? _configuration;
 
-        public static async Task InitAsync(IConfiguration configuration)
+        public static async Task InitAsync(IConfiguration configuration, DbProviderService dbProviderService)
         {
             _configuration = configuration;
 
-            // TODO: Load anything required
-            //using SqlController sqlController = new SqlController(AppdatenService.ConnectionString);
-            //Permissions = await PermissionService.GetAllAsync(sqlController);
+            using IDbController dbController = dbProviderService.GetDbController(DbProvider, ConnectionString);
+            Permissions = await PermissionService.GetAllAsync(dbController);
+
+            // TODO: Init FirstUserExists
         }
         public static string DbProvider => _configuration?["DbProvider"] ?? string.Empty;
         public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;
