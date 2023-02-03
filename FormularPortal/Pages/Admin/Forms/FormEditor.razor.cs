@@ -20,6 +20,7 @@ using FormularPortal.Core;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using FormularPortal.Core.Validators.Admin;
 using FluentValidation;
+using FluentValidation.Results;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -114,10 +115,11 @@ namespace FormularPortal.Pages.Admin.Forms
 
             foreach (var element in Input.GetElements())
             {
-
                 IValidator validator = element.GetValidator();
                 IValidationContext context = new ValidationContext<FormElement>(element);
-                if (validator.Validate(context).IsValid)
+                ValidationResult validationResult = validator.Validate(context);
+
+                if (validationResult.IsValid)
                 {
                     await jsRuntime.ShowToastAsync(ToastType.success, $"{element} is valid");
                 }
