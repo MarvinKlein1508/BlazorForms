@@ -1,10 +1,13 @@
 ﻿using DatabaseControllerProvider;
+using FluentValidation;
+using FormularPortal.Core.Validators.Admin;
 using System.Runtime.InteropServices.Marshalling;
 
 namespace FormularPortal.Core.Models
 {
     public class FormFileElement : FormElement
     {
+        private static FormFileElementValidator _validator = new();
         [CompareField("accept_file_types")]
         public string AcceptFileTypes { get; set; } = string.Empty;
         [CompareField("min_size")]
@@ -21,5 +24,7 @@ namespace FormularPortal.Core.Models
             parameters.Add("MAX_SIZE", MaxSize);
             return parameters;
         }
+
+        public override IValidator GetValidator() => _validator;
     }
 }

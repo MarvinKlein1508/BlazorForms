@@ -1,10 +1,13 @@
 ﻿using DatabaseControllerProvider;
+using FluentValidation;
+using FormularPortal.Core.Validators.Admin;
 using System.Runtime.InteropServices;
 
 namespace FormularPortal.Core.Models
 {
     public class FormDateElement : FormElement
     {
+        private static FormDateElementValidator _validator = new();
         [CompareField("is_current_date_default")]
         public bool SetDefaultValueToCurrentDate { get; set; }
         [CompareField("min_value")]
@@ -22,5 +25,7 @@ namespace FormularPortal.Core.Models
             parameters.Add("MAX_VALUE", MaxDate);
             return parameters;
         }
+
+        public override IValidator GetValidator() => _validator;
     }
 }

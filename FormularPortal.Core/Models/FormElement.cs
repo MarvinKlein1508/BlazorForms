@@ -1,4 +1,6 @@
 ﻿using DatabaseControllerProvider;
+using FluentValidation;
+using System.Configuration;
 
 namespace FormularPortal.Core.Models
 {
@@ -52,6 +54,8 @@ namespace FormularPortal.Core.Models
         {
             Guid = Guid.NewGuid();
         }
+
+        public abstract IValidator GetValidator();
     }
     public enum ElementType
     {
