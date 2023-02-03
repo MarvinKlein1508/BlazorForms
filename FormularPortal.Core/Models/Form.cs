@@ -47,5 +47,19 @@ namespace FormularPortal.Core.Models
                 row.SortOrder = rowCount++;
             }
         }
+
+        public IEnumerable<FormElement> GetElements()
+        {
+            foreach (var row in Rows)
+            {
+                foreach (var column in row.Columns)
+                {
+                    foreach (var element in column.Elements)
+                    {
+                        yield return element;
+                    }
+                }
+            }
+        }
     }
 }

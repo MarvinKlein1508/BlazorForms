@@ -18,6 +18,8 @@ using DatabaseControllerProvider;
 using FormularPortal.Core.Services;
 using FormularPortal.Core;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using FormularPortal.Core.Validators.Admin;
+using FluentValidation;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -110,6 +112,23 @@ namespace FormularPortal.Pages.Admin.Forms
                 return;
             }
 
+            foreach (var element in Input.GetElements())
+            {
+
+                IValidator validator = element.GetValidator();
+                IValidationContext context = new ValidationContext<FormElement>(element);
+                if (validator.Validate(context).IsValid)
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.success, $"{element} is valid");
+                }
+                else
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, $"{element} is not valid");
+                }
+
+            }
+
+            return;
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
             //await dbController.StartTransactionAsync();

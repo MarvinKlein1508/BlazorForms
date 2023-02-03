@@ -8,7 +8,16 @@ using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Validators.Admin
 {
-    public class FormTextElementValidator : AbstractValidator<FormTextElement>
+    public class FormTextElementValidator : FormElementValidator<FormTextElement>
+    {
+        public FormTextElementValidator()
+        {
+            RuleFor(x => x.MinLength)
+                .GreaterThan(10);
+        }
+    }
+
+    public abstract class FormElementValidator<T> : AbstractValidator<T> where T : FormElement
     {
 
     }
