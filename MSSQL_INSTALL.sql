@@ -172,3 +172,7 @@ CREATE TABLE form_elements_text_attributes
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+INSERT INTO permissions (name, identifier, description) VALUES 
+('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),
+('Submitted forms management','EDIT_SUBMITTED_FORMS','Allows the user the edit and delete submitted forms.'),
+('User management','EDIT_USERS','Allows the user to manage the users.');
