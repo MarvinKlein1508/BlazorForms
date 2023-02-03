@@ -33,6 +33,7 @@ namespace FormularPortal.Core.Services
         public static async Task InitAsync(IConfiguration configuration)
         {
             _configuration = configuration;
+            // HACK: Refactor to dependency injection
             DbProviderService dbProviderService = new DbProviderService();
             using IDbController dbController = dbProviderService.GetDbController(DbProvider, ConnectionString);
             Permissions = await PermissionService.GetAllAsync(dbController);
