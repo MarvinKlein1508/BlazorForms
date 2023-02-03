@@ -30,10 +30,10 @@ namespace FormularPortal.Core.Services
 
         private static IConfiguration? _configuration;
 
-        public static async Task InitAsync(IConfiguration configuration, DbProviderService dbProviderService)
+        public static async Task InitAsync(IConfiguration configuration)
         {
             _configuration = configuration;
-
+            DbProviderService dbProviderService = new DbProviderService();
             using IDbController dbController = dbProviderService.GetDbController(DbProvider, ConnectionString);
             Permissions = await PermissionService.GetAllAsync(dbController);
 

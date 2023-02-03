@@ -49,13 +49,14 @@ namespace FormularPortal
 #endif
 
 
-            await AppdatenService.InitAsync(builder.Configuration);
 
 
 
 
 
             var app = builder.Build();
+
+            await AppdatenService.InitAsync(builder.Configuration);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
