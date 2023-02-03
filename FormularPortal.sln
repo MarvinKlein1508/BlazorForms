@@ -21,23 +21,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugKlein|Any CPU = DebugKlein|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
+		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
 		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5638E729-F748-4F49-B02D-362ECE3A8447}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
+		{5638E729-F748-4F49-B02D-362ECE3A8447}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
+		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
+		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
 		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

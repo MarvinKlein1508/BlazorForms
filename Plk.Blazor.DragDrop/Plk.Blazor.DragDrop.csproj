@@ -15,6 +15,7 @@
     <AssemblyVersion>2.2.2.0</AssemblyVersion>
     <FileVersion>2.2.2.0</FileVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release;DebugKlein</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

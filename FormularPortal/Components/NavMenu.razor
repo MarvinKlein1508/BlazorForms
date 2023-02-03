@@ -20,4 +20,33 @@
             <span>FormEditor</span>
         </NavLink>
     </li>
+
+    <li class="sidebar-title">Account</li>
+    <AuthorizeView>
+        <Authorized>
+            <li class="sidebar-item">
+                <NavLink href="/Account/Details" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Accountdetails</span>
+                </NavLink>
+            </li>
+
+            <li class="sidebar-item">
+                <form method="post" action="/Account/Logout">
+                    <button type="submit" class="btn btn-danger btn-block text-left sidebar-link logout-button">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </li>
+        </Authorized>
+        <NotAuthorized>
+            <li class="sidebar-item">
+                <NavLink href="/Account/Login" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Login</span>
+                </NavLink>
+            </li>
+        </NotAuthorized>
+    </AuthorizeView>
 </ul>

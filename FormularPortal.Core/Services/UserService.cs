@@ -82,7 +82,7 @@ namespace FormularPortal.Core.Services
         }
         public async Task<User?> GetAsync(string username, IDbController dbController)
         {
-            string sql = @"SELECT * FROM users WHERE UPPER(username) = UPPER(@USERNAME) AND herkunft = 'local'";
+            string sql = @"SELECT * FROM users WHERE UPPER(username) = UPPER(@USERNAME) AND origin = 'local'";
 
             var user = await dbController.GetFirstAsync<User>(sql, new
             {

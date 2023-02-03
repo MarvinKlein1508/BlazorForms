@@ -1,5 +1,6 @@
 using DatabaseControllerProvider;
 using FormularPortal.Core.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Plk.Blazor.DragDrop;
@@ -20,6 +21,12 @@ namespace FormularPortal
                 {
                     options.DetailedErrors = true;
                 });
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, configureOptions =>
+                {
+                });
+
             builder.Services.AddBlazorDragDrop();
 
             builder.Services.AddScoped<DbProviderService>();
@@ -35,6 +42,10 @@ namespace FormularPortal
 #if DEBUG
 
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), true, true);
+#endif
+
+#if DEBUGKLEIN
+            builder.Configuration.AddJsonFile(Path.Combine("D:\\", "formularportal.klein.json"), false, true);
 #endif
             await AppdatenService.InitAsync(builder.Configuration);
 
@@ -57,6 +68,8 @@ namespace FormularPortal
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseAuthentication();
 
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
