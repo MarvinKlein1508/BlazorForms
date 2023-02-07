@@ -10,15 +10,6 @@ namespace FormularPortal.Core.Validators.Admin
 {
     public class FormTextElementValidator : FormElementValidator<FormTextElement>
     {
-        public FormTextElementValidator()
-        {
-            RuleFor(x => x.MinLength)
-                .GreaterThan(10);
-        }
-    }
-
-    public abstract class FormElementValidator<T> : AbstractValidator<T> where T : FormElement
-    {
 
     }
 }

@@ -56,6 +56,7 @@ namespace FormularPortal.Core.Models
         }
 
         public abstract IValidator GetValidator();
+        public abstract string GetDefaultName();
     }
     public enum ElementType
     {
