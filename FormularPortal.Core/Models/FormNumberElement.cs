@@ -27,7 +27,7 @@ namespace FormularPortal.Core.Models
 
             return parameters;
         }
-
+        public override string GetDefaultName() => "Number";
         public override IValidator GetValidator() => _validator;
     }
 }

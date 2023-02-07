@@ -24,7 +24,7 @@ namespace FormularPortal.Core.Models
             parameters.Add("MAX_SIZE", MaxSize);
             return parameters;
         }
-
+        public override string GetDefaultName() => "File";
         public override IValidator GetValidator() => _validator;
     }
 }

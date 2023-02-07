@@ -119,13 +119,10 @@ namespace FormularPortal.Pages.Admin.Forms
                 IValidationContext context = new ValidationContext<FormElement>(element);
                 ValidationResult validationResult = validator.Validate(context);
 
-                if (validationResult.IsValid)
+                if (!validationResult.IsValid)
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.success, $"{element} is valid");
-                }
-                else
-                {
-                    await jsRuntime.ShowToastAsync(ToastType.error, $"{element} is not valid");
+                    await jsRuntime.ShowToastAsync(ToastType.error, $"Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
+                    return;
                 }
 
             }
@@ -133,7 +130,7 @@ namespace FormularPortal.Pages.Admin.Forms
             return;
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
-            //await dbController.StartTransactionAsync();
+            await dbController.StartTransactionAsync();
 
             try
             {

@@ -7,7 +7,7 @@ namespace FormularPortal.Core.Models
     {
         private static FormRadioElementValidator _validator = new();
         public override ElementType GetElementType() => ElementType.Radio;
-
+        public override string GetDefaultName() => "Radio";
         public override IValidator GetValidator() => _validator;
     }
 }

@@ -7,7 +7,7 @@ namespace FormularPortal.Core.Models
     {
         private static FormSelectElementValidator _validator = new();
         public override ElementType GetElementType() => ElementType.Select;
-
+        public override string GetDefaultName() => "Select";
         public override IValidator GetValidator() => _validator;
     }
 }

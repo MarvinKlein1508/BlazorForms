@@ -8,7 +8,7 @@ namespace FormularPortal.Core.Models
     {
         private static FormTextareaElementValidator _validator = new();
         public override ElementType GetElementType() => ElementType.Textarea;
-
+        public override string GetDefaultName() => "Textarea";
         public override IValidator GetValidator() => _validator;
     }
 }

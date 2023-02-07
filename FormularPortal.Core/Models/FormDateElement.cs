@@ -26,6 +26,7 @@ namespace FormularPortal.Core.Models
             return parameters;
         }
 
+        public override string GetDefaultName() => "Date";
         public override IValidator GetValidator() => _validator;
     }
 }

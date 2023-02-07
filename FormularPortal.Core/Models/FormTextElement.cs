@@ -7,7 +7,7 @@ namespace FormularPortal.Core.Models
     {
         private static IValidator _validator = new FormTextElementValidator();
         public override ElementType GetElementType() => ElementType.Text;
-
+        public override string GetDefaultName() => "Text";
         public override IValidator GetValidator() => _validator;
     }
 }
