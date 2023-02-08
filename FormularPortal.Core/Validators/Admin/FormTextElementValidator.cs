@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FormularPortal.Core.Validators.Admin
 {
-    public class FormTextElementValidator : FormElementValidator<FormTextElement>
+    public class FormTextElementValidator : FormTextElementBaseValidator<FormTextElement>
     {
 
     }

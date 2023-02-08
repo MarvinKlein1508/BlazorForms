@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace FormularPortal.Core.Validators.Admin
 {
-    public abstract class FormTextElementBaseValidator<T> : FormElementValidator<T> where T : FormTextElementBase
+    public class FormTextElementBaseValidator : AbstractValidator<FormTextElementBase>
     {
         public FormTextElementBaseValidator() : base()
         {

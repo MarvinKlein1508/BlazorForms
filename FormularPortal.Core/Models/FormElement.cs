@@ -54,8 +54,6 @@ namespace FormularPortal.Core.Models
         {
             Guid = Guid.NewGuid();
         }
-
-        public abstract IValidator GetValidator();
         public abstract string GetDefaultName();
     }
     public enum ElementType

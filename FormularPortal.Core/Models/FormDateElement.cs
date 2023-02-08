@@ -7,7 +7,6 @@ namespace FormularPortal.Core.Models
 {
     public class FormDateElement : FormElement
     {
-        private static FormDateElementValidator _validator = new();
         [CompareField("is_current_date_default")]
         public bool SetDefaultValueToCurrentDate { get; set; }
         [CompareField("min_value")]
@@ -27,6 +26,5 @@ namespace FormularPortal.Core.Models
         }
 
         public override string GetDefaultName() => "Date";
-        public override IValidator GetValidator() => _validator;
     }
 }

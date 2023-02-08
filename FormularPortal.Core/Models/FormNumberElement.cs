@@ -7,7 +7,6 @@ namespace FormularPortal.Core.Models
 {
     public class FormNumberElement : FormElement
     {
-        private static FormNumberElementValidator _validator = new();
         private int decimalPlaces;
         [CompareField("decimal_places")]
         public int DecimalPlaces { get => decimalPlaces; set => decimalPlaces = value < 0 ? 0 : value; }
@@ -28,6 +27,5 @@ namespace FormularPortal.Core.Models
             return parameters;
         }
         public override string GetDefaultName() => "Number";
-        public override IValidator GetValidator() => _validator;
     }
 }

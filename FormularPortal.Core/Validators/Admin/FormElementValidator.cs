@@ -3,7 +3,7 @@ using FormularPortal.Core.Models;
 
 namespace FormularPortal.Core.Validators.Admin
 {
-    public abstract class FormElementValidator<T> : AbstractValidator<T> where T : FormElement
+    public class FormElementValidator<T> : AbstractValidator<T> where T : FormElement
     {
         public FormElementValidator() : base()
         {

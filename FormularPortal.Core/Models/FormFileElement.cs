@@ -7,7 +7,6 @@ namespace FormularPortal.Core.Models
 {
     public class FormFileElement : FormElement
     {
-        private static FormFileElementValidator _validator = new();
         [CompareField("accept_file_types")]
         public string AcceptFileTypes { get; set; } = string.Empty;
         [CompareField("min_size")]
@@ -25,6 +24,5 @@ namespace FormularPortal.Core.Models
             return parameters;
         }
         public override string GetDefaultName() => "File";
-        public override IValidator GetValidator() => _validator;
     }
 }

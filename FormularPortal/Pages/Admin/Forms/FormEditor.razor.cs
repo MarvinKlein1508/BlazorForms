@@ -34,6 +34,8 @@ namespace FormularPortal.Pages.Admin.Forms
         public FormElement? SelectedFormElement { get; set; }
 
         public bool EditFormProperties { get; set; }
+
+        public FormValidator Validator { get; } = new FormValidator(new FormRowValidator(new FormColumnValidator()));
         protected override async Task OnParametersSetAsync()
         {
 
@@ -115,9 +117,9 @@ namespace FormularPortal.Pages.Admin.Forms
 
             foreach (var element in Input.GetElements())
             {
-                IValidator validator = element.GetValidator();
-                IValidationContext context = new ValidationContext<FormElement>(element);
-                ValidationResult validationResult = validator.Validate(context);
+                
+                
+                ValidationResult validationResult = Validator.Validate(Input);
 
                 if (!validationResult.IsValid)
                 {
