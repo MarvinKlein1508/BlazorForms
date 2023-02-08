@@ -7,8 +7,7 @@ namespace FormularPortal.Core.Validators.Admin
     {
         public FormDateElementValidator() : base()
         {
-            RuleFor(x => x.MinDate)
-                .GreaterThan(DateTime.Today.Date);
+           
         }
     }
 
