@@ -113,6 +113,26 @@ namespace FormularPortal.Pages.Admin.Forms
             return Task.CompletedTask;
         }
 
+        private Task OnRuleSetElementChangedAsync(RuleSet ruleSet, Guid elementGuid)
+        {
+            if (Input is not null)
+            {
+                ruleSet.ElementGuid = elementGuid;
+
+                var searchElement = Input.GetElements().FirstOrDefault(x => x.Guid == elementGuid);
+
+                if (searchElement is not null)
+                {
+                    ruleSet.Element = searchElement;
+                }
+                else
+                {
+                    ruleSet.Element = null;
+                }
+
+            }
+            return Task.CompletedTask;
+        }
         public async Task SaveAsync()
         {
             if (Input is null)
@@ -122,8 +142,8 @@ namespace FormularPortal.Pages.Admin.Forms
 
             foreach (var element in Input.GetElements())
             {
-                
-                
+
+
                 ValidationResult validationResult = Validator.Validate(Input);
 
                 if (!validationResult.IsValid)
