@@ -210,19 +210,19 @@ else
                     </TabPage>
                     <TabPage Text="Regeln">
                         <h2>Regeln</h2>
+                        @foreach (var rule in SelectedFormElement.Rules)
+                        {
+                            <ElementRule Input="Input"
+                             Rule="rule"
+                             Element="SelectedFormElement"
+                             OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
 
+                        }
                         <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
                     </TabPage>
                 </TabControl>
-                @foreach (var rule in SelectedFormElement.Rules)
-                {
-                    <ElementRule Input="Input"
-                     Rule="rule"
-                     Element="SelectedFormElement"
-                     OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
 
-                }
             </EditForm>
         </ConfirmModal>
     }
