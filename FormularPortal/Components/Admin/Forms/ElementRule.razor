@@ -1,0 +1,111 @@
+﻿@if (Rule is not null && Input is not null && Element is not null)
+{
+    <div class="rule">
+        <h2>Regel</h2>
+        <div class="ruleset-wrapper">
+            <div class="form-floating">
+                <InputSelect @bind-Value="Rule.LogicalOperator" id="@($"rule-logic-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
+                    @foreach (LogicalOperator item in Enum.GetValues(typeof(LogicalOperator)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </InputSelect>
+                <label for="@($"rule-logic-{Rule.GetHashCode()}")">Logik</label>
+            </div>
+            <div class="form-floating">
+                <InputSelect Value="Rule.ElementGuid"
+                         ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
+                         ValueExpression="() => Rule.ElementGuid"
+                             id="@($"rule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
+                    @foreach (var item in Input.GetElements())
+                    {
+                        <option value="@item.Guid">@item</option>
+                    }
+                </InputSelect>
+                <label for="@($"rule-logic-{Rule.GetHashCode()}")">Logik</label>
+            </div>
+            <div class="form-floating">
+                <InputSelect @bind-Value="Rule.CompareOperator" id="@($"rule-compare-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                    @foreach (ComparisonOperator item in Enum.GetValues(typeof(ComparisonOperator)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </InputSelect>
+                <label for="@($"rule-compare-{Rule.GetHashCode()}")">Operator</label>
+            </div>
+            <div class="form-floating">
+                @if (Rule.Element is FormDateElement formDateElement)
+                {
+                    <InputDate @bind-Value="Rule.ValueDate" id="@($"rule-date-{Rule.GetHashCode()}")" class="form-control" placeholder="Wert" />
+                    <label for="@($"rule-date-{Rule.GetHashCode()}")">Wert</label>
+                }
+                else if (Rule.Element is FormNumberElement formNumberElement)
+                {
+                    <InputNumber @bind-Value="Rule.ValueNumber" id="@($"rule-number-{Rule.GetHashCode()}")" class="form-control" placeholder="Wert" />
+                    <label for="@($"rule-number-{Rule.GetHashCode()}")">Wert</label>
+                }
+                else if (Rule.Element is FormElementWithOptions formElementWithOptions)
+                {
+                    <InputSelect @bind-Value="Rule.ValueString" id="@($"rule-options-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Wert">
+
+                        @foreach (var item in formElementWithOptions.Options)
+                        {
+                            <option value="@item.Name">@item.Name</option>
+                        }
+                    </InputSelect>
+                    <label for="@($"rule-options-{Rule.GetHashCode()}")">Wert</label>
+                }
+                else if (Rule.Element is FormCheckboxElement formCheckboxElement)
+                {
+                    <InputSelect @bind-Value="Rule.ValueBoolean" id="@($"rule-checkbox-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Wert">
+                        <option value="false">Nein</option>
+                        <option value="true">Ja</option>
+                    </InputSelect>
+                    <label for="@($"rule-checkbox-{Rule.GetHashCode()}")">Wert</label>
+                }
+
+            </div>
+        </div>
+        <button class="btn btn-danger" type="button" @onclick="() => OnDelete.InvokeAsync(Rule)"><i class="fa-solid fa-trash"></i></button>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public RuleSet? Rule { get; set; }
+
+    [Parameter, EditorRequired]
+    public Form? Input { get; set; }
+
+    [Parameter, EditorRequired]
+    public FormElement? Element { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<RuleSet> OnDelete { get; set; }
+
+    private Task OnRuleSetElementChangedAsync(RuleSet ruleSet, Guid elementGuid)
+    {
+        if (Input is not null)
+        {
+            ruleSet.ElementGuid = elementGuid;
+
+            var searchElement = Input.GetElements().FirstOrDefault(x => x.Guid == elementGuid);
+
+            if (searchElement is not null)
+            {
+                ruleSet.Element = searchElement;
+                if (searchElement is FormElementWithOptions formElementWithOptions)
+                {
+                    ruleSet.ValueString = formElementWithOptions.Options.FirstOrDefault()?.Name ?? string.Empty;
+                }
+            }
+            else
+            {
+                ruleSet.Element = null;
+                ruleSet.ValueString = string.Empty;
+            }
+
+        }
+        return Task.CompletedTask;
+    }
+}
