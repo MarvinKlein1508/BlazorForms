@@ -25,7 +25,7 @@ namespace FormularPortal.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
-
+        public List<RuleSet> Rules { get; set; } = new();
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
         public virtual Dictionary<string, object?> GetParameters()
