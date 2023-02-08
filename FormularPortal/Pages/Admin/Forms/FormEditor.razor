@@ -72,7 +72,9 @@ else
         <ConfirmModal Title="Element bearbeiten"
               OnClosed="() => SelectedFormElement = null">
             <EditForm Model="SelectedFormElement">
-                <div class="row">
+                <TabControl>
+                    <TabPage Text="Allgemein">
+                        <div class="row">
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
@@ -203,6 +205,11 @@ else
                     
                     </div>
                 </div>
+                    </TabPage>
+                    <TabPage Text="Regeln">
+                        <h2>Regeln</h2>
+                    </TabPage>
+                </TabControl>
             </EditForm>
         </ConfirmModal>
     }

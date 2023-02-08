@@ -21,6 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor.BootstrapTabs" Version="1.0.0" />
     <PackageReference Include="Blazor.Pagination" Version="2.0.2" />
     <PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.0" />
     <PackageReference Include="vNext.BlazorComponents.FluentValidation" Version="1.1.1" />
