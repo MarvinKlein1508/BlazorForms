@@ -16,9 +16,12 @@
                          ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
                          ValueExpression="() => Rule.ElementGuid"
                              id="@($"rule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
-                    @foreach (var item in Input.GetElements())
+                    @foreach (var item in Input.GetRuleElements())
                     {
-                        <option value="@item.Guid">@item</option>
+                        @if (item != Element)
+                        {
+                            <option value="@item.Guid">@item</option>
+                        }
                     }
                 </InputSelect>
                 <label for="@($"rule-logic-{Rule.GetHashCode()}")">Logik</label>
