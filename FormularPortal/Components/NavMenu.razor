@@ -6,20 +6,30 @@
         </NavLink>
     </li>
 
-    <li class="sidebar-title">Administration</li>
-    <li class="sidebar-item">
-        <NavLink href="/Admin/Forms" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
-            <i class="fa-solid fa-gauge"></i>
-            <span>Formularverwaltung</span>
-        </NavLink>
-    </li>
+    <AuthorizeView Roles="@($"{Roles.EDIT_FORMS}, {Roles.EDIT_SUBMITTED_FORMS}, {Roles.EDIT_USERS}")">
+        <Authorized>
+            <li class="sidebar-title">Administration</li>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="@(Roles.EDIT_FORMS)">
+        <Authorized>
+            <li class="sidebar-item">
+                <NavLink href="/Admin/Forms" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-gauge"></i>
+                    <span>Formularverwaltung</span>
+                </NavLink>
+            </li>
 
-    <li class="sidebar-item">
-        <NavLink href="/Admin/FormEditor" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
-            <i class="fa-solid fa-gauge"></i>
-            <span>FormEditor</span>
-        </NavLink>
-    </li>
+            <li class="sidebar-item">
+                <NavLink href="/Admin/FormEditor" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-gauge"></i>
+                    <span>FormEditor</span>
+                </NavLink>
+            </li>
+        </Authorized>
+    </AuthorizeView>
+
+
 
     <li class="sidebar-title">Account</li>
     <AuthorizeView>

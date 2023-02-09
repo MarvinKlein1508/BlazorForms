@@ -1,5 +1,6 @@
 ﻿@page "/Admin/FormEditor/"
 @page "/Admin/FormEditor/{FormId:int}"
+@attribute [Authorize(Roles = Roles.EDIT_FORMS)]
 @layout EmptyLayout
 @using FormularPortal.Components.Admin.Forms
 @using FormularPortal.Core.Models

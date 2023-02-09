@@ -1,5 +1,6 @@
 ﻿@page "/Admin/Forms"
 @page "/Admin/Forms/{Page:int}"
+@attribute [Authorize(Roles = Roles.EDIT_FORMS)]
 @inject FormService formService
 @inject DbProviderService dbProviderService
 @inject NavigationManager navigationManager
