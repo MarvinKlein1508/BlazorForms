@@ -44,5 +44,13 @@ namespace FormularPortal.Core.Models
                 element.SortOrder = elementCount++;
             }
         }
+
+        public IEnumerable<FormElement> GetElements()
+        {
+            foreach (var element in Elements)
+            {
+                yield return element;
+            }
+        }
     }
 }

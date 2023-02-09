@@ -57,18 +57,24 @@ namespace FormularPortal.Pages.Admin.Forms
         {
             if (dragDropServiceRows.ActiveItem is not null)
             {
+                // Delete all rules for each element in the row
+                Input?.DeleteRulesForElement(dragDropServiceRows.ActiveItem.GetElements().ToArray());
                 dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
 
-                // Delete all rules for each element in the row
 
             }
             else if (dragDropServiceColumns.ActiveItem is not null)
             {
+                // Delete all rules for each element in the column
+                Input?.DeleteRulesForElement(dragDropServiceColumns.ActiveItem.GetElements().ToArray());
+
                 dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
                 Input?.RemoveEmptyRows();
             }
             else if (dragDropServiceElements.ActiveItem is not null)
             {
+                // Delete all rules for each element for this element
+                Input?.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
                 dragDropServiceElements.Items.Remove(dragDropServiceElements.ActiveItem);
             }
         }

@@ -61,10 +61,10 @@ namespace FormularPortal.Core.Models
                 }
             }
         }
-        
+
         public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
 
-        public IEnumerable<RuleSet> GetRules()
+        public void DeleteRulesForElement(params FormElement[] elements)
         {
             foreach (var row in Rows)
             {
@@ -72,10 +72,7 @@ namespace FormularPortal.Core.Models
                 {
                     foreach (var element in column.Elements)
                     {
-                        foreach (var rule in element.Rules)
-                        {
-                            yield return rule;
-                        }
+                        element.Rules.RemoveAll(x => elements.Contains(x.Element));
                     }
                 }
             }
