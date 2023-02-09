@@ -1,7 +1,6 @@
 ﻿@if (Rule is not null && Input is not null && Element is not null)
 {
     <div class="rule">
-        <h2>Regel</h2>
         <div class="ruleset-wrapper">
             <div class="form-floating">
                 <InputSelect @bind-Value="Rule.LogicalOperator" id="@($"rule-logic-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
@@ -66,7 +65,7 @@
 
             </div>
         </div>
-        <button class="btn btn-danger" type="button" @onclick="() => OnDelete.InvokeAsync(Rule)"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-danger btn-delete-rule" type="button" @onclick="() => OnDelete.InvokeAsync(Rule)"><i class="fa-solid fa-trash"></i></button>
     </div>
 }
 
