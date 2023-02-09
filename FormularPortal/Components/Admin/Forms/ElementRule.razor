@@ -24,7 +24,7 @@
                 <label for="@($"rule-logic-{Rule.GetHashCode()}")">Logik</label>
             </div>
             <div class="form-floating">
-                <InputSelect @bind-Value="Rule.CompareOperator" id="@($"rule-compare-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                <InputSelect @bind-Value="Rule.ComparisonOperator" id="@($"rule-compare-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
                     @foreach (ComparisonOperator item in Enum.GetValues(typeof(ComparisonOperator)))
                     {
                         <option value="@item">@item</option>
