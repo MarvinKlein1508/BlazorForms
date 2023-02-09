@@ -6,6 +6,8 @@ namespace FormularPortal.Core.Models
     {
         [CompareField("rule_id")]
         public int RuleId { get; set; }
+        [CompareField("element_id")]
+        public int ElementId { get; set; }
         [CompareField("logical_operator")]
         public LogicalOperator LogicalOperator { get; set; }
         [CompareField("element_guid")]
@@ -34,6 +36,7 @@ namespace FormularPortal.Core.Models
             return new Dictionary<string, object?>
             {
                 { "RULE_ID", RuleId },
+                { "ELEMENT_ID", ElementId },
                 { "LOGICAL_OPERATOR", LogicalOperator.ToString() },
                 { "ELEMENT_GUID", ElementGuid.ToString() },
                 { "COMPARISON_OPERATOR", ComparisonOperator.ToString() },

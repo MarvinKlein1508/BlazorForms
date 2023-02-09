@@ -6,6 +6,13 @@ namespace FormularPortal.Core.Services
 {
     public class FormElementService : IModelService<FormElement, int>
     {
+        private readonly RuleSetService _ruleSetService;
+
+        public FormElementService(RuleSetService ruleSetService)
+        {
+            _ruleSetService = ruleSetService;
+        }
+
         public async Task CreateAsync(FormElement input, IDbController dbController)
         {
             string sql = $@"INSERT INTO form_elements
@@ -58,6 +65,8 @@ VALUES
             {
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController);
             }
+
+            await InsertOrUpdateElementRulesAsync(input, dbController);
         }
 
         private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, IDbController dbController)
@@ -234,6 +243,26 @@ VALUES
                     });
                 }
             }
+
+            await InsertOrUpdateElementRulesAsync(input, dbController);
+        }
+
+        private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
+        {
+            input.SetRuleSortOrder();
+            foreach (var rule in input.Rules)
+            {
+                rule.ElementId = input.ElementId;
+                if (rule.RuleId is 0)
+                {
+                    await _ruleSetService.CreateAsync(rule, dbController);
+                }
+                else
+                {
+                    await _ruleSetService.UpdateAsync(rule, dbController);
+                }
+            }
+
         }
 
         public async Task<List<FormElement>> GetElementsForColumns(List<int> columnIds, IDbController dbController)
@@ -302,9 +331,23 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
                 }
             }
 
-            // We'nn need to sort the elements based on their SortOrder
+            // We need to sort the elements based on their SortOrder
             elements.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
 
+            List<int> elementIdsForRules = elements.Select(x => x.ElementId).ToList();
+
+            List<RuleSet> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
+            
+
+            foreach (var element in elements)
+            {
+                foreach (var rule in rules.Where(x => x.ElementId == element.ElementId))
+                {
+                    element.Rules.Add(rule);
+                    rule.Parent = element;
+                    rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
+                }
+            }
 
             return elements;
         }

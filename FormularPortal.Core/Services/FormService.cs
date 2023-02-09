@@ -160,23 +160,26 @@ form_id = @FORM_ID";
             }
 
 
-            var (newRowIds, newColumnIds, newElementIds) = GetHashSets(input);
-            var (oldRowIds, oldColumnIds, oldElementIds) = GetHashSets(oldInputToCompare);
+            var (newRowIds, newColumnIds, newElementIds, newRuleIds) = GetHashSets(input);
+            var (oldRowIds, oldColumnIds, oldElementIds, oldRuleIds) = GetHashSets(oldInputToCompare);
 
             oldRowIds.ExceptWith(newRowIds);
             oldColumnIds.ExceptWith(newColumnIds);
             oldElementIds.ExceptWith(newElementIds);
+            oldRuleIds.ExceptWith(newRuleIds);
 
             await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController);
             await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController);
             await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
+            await CleanTableAsync(oldRuleIds, "form_elements_rules", "rule_id", dbController);
         }
 
-        private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds) GetHashSets(Form input)
+        private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds, HashSet<int> ruleIds) GetHashSets(Form input)
         {
             HashSet<int> rowIds = new();
             HashSet<int> columnIds = new();
             HashSet<int> elementIds = new();
+            HashSet<int> ruleIds = new();
             foreach (var row in input.Rows)
             {
                 rowIds.Add(row.RowId);
@@ -186,11 +189,15 @@ form_id = @FORM_ID";
                     foreach (var element in column.Elements)
                     {
                         elementIds.Add(element.ElementId);
+                        foreach (var rule in element.Rules)
+                        {
+                            ruleIds.Add(rule.RuleId);
+                        }
                     }
                 }
             }
 
-            return (rowIds, columnIds, elementIds);
+            return (rowIds, columnIds, elementIds, ruleIds);
         }
 
         private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController)

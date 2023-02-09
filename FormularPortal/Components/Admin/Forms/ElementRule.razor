@@ -89,12 +89,18 @@
     {
         if (Input is not null)
         {
+            ruleSet.ValueBoolean = false;
+            ruleSet.ValueString = string.Empty;
+            ruleSet.ValueNumber = 0;
+            ruleSet.ValueDate = default;
+
             ruleSet.ElementGuid = elementGuid;
 
             var searchElement = Input.GetElements().FirstOrDefault(x => x.Guid == elementGuid);
 
             if (searchElement is not null)
             {
+                ruleSet.ElementId = searchElement.ElementId;
                 ruleSet.Element = searchElement;
                 if (searchElement is FormElementWithOptions formElementWithOptions)
                 {
@@ -103,6 +109,7 @@
             }
             else
             {
+                ruleSet.ElementId = 0;
                 ruleSet.Element = null;
                 ruleSet.ValueString = string.Empty;
             }

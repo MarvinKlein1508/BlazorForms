@@ -56,6 +56,15 @@ namespace FormularPortal.Core.Models
             Guid = Guid.NewGuid();
         }
         public abstract string GetDefaultName();
+
+        public void SetRuleSortOrder()
+        {
+            int ruleCount = 1;
+            foreach (var rule in Rules)
+            {
+                rule.SortOrder = ruleCount++;
+            }
+        }
     }
     public enum ElementType
     {

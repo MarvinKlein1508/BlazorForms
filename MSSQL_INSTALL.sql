@@ -66,7 +66,7 @@ CREATE TABLE form_elements
 	form_id INTEGER NOT NULL,
 	row_id INTEGER NOT NULL,
 	column_id INTEGER NOT NULL,
-	guid VARCHAR(36) NOT NULL UNIQUE,
+	guid VARCHAR(36) NOT NULL,
 	name text NOT NULL,
 	type VARCHAR(20) NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
@@ -175,6 +175,7 @@ CREATE TABLE form_elements_text_attributes
 CREATE TABLE form_elements_rules
 (
 	rule_id INTEGER IDENTITY(1,1) NOT NULL,
+	element_id INTEGER NOT NULL,
 	logical_operator varchar(10) NOT NULL,
 	element_guid VARCHAR(36) NOT NULL,
 	comparison_operator VARCHAR(20) NOT NULL,
@@ -184,7 +185,7 @@ CREATE TABLE form_elements_rules
 	value_date DATE NOT NULL DEFAULT GETDATE(),
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (rule_id),
-	FOREIGN KEY (element_guid) REFERENCES elements(guid) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO permissions (name, identifier, description) VALUES 
