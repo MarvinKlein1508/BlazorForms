@@ -98,7 +98,13 @@ row_id = @ROW_ID";
 
                 foreach (var row in rows)
                 {
-                    row.Columns = columns.Where(x => x.RowId == row.RowId).ToList();
+                    row.Parent = form;
+                    foreach (var column in columns.Where(x => x.RowId == row.RowId))
+                    {
+                        column.Parent = row;
+                        row.Columns.Add(column);
+                    }
+                    
                 }
             }
 

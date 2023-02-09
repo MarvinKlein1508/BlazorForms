@@ -23,7 +23,7 @@ namespace FormularPortal.Core.Models
         /// Gets or sets the elements for this column
         /// </summary>
         public List<FormElement> Elements { get; set; } = new();
-
+        public FormRow? Parent { get; set; }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

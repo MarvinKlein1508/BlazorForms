@@ -21,6 +21,8 @@ namespace FormularPortal.Core.Models
         /// Gets or sets all columns for this row.
         /// </summary>
         public List<FormColumn> Columns { get; set; } = new();
+
+        public Form? Parent { get; set; }
         /// <summary>
         /// Creates an empty row.
         /// </summary>
@@ -57,6 +59,17 @@ namespace FormularPortal.Core.Models
             foreach (var column in Columns)
             {
                 column.SortOrder = columnCount++;
+            }
+        }
+
+        public IEnumerable<FormElement> GetElements()
+        {
+            foreach (var column in Columns)
+            {
+                foreach (var element in column.Elements)
+                {
+                    yield return element;
+                }
             }
         }
     }

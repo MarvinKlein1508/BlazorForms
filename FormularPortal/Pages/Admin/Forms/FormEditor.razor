@@ -30,10 +30,10 @@ else
             <div class="form-grid-editor">
                 <div class="grid-container">
                     <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
-                        <Dropzone OnItemDrop="OnColumnDroppedAsync" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                        <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
                             <div class="grid-container">
                                 <div class="grid-item">
-                                    <Dropzone Class="large-dropzone" Items="column.Elements" Context="element">
+                                    <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                         <div class="formular-element grid-item">
                                             <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => SelectedFormElement = element"><i class="fa-solid fa-edit"></i></button></div>
                                         </div>

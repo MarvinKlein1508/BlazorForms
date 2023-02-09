@@ -1,26 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
-using FormularPortal.Components;
-using Plk.Blazor.DragDrop;
-using FormularPortal.Core.Models;
 using DatabaseControllerProvider;
-using FormularPortal.Core.Services;
-using FormularPortal.Core;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using FormularPortal.Core.Validators.Admin;
-using FluentValidation;
 using FluentValidation.Results;
+using FormularPortal.Core;
+using FormularPortal.Core.Models;
+using FormularPortal.Core.Services;
+using FormularPortal.Core.Validators.Admin;
+using Microsoft.AspNetCore.Components;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -74,6 +58,9 @@ namespace FormularPortal.Pages.Admin.Forms
             if (dragDropServiceRows.ActiveItem is not null)
             {
                 dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
+
+                // Delete all rules for each element in the row
+
             }
             else if (dragDropServiceColumns.ActiveItem is not null)
             {
@@ -85,11 +72,20 @@ namespace FormularPortal.Pages.Admin.Forms
                 dragDropServiceElements.Items.Remove(dragDropServiceElements.ActiveItem);
             }
         }
-        public Task OnColumnDroppedAsync(FormColumn column)
+        public Task OnColumnDroppedAsync(FormColumn column, FormRow row)
         {
+            column.Parent = row;
             Input?.RemoveEmptyRows();
             return Task.CompletedTask;
         }
+
+        public Task OnElementDroppedAsync(FormElement element, FormColumn column)
+        {
+            element.Parent = column;
+            return Task.CompletedTask;
+        }
+
+
         public void StartDragColumnFromToolbar()
         {
             dragDropServiceColumns.ActiveItem = new FormColumn();
@@ -112,7 +108,7 @@ namespace FormularPortal.Pages.Admin.Forms
             return Task.CompletedTask;
         }
 
-      
+
         public async Task SaveAsync()
         {
             if (Input is null)
@@ -134,7 +130,7 @@ namespace FormularPortal.Pages.Admin.Forms
 
             }
 
-            return;
+
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
             await dbController.StartTransactionAsync();
@@ -152,11 +148,11 @@ namespace FormularPortal.Pages.Admin.Forms
 
                 }
 
-                //await dbController.CommitChangesAsync();
+                await dbController.CommitChangesAsync();
             }
             catch (Exception)
             {
-                //await dbController.RollbackChangesAsync();
+                await dbController.RollbackChangesAsync();
                 throw;
             }
 

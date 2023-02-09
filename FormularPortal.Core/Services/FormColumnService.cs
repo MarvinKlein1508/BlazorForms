@@ -111,7 +111,11 @@ column_id = @COLUMN_ID";
 
                 foreach (var column in columns)
                 {
-                    column.Elements = elements.Where(x => x.ColumnId == column.ColumnId).ToList();
+                    foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
+                    {
+                        element.Parent = column;
+                        column.Elements.Add(element);
+                    }
                 }
             }
 

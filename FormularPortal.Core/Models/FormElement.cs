@@ -28,6 +28,7 @@ namespace FormularPortal.Core.Models
         public List<RuleSet> Rules { get; set; } = new();
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
+        public FormColumn? Parent { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

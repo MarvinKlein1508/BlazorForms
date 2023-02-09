@@ -61,7 +61,24 @@ namespace FormularPortal.Core.Models
                 }
             }
         }
-
+        
         public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
+
+        public IEnumerable<RuleSet> GetRules()
+        {
+            foreach (var row in Rows)
+            {
+                foreach (var column in row.Columns)
+                {
+                    foreach (var element in column.Elements)
+                    {
+                        foreach (var rule in element.Rules)
+                        {
+                            yield return rule;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
