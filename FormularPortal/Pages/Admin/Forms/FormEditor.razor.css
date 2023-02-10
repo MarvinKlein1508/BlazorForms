@@ -244,6 +244,15 @@
     border-radius: .5em;
 }
 
+::deep .table-dropzone {
+    border: 3px dashed pink;
+    min-height: 10em;
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 1em;
+}
+
 ::deep .plk-dd-dropzone {
     display: inherit;
     min-width: 100%;
