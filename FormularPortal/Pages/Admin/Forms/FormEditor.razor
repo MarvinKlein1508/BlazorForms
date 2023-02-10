@@ -25,8 +25,29 @@ else
         {
             <div class="formular-element-editor">
                 <EditForm Model="SelectedFormElement">
-                    <TabControl>
-                        <TabPage Text="Allgemein">
+                    <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.General))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.General">
+                                Allgemein
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Rules">
+                                Regeln
+                            </button>
+                        </li>
+                        @if (SelectedFormElement is FormTableElement)
+                        {
+                            <li class="nav-item">
+                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Elements">
+                                    Elemente
+                                </button>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.General))">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
@@ -168,8 +189,9 @@ else
 
 
                             </div>
-                        </TabPage>
-                        <TabPage Text="Regeln">
+                        </div>
+
+                        <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))">
                             <h2>Regeln</h2>
                             <Dropzone Items="SelectedFormElement.Rules" Context="rule">
 
@@ -182,19 +204,20 @@ else
                             </Dropzone>
                             <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
-                        </TabPage>
+                        </div>
 
                         @if (SelectedFormElement is FormTableElement formTableElement)
                         {
-                            <TabPage Text="Elemente">
+                            <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
                                 <Dropzone TItem="FormElement" Class="large-dropzone" Items="formTableElement.Elements" Context="element">
                                     <div class="formular-element grid-item">
                                         <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                     </div>
                                 </Dropzone>
-                            </TabPage>
+                            </div>
                         }
-                    </TabControl>
+                    </div>
+
                     <div class="toolbar">
                         <button type="button" class="btn btn-danger" @onclick="CloseFormElementAsync">Schließen</button>
                     </div>

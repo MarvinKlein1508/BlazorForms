@@ -65,6 +65,8 @@ namespace FormularPortal.Core.Models
                 rule.SortOrder = ruleCount++;
             }
         }
+
+        public FormElementTabs ActiveTab { get; set; }
     }
     public enum ElementType
     {
@@ -78,5 +80,12 @@ namespace FormularPortal.Core.Models
         Table = 7,
         Text = 8,
         Textarea = 9
+    }
+
+    public enum FormElementTabs
+    {
+        General,
+        Rules,
+        Elements
     }
 }

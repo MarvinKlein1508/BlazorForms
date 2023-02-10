@@ -201,5 +201,8 @@ namespace FormularPortal.Pages.Admin.Forms
 
             return Task.CompletedTask;
         }
+
+        private string GetTabNavClass(bool isActive) => isActive ? "nav-link active" : "nav-link";
+        public string GetTabClass(bool active) => active ? "tab-pane fade active show" : "tab-pane fade";
     }
 }
