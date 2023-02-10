@@ -11,18 +11,29 @@
             <li class="sidebar-title">Administration</li>
         </Authorized>
     </AuthorizeView>
+    <AuthorizeView Roles="@(Roles.EDIT_USERS)">
+        <Authorized>
+            <li class="sidebar-item">
+                <NavLink href="/Admin/Users" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Benutzerverwaltung</span>
+                </NavLink>
+            </li>
+        </Authorized>
+    </AuthorizeView>
+
     <AuthorizeView Roles="@(Roles.EDIT_FORMS)">
         <Authorized>
             <li class="sidebar-item">
                 <NavLink href="/Admin/Forms" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
-                    <i class="fa-solid fa-gauge"></i>
+                    <i class="fa-brands fa-wpforms"></i>
                     <span>Formularverwaltung</span>
                 </NavLink>
             </li>
 
             <li class="sidebar-item">
                 <NavLink href="/Admin/FormEditor" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
-                    <i class="fa-solid fa-gauge"></i>
+                    <i class="fa-brands fa-wpforms"></i>
                     <span>FormEditor</span>
                 </NavLink>
             </li>

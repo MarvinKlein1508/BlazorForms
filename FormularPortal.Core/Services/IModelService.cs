@@ -98,6 +98,6 @@ namespace FormularPortal.Core.Services
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        object? GetFilterParameter(TFilter filter);
+        Dictionary<string, object?> GetFilterParameter(TFilter filter);
     }
 }

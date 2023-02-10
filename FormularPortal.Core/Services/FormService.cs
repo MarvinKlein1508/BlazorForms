@@ -77,11 +77,11 @@ VALUES
             return list;
         }
 
-        public object? GetFilterParameter(FormFilter filter)
+        public Dictionary<string, object?> GetFilterParameter(FormFilter filter)
         {
-            return new
+            return new Dictionary<string, object?>
             {
-                SEARCHPHRASE = $"%{filter.SearchPhrase}%"
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
             };
         }
 

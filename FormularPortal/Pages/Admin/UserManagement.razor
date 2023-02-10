@@ -1,0 +1,222 @@
+﻿@page "/Admin/Users"
+@inject AuthService authService
+@inherits ManagementBasePage<User, UserService>
+@attribute [Authorize(Roles = Roles.EDIT_USERS)]
+
+<PageTitle>Benutzerverwaltung</PageTitle>
+<h3>Benutzerverwaltung</h3>
+
+<div class="toolbar">
+    <Tooltip Title="Neuer lokaler Benutzer">
+        <button type="button" class="btn btn-success" @onclick="NewAsync"><i class="fa-solid fa-plus"></i></button>
+    </Tooltip>
+</div>
+
+
+
+<div class="col-lg-3 col-sm-12 order-lg-3">
+    <div class="card">
+        <div class="card-header">
+            <h4>Filter</h4>
+        </div>
+        <div class="card-content" style="padding: 0 1.3rem;">
+            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="usermanagement-filter-searchphrase" placeholder="Suchbegriff" />
+                    <label for="usermanagement-filter-searchphrase">Suchbegriff</label>
+                </div>
+
+                <div class="toolbar">
+                    <button type="submit" class="btn btn-primary">Suchen</button>
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
+<div class="col-lg-9 col-sm-12">
+
+    <div class="card">
+        <div class="card-content">
+            <!-- Table with no outer spacing -->
+            <div class="table-responsive">
+                <table class="table mb-0 table-lg">
+                    <thead>
+                        <tr>
+                            <th>BENUTZER</th>
+                            <th>USERNAME</th>
+                            <th>E-MAIL</th>
+                            <th class="text-right">AKTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Virtualize Items="Data" Context="user">
+                            <tr>
+                                <td>@user.DisplayName</td>
+                                <td>@user.Username</td>
+                                <td>@user.Email</td>
+                                <td class="text-right">
+                                    @if (user.Origin is "local")
+                                    {
+                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = user">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </span>
+
+                                        @*<span class="aktion-icon" role="button" @onclick="async () => await EditAsync(mitarbeiter)">
+                                    <i class="fa-solid fa-key"></i>
+                                    </span>*@
+                                    }
+                                    <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(user)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </Virtualize>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+@if (Input is not null)
+{
+    <Modal Title="@($"{Input.DisplayName} bearbeiten")"
+       OnClosed="() => Input = null"
+       ModalSize="ModalSize.LG"
+       HideFooter="true">
+
+        <EditForm Model="Input" @ref="_form">
+            <FluentValidationValidator />
+            <ValidationSummary />
+            <div class="row">
+                <div class="col-12">
+                    @if (Input.Origin is "local")
+                    {
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="Input.Username" class="form-control" id="user-username" placeholder="Username" />
+                            <label for="user-username">Username</label>
+                            <ValidationMessage For="() => Input.Username" />
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="Input.DisplayName" class="form-control" id="user-displayname" placeholder="Anzeigename" />
+                            <label for="user-displayname">Anzeigename</label>
+                            <ValidationMessage For="() => Input.DisplayName" />
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="Input.Email" class="form-control" id="user-email" placeholder="E-Mail" type="email" />
+                            <label for="user-email">E-Mail</label>
+                            <ValidationMessage For="() => Input.Email" />
+                        </div>
+
+                        @if (Input.UserId is 0)
+                        {
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="Input.Password" class="form-control" id="user-password" placeholder="Passwort" type="password" />
+                                <label for="user-password">Passwort</label>
+                                <ValidationMessage For="() => Input.Password" />
+                            </div>
+                        }
+                    }
+
+             
+
+                    <h4>Berechtigungen</h4>
+
+                    @if (_loggedInUser is not null && Input.UserId == _loggedInUser.UserId)
+                    {
+                        <p>Sie können nicht die Berechtigungen für sich selbst verwalten.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-lg">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Beschreibung</th>
+                                        <th>Aktion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var permission in Input.Permissions)
+                                    {
+                                        <tr>
+                                            <td class="text-bold-500">@permission.Name</td>
+                                            <td>@permission.Description</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" @onclick="() => Input.Permissions.Remove(permission)">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @if (Input.Permissions.Count != AppdatenService.Permissions.Count)
+                                    {
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="input-group">
+                                                    <select @onchange="PermissionSelectionChangedAsync" class="form-select" id="inputGroupSelect04" aria-label="Berechtigung">
+                                                        @if (SelectedPermission is null)
+                                                        {
+                                                            <option value="0" selected>--- Auswählen ---</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="0">--- Auswählen ---</option>
+                                                        }
+
+                                                        @foreach (var permission in AppdatenService.Permissions)
+                                                        {
+                                                            var userberechtigung = Input.Permissions.FirstOrDefault(x => x.PermissionId == permission.PermissionId);
+                                                            @if (userberechtigung is null)
+                                                            {
+                                                                <option value="@permission.PermissionId">@permission.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+
+                                                    <button @onclick="AddPermissionAsync" class="btn btn-success" type="button" disabled="@(SelectedPermission is null)">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </EditForm>
+
+        <div class="toolbar">
+            <button type="button" class="btn btn-danger" @onclick="() => Input = null">Abbrechen</button>
+            <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+        </div>
+    </Modal>
+}
+
+@if (SelectedForDeletion is not null)
+{
+    <ConfirmModal Title="Benutzer löschen?"
+              OnClosed="() => SelectedForDeletion = null"
+              OnConfirmed="DeleteAsync">
+        <p>Möchten Sie den Benutzer "@SelectedForDeletion.DisplayName" wirklich löschen?</p>
+    </ConfirmModal>
+}
+
+

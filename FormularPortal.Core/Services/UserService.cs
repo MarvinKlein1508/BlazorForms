@@ -1,9 +1,11 @@
 ﻿using DatabaseControllerProvider;
+using FormularPortal.Core.Filters;
 using FormularPortal.Core.Models;
+using System.Text;
 
 namespace FormularPortal.Core.Services
 {
-    public class UserService : IModelService<User, int>
+    public class UserService : IModelService<User, int, UserFilter>
     {
         private readonly PermissionService _permissionService;
 
@@ -96,6 +98,80 @@ namespace FormularPortal.Core.Services
 
             return user;
         }
+
+        public async Task<List<User>> GetAsync(UserFilter filter, IDbController dbController)
+        {
+            StringBuilder sqlBuilder = new();
+            sqlBuilder.Append("SELECT * FROM users WHERE 1 = 1");
+            sqlBuilder.AppendLine(GetFilterWhere(filter));
+            sqlBuilder.AppendLine(@$"  ORDER BY user_id DESC");
+            sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
+
+            // Zum Debuggen schreiben wir den Wert einmal als Variabel
+            string sql = sqlBuilder.ToString();
+
+            List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter));
+
+            // Berechtigungen müssen noch geladen werden
+            sql = @"SELECT * FROM permissions";
+            List<Permission> permissions = await dbController.SelectDataAsync<Permission>(sql);
+
+            sql = "SELECT * FROM user_permissions";
+            List<UserPermission> user_permissions = await dbController.SelectDataAsync<UserPermission>(sql);
+
+            foreach (var user in list)
+            {
+                List<UserPermission> permissions_for_user = user_permissions.Where(x => x.UserId == user.UserId).ToList();
+                List<int> permission_ids = permissions_for_user.Select(x => x.PermissionId).ToList();
+
+                user.Permissions = permissions.Where(x => permission_ids.Contains(x.PermissionId)).ToList();
+            }
+
+
+
+            return list;
+        }
+
+        public Dictionary<string, object?> GetFilterParameter(UserFilter filter)
+        {
+            return new Dictionary<string, object?>
+            {
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
+            };
+        }
+
+        public string GetFilterWhere(UserFilter filter)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+            {
+                sb.AppendLine(@" AND 
+(
+        UPPER(anzeigename) LIKE @SEARCHPHRASE
+    OR  UPPER(email) LIKE @SEARCHPHRASE
+    OR  UPPER(username) LIKE @SEARCHPHRASE
+)");
+            }
+
+
+            string sql = sb.ToString();
+            return sql;
+        }
+
+        public async Task<int> GetTotalAsync(UserFilter filter, IDbController dbController)
+        {
+            StringBuilder sqlBuilder = new();
+            sqlBuilder.AppendLine("SELECT COUNT(*) FROM users WHERE 1 = 1");
+            sqlBuilder.AppendLine(GetFilterWhere(filter));
+
+            string sql = sqlBuilder.ToString();
+
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+
+            return result;
+        }
+
         public Task UpdateAsync(User input, IDbController dbController)
         {
             throw new NotImplementedException();

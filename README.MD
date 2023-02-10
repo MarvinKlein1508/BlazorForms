@@ -12,7 +12,7 @@ Create dynamic PDF forms completely in the web.
 - [ ] (BIG) See & Edit fill out forms in admin panel
 - [ ] (BIG) Implement tables
 - [ ] Generate PDFs
-- [ ] Create user management
+- [x] Create user management
 - [x] Check permissions
 - [ ] Upload logos to forms and portal
 - [ ] Write installer
