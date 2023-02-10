@@ -8,7 +8,7 @@ namespace FormularPortal.Core.Validators.Admin
         public FormNumberElementValidator() : base()
         {
             RuleFor(x => x.MinValue)
-                .Must((x, y) => x.MaxValue > x.MinValue)
+                .Must((x, y) => x.MaxValue >= x.MinValue)
                 .WithMessage("Der Mindestwert kann nicht größer sein, als der Maximalwert");
 
             RuleFor(x => x.DecimalPlaces)
