@@ -92,6 +92,18 @@ else
                                         <label for="numberelement-decimalPlaces">Nachkommastellen</label>
                                         <ValidationMessage For="() => numberElement.DecimalPlaces" />
                                     </div>
+
+                                    <div class="form-floating mb-3">
+                                        <InputNumber @bind-Value="numberElement.MinValue" class="form-control" id="numberelement-minvalue" placeholder="Mindestwert" />
+                                        <label for="numberelement-minvalue">Mindestwert</label>
+                                        <ValidationMessage For="() => numberElement.MinValue" />
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <InputNumber @bind-Value="numberElement.MaxValue" class="form-control" id="numberelement-maxvalue" placeholder="Maximumwert" />
+                                        <label for="numberelement-maxvalue">Maximumwert</label>
+                                        <ValidationMessage For="() => numberElement.MaxValue" />
+                                    </div>
                                 }
 
 
