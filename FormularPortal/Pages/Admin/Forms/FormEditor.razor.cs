@@ -19,6 +19,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public Form? Input { get; set; }
 
         public Form StartCopy { get; set; } = new();
+        public List<FormElement> SelectedFormElementStack { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }
 
         public bool EditFormProperties { get; set; }
@@ -173,6 +174,32 @@ namespace FormularPortal.Pages.Admin.Forms
 
             await jsRuntime.ShowToastAsync(ToastType.success, "Form has been saved successfully.");
 
+        }
+
+        private Task OpenFormElementAsync(FormElement element)
+        {
+            SelectedFormElementStack.Add(element);
+            SelectedFormElement = element;
+            return Task.CompletedTask;
+        }
+
+        private Task CloseFormElementAsync()
+        {
+            if (SelectedFormElement is not null)
+            {
+                SelectedFormElementStack.Remove(SelectedFormElement);
+
+                if (SelectedFormElementStack.Any())
+                {
+                    SelectedFormElement = SelectedFormElementStack.Last();
+                }
+                else
+                {
+                    SelectedFormElement = null;
+                }
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

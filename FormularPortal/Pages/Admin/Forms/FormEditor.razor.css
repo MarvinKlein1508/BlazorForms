@@ -235,7 +235,9 @@
     margin-right: 1em;
 }
 
-
+.formular-element-editor {
+    padding: 1em;
+}
 
 ::deep .formular-element {
     border: 1px solid green;

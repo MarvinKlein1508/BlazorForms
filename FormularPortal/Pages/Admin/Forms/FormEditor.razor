@@ -21,63 +21,12 @@
 else
 {
     <div id="form-wrapper">
-        <div id="form-editor">
-            <div id="topbar">
-                <a role="button" class="btn btn-secondary" href="/Admin/Forms"><i class="fa-solid fa-reply"></i></a>
-                <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
-                <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
-            </div>
-
-            <div class="form-grid-editor">
-                <div class="grid-container">
-                    <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
-                        <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
-                            <div class="grid-container">
-                                <div class="grid-item">
-                                    <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
-                                        <div class="formular-element grid-item">
-                                            <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => SelectedFormElement = element"><i class="fa-solid fa-edit"></i></button></div>
-                                        </div>
-                                    </Dropzone>
-                                </div>
-                            </div>
-                        </Dropzone>
-                    </Dropzone>
-                </div>
-            </div>
-        </div>
-        <div class="toolbar-wrapper">
-            <h4>Toolbar</h4>
-            <ul id="element-toolbar">
-                <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
-                <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
-                @foreach (var item in AppdatenService.Elements)
-                {
-                    <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
-                }
-            </ul>
-
-            <div class="delete-wrapper">
-                <div class="delete-zone"
-                     ondragover="event.preventDefault();"
-                     ondragstart="event.dataTransfer.setData('', event.target.id);"
-                 @ondrop="() => DropDelete()">
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    @if (SelectedFormElement is not null)
-    {
-        <ConfirmModal Title="Element bearbeiten"
-              OnClosed="() => SelectedFormElement = null"
-              ModalSize="ModalSize.XL">
-            <EditForm Model="SelectedFormElement">
-                <TabControl>
-                    <TabPage Text="Allgemein">
-                        <div class="row">
+        @if (SelectedFormElement is not null)
+        {
+            <div class="formular-element-editor">
+                <EditForm Model="SelectedFormElement">
+                    <TabControl>
+                        <TabPage Text="Allgemein">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
@@ -219,28 +168,93 @@ else
 
 
                             </div>
-                        </div>
-                    </TabPage>
-                    <TabPage Text="Regeln">
-                        <h2>Regeln</h2>
-                        <Dropzone Items="SelectedFormElement.Rules" Context="rule">
+                        </TabPage>
+                        <TabPage Text="Regeln">
+                            <h2>Regeln</h2>
+                            <Dropzone Items="SelectedFormElement.Rules" Context="rule">
 
-                            <ElementRule Input="Input"
-                                 Rule="rule"
-                                 Element="SelectedFormElement"
-                                 OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
+                                <ElementRule Input="Input"
+                                     Rule="rule"
+                                     Element="SelectedFormElement"
+                                     OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
 
 
+                            </Dropzone>
+                            <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+
+                        </TabPage>
+
+                        @if (SelectedFormElement is FormTableElement formTableElement)
+                        {
+                            <TabPage Text="Elemente">
+                                <Dropzone TItem="FormElement" Class="large-dropzone" Items="formTableElement.Elements" Context="element">
+                                    <div class="formular-element grid-item">
+                                        <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                    </div>
+                                </Dropzone>
+                            </TabPage>
+                        }
+                    </TabControl>
+                    <div class="toolbar">
+                        <button type="button" class="btn btn-danger" @onclick="CloseFormElementAsync">Schließen</button>
+                    </div>
+                </EditForm>
+            </div>
+        }
+        else
+        {
+
+            <div id="form-editor">
+                <div id="topbar">
+                    <a role="button" class="btn btn-secondary" href="/Admin/Forms"><i class="fa-solid fa-reply"></i></a>
+                    <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
+                    <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+                </div>
+
+                <div class="form-grid-editor">
+                    <div class="grid-container">
+                        <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
+                            <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
+                                            <div class="formular-element grid-item">
+                                                <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                            </div>
+                                        </Dropzone>
+                                    </div>
+                                </div>
+                            </Dropzone>
                         </Dropzone>
-                        <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
 
-                    </TabPage>
-                </TabControl>
 
-            </EditForm>
-        </ConfirmModal>
-    }
+        }
 
+        <div class="toolbar-wrapper">
+            <h4>Toolbar</h4>
+            <ul id="element-toolbar">
+                <li draggable="true" class="toolbar-element" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
+                <li draggable="true" class="toolbar-element" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
+                @foreach (var item in AppdatenService.Elements)
+                {
+                    <li class="toolbar-element" draggable="true" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
+                }
+            </ul>
+
+            <div class="delete-wrapper">
+                <div class="delete-zone"
+                     ondragover="event.preventDefault();"
+                     ondragstart="event.dataTransfer.setData('', event.target.id);"
+                 @ondrop="() => DropDelete()">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
     @if (EditFormProperties)
     {
         <ConfirmModal Title="Formular Eigenschaften"
