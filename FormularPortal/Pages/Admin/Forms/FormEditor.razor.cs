@@ -10,10 +10,6 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
-    // TODO: Add new tab to specify RuleSets to define RequiredWhen
-    // TODO: Don't allow to add rules when required is checked
-    // TODO: Confirm enabling required when rules are specified, if yes delete all rules
-    // TODO: Save RuleSet in db
     public partial class FormEditor
     {
         [Parameter]
