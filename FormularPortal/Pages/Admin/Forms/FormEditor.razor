@@ -194,13 +194,10 @@ else
                         <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))">
                             <h2>Regeln</h2>
                             <Dropzone Items="SelectedFormElement.Rules" Context="rule">
-
                                 <ElementRule Input="Input"
                                      Rule="rule"
                                      Element="SelectedFormElement"
                                      OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
-
-
                             </Dropzone>
                             <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
@@ -209,7 +206,7 @@ else
                         @if (SelectedFormElement is FormTableElement formTableElement)
                         {
                             <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
-                                <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" Items="formTableElement.Elements" Context="element">
+                                <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                     <div class="formular-element grid-item">
                                         <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                     </div>
