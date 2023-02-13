@@ -22,6 +22,8 @@ namespace FormularPortal.Core.Models
         public bool IsActive { get; set; }
         [CompareField("is_required")]
         public bool IsRequired { get; set; }
+        [CompareField("is_inside_table")]
+        public bool IsInsideTable { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
