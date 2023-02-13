@@ -7,7 +7,7 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormRowValidator(IValidator<FormColumn> columnValidator)
         {
-            RuleForEach(x => x.Columns) 
+            RuleForEach(x => x.Columns)
                 .SetValidator(columnValidator);
         }
     }

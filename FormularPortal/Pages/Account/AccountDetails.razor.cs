@@ -1,7 +1,7 @@
+using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
-using FormPortal.Core.Models;
 
 namespace FormularPortal.Pages.Account
 {

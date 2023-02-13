@@ -24,7 +24,7 @@ namespace FormularPortal.Pages.Admin
         }
         protected override async Task SaveAsync()
         {
-            if(Input is null)
+            if (Input is null)
             {
                 return;
             }

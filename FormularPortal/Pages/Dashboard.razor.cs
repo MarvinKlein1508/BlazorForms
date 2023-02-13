@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Components;
-using DatabaseControllerProvider;
 using Blazor.Pagination;
+using DatabaseControllerProvider;
 using FormPortal.Core.Filters;
-using FormPortal.Core.Services;
 using FormPortal.Core.Models;
+using FormPortal.Core.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace FormularPortal.Pages
 {
@@ -20,7 +20,7 @@ namespace FormularPortal.Pages
         public List<Form> Data { get; set; } = new();
         protected override async Task OnParametersSetAsync()
         {
-            if(Page < 1)
+            if (Page < 1)
             {
                 Page = 1;
             }

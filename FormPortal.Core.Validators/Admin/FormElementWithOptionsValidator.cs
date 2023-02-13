@@ -5,7 +5,7 @@ namespace FormPortal.Core.Validators.Admin
 {
     public abstract class FormElementWithOptionsValidator<T> : FormElementValidator<T> where T : FormElementWithOptions
     {
-        public FormElementWithOptionsValidator() : base() 
+        public FormElementWithOptionsValidator() : base()
         {
             RuleFor(x => x.Options)
                 .Must(x => x.Any())

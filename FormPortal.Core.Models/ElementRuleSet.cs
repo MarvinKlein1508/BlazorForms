@@ -32,7 +32,7 @@ namespace FormPortal.Core.Models
 
         public int Id => RuleId;
         public FormElement? Element { get; set; }
-        public FormElement? Parent  { get; set; }
+        public FormElement? Parent { get; set; }
 
         public Dictionary<string, object?> GetParameters()
         {

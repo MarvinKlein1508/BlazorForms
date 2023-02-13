@@ -77,7 +77,7 @@ namespace FormPortal.Core.Models
 
         public string GetColumnClass()
         {
-            if(Columns.Count is 1)
+            if (Columns.Count is 1)
             {
                 return "col-12";
             }

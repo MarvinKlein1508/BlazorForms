@@ -273,7 +273,7 @@ VALUES
             }
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
-            await InsertOrUpdateFormTableElementsAsync(input, dbController);    
+            await InsertOrUpdateFormTableElementsAsync(input, dbController);
         }
 
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
