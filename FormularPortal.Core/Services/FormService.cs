@@ -25,7 +25,7 @@ namespace FormularPortal.Core.Services
 name,
 description,
 logo,
-image
+image,
 login_required,
 is_active
 )
