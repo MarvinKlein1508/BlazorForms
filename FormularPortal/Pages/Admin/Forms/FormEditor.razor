@@ -50,6 +50,11 @@ else
                         <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.General))">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
+                                    <input type="text" value="@SelectedFormElement.GetElementType()" class="form-control" id="formelement-type" placeholder="Elementtyp" disabled />
+                                    <label for="formelement-type">Elementtyp</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
                                     <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
                                     <label for="formelement-name">Name</label>
                                     <ValidationMessage For="() => SelectedFormElement.Name" />
