@@ -2,7 +2,7 @@
 
 namespace FormularPortal.Core.Models
 {
-    public class RuleSet : IDbModel
+    public class ElementRuleSet : IDbModel
     {
         [CompareField("rule_id")]
         public int RuleId { get; set; }

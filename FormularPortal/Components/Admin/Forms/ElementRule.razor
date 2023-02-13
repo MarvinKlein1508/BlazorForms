@@ -74,7 +74,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public RuleSet? Rule { get; set; }
+    public ElementRuleSet? Rule { get; set; }
 
     [Parameter, EditorRequired]
     public Form? Input { get; set; }
@@ -83,9 +83,9 @@
     public FormElement? Element { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<RuleSet> OnDelete { get; set; }
+    public EventCallback<ElementRuleSet> OnDelete { get; set; }
 
-    private Task OnRuleSetElementChangedAsync(RuleSet ruleSet, Guid elementGuid)
+    private Task OnRuleSetElementChangedAsync(ElementRuleSet ruleSet, Guid elementGuid)
     {
         if (Input is not null)
         {

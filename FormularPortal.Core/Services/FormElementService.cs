@@ -376,7 +376,7 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
 
             List<int> elementIdsForRules = elements.Select(x => x.ElementId).ToList();
 
-            List<RuleSet> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
+            List<ElementRuleSet> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
 
 
             foreach (var element in elements)
