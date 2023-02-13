@@ -76,6 +76,7 @@ VALUES
         {
             if (input is FormTableElement tableElement)
             {
+                tableElement.SortTableElements();
                 foreach (var table_element in tableElement.Elements)
                 {
                     table_element.FormId = input.FormId;
