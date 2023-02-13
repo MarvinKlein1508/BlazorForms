@@ -72,5 +72,30 @@ namespace FormularPortal.Core.Models
                 }
             }
         }
+
+        public string GetColumnClass()
+        {
+            if(Columns.Count is 1)
+            {
+                return "col-12";
+            }
+
+            if (Columns.Count is 2)
+            {
+                return "col-md-6";
+            }
+
+            if (Columns.Count is 3)
+            {
+                return "col-md-4";
+            }
+
+            if (Columns.Count is 4)
+            {
+                return "col-md-3";
+            }
+
+            return "col";
+        }
     }
 }

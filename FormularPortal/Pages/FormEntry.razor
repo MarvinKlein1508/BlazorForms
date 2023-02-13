@@ -12,7 +12,7 @@
             <div class="row">
                 @foreach (var column in row.Columns)
                 {
-                    <div class="col-md-3">
+                    <div class="@row.GetColumnClass()">
                         @foreach (var element in column.Elements)
                         {
                             @if (element is FormCheckboxElement formCheckboxElement)
@@ -62,8 +62,8 @@
                                     <label for="@($"form-{element.Guid}")">@element.Name</label>
                                     <ValidationMessage For="() => formRadioElement.Value" />
                                 </div>
-                            } 
-                            else if(element is FormSelectElement formSelectElement)
+                            }
+                            else if (element is FormSelectElement formSelectElement)
                             {
                                 <div class="form-floating mb-3">
                                     <InputSelect @bind-Value="formSelectElement.Value" class="form-select" id="@($"form-{element.Guid}")" aria-label="@element.Name">
@@ -77,11 +77,84 @@
                                     <ValidationMessage For="() => formSelectElement.Value" />
                                 </div>
                             }
-                            else if(element is FormTableElement formTableElement)
+                            else if (element is FormTableElement formTableElement)
                             {
-                                <p>TODO: Implement FormTableElement</p>
+                                <div class="table-responsive">
+                                    <table class="table mb-3 table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" colspan="@formTableElement.Elements.Count">@element.Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach (var table_element in formTableElement.Elements)
+                                                {
+                                                    <td>
+                                                        @if (table_element is FormCheckboxElement tableFormCheckboxElement)
+                                                        {
+                                                            <div class="form-check">
+                                                                <div class="checkbox">
+                                                                    <InputCheckbox @bind-Value="tableFormCheckboxElement.Value" id="@($"form-{table_element.Guid}")" class="form-check-input" />
+                                                                    <label for="form-@table_element.Guid">@table_element.Name</label>
+                                                                    <ValidationMessage For="() => tableFormCheckboxElement.Value" />
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else if (table_element is FormDateElement tableFormDateElement)
+                                                        {
+                                                            <div class="form-floating mb-3">
+                                                                <InputDate @bind-Value="tableFormDateElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
+                                                                <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
+                                                                <ValidationMessage For="() => tableFormDateElement.Value" />
+                                                            </div>
+                                                        }
+                                                        else if (table_element is FormNumberElement tableFormNumberElement)
+                                                        {
+                                                            <div class="form-floating mb-3">
+                                                                <InputNumber @bind-Value="tableFormNumberElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" step="@tableFormNumberElement.GetStep()" />
+                                                                <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
+                                                                <ValidationMessage For="() => tableFormNumberElement.Value" />
+                                                            </div>
+                                                        }
+                                                        else if (table_element is FormSelectElement tableFormSelectElement)
+                                                        {
+                                                            <div class="form-floating mb-3">
+                                                                <InputSelect @bind-Value="tableFormSelectElement.Value" class="form-select" id="@($"form-{table_element.Guid}")" aria-label="@table_element.Name">
+                                                                    <option value="">--- Auswahl ---</option>
+                                                                    @foreach (var item in tableFormSelectElement.Options)
+                                                                    {
+                                                                        <option value="@item.Name">@item.Name</option>
+                                                                    }
+                                                                </InputSelect>
+                                                                <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
+                                                                <ValidationMessage For="() => tableFormSelectElement.Value" />
+                                                            </div>
+                                                        }
+                                                        else if (table_element is FormTextareaElement tableFormTextareaElement)
+                                                        {
+                                                            <div class="form-floating mb-3">
+                                                                <InputTextArea @bind-Value="tableFormTextareaElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
+                                                                <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
+                                                                <ValidationMessage For="() => tableFormTextareaElement.Value" />
+                                                            </div>
+                                                        }
+                                                        else if (table_element is FormTextElement tableFormTextElement)
+                                                        {
+                                                            <div class="form-floating mb-3">
+                                                                <InputText @bind-Value="tableFormTextElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
+                                                                <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
+                                                                <ValidationMessage For="() => tableFormTextElement.Value" />
+                                                            </div>
+                                                        }
+                                                    </td>
+                                                }
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             }
-                            else if(element is FormTextareaElement formTextareaElement)
+                            else if (element is FormTextareaElement formTextareaElement)
                             {
                                 <div class="form-floating mb-3">
                                     <InputTextArea @bind-Value="formTextareaElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
@@ -89,7 +162,7 @@
                                     <ValidationMessage For="() => formTextareaElement.Value" />
                                 </div>
                             }
-                            else if(element is FormTextElement formTextElement)
+                            else if (element is FormTextElement formTextElement)
                             {
                                 <div class="form-floating mb-3">
                                     <InputText @bind-Value="formTextElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
