@@ -390,7 +390,7 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
 
                 if (element is FormTableElement formTableElement)
                 {
-                    formTableElement.Elements = table_elements.Where(x => x.TableParentElementId == element.ElementId).ToList();
+                    formTableElement.Elements = table_elements.Where(x => x.TableParentElementId == element.ElementId).OrderBy(x => x.SortOrder).ToList();
                 }
             }
 
