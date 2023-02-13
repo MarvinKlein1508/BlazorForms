@@ -37,7 +37,7 @@ namespace FormularPortal.Core.Models
             else
             {
                 string step = "0.";
-                for (int i = 0; i < DecimalPlaces; i++)
+                for (int i = 0; i < DecimalPlaces - 1; i++)
                 {
                     step += "0";
                 }
