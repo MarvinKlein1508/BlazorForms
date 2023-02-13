@@ -1,8 +1,9 @@
 using Blazor.Pagination;
 using DatabaseControllerProvider;
-using FormularPortal.Core.Filters;
-using FormularPortal.Core.Models;
-using FormularPortal.Core.Services;
+using FormPortal.Core.Filters;
+using FormPortal.Core.Models;
+using FormPortal.Core.Services;
+using FormularPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 

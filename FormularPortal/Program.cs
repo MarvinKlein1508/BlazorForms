@@ -1,8 +1,6 @@
 using DatabaseControllerProvider;
-using FormularPortal.Core.Services;
+using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 

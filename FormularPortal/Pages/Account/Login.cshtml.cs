@@ -1,5 +1,3 @@
-using FormularPortal.Core.Services;
-using FormularPortal.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -10,10 +8,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
 using System.Web;
-using System.Xml.Linq;
 using System.DirectoryServices.Protocols;
-using FormularPortal.Core.Models;
 using DatabaseControllerProvider;
+using FormPortal.Core.Services;
+using FormPortal.Core.Models;
 
 namespace FormularPortal.Pages.Account
 {

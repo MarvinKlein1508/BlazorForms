@@ -30,6 +30,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseControllerProvider\DatabaseControllerProvider.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Filters\FormPortal.Core.Filters.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
     <ProjectReference Include="..\FormularPortal.Core\FormularPortal.Core.csproj" />
     <ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
   </ItemGroup>
