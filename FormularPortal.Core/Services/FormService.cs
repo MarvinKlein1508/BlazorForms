@@ -180,6 +180,7 @@ form_id = @FORM_ID";
             HashSet<int> columnIds = new();
             HashSet<int> elementIds = new();
             HashSet<int> ruleIds = new();
+
             foreach (var row in input.Rows)
             {
                 rowIds.Add(row.RowId);
@@ -192,6 +193,15 @@ form_id = @FORM_ID";
                         foreach (var rule in element.Rules)
                         {
                             ruleIds.Add(rule.RuleId);
+                        }
+
+                        if(element is FormTableElement formTableElement)
+                        {
+                            foreach (var tableElement in formTableElement.Elements)
+                            {
+                                // Since table elements are within the same table, we can just add it to the same hashset.x
+                                elementIds.Add(tableElement.ElementId);
+                            }
                         }
                     }
                 }

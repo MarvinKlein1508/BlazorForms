@@ -20,6 +20,7 @@ namespace FormularPortal.Core.Services
 form_id,
 row_id,
 column_id,
+table_parent_element_id,
 guid,
 name,
 type,
@@ -32,6 +33,7 @@ VALUES
 @FORM_ID,
 @ROW_ID,
 @COLUMN_ID,
+@TABLE_PARENT_ELEMENT_ID,
 @GUID,
 @NAME,
 @TYPE,
@@ -67,6 +69,29 @@ VALUES
             }
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
+            await InsertOrUpdateFormTableElementsAsync(input, dbController);
+        }
+
+        private async Task InsertOrUpdateFormTableElementsAsync(FormElement input, IDbController dbController)
+        {
+            if (input is FormTableElement tableElement)
+            {
+                foreach (var table_element in tableElement.Elements)
+                {
+                    table_element.FormId = input.FormId;
+                    table_element.RowId = input.RowId;
+                    table_element.ColumnId = input.ColumnId;
+                    table_element.TableParentElementId = input.ElementId;
+                    if (table_element.ElementId > 0)
+                    {
+                        await UpdateAsync(table_element, dbController);
+                    }
+                    else
+                    {
+                        await CreateAsync(table_element, dbController);
+                    }
+                }
+            }
         }
 
         private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, IDbController dbController)
@@ -189,6 +214,7 @@ element_option_id = @ELEMENT_OPTION_ID";
 form_id = @FORM_ID,
 row_id = @ROW_ID,
 column_id = @COLUMN_ID,
+table_parent_element_id = @TABLE_PARENT_ELEMENT_ID,
 name = @NAME,
 is_active = @IS_ACTIVE,
 is_required = @IS_REQUIRED,
@@ -245,6 +271,7 @@ VALUES
             }
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
+            await InsertOrUpdateFormTableElementsAsync(input, dbController);    
         }
 
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
@@ -272,7 +299,9 @@ VALUES
                 return new();
             }
 
-            List<FormElement> elements = new List<FormElement>();
+            List<FormElement> elements = new();
+            List<FormElement> table_elements = new();
+
 
             foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
             {
@@ -327,7 +356,17 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
 
                     }
 
-                    elements.AddRange(castedElements);
+                    foreach (var element in castedElements)
+                    {
+                        if (element.TableParentElementId > 0)
+                        {
+                            table_elements.Add(element);
+                        }
+                        else
+                        {
+                            elements.Add(element);
+                        }
+                    }
                 }
             }
 
@@ -337,7 +376,7 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
             List<int> elementIdsForRules = elements.Select(x => x.ElementId).ToList();
 
             List<RuleSet> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
-            
+
 
             foreach (var element in elements)
             {
@@ -346,6 +385,11 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
                     element.Rules.Add(rule);
                     rule.Parent = element;
                     rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
+                }
+
+                if (element is FormTableElement formTableElement)
+                {
+                    formTableElement.Elements = table_elements.Where(x => x.TableParentElementId == element.ElementId).ToList();
                 }
             }
 

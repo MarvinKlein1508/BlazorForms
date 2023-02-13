@@ -16,14 +16,14 @@ namespace FormularPortal.Core.Models
         public int RowId { get; set; }
         [CompareField("column_id")]
         public int ColumnId { get; set; }
+        [CompareField("table_parent_element_id")]
+        public int TableParentElementId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("is_required")]
         public bool IsRequired { get; set; }
-        [CompareField("is_inside_table")]
-        public bool IsInsideTable { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
@@ -45,6 +45,7 @@ namespace FormularPortal.Core.Models
                 { "IS_REQUIRED", IsRequired },
                 { "SORT_ORDER", SortOrder },
                 { "TYPE", GetElementType() },
+                { "TABLE_PARENT_ELEMENT_ID", TableParentElementId }
             };
         }
 
