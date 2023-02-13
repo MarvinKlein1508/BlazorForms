@@ -239,3 +239,22 @@ textarea {
 .blink_me {
     animation: blinker 1s linear infinite;
 }
+
+/* Shapes */
+.bg-line.blue {
+    background: repeating-linear-gradient(-55deg,rgba(255,255,255,0) .8px,#3f78e0 1.6px,#3f78e0 3px,rgba(255,255,255,0) 3.8px,rgba(255,255,255,0) 10px);
+}
+
+.bg-dot, .bg-line {
+    opacity: .5;
+}
+
+.h-18 {
+    height: 12rem !important;
+}
+
+.shape {
+    border-top-left-radius: .7rem;
+    border-top-right-radius: .7rem;
+    background-color: #fff;
+}

@@ -6,6 +6,7 @@
 
 @if (Input is not null)
 {
+    <h2>@Input.Name</h2>
     <EditForm Model="Input">
         @foreach (var row in Input.Rows)
         {
