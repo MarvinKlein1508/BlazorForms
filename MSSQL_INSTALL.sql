@@ -33,6 +33,9 @@ CREATE TABLE forms
 (
 	form_id INTEGER IDENTITY(1,1) NOT NULL,
 	name VARCHAR(50) NOT NULL,
+	description TEXT NOT NULL,
+	logo varbinary(MAX) NOT NULL,
+	image varbinary(MAX) NOT NULL,
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY (form_id)

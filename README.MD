@@ -14,7 +14,7 @@ Create dynamic PDF forms completely in the web.
 - [ ] Generate PDFs
 - [x] Create user management
 - [x] Check permissions
-- [ ] Upload logos to forms and portal
+- [x] Upload logos to forms and portal
 - [ ] Write installer
 - [ ] Fix FormEditor in mobile view
 - [ ] API to export PDFs 

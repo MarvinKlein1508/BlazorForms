@@ -13,10 +13,19 @@ namespace FormularPortal.Core.Models
         public int FormId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
+        [CompareField("description")]
+        public string Description { get; set; } = string.Empty;
         [CompareField("login_required")]
         public bool IsOnlyAvailableForLoggedInUsers { get; set; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
+        [CompareField("logo")]
+        public byte[] Logo { get; set; } = Array.Empty<byte>();
+
+        [CompareField("image")]
+        public byte[] Image { get; set; } = Array.Empty<byte>();
+        [CompareField("sort_order")]
+        public int SortOrder { get; set; }
         public int Id => FormId;
         public List<FormRow> Rows { get; set; } = new();
         public virtual Dictionary<string, object?> GetParameters()
@@ -25,6 +34,9 @@ namespace FormularPortal.Core.Models
             {
                 { "FORM_ID", FormId },
                 { "NAME", Name },
+                { "DESCRIPTION", Description },
+                { "LOGO", Logo },
+                { "IMAGE", Image },
                 { "LOGIN_REQUIRED", IsOnlyAvailableForLoggedInUsers },
                 { "IS_ACTIVE", IsActive }
             };

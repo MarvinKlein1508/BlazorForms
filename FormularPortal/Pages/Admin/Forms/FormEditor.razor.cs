@@ -5,6 +5,7 @@ using FormularPortal.Core.Models;
 using FormularPortal.Core.Services;
 using FormularPortal.Core.Validators.Admin;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -204,5 +205,29 @@ namespace FormularPortal.Pages.Admin.Forms
 
         private string GetTabNavClass(bool isActive) => isActive ? "nav-link active" : "nav-link";
         public string GetTabClass(bool active) => active ? "tab-pane fade active show" : "tab-pane fade";
+
+        private async Task UploadLogoAsync(InputFileChangeEventArgs e)
+        {
+            if (Input is null)
+            {
+                return;
+            }
+            await using MemoryStream fs = new();
+            await e.File.OpenReadStream(e.File.Size).CopyToAsync(fs);
+
+            Input.Logo = fs.ToArray();
+        }
+
+        private async Task UploadImageAsync(InputFileChangeEventArgs e)
+        {
+            if (Input is null)
+            {
+                return;
+            }
+            await using MemoryStream fs = new();
+            await e.File.OpenReadStream(e.File.Size).CopyToAsync(fs);
+
+            Input.Image = fs.ToArray();
+        }
     }
 }

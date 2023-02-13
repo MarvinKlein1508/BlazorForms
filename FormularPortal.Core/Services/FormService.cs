@@ -1,6 +1,10 @@
 ﻿using DatabaseControllerProvider;
 using FormularPortal.Core.Filters;
 using FormularPortal.Core.Models;
+using System.Drawing;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace FormularPortal.Core.Services
@@ -19,12 +23,18 @@ namespace FormularPortal.Core.Services
             string sql = $@"INSERT INTO forms
 (
 name,
+description,
+logo,
+image
 login_required,
 is_active
 )
 VALUES
 (
 @NAME,
+@DESCRIPTION,
+@LOGO,
+@IMAGE,
 @LOGIN_REQUIRED,
 @IS_ACTIVE
 ); {dbController.GetLastIdSql()}";
@@ -131,20 +141,26 @@ VALUES
         public Task UpdateAsync(Form input, IDbController dbController)
         {
             throw new NotImplementedException();
-        }
-
+        }  
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
         {
 
             input.SetRowSortOrder();
             string sql = @"UPDATE forms SET
 name = @NAME,
+description = @DESCRIPTION,
+logo = @LOGO,
+image = @IMAGE,
 login_required = @LOGIN_REQUIRED,
 is_active = @IS_ACTIVE
 WHERE
 form_id = @FORM_ID";
 
+       
+
             await dbController.QueryAsync(sql, input.GetParameters());
+
+
 
             foreach (var row in input.Rows)
             {
