@@ -7,7 +7,7 @@ Create dynamic PDF forms completely in the web.
 - [x] Write validators
 - [x] Admin page for form listings
 - [x] (BIG) Add RuleSets for required when
-- [ ] Show active forms on Dashboard
+- [x] Show active forms on Dashboard
 - [ ] (BIG) Fill out form by user
 - [ ] (BIG) See & Edit fill out forms in admin panel
 - [x] (BIG) Implement tables
