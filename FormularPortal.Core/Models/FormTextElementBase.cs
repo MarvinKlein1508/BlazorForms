@@ -11,6 +11,7 @@ namespace FormularPortal.Core.Models
         [CompareField("max_length")]
         public int MaxLength { get; set; }
 
+        public string Value { get; set; } = string.Empty;
         public override Dictionary<string, object?> GetParameters()
         {
             var parameters = base.GetParameters();

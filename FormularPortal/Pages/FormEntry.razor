@@ -1,0 +1,108 @@
+﻿@page "/Forms/{FormId:int}"
+@inject FormService formService
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+@inject DbProviderService dbProviderService
+
+@if (Input is not null)
+{
+    <EditForm Model="Input">
+        @foreach (var row in Input.Rows)
+        {
+            <div class="row">
+                @foreach (var column in row.Columns)
+                {
+                    <div class="col-md-3">
+                        @foreach (var element in column.Elements)
+                        {
+                            @if (element is FormCheckboxElement formCheckboxElement)
+                            {
+                                <div class="form-check">
+                                    <div class="checkbox">
+                                        <InputCheckbox @bind-Value="formCheckboxElement.Value" id="@($"form-{element.Guid}")" class="form-check-input" />
+                                        <label for="form-@element.Guid">@element.Name</label>
+                                        <ValidationMessage For="() => formCheckboxElement.Value" />
+                                    </div>
+                                </div>
+                            }
+                            else if (element is FormDateElement formDateElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputDate @bind-Value="formDateElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formDateElement.Value" />
+                                </div>
+                            }
+                            else if (element is FormFileElement formFileElement)
+                            {
+                                <p>TODO: Implement formFileElement</p>
+                            }
+                            else if (element is FormLabelElement formLabelElement)
+                            {
+                                <p>@element.Name</p>
+                            }
+                            else if (element is FormNumberElement formNumberElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="formNumberElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" step="@formNumberElement.GetStep()" />
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formNumberElement.Value" />
+                                </div>
+                            }
+                            else if (element is FormRadioElement formRadioElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputSelect @bind-Value="formRadioElement.Value" class="form-select" id="@($"form-{element.Guid}")" aria-label="@element.Name">
+                                        <option value="">--- Auswahl ---</option>
+                                        @foreach (var item in formRadioElement.Options)
+                                        {
+                                            <option value="@item.Name">@item.Name</option>
+                                        }
+                                    </InputSelect>
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formRadioElement.Value" />
+                                </div>
+                            } 
+                            else if(element is FormSelectElement formSelectElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputSelect @bind-Value="formSelectElement.Value" class="form-select" id="@($"form-{element.Guid}")" aria-label="@element.Name">
+                                        <option value="">--- Auswahl ---</option>
+                                        @foreach (var item in formSelectElement.Options)
+                                        {
+                                            <option value="@item.Name">@item.Name</option>
+                                        }
+                                    </InputSelect>
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formSelectElement.Value" />
+                                </div>
+                            }
+                            else if(element is FormTableElement formTableElement)
+                            {
+                                <p>TODO: Implement FormTableElement</p>
+                            }
+                            else if(element is FormTextareaElement formTextareaElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputTextArea @bind-Value="formTextareaElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formTextareaElement.Value" />
+                                </div>
+                            }
+                            else if(element is FormTextElement formTextElement)
+                            {
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="formTextElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
+                                    <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                    <ValidationMessage For="() => formTextElement.Value" />
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </EditForm>
+}
+
+

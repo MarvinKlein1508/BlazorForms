@@ -14,7 +14,7 @@ namespace FormularPortal.Core.Models
         [CompareField("max_value")]
         public DateTime MaxDate { get; set; }
 
-
+        public DateTime Value { get; set; }
         public override ElementType GetElementType() => ElementType.Date;
         public override Dictionary<string, object?> GetParameters()
         {

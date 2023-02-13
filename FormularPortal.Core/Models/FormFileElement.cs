@@ -13,6 +13,7 @@ namespace FormularPortal.Core.Models
         public int MinSize { get; set; }
         [CompareField("max_size")]
         public int MaxSize { get; set; }
+        public byte[] Value { get; set; } = Array.Empty<byte>();
         public override ElementType GetElementType() => ElementType.File;
 
         public override Dictionary<string, object?> GetParameters()

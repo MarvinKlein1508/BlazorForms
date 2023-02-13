@@ -15,6 +15,7 @@ namespace FormularPortal.Core.Models
         [CompareField("max_value")]
         public decimal MaxValue { get; set; }
 
+        public decimal Value { get; set; }
         public override ElementType GetElementType() => ElementType.Number;
         public override Dictionary<string, object?> GetParameters()
         {
@@ -25,6 +26,26 @@ namespace FormularPortal.Core.Models
             parameters.Add("MAX_VALUE", MaxValue);
 
             return parameters;
+        }
+
+        public string GetStep()
+        {
+            if(decimalPlaces is 0)
+            {
+                return "1";
+            }
+            else
+            {
+                string step = "0.";
+                for (int i = 0; i < DecimalPlaces; i++)
+                {
+                    step += "0";
+                }
+
+                step += "1";
+
+                return step;    
+            }
         }
         public override string GetDefaultName() => "Number";
     }
