@@ -41,7 +41,6 @@ namespace FormPortal.Core.Interfaces
         Task DeleteAsync(T input, IDbController dbController);
     }
     /// <summary>
-    /// <inheritdoc/>
     /// <para>
     /// Provides generalized CRUD operations for an object Service.
     /// </para>
@@ -61,6 +60,7 @@ namespace FormPortal.Core.Interfaces
         Task<T?> GetAsync(TIdentifier identifier, IDbController dbController);
     }
     /// <summary>
+    /// <inheritdoc />
     /// Expands the CRUD Operations with conditional search filters.
     /// </summary>
     /// <typeparam name="T"></typeparam>
