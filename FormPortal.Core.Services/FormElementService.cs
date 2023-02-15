@@ -8,10 +8,10 @@ namespace FormPortal.Core.Services
 {
     public class FormElementService : IModelService<FormElement, int>
     {
-        private readonly RuleSetService _ruleSetService;
+        private readonly RuleService _ruleSetService;
         private readonly CalcRuleService _calcRuleService;
 
-        public FormElementService(RuleSetService ruleSetService, CalcRuleService calcRuleService)
+        public FormElementService(RuleService ruleSetService, CalcRuleService calcRuleService)
         {
             _ruleSetService = ruleSetService;
             _calcRuleService = calcRuleService;
@@ -319,145 +319,6 @@ VALUES
 
         }
 
-        public async Task<List<FormElement>> GetElementsForColumns(Form form, List<int> columnIds, IDbController dbController)
-        {
-            if (!columnIds.Any())
-            {
-                return new();
-            }
-
-            List<FormElement> elements = new();
-            List<FormElement> table_elements = new();
-
-
-            foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
-            {
-                // We need to check for each type individually
-                string tableName = GetTableForElementType(elementType);
-
-                if (!string.IsNullOrWhiteSpace(tableName))
-                {
-                    string sql = @$"SELECT * FROM form_elements fe
-LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)
-WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
-
-                    Dictionary<string, object?> parameters = new Dictionary<string, object?>
-                    {
-                        { "TYPE", elementType }
-                    };
-
-                    IEnumerable<FormElement> castedElements = elementType switch
-                    {
-                        ElementType.Checkbox => await dbController.SelectDataAsync<FormCheckboxElement>(sql, parameters),
-                        ElementType.Date => await dbController.SelectDataAsync<FormDateElement>(sql, parameters),
-                        ElementType.File => await dbController.SelectDataAsync<FormFileElement>(sql, parameters),
-                        ElementType.Label => await dbController.SelectDataAsync<FormLabelElement>(sql, parameters),
-                        ElementType.Number => await dbController.SelectDataAsync<FormNumberElement>(sql, parameters),
-                        ElementType.Radio => await dbController.SelectDataAsync<FormRadioElement>(sql, parameters),
-                        ElementType.Select => await dbController.SelectDataAsync<FormSelectElement>(sql, parameters),
-                        ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters),
-                        ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters),
-                        ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters),
-                        _ => Array.Empty<FormElement>(),
-                    };
-
-
-                    // Load all available options for types that have a list of available options.
-                    if (elementType is ElementType.Select or ElementType.Radio)
-                    {
-                        IEnumerable<FormElementWithOptions> optionElements = (IEnumerable<FormElementWithOptions>)castedElements;
-
-                        if (optionElements.Any())
-                        {
-                            List<int> elementIds = optionElements.Select(x => x.ElementId).ToList();
-
-                            sql = $"SELECT * FROM form_elements_options WHERE element_id IN ({string.Join(",", elementIds)})";
-
-                            List<FormElementOption> options = await dbController.SelectDataAsync<FormElementOption>(sql);
-
-                            foreach (var item in optionElements)
-                            {
-                                item.Options = options.Where(x => x.ElementId == item.ElementId).ToList();
-                            }
-                        }
-
-                    }
-
-                    foreach (var element in castedElements)
-                    {
-                        if (element.TableParentElementId > 0)
-                        {
-                            table_elements.Add(element);
-                        }
-                        else
-                        {
-                            elements.Add(element);
-                        }
-                    }
-                }
-            }
-
-            // We need to sort the elements based on their SortOrder
-            elements.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
-
-            List<int> elementIdsForRules = elements.Select(x => x.ElementId).ToList();
-            elementIdsForRules.AddRange(table_elements.Select(x => x.ElementId));
-
-            List<Rule> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
-            List<CalcRule> calcRules = await _calcRuleService.GetCalcRulesForElements(elementIdsForRules, dbController);
-
-            foreach (var element in elements)
-            {
-                element.Form = form;
-                foreach (var rule in rules.Where(x => x.ElementId == element.ElementId))
-                {
-                    element.Rules.Add(rule);
-                    rule.Parent = element;
-                    rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
-                }
-
-                if (element is FormTableElement formTableElement)
-                {
-                    formTableElement.Elements = table_elements.Where(x => x.TableParentElementId == element.ElementId).OrderBy(x => x.SortOrder).ToList();
-                }
-
-                if(element is FormNumberElement formNumberElement)
-                {
-                    foreach (var rule in calcRules.Where(x => x.ElementId == element.ElementId))
-                    {
-                        formNumberElement.CalcRules.Add(rule);
-                    }
-                }
-            }
-
-            foreach (var table_element in table_elements)
-            {
-                table_element.Form = form;
-                if (table_element is FormNumberElement formNumberElement)
-                {
-                    foreach (var rule in calcRules.Where(x => x.ElementId == table_element.ElementId))
-                    {
-                        formNumberElement.CalcRules.Add(rule);
-                    }
-                }
-            }
-            return elements;
-        }
-
-        private string GetTableForElementType(ElementType type) => type switch
-        {
-            ElementType.Checkbox => "form_elements_checkbox_attributes",
-            ElementType.Date => "form_elements_date_attributes",
-            ElementType.File => "form_elements_file_attributes",
-            ElementType.Label => "form_elements_label_attributes",
-            ElementType.Number => "form_elements_number_attributes",
-            ElementType.Radio => "form_elements_radio_attributes",
-            ElementType.Select => "form_elements_select_attributes",
-            ElementType.Table => "form_elements_table_attributes",
-            ElementType.Text => "form_elements_text_attributes",
-            ElementType.Textarea => "form_elements_textarea_attributes",
-            _ => string.Empty,
-        };
 
         public Task UpdateAsync(FormElement input, FormElement oldInputToCompare, IDbController dbController)
         {

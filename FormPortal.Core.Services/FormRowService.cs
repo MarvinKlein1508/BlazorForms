@@ -7,7 +7,6 @@ namespace FormPortal.Core.Services
     public class FormRowService : IModelService<FormRow, int>
     {
         private readonly FormColumnService _formColumnService;
-
         public FormRowService(FormColumnService formColumnService)
         {
             _formColumnService = formColumnService;
@@ -76,38 +75,6 @@ row_id = @ROW_ID";
                 }
             }
         }
-
-        public async Task<List<FormRow>> GetRowsForFormAsync(Form form, IDbController dbController)
-        {
-            string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID ORDER BY sort_order";
-
-            List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
-            {
-                FORM_ID = form.FormId,
-            });
-
-            if (rows.Any())
-            {
-                List<int> rowIds = rows.Select(x => x.RowId).ToList();
-
-                List<FormColumn> columns = await _formColumnService.GetColumnsForRowsAsync(form, rowIds, dbController);
-
-                foreach (var row in rows)
-                {
-                    row.Parent = form;
-                    foreach (var column in columns.Where(x => x.RowId == row.RowId))
-                    {
-                        column.Parent = row;
-                        column.Form = form;
-                        row.Columns.Add(column);
-                    }
-
-                }
-            }
-
-            return rows;
-        }
-
         public Task UpdateAsync(FormRow input, FormRow oldInputToCompare, IDbController dbController)
         {
             throw new NotImplementedException();

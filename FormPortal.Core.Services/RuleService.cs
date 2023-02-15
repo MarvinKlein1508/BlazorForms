@@ -4,13 +4,16 @@ using FormPortal.Core.Models;
 
 namespace FormPortal.Core.Services
 {
-    public class RuleSetService : IModelService<Rule, int>
+    public class RuleService : IModelService<Rule, int>
     {
 
         public async Task CreateAsync(Rule input, IDbController dbController)
         {
-            string sql = @$"INSERT INTO form_elements_rules
+            string sql = @$"INSERT INTO form_rules
 (
+form_id,
+row_id,
+column_id,
 element_id,
 logical_operator,
 element_guid,
@@ -23,6 +26,9 @@ sort_order
 )
 VALUES
 (
+@FORM_ID,
+@ROW_ID,
+@COLUMN_ID,
 @ELEMENT_ID,
 @LOGICAL_OPERATOR,
 @ELEMENT_GUID,
@@ -49,7 +55,10 @@ VALUES
 
         public async Task UpdateAsync(Rule input, IDbController dbController)
         {
-            string sql = @"UPDATE form_elements_rules SET
+            string sql = @"UPDATE form_rules SET
+form_id = @FORM_ID,
+row_id = @ROW_ID,
+column_id = @COLUMN_ID,
 element_id = @ELEMENT_ID,
 logical_operator = @LOGICAL_OPERATOR,
 element_guid = @ELEMENT_GUID,
@@ -70,18 +79,5 @@ rule_id = @RULE_ID";
             throw new NotImplementedException();
         }
 
-        public async Task<List<Rule>> GetRulesForElements(List<int> elementIds, IDbController dbController)
-        {
-            if (!elementIds.Any())
-            {
-                return new();
-            }
-
-            string sql = $"SELECT * FROM form_elements_rules WHERE element_id IN ({string.Join(",", elementIds)}) ORDER BY sort_order";
-
-            List<Rule> rules = await dbController.SelectDataAsync<Rule>(sql);
-
-            return rules;
-        }
     }
 }

@@ -177,10 +177,13 @@ CREATE TABLE form_elements_text_attributes
 );
 
 
-CREATE TABLE form_elements_rules
+CREATE TABLE form_rules
 (
 	rule_id INTEGER NOT NULL AUTO_INCREMENT,
-	element_id INTEGER NOT NULL,
+	form_id INTEGER NOT NULL,
+	row_id INTEGER NOT NULL,
+	column_id INTEGER,
+	element_id INTEGER,
 	logical_operator varchar(10) NOT NULL,
 	element_guid VARCHAR(36) NOT NULL,
 	comparison_operator VARCHAR(20) NOT NULL,
@@ -190,10 +193,13 @@ CREATE TABLE form_elements_rules
 	value_date DATE NOT NULL DEFAULT CURRENT_DATE,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (rule_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (row_id) REFERENCES form_rows(row_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (column_id) REFERENCES form_columns(column_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE form_elements_calc_rules
+CREATE TABLE form_elements_number_calc_rules
 (
 	calc_rule_id INTEGER NOT NULL AUTO_INCREMENT,
 	element_id INTEGER NOT NULL,

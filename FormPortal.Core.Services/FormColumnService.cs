@@ -93,37 +93,6 @@ column_id = @COLUMN_ID";
             }
         }
 
-        public async Task<List<FormColumn>> GetColumnsForRowsAsync(Form form, List<int> rowIds, IDbController dbController)
-        {
-            if (!rowIds.Any())
-            {
-                return new();
-            }
-
-            string sql = $"SELECT * FROM form_columns WHERE row_id IN ({string.Join(",", rowIds)}) ORDER BY sort_order";
-
-            List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql);
-
-            if (columns.Any())
-            {
-                // Load elements
-                List<int> columnIds = columns.Select(x => x.ColumnId).ToList();
-
-                List<FormElement> elements = await _formElementService.GetElementsForColumns(form, columnIds, dbController);
-
-                foreach (var column in columns)
-                {
-                    foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
-                    {
-                        element.Parent = column;
-                        element.Form = form;
-                        column.Elements.Add(element);
-                    }
-                }
-            }
-
-            return columns;
-        }
 
         public Task UpdateAsync(FormColumn input, FormColumn oldInputToCompare, IDbController dbController)
         {

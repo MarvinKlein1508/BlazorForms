@@ -10,7 +10,6 @@ namespace FormPortal.Core.Services
     public class FormService : IModelService<Form, int, FormFilter>
     {
         private readonly FormRowService _formRowService;
-
         public FormService(FormRowService formRowService)
         {
             _formRowService = formRowService;
@@ -45,16 +44,15 @@ VALUES
                 await _formRowService.CreateAsync(row, dbController);
             }
         }
-
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
             string sql = "DELETE FROM forms WHERE form_id = @FORM_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
         }
-
         public async Task<Form?> GetAsync(int formId, IDbController dbController)
         {
+
             string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
 
             Form? form = await dbController.GetFirstAsync<Form>(sql, new
@@ -64,82 +62,52 @@ VALUES
 
             if (form is not null)
             {
-                form.Rows = await _formRowService.GetRowsForFormAsync(form, dbController);
+                // Load all required data here
+                List<FormRow> rows = await GetRowsAsync(form, dbController);
+                List<FormColumn> columns = await GetColumnsAsync(form, dbController);
+                List<FormElement> elements = await GetElementsAsync(form, dbController);
+                List<Rule> rules = await GetRulesAsync(form, dbController);
+
+                // Loop through the data and map everything.
+                foreach (var row in rows)
+                {
+                    row.Parent = form;
+                    foreach (var column in columns.Where(x => x.RowId == row.RowId))
+                    {
+                        column.Parent = row;
+                        column.Form = form;
+
+                        foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
+                        {
+                            element.Parent = column;
+                            element.Form = form;
+
+                            if (element.TableParentElementId is 0)
+                            {
+                                column.Elements.Add(element);
+                            }
+                            else
+                            {
+                                // Search the parent element and add the current element to it
+                                var searchTableElement = elements.FirstOrDefault(x => x.ElementId == element.TableParentElementId) as FormTableElement;
+                                if (searchTableElement is not null)
+                                {
+                                    searchTableElement.Elements.Add(element);
+                                }
+                            }
+                        }
+
+                        row.Columns.Add(column);
+                    }
+                }
+
+
+                form.Rows = rows;
             }
 
             return form;
         }
-
-        public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
-        {
-            StringBuilder sb = new();
-            sb.AppendLine("SELECT * FROM forms WHERE 1 = 1");
-            sb.AppendLine(GetFilterWhere(filter));
-            sb.AppendLine(@$"  ORDER BY form_id DESC");
-            sb.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
-
-            string sql = sb.ToString();
-
-            List<Form> list = await dbController.SelectDataAsync<Form>(sql, GetFilterParameter(filter));
-
-            return list;
-        }
-
-        public Dictionary<string, object?> GetFilterParameter(FormFilter filter)
-        {
-            return new Dictionary<string, object?>
-            {
-                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
-            };
-        }
-
-        public string GetFilterWhere(FormFilter filter)
-        {
-            StringBuilder sb = new StringBuilder();
-
-
-            if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
-            {
-                sb.AppendLine(@" AND 
-(
-    UPPER(name) LIKE @SEARCHPHRASE
-)");
-
-            }
-
-            if (filter.ShowOnlyActiveForms)
-            {
-                sb.AppendLine(" AND is_active = 1");
-            }
-
-            if (filter.ShowOnlyFormsWhichRequireLogin)
-            {
-                sb.AppendLine(" AND login_required = 1");
-            }
-
-
-
-            string sql = sb.ToString();
-            return sql;
-        }
-
-        public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
-        {
-            StringBuilder sb = new();
-            sb.AppendLine("SELECT COUNT(*) FROM forms WHERE 1 = 1");
-            sb.AppendLine(GetFilterWhere(filter));
-
-            string sql = sb.ToString();
-
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
-
-            return result;
-        }
-
-        public Task UpdateAsync(Form input, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
+        public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
         {
 
@@ -187,7 +155,68 @@ form_id = @FORM_ID";
             await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
             await CleanTableAsync(oldRuleIds, "form_elements_rules", "rule_id", dbController);
         }
+        public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("SELECT * FROM forms WHERE 1 = 1");
+            sb.AppendLine(GetFilterWhere(filter));
+            sb.AppendLine(@$"  ORDER BY form_id DESC");
+            sb.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
 
+            string sql = sb.ToString();
+
+            List<Form> list = await dbController.SelectDataAsync<Form>(sql, GetFilterParameter(filter));
+
+            return list;
+        }
+        public Dictionary<string, object?> GetFilterParameter(FormFilter filter)
+        {
+            return new Dictionary<string, object?>
+            {
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
+            };
+        }
+        public string GetFilterWhere(FormFilter filter)
+        {
+            StringBuilder sb = new StringBuilder();
+
+
+            if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+            {
+                sb.AppendLine(@" AND 
+(
+    UPPER(name) LIKE @SEARCHPHRASE
+)");
+
+            }
+
+            if (filter.ShowOnlyActiveForms)
+            {
+                sb.AppendLine(" AND is_active = 1");
+            }
+
+            if (filter.ShowOnlyFormsWhichRequireLogin)
+            {
+                sb.AppendLine(" AND login_required = 1");
+            }
+
+
+
+            string sql = sb.ToString();
+            return sql;
+        }
+        public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("SELECT COUNT(*) FROM forms WHERE 1 = 1");
+            sb.AppendLine(GetFilterWhere(filter));
+
+            string sql = sb.ToString();
+
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+
+            return result;
+        }
         private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds, HashSet<int> ruleIds) GetHashSets(Form input)
         {
             HashSet<int> rowIds = new();
@@ -224,6 +253,15 @@ form_id = @FORM_ID";
             return (rowIds, columnIds, elementIds, ruleIds);
         }
 
+        /// <summary>
+        /// Delete all entries for each identifer in the specified table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="identifiersToDelete"></param>
+        /// <param name="tableName"></param>
+        /// <param name="identifierColumnName"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
         private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController)
         {
             string sql = string.Empty;
@@ -233,5 +271,162 @@ form_id = @FORM_ID";
                 await dbController.QueryAsync(sql);
             }
         }
+        /// <summary>
+        /// Get the base <see cref="FormRow"/> objects for a specific form.
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
+        private async Task<List<FormRow>> GetRowsAsync(Form form, IDbController dbController)
+        {
+            string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID ORDER BY sort_order";
+
+            List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
+            {
+                FORM_ID = form.FormId,
+            });
+
+            return rows;
+        }
+        /// <summary>
+        /// Get the base <see cref="FormColumn"/> objects for a specific form.
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
+        private async Task<List<FormColumn>> GetColumnsAsync(Form form, IDbController dbController)
+        {
+            string sql = $"SELECT * FROM form_columns WHERE form_id = @FORM_ID ORDER BY sort_order";
+            List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql, new
+            {
+                FORM_ID = form.FormId,
+            });
+
+            return columns;
+        }
+        /// <summary>
+        /// Get the base <see cref="FormElement"/> objects for a specific form.
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
+        private async Task<List<FormElement>> GetElementsAsync(Form form, IDbController dbController)
+        {
+            List<FormElement> elements = new();
+            foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
+            {
+                // We need to check for each type individually
+                string tableName = GetTableForElementType(elementType);
+
+                if (!string.IsNullOrWhiteSpace(tableName))
+                {
+                    string sql = @$"SELECT * FROM form_elements fe
+LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)
+WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order";
+
+                    Dictionary<string, object?> parameters = new Dictionary<string, object?>
+                    {
+                        { "TYPE", elementType },
+                        { "FORM_ID", form.FormId }
+                    };
+
+                    IEnumerable<FormElement> castedElements = elementType switch
+                    {
+                        ElementType.Checkbox => await dbController.SelectDataAsync<FormCheckboxElement>(sql, parameters),
+                        ElementType.Date => await dbController.SelectDataAsync<FormDateElement>(sql, parameters),
+                        ElementType.File => await dbController.SelectDataAsync<FormFileElement>(sql, parameters),
+                        ElementType.Label => await dbController.SelectDataAsync<FormLabelElement>(sql, parameters),
+                        ElementType.Number => await dbController.SelectDataAsync<FormNumberElement>(sql, parameters),
+                        ElementType.Radio => await dbController.SelectDataAsync<FormRadioElement>(sql, parameters),
+                        ElementType.Select => await dbController.SelectDataAsync<FormSelectElement>(sql, parameters),
+                        ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters),
+                        ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters),
+                        ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters),
+                        _ => Array.Empty<FormElement>(),
+                    };
+
+                    // Load all available options for types that have a list of available options.
+                    if (elementType is ElementType.Select or ElementType.Radio)
+                    {
+                        IEnumerable<FormElementWithOptions> optionElements = (IEnumerable<FormElementWithOptions>)castedElements;
+
+                        if (optionElements.Any())
+                        {
+                            List<int> elementIds = optionElements.Select(x => x.ElementId).ToList();
+
+                            sql = $"SELECT * FROM form_elements_options WHERE element_id IN ({string.Join(",", elementIds)})";
+
+                            List<FormElementOption> options = await dbController.SelectDataAsync<FormElementOption>(sql);
+
+                            foreach (var item in optionElements)
+                            {
+                                item.Options = options.Where(x => x.ElementId == item.ElementId).ToList();
+                            }
+                        }
+                    }
+
+                    if(elementType is ElementType.Number)
+                    {
+                        IEnumerable<FormNumberElement> numberElements = (IEnumerable<FormNumberElement>)castedElements;
+
+                        if (numberElements.Any())
+                        {
+                            List<int> elementIds = numberElements.Select(x => x.ElementId).ToList();
+
+                            sql = $"SELECT * FROM form_elements_number_calc_rules WHERE element_id IN ({string.Join(",", elementIds)})";
+
+                            List<CalcRule> rules = await dbController.SelectDataAsync<CalcRule>(sql);
+
+                            foreach (var item in numberElements)
+                            {
+                                item.CalcRules = rules.Where(x => x.ElementId == item.ElementId).ToList();
+                            }
+                        }
+                    }
+
+                    elements.AddRange(castedElements);
+                }
+
+            }
+
+            // We need to sort the elements based on their SortOrder
+            elements.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
+
+            return elements;
+        }
+        
+        private async Task<List<Rule>> GetRulesAsync(Form form, IDbController dbController)
+        {
+            string sql = "SELECT * FROM form_rules WHERE form_id = @FORM_ID order by sort_order";
+
+            List<Rule> rules = await dbController.SelectDataAsync<Rule>(sql, new
+            {
+                FORM_ID = form.FormId
+            });
+
+            return rules;
+        }
+        /// <summary>
+        /// Gets the correct element attribute table name for the specified <see cref="ElementType"/>
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private string GetTableForElementType(ElementType type) => type switch
+        {
+            ElementType.Checkbox => "form_elements_checkbox_attributes",
+            ElementType.Date => "form_elements_date_attributes",
+            ElementType.File => "form_elements_file_attributes",
+            ElementType.Label => "form_elements_label_attributes",
+            ElementType.Number => "form_elements_number_attributes",
+            ElementType.Radio => "form_elements_radio_attributes",
+            ElementType.Select => "form_elements_select_attributes",
+            ElementType.Table => "form_elements_table_attributes",
+            ElementType.Text => "form_elements_text_attributes",
+            ElementType.Textarea => "form_elements_textarea_attributes",
+            _ => string.Empty,
+        };
     }
+
+
+
 }
