@@ -306,6 +306,9 @@ VALUES
             input.SetRuleSortOrder();
             foreach (var rule in input.Rules)
             {
+                rule.FormId = input.FormId;
+                rule.RowId = input.RowId;
+                rule.ColumnId = input.ColumnId;
                 rule.ElementId = input.ElementId;
                 if (rule.RuleId is 0)
                 {
