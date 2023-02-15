@@ -266,7 +266,7 @@ else
                                     <div class="grid-item">
                                         <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                             <div class="formular-element grid-item">
-                                                <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                                <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                             </div>
                                         </Dropzone>
                                     </div>
