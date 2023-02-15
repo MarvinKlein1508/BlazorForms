@@ -220,7 +220,7 @@ else
                             <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
                                 <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                     <div class="formular-element grid-item">
-                                        <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                        <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                     </div>
                                 </Dropzone>
                             </div>
