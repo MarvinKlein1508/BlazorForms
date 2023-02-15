@@ -17,7 +17,7 @@ Create dynamic PDF forms completely in the web.
 - [x] Upload logos to forms and portal
 - [ ] Add RuleSets for rows & columns
 - [ ] Specify what a ruleset does (required, visible, visible & required)
-- [ ] Add new element to calculate a value based on FormNumberElements
+- [x] Add new element to calculate a value based on FormNumberElements
 - [ ] Add SignaturePad
 - [ ] Write installer
 - [ ] Fix FormEditor in mobile view
