@@ -25,6 +25,7 @@ namespace FormPortal.Core.Models
         /// Gets or sets the elements for this column
         /// </summary>
         public List<FormElement> Elements { get; set; } = new();
+        public List<Rule> Rules { get; set; } = new();
         public FormRow? Parent { get; set; }
         public Form? Form { get; set; }
         public Dictionary<string, object?> GetParameters()

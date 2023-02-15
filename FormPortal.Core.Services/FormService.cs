@@ -394,7 +394,12 @@ WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order";
 
             return elements;
         }
-        
+        /// <summary>
+        /// Get the base <see cref="Rule"/> objects for a specific form.
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
         private async Task<List<Rule>> GetRulesAsync(Form form, IDbController dbController)
         {
             string sql = "SELECT * FROM form_rules WHERE form_id = @FORM_ID order by sort_order";

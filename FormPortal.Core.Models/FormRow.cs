@@ -23,7 +23,7 @@ namespace FormPortal.Core.Models
         /// Gets or sets all columns for this row.
         /// </summary>
         public List<FormColumn> Columns { get; set; } = new();
-
+        public List<Rule> Rules { get; set; } = new();
         public Form? Parent { get; set; }
         /// <summary>
         /// Creates an empty row.

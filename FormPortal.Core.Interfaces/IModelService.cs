@@ -69,27 +69,27 @@ namespace FormPortal.Core.Interfaces
     public interface IModelService<T, TIdentifier, TFilter> : IModelService<T, TIdentifier>
     {
         /// <summary>
-        /// Lädt Daten auf Basis des übergebenen Filters.
+        /// Gets data from the database based on the provided search filter.
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
         Task<List<T>> GetAsync(TFilter filter, IDbController dbController);
         /// <summary>
-        /// Ruft die Anzahl der Ergebnisse auf Basis des Filters ab.
+        /// Gets the total amount of search results based on the provided filter.
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
         Task<int> GetTotalAsync(TFilter filter, IDbController dbController);
         /// <summary>
-        /// Generiert für einen Filter die SQL-WHERE Klausel
+        /// Generates the conditional WHERE statement for the SQL query.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
         string GetFilterWhere(TFilter filter);
         /// <summary>
-        /// Liefert für einen Filter ein Objekt mit allen Parametern für die Datenbankabfrage mit Dapper zurück.
+        /// Gets a dictionary of parameters for the filter which can be used in Dapper-Queries.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
