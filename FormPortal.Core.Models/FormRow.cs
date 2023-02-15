@@ -7,7 +7,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// Represents a row within the Form.
     /// </summary>
-    public class FormRow : IDbModel
+    public class FormRow : IDbModel, IHasSortableElement
     {
         [CompareField("row_id")]
         public int RowId { get; set; }
@@ -55,14 +55,7 @@ namespace FormPortal.Core.Models
             };
         }
 
-        public void SetColumnSortOrder()
-        {
-            int columnCount = 1;
-            foreach (var column in Columns)
-            {
-                column.SortOrder = columnCount++;
-            }
-        }
+
 
         public IEnumerable<FormElement> GetElements()
         {

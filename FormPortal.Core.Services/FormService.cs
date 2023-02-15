@@ -16,7 +16,7 @@ namespace FormPortal.Core.Services
         }
         public async Task CreateAsync(Form input, IDbController dbController)
         {
-            input.SetRowSortOrder();
+            input.Rows.SetSortOrder();
             string sql = $@"INSERT INTO forms
 (
 name,
@@ -111,7 +111,7 @@ VALUES
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
         {
 
-            input.SetRowSortOrder();
+            input.Rows.SetSortOrder();
             string sql = @"UPDATE forms SET
 name = @NAME,
 description = @DESCRIPTION,

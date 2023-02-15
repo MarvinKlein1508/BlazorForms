@@ -15,7 +15,7 @@ namespace FormPortal.Core.Services
         }
         public async Task CreateAsync(FormColumn input, IDbController dbController)
         {
-            input.SetElementSortOrder();
+            input.Elements.SetSortOrder();
             string sql = @$"INSERT INTO form_columns 
 (
 form_id,
@@ -59,7 +59,7 @@ VALUES
 
         public async Task UpdateAsync(FormColumn input, IDbController dbController)
         {
-            input.SetElementSortOrder();
+            input.Elements.SetSortOrder();
             string sql = @"UPDATE form_columns SET
 form_id = @FORM_ID,
 row_id = @ROW_ID,

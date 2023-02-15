@@ -3,7 +3,7 @@ using FormPortal.Core.Interfaces;
 
 namespace FormPortal.Core.Models.FormElements
 {
-    public abstract class FormElement : IDbModel
+    public abstract class FormElement : IDbModel, IHasSortableElement
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
@@ -26,10 +26,10 @@ namespace FormPortal.Core.Models.FormElements
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
-        public List<Rule> Rules { get; set; } = new();
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
         public FormColumn? Parent { get; set; }
+        public List<Rule> Rules { get; set; } = new();
         public Form? Form { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {
@@ -59,15 +59,6 @@ namespace FormPortal.Core.Models.FormElements
             Guid = Guid.NewGuid();
         }
         public abstract string GetDefaultName();
-
-        public void SetRuleSortOrder()
-        {
-            int ruleCount = 1;
-            foreach (var rule in Rules)
-            {
-                rule.SortOrder = ruleCount++;
-            }
-        }
 
         public FormElementTabs ActiveTab { get; set; }
     }

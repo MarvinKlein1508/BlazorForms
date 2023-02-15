@@ -5,7 +5,7 @@ using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Models
 {
-    public class Rule : IDbModel
+    public class Rule : IDbModel, IHasSortableElement
     {
         [CompareField("rule_id")]
         public int RuleId { get; set; }

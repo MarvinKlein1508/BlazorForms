@@ -8,7 +8,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// A <see cref="CalcRule"/> is a logical grouping of two <see cref="FormNumberElement"/> elements which can be chained together to automatically calculate values.
     /// </summary>
-    public class CalcRule : IDbModel
+    public class CalcRule : IDbModel, IHasSortableElement
     {
         [CompareField("calc_rule_id")]
         public int CalcRuleId { get; set; }

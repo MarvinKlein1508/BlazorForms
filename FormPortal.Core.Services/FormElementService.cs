@@ -81,7 +81,7 @@ VALUES
         {
             if (input is FormNumberElement formNumberElement)
             {
-                formNumberElement.SortCalcRuleSets();
+                formNumberElement.CalcRules.SetSortOrder();
                 foreach (var calcRule in formNumberElement.CalcRules)
                 {
                     calcRule.ElementId = input.ElementId;
@@ -101,7 +101,7 @@ VALUES
         {
             if (input is FormTableElement tableElement)
             {
-                tableElement.SortTableElements();
+                tableElement.Elements.SetSortOrder();
                 foreach (var table_element in tableElement.Elements)
                 {
                     table_element.FormId = input.FormId;
@@ -303,7 +303,7 @@ VALUES
 
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
         {
-            input.SetRuleSortOrder();
+            input.Rules.SetSortOrder();
             foreach (var rule in input.Rules)
             {
                 rule.FormId = input.FormId;

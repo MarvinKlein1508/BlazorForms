@@ -94,14 +94,6 @@ namespace FormPortal.Core.Models.FormElements
             }
         }
 
-        public void SortCalcRuleSets()
-        {
-            int ruleCount = 1;
-            foreach (var rule in CalcRules)
-            {
-                rule.SortOrder = ruleCount++;
-            }
-        }
         public override string GetDefaultName() => "Number";
     }
 }

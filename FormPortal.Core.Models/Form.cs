@@ -4,7 +4,7 @@ using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Models
 {
-    public class Form : IDbModel
+    public class Form : IDbModel, IHasSortableElement
     {
         [CompareField("form_id")]
         public int FormId { get; set; }
@@ -45,15 +45,6 @@ namespace FormPortal.Core.Models
             foreach (var item in list)
             {
                 Rows.Remove(item);
-            }
-        }
-
-        public void SetRowSortOrder()
-        {
-            int rowCount = 1;
-            foreach (var row in Rows)
-            {
-                row.SortOrder = rowCount++;
             }
         }
 
