@@ -5,7 +5,7 @@ using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Models
 {
-    public class ElementRuleSet : IDbModel
+    public class Rule : IDbModel
     {
         [CompareField("rule_id")]
         public int RuleId { get; set; }

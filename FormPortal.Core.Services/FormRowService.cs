@@ -90,7 +90,7 @@ row_id = @ROW_ID";
             {
                 List<int> rowIds = rows.Select(x => x.RowId).ToList();
 
-                List<FormColumn> columns = await _formColumnService.GetColumnsForRowsAsync(rowIds, dbController);
+                List<FormColumn> columns = await _formColumnService.GetColumnsForRowsAsync(form, rowIds, dbController);
 
                 foreach (var row in rows)
                 {
@@ -98,6 +98,7 @@ row_id = @ROW_ID";
                     foreach (var column in columns.Where(x => x.RowId == row.RowId))
                     {
                         column.Parent = row;
+                        column.Form = form;
                         row.Columns.Add(column);
                     }
 

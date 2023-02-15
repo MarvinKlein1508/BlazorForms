@@ -26,10 +26,11 @@ namespace FormPortal.Core.Models.FormElements
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
-        public List<ElementRuleSet> Rules { get; set; } = new();
+        public List<Rule> Rules { get; set; } = new();
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
         public FormColumn? Parent { get; set; }
+        public Form? Form { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

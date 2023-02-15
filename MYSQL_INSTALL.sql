@@ -193,6 +193,17 @@ CREATE TABLE form_elements_rules
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE form_elements_calc_rules
+(
+	calc_rule_id INTEGER NOT NULL AUTO_INCREMENT,
+	element_id INTEGER NOT NULL,
+	math_operator VARCHAR(20) NOT NULL,
+	guid_element VARCHAR(36) NOT NULL,
+	sort_order INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY(calc_rule_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 /* DATA */
 INSERT INTO permissions (name, identifier, description) VALUES 
 ('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),

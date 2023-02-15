@@ -93,7 +93,7 @@ column_id = @COLUMN_ID";
             }
         }
 
-        public async Task<List<FormColumn>> GetColumnsForRowsAsync(List<int> rowIds, IDbController dbController)
+        public async Task<List<FormColumn>> GetColumnsForRowsAsync(Form form, List<int> rowIds, IDbController dbController)
         {
             if (!rowIds.Any())
             {
@@ -109,13 +109,14 @@ column_id = @COLUMN_ID";
                 // Load elements
                 List<int> columnIds = columns.Select(x => x.ColumnId).ToList();
 
-                List<FormElement> elements = await _formElementService.GetElementsForColumns(columnIds, dbController);
+                List<FormElement> elements = await _formElementService.GetElementsForColumns(form, columnIds, dbController);
 
                 foreach (var column in columns)
                 {
                     foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
                     {
                         element.Parent = column;
+                        element.Form = form;
                         column.Elements.Add(element);
                     }
                 }

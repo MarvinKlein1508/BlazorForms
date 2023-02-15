@@ -4,10 +4,10 @@ using FormPortal.Core.Models;
 
 namespace FormPortal.Core.Services
 {
-    public class RuleSetService : IModelService<ElementRuleSet, int>
+    public class RuleSetService : IModelService<Rule, int>
     {
 
-        public async Task CreateAsync(ElementRuleSet input, IDbController dbController)
+        public async Task CreateAsync(Rule input, IDbController dbController)
         {
             string sql = @$"INSERT INTO form_elements_rules
 (
@@ -37,17 +37,17 @@ VALUES
             input.RuleId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
         }
 
-        public Task DeleteAsync(ElementRuleSet input, IDbController dbController)
+        public Task DeleteAsync(Rule input, IDbController dbController)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ElementRuleSet?> GetAsync(int identifier, IDbController dbController)
+        public Task<Rule?> GetAsync(int identifier, IDbController dbController)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(ElementRuleSet input, IDbController dbController)
+        public async Task UpdateAsync(Rule input, IDbController dbController)
         {
             string sql = @"UPDATE form_elements_rules SET
 element_id = @ELEMENT_ID,
@@ -65,12 +65,12 @@ rule_id = @RULE_ID";
             await dbController.QueryAsync(sql, input.GetParameters());
         }
 
-        public Task UpdateAsync(ElementRuleSet input, ElementRuleSet oldInputToCompare, IDbController dbController)
+        public Task UpdateAsync(Rule input, Rule oldInputToCompare, IDbController dbController)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<ElementRuleSet>> GetRulesForElements(List<int> elementIds, IDbController dbController)
+        public async Task<List<Rule>> GetRulesForElements(List<int> elementIds, IDbController dbController)
         {
             if (!elementIds.Any())
             {
@@ -79,7 +79,7 @@ rule_id = @RULE_ID";
 
             string sql = $"SELECT * FROM form_elements_rules WHERE element_id IN ({string.Join(",", elementIds)}) ORDER BY sort_order";
 
-            List<ElementRuleSet> rules = await dbController.SelectDataAsync<ElementRuleSet>(sql);
+            List<Rule> rules = await dbController.SelectDataAsync<Rule>(sql);
 
             return rules;
         }

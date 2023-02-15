@@ -45,7 +45,7 @@
                             else if (element is FormNumberElement formNumberElement)
                             {
                                 <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="formNumberElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" step="@formNumberElement.GetStep()" />
+                                    <InputNumber @bind-Value="formNumberElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" step="@formNumberElement.GetStep()" disabled="@(formNumberElement.IsValueCalculated)"/>
                                     <label for="@($"form-{element.Guid}")">@element.Name</label>
                                     <ValidationMessage For="() => formNumberElement.Value" />
                                 </div>
@@ -113,7 +113,7 @@
                                                         else if (table_element is FormNumberElement tableFormNumberElement)
                                                         {
                                                             <div class="form-floating mb-3">
-                                                                <InputNumber @bind-Value="tableFormNumberElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" step="@tableFormNumberElement.GetStep()" />
+                                                                <InputNumber @bind-Value="tableFormNumberElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" step="@tableFormNumberElement.GetStep()" disabled="@(tableFormNumberElement.IsValueCalculated)" />
                                                                 <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
                                                                 <ValidationMessage For="() => tableFormNumberElement.Value" />
                                                             </div>

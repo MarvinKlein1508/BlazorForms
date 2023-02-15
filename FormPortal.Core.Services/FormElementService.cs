@@ -2,16 +2,19 @@
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
+using System.Xml.Linq;
 
 namespace FormPortal.Core.Services
 {
     public class FormElementService : IModelService<FormElement, int>
     {
         private readonly RuleSetService _ruleSetService;
+        private readonly CalcRuleService _calcRuleService;
 
-        public FormElementService(RuleSetService ruleSetService)
+        public FormElementService(RuleSetService ruleSetService, CalcRuleService calcRuleService)
         {
             _ruleSetService = ruleSetService;
+            _calcRuleService = calcRuleService;
         }
 
         public async Task CreateAsync(FormElement input, IDbController dbController)
@@ -71,6 +74,27 @@ VALUES
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
             await InsertOrUpdateFormTableElementsAsync(input, dbController);
+            await InsertOrUpdateCalcRuleSetsAsync(input, dbController);
+        }
+
+        private async Task InsertOrUpdateCalcRuleSetsAsync(FormElement input, IDbController dbController)
+        {
+            if (input is FormNumberElement formNumberElement)
+            {
+                formNumberElement.SortCalcRuleSets();
+                foreach (var calcRule in formNumberElement.CalcRules)
+                {
+                    calcRule.ElementId = input.ElementId;
+                    if (calcRule.CalcRuleId is 0)
+                    {
+                        await _calcRuleService.CreateAsync(calcRule, dbController);
+                    }
+                    else
+                    {
+                        await _calcRuleService.UpdateAsync(calcRule, dbController);
+                    }
+                }
+            }
         }
 
         private async Task InsertOrUpdateFormTableElementsAsync(FormElement input, IDbController dbController)
@@ -274,6 +298,7 @@ VALUES
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
             await InsertOrUpdateFormTableElementsAsync(input, dbController);
+            await InsertOrUpdateCalcRuleSetsAsync(input, dbController); 
         }
 
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
@@ -294,7 +319,7 @@ VALUES
 
         }
 
-        public async Task<List<FormElement>> GetElementsForColumns(List<int> columnIds, IDbController dbController)
+        public async Task<List<FormElement>> GetElementsForColumns(Form form, List<int> columnIds, IDbController dbController)
         {
             if (!columnIds.Any())
             {
@@ -376,12 +401,14 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
             elements.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
 
             List<int> elementIdsForRules = elements.Select(x => x.ElementId).ToList();
+            elementIdsForRules.AddRange(table_elements.Select(x => x.ElementId));
 
-            List<ElementRuleSet> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
-
+            List<Rule> rules = await _ruleSetService.GetRulesForElements(elementIdsForRules, dbController);
+            List<CalcRule> calcRules = await _calcRuleService.GetCalcRulesForElements(elementIdsForRules, dbController);
 
             foreach (var element in elements)
             {
+                element.Form = form;
                 foreach (var rule in rules.Where(x => x.ElementId == element.ElementId))
                 {
                     element.Rules.Add(rule);
@@ -393,8 +420,27 @@ WHERE fe.type = @TYPE AND fe.column_id IN ({string.Join(",", columnIds)})";
                 {
                     formTableElement.Elements = table_elements.Where(x => x.TableParentElementId == element.ElementId).OrderBy(x => x.SortOrder).ToList();
                 }
+
+                if(element is FormNumberElement formNumberElement)
+                {
+                    foreach (var rule in calcRules.Where(x => x.ElementId == element.ElementId))
+                    {
+                        formNumberElement.CalcRules.Add(rule);
+                    }
+                }
             }
 
+            foreach (var table_element in table_elements)
+            {
+                table_element.Form = form;
+                if (table_element is FormNumberElement formNumberElement)
+                {
+                    foreach (var rule in calcRules.Where(x => x.ElementId == table_element.ElementId))
+                    {
+                        formNumberElement.CalcRules.Add(rule);
+                    }
+                }
+            }
             return elements;
         }
 

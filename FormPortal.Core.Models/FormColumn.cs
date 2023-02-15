@@ -26,6 +26,7 @@ namespace FormPortal.Core.Models
         /// </summary>
         public List<FormElement> Elements { get; set; } = new();
         public FormRow? Parent { get; set; }
+        public Form? Form { get; set; }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

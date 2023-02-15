@@ -34,7 +34,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public ElementCalcRuleSet? Rule { get; set; }
+    public CalcRule? Rule { get; set; }
 
     [Parameter, EditorRequired]
     public Form? Input { get; set; }
@@ -43,9 +43,9 @@
     public FormElement? Element { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<ElementCalcRuleSet> OnDelete { get; set; }
+    public EventCallback<CalcRule> OnDelete { get; set; }
 
-    private Task OnRuleSetElementChangedAsync(ElementCalcRuleSet ruleSet, Guid elementGuid)
+    private Task OnRuleSetElementChangedAsync(CalcRule ruleSet, Guid elementGuid)
     {
         if (Input is not null)
         {
