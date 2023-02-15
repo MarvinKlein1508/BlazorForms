@@ -41,7 +41,7 @@ VALUES
             string sql = @"UPDATE form_elements_number_calc_rules SET
 math_operator = @MATH_OPERATOR,
 guid_element = @GUID_ELEMENT,
-sort_order = @SORT_ORDER,
+sort_order = @SORT_ORDER
 WHERE 
 calc_rule_id = @CALC_RULE_ID";
 
