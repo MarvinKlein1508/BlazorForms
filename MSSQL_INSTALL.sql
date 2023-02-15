@@ -176,10 +176,13 @@ CREATE TABLE form_elements_text_attributes
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE form_elements_rules
+CREATE TABLE form_rules
 (
 	rule_id INTEGER IDENTITY(1,1) NOT NULL,
-	element_id INTEGER NOT NULL,
+	form_id INTEGER NOT NULL,
+	row_id INTEGER NOT NULL,
+	column_id INTEGER,
+	element_id INTEGER,
 	logical_operator varchar(10) NOT NULL,
 	element_guid VARCHAR(36) NOT NULL,
 	comparison_operator VARCHAR(20) NOT NULL,
@@ -192,6 +195,17 @@ CREATE TABLE form_elements_rules
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
+CREATE TABLE form_elements_number_calc_rules
+(
+	calc_rule_id INTEGER IDENTITY(1,1) NOT NULL,
+	element_id INTEGER NOT NULL,
+	math_operator VARCHAR(20) NOT NULL,
+	guid_element VARCHAR(36) NOT NULL,
+	sort_order INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY(calc_rule_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 
 INSERT INTO permissions (name, identifier, description) VALUES 
