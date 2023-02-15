@@ -236,7 +236,7 @@ else
                                          Element="SelectedFormElement"
                                          OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                 </Dropzone>
-                                <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                                <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
                             </div>
                         }
