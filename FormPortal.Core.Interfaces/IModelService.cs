@@ -3,20 +3,20 @@
 namespace FormPortal.Core.Interfaces
 {
     /// <summary>
-    /// Standartisiert die CRUD-Operations von Model-Services 
+    /// Provides generalized CUD operations for an object Service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IModelService<T>
     {
         /// <summary>
-        /// Speichert das Objekt in der Datenbank als neuen Datensatz.
+        /// Saves the object as new entry in the database.
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
         Task CreateAsync(T input, IDbController dbController);
         /// <summary>
-        /// Aktualisiert den Datensatz für das Objekt in der Datenbank
+        /// Updates an existing entry of the object in the database.
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
@@ -24,7 +24,7 @@ namespace FormPortal.Core.Interfaces
         Task UpdateAsync(T input, IDbController dbController);
 
         /// <summary>
-        /// Aktualisiert den Datensatz für das Objekt in der Datenbank
+        /// Compares two instances of the same object and updates it in the database when the two objects are different from each other.
         /// </summary>
         /// <param name="input"></param>
         /// <param name="oldInputToCompare"
@@ -33,7 +33,7 @@ namespace FormPortal.Core.Interfaces
         Task UpdateAsync(T input, T oldInputToCompare, IDbController dbController);
 
         /// <summary>
-        /// Löscht den Datensatz für das Objekt aus der Datenbank
+        /// Deletes the object from the database.
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
@@ -43,7 +43,7 @@ namespace FormPortal.Core.Interfaces
     /// <summary>
     /// <inheritdoc/>
     /// <para>
-    /// Erweitert die Standard CRUD Operations noch um das Laden eines einzelnen Objektes.
+    /// Provides generalized CRUD operations for an object Service.
     /// </para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -51,17 +51,17 @@ namespace FormPortal.Core.Interfaces
     public interface IModelService<T, TIdentifier> : IModelService<T>
     {
         /// <summary>
-        /// Lädt ein Objekt aus der Datenbank für einen besteimmten Identifier
+        /// Gets the objects from the database
         /// </summary>
-        /// <param name="identifier">Identifier, wie das Objekt in der Datenbank identifiziert werden kann.</param>
+        /// <param name="identifier">The unique identifer for the object.</param>
         /// <param name="fbController"></param>
         /// <returns>
-        /// Wenn das Objekt in der Datenbank für den Identifier existiert, dann wird dieses zurückgeben. Ansonsten wird null zurückgegeben.
+        /// If the object does not exist than this method will return NULL.
         /// </returns>
         Task<T?> GetAsync(TIdentifier identifier, IDbController dbController);
     }
     /// <summary>
-    /// Erweitert die Standard CRUD Operations um eine Suchmöglichkeit mit Filtern
+    /// Expands the CRUD Operations with conditional search filters.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TIdentifier"></typeparam>
