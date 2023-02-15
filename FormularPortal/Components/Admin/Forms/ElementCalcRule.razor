@@ -1,0 +1,56 @@
+﻿@if (Rule is not null && Input is not null && Element is not null)
+{
+    <div class="rule">
+        <div class="ruleset-wrapper">
+            <div class="form-floating">
+                <InputSelect @bind-Value="Rule.MathOperator" id="@($"calcrule-math-operator-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                    @foreach (MathOperators item in Enum.GetValues(typeof(MathOperators)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </InputSelect>
+                <label for="@($"calcrule-math-operator-{Rule.GetHashCode()}")">Operator</label>
+            </div>
+            <div class="form-floating">
+                <InputSelect Value="Rule.GuidElement"
+                         ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
+                         ValueExpression="() => Rule.GuidElement"
+                             id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
+                    @foreach (var item in Input.GetRuleElements())
+                    {
+                        @if (item != Element)
+                        {
+                            <option value="@item.Guid">@item</option>
+                        }
+                    }
+                </InputSelect>
+                <label for="@($"calcrule-guid-{Rule.GetHashCode()}")">Logik</label>
+            </div>
+
+        </div>
+        <button class="btn btn-danger btn-delete-rule" type="button" @onclick="() => OnDelete.InvokeAsync(Rule)"><i class="fa-solid fa-trash"></i></button>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public ElementCalcRuleSet? Rule { get; set; }
+
+    [Parameter, EditorRequired]
+    public Form? Input { get; set; }
+
+    [Parameter, EditorRequired]
+    public FormElement? Element { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<ElementCalcRuleSet> OnDelete { get; set; }
+
+    private Task OnRuleSetElementChangedAsync(ElementCalcRuleSet ruleSet, Guid elementGuid)
+    {
+        if (Input is not null)
+        {
+            ruleSet.GuidElement = elementGuid;
+        }
+        return Task.CompletedTask;
+    }
+}

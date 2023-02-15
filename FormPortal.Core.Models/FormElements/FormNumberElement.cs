@@ -13,6 +13,8 @@ namespace FormPortal.Core.Models.FormElements
         public decimal MaxValue { get; set; }
 
         public decimal Value { get; set; }
+
+        public List<ElementCalcRuleSet> CalcRules { get; set; } = new();
         public override ElementType GetElementType() => ElementType.Number;
         public override Dictionary<string, object?> GetParameters()
         {

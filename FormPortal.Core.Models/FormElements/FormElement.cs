@@ -88,6 +88,7 @@ namespace FormPortal.Core.Models.FormElements
     {
         General,
         Rules,
-        Elements
+        Elements,
+        CalcSets
     }
 }

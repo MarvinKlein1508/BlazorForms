@@ -43,6 +43,14 @@ else
                                 </button>
                             </li>
                         }
+                        @if (SelectedFormElement is FormNumberElement)
+                        {
+                            <li class="nav-item">
+                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.CalcSets">
+                                    Wertberechnung
+                                </button>
+                            </li>
+                        }
                     </ul>
 
                     <div class="tab-content">
@@ -215,6 +223,21 @@ else
                                         <div class="element-wrapper">@element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                     </div>
                                 </Dropzone>
+                            </div>
+                        }
+
+                        @if (SelectedFormElement is FormNumberElement formNumberElement)
+                        {
+                            <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))">
+
+                                <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
+                                    <ElementCalcRule Input="Input"
+                                         Rule="calc_rule"
+                                         Element="SelectedFormElement"
+                                         OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
+                                </Dropzone>
+                                <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+
                             </div>
                         }
                     </div>
