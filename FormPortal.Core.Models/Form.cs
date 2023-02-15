@@ -73,6 +73,26 @@ namespace FormPortal.Core.Models
 
         public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
 
+        public IEnumerable<FormNumberElement> GetCalcRuleSetElements()
+        {
+            foreach (var element in GetElements())
+            {
+                if(element is FormTableElement formTableElement)
+                {
+                    foreach (var table_element in formTableElement.Elements)
+                    {
+                        if (table_element is FormNumberElement formNumberElement)
+                        {
+                            yield return formNumberElement;
+                        }
+                    }
+                }
+                else if(element is FormNumberElement formNumberElement)
+                {
+                    yield return formNumberElement;
+                }
+            }
+        }
         public void DeleteRulesForElement(params FormElement[] elements)
         {
             foreach (var row in Rows)

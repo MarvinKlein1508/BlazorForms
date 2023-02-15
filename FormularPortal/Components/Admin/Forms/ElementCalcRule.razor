@@ -15,8 +15,8 @@
                 <InputSelect Value="Rule.GuidElement"
                          ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
                          ValueExpression="() => Rule.GuidElement"
-                             id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
-                    @foreach (var item in Input.GetRuleElements())
+                             id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Element">
+                    @foreach (var item in Input.GetCalcRuleSetElements())
                     {
                         @if (item != Element)
                         {
@@ -24,7 +24,7 @@
                         }
                     }
                 </InputSelect>
-                <label for="@($"calcrule-guid-{Rule.GetHashCode()}")">Logik</label>
+                <label for="@($"calcrule-guid-{Rule.GetHashCode()}")">Element</label>
             </div>
 
         </div>
