@@ -1,25 +1,5 @@
-# FormularPortal
+# FormPortal
 Create dynamic PDF forms completely in the web.
 
-## TODO
-- [x] Save designed forms
-- [x] Load designed forms
-- [x] Write validators
-- [x] Admin page for form listings
-- [x] (BIG) Add RuleSets for required when
-- [x] Show active forms on Dashboard
-- [ ] (BIG) Fill out form by user
-- [ ] (BIG) See & Edit fill out forms in admin panel
-- [x] (BIG) Implement tables
-- [ ] Generate PDFs
-- [x] Create user management
-- [x] Check permissions
-- [x] Upload logos to forms and portal
-- [ ] Add RuleSets for rows & columns
-- [ ] Specify what a ruleset does (required, visible, visible & required)
-- [x] Add new element to calculate a value based on FormNumberElements
-- [ ] Add SignaturePad
-- [ ] Write installer
-- [ ] Fix FormEditor in mobile view
-- [ ] API to export PDFs 
-- [ ] Code documentation
+## NOT READY YET
+This Software is still in development and should not be used right now since it's missing some major core functionalities.
