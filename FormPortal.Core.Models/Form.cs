@@ -88,11 +88,21 @@ namespace FormPortal.Core.Models
         {
             foreach (var row in Rows)
             {
+                row.Rules.RemoveAll(x => elements.Contains(x.Element));
                 foreach (var column in row.Columns)
                 {
+                    column.Rules.RemoveAll(x => elements.Contains(x.Element));
                     foreach (var element in column.Elements)
                     {
                         element.Rules.RemoveAll(x => elements.Contains(x.Element));
+
+                        if(element is FormTableElement formTableElement)
+                        {
+                            foreach (var table_element in formTableElement.Elements)
+                            {
+                                table_element.Rules.RemoveAll(x => elements.Contains(x.Element));
+                            }
+                        }
                     }
                 }
             }
