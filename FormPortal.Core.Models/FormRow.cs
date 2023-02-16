@@ -36,11 +36,11 @@ namespace FormPortal.Core.Models
         /// Creates a new row with a specified amount of columns.
         /// </summary>
         /// <param name="columns"></param>
-        public FormRow(int columns)
+        public FormRow(Form form, int columns)
         {
             for (int i = 0; i < columns; i++)
             {
-                Columns.Add(new FormColumn());
+                Columns.Add(new FormColumn(form));
             }
         }
 

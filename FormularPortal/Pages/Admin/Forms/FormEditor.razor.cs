@@ -37,7 +37,7 @@ namespace FormularPortal.Pages.Admin.Forms
             else
             {
                 Input = new Form();
-                Input.Rows.Add(new FormRow(1));
+                Input.Rows.Add(new FormRow(Input, 1));
             }
         }
 
@@ -103,11 +103,11 @@ namespace FormularPortal.Pages.Admin.Forms
         }
         public void StartDragRowFromToolbar()
         {
-            dragDropServiceRows.ActiveItem = new FormRow(1)
+            if (Input is not null)
             {
-                Form = Input
-            };
-            dragDropServiceRows.Items = new List<FormRow>();
+                dragDropServiceRows.ActiveItem = new FormRow(Input, 1);
+                dragDropServiceRows.Items = new List<FormRow>();
+            }
             StateHasChanged();
         }
         public Task OnToolbarElementDragStartAsync(FormElement element)

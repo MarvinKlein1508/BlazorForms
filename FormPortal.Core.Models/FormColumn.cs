@@ -28,6 +28,16 @@ namespace FormPortal.Core.Models
         public List<Rule> Rules { get; set; } = new();
         public FormRow? Parent { get; set; }
         public Form? Form { get; set; }
+
+        public FormColumn()
+        {
+            
+        }
+
+        public FormColumn(Form form)
+        {
+            Form = form;
+        }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
