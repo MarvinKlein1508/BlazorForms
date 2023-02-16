@@ -94,11 +94,11 @@ namespace FormularPortal.Pages.Admin.Forms
 
         public void StartDragColumnFromToolbar()
         {
-            dragDropServiceColumns.ActiveItem = new FormColumn()
+            if (Input is not null)
             {
-                Form = Input
-            };
-            dragDropServiceColumns.Items = new List<FormColumn>();
+                dragDropServiceColumns.ActiveItem = new FormColumn(Input);
+                dragDropServiceColumns.Items = new List<FormColumn>();
+            }
             StateHasChanged();
         }
         public void StartDragRowFromToolbar()
