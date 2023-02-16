@@ -2,6 +2,15 @@
 
 @if (Input is not null && Input.Form is not null)
 {
+    <div class="form-floating mb-3">
+        <InputSelect @bind-Value="Input.RuleType" class="form-select" id="rule-type" aria-placeholder="Regeltyp">
+            @foreach (RuleType item in Enum.GetValues(typeof(RuleType)))
+            {
+                <option value="@item">@item</option>
+            }
+        </InputSelect>
+        <label for="rule-type">Regeltyp</label>
+    </div>
     <Dropzone Items="Input.Rules" Context="rule">
         <div class="rule">
             <div class="ruleset-wrapper">
