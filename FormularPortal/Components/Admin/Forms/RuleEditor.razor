@@ -21,10 +21,7 @@
                                  id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
                         @foreach (var item in Input.Form.GetRuleElements())
                         {
-                            @if (item != rule.Element)
-                            {
-                                <option value="@item.Guid">@item</option>
-                            }
+                            <option value="@item.Guid">@item</option>
                         }
                     </InputSelect>
                     <label for="@($"rule-logic-{rule.GetHashCode()}")">Logik</label>
@@ -105,7 +102,7 @@
                 }
             }
             else
-            {           
+            {
                 ruleSet.Element = null;
                 ruleSet.ValueString = string.Empty;
             }
