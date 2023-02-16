@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Interfaces;
 
 namespace FormPortal.Core.Models.FormElements
@@ -23,6 +24,8 @@ namespace FormPortal.Core.Models.FormElements
         public bool IsActive { get; set; }
         [CompareField("is_required")]
         public bool IsRequired { get; set; }
+        [CompareField("rule_type")]
+        public RuleType RuleType { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => ElementId;
@@ -45,7 +48,8 @@ namespace FormPortal.Core.Models.FormElements
                 { "IS_REQUIRED", IsRequired },
                 { "SORT_ORDER", SortOrder },
                 { "TYPE", GetElementType() },
-                { "TABLE_PARENT_ELEMENT_ID", TableParentElementId }
+                { "TABLE_PARENT_ELEMENT_ID", TableParentElementId },
+                { "RULE_TYPE", RuleType.ToString() },
             };
         }
 
@@ -61,6 +65,7 @@ namespace FormPortal.Core.Models.FormElements
         public abstract string GetDefaultName();
 
         public FormElementTabs ActiveTab { get; set; }
+        
     }
     public enum ElementType
     {

@@ -21,6 +21,7 @@ namespace FormPortal.Core.Services
 form_id,
 row_id,
 is_active,
+rule_type,
 sort_order
 )
 VALUES
@@ -28,6 +29,7 @@ VALUES
 @FORM_ID,
 @ROW_ID,
 @IS_ACTIVE,
+@RULE_TYPE,
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
@@ -64,6 +66,7 @@ VALUES
 form_id = @FORM_ID,
 row_id = @ROW_ID,
 is_active = @IS_ACTIVE,
+rule_type = @RULE_TYPE,
 sort_order = @SORT_ORDER
 WHERE
 column_id = @COLUMN_ID";

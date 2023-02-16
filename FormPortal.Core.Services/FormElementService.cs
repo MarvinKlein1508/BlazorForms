@@ -30,6 +30,7 @@ name,
 type,
 is_active,
 is_required,
+rule_type,
 sort_order
 )
 VALUES
@@ -43,6 +44,7 @@ VALUES
 @TYPE,
 @IS_ACTIVE,
 @IS_REQUIRED,
+@RULE_TYPE,
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
@@ -244,6 +246,7 @@ table_parent_element_id = @TABLE_PARENT_ELEMENT_ID,
 name = @NAME,
 is_active = @IS_ACTIVE,
 is_required = @IS_REQUIRED,
+rule_type = @RULE_TYPE,
 sort_order = @SORT_ORDER
 WHERE
 element_id = @ELEMENT_ID";

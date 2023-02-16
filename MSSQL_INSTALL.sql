@@ -46,6 +46,7 @@ CREATE TABLE form_rows
 	row_id INTEGER IDENTITY(1,1) NOT NULL,
 	form_id INTEGER NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
+	rule_type VARCHAR(20) NOT NULL,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (row_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -57,6 +58,7 @@ CREATE TABLE form_columns
 	form_id INTEGER NOT NULL,
 	row_id INTEGER NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
+	rule_type VARCHAR(20) NOT NULL,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (column_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id),
@@ -75,6 +77,7 @@ CREATE TABLE form_elements
 	type VARCHAR(20) NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	is_required TINYINT NOT NULL DEFAULT 0,
+	rule_type VARCHAR(20) NOT NULL,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id),

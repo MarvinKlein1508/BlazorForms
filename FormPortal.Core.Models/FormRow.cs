@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models.FormElements;
 
@@ -15,6 +16,8 @@ namespace FormPortal.Core.Models
         public int FormId { get; set; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
+        [CompareField("rule_type")]
+        public RuleType RuleType { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
@@ -25,6 +28,7 @@ namespace FormPortal.Core.Models
         public List<FormColumn> Columns { get; set; } = new();
         public List<Rule> Rules { get; set; } = new();
         public Form? Form { get; set; }
+
         /// <summary>
         /// Creates an empty row.
         /// </summary>
@@ -51,6 +55,7 @@ namespace FormPortal.Core.Models
                 { "ROW_ID", RowId },
                 { "FORM_ID", FormId },
                 { "IS_ACTIVE", IsActive },
+                { "RULE_TYPE", RuleType.ToString() },
                 { "SORT_ORDER", SortOrder }
             };
         }

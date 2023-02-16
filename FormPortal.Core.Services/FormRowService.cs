@@ -18,12 +18,14 @@ namespace FormPortal.Core.Services
 (
 form_id,
 is_active,
+rule_type,
 sort_order
 )
 VALUES
 (
 @FORM_ID,
 @IS_ACTIVE,
+@RULE_TYPE,
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
@@ -55,6 +57,7 @@ VALUES
             string sql = @"UPDATE form_rows SET
 form_id = @FORM_ID,
 is_active = @IS_ACTIVE,
+rule_type = @RULE_TYPE,
 SORT_ORDER = @SORT_ORDER
 WHERE
 row_id = @ROW_ID";
