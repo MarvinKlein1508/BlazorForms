@@ -8,11 +8,16 @@ namespace FormPortal.Core.Services
     public class FormColumnService : IModelService<FormColumn, int>
     {
         private readonly FormElementService _formElementService;
+        private readonly RuleService _ruleService;
 
-        public FormColumnService(FormElementService formElementService)
+        public FormColumnService(FormElementService formElementService, RuleService ruleService)
         {
             _formElementService = formElementService;
+            _ruleService = ruleService;
         }
+
+        
+
         public async Task CreateAsync(FormColumn input, IDbController dbController)
         {
             input.Elements.SetSortOrder();
@@ -41,6 +46,21 @@ VALUES
                 element.RowId = input.RowId;
                 element.ColumnId = input.ColumnId;
                 await _formElementService.CreateAsync(element, dbController);
+            }
+
+            foreach (var rule in input.Rules)
+            {
+                rule.FormId = input.FormId;
+                rule.RowId = input.RowId;
+                rule.ColumnId = input.ColumnId;
+                if (rule.RuleId is 0)
+                {
+                    await _ruleService.CreateAsync(rule, dbController);
+                }
+                else
+                {
+                    await _ruleService.UpdateAsync(rule, dbController);
+                }
             }
         }
 
@@ -71,14 +91,7 @@ sort_order = @SORT_ORDER
 WHERE
 column_id = @COLUMN_ID";
 
-            await dbController.QueryAsync(sql, new
-            {
-                FORM_ID = input.FormId,
-                ROW_ID = input.RowId,
-                IS_ACTIVE = input.IsActive,
-                SORT_ORDER = input.SortOrder,
-                COLUMN_ID = input.ColumnId
-            });
+            await dbController.QueryAsync(sql, input.GetParameters());
 
             foreach (var element in input.Elements)
             {
@@ -92,6 +105,20 @@ column_id = @COLUMN_ID";
                 else
                 {
                     await _formElementService.UpdateAsync(element, dbController);
+                }
+            }
+
+            foreach (var rule in input.Rules)
+            {
+                rule.FormId = input.FormId;
+                rule.ColumnId = input.ColumnId;
+                if (rule.RuleId is 0)
+                {
+                    await _ruleService.CreateAsync(rule, dbController);
+                }
+                else
+                {
+                    await _ruleService.UpdateAsync(rule, dbController);
                 }
             }
         }

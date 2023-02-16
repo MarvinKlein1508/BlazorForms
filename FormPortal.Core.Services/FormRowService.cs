@@ -7,9 +7,12 @@ namespace FormPortal.Core.Services
     public class FormRowService : IModelService<FormRow, int>
     {
         private readonly FormColumnService _formColumnService;
-        public FormRowService(FormColumnService formColumnService)
+        private readonly RuleService _ruleService;
+
+        public FormRowService(FormColumnService formColumnService, RuleService ruleService)
         {
             _formColumnService = formColumnService;
+            _ruleService = ruleService;
         }
         public async Task CreateAsync(FormRow input, IDbController dbController)
         {
@@ -36,6 +39,20 @@ VALUES
                 column.FormId = input.FormId;
                 column.RowId = input.RowId;
                 await _formColumnService.CreateAsync(column, dbController);
+            }
+
+            foreach (var rule in input.Rules)
+            {
+                rule.FormId = input.FormId;
+                rule.RowId = input.RowId;   
+                if (rule.RuleId is 0)
+                {
+                    await _ruleService.CreateAsync(rule, dbController);
+                }
+                else
+                {
+                    await _ruleService.UpdateAsync(rule, dbController);
+                }
             }
         }
 
@@ -75,6 +92,20 @@ row_id = @ROW_ID";
                 else
                 {
                     await _formColumnService.UpdateAsync(column, dbController);
+                }
+            }
+
+            foreach (var rule in input.Rules)
+            {
+                rule.FormId = input.FormId;
+                rule.RowId = input.RowId;
+                if (rule.RuleId is 0)
+                {
+                    await _ruleService.CreateAsync(rule, dbController);
+                }
+                else
+                {
+                    await _ruleService.UpdateAsync(rule, dbController);
                 }
             }
         }
