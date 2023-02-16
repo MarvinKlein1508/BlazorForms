@@ -72,16 +72,17 @@ VALUES
                 foreach (var row in rows)
                 {
                     row.Form = form;
+                    row.Rules = rules.Where(x => x.RowId == row.RowId && x.ColumnId is null && x.ElementId is null).ToList();
                     foreach (var column in columns.Where(x => x.RowId == row.RowId))
                     {
                         column.Parent = row;
                         column.Form = form;
-
+                        column.Rules = rules.Where(x => x.RowId == column.RowId && x.ColumnId == column.ColumnId && x.ElementId is null).ToList();
                         foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
                         {
                             element.Parent = column;
                             element.Form = form;
-
+                            element.Rules = rules.Where(x => x.RowId == element.RowId && x.ColumnId == element.ColumnId && x.ElementId == element.ElementId).ToList();
                             if (element.TableParentElementId is 0)
                             {
                                 column.Elements.Add(element);
@@ -99,6 +100,11 @@ VALUES
 
                         row.Columns.Add(column);
                     }
+                }
+
+                foreach (var rule in rules)
+                {
+                    rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
                 }
 
 
