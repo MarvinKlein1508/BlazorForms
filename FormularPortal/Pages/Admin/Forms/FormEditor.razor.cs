@@ -80,6 +80,21 @@ namespace FormularPortal.Pages.Admin.Forms
                 Input.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
                 dragDropServiceElements.Items.Remove(dragDropServiceElements.ActiveItem);
             }
+
+            CleanToolbarDrag();
+        }
+
+        public void CleanToolbarDrag()
+        {
+            dragDropServiceRows.ActiveItem = null;
+            dragDropServiceRows.Items = new List<FormRow>();
+
+            dragDropServiceColumns.ActiveItem = null;
+            dragDropServiceColumns.Items = new List<FormColumn>();
+
+            dragDropServiceElements.ActiveItem = null;
+            dragDropServiceElements.Items = new List<FormElement>();
+
         }
         public Task OnColumnDroppedAsync(FormColumn column, FormRow row)
         {
