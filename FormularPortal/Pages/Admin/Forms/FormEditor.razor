@@ -204,15 +204,7 @@ else
                         </div>
 
                         <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))">
-                            <h2>Regeln</h2>
-                            <Dropzone Items="SelectedFormElement.Rules" Context="rule">
-                                <ElementRule Input="Input"
-                                     Rule="rule"
-                                     Element="SelectedFormElement"
-                                     OnDelete="(rule) => SelectedFormElement.Rules.Remove(rule)" />
-                            </Dropzone>
-                            <button type="button" class="btn btn-success" @onclick="() => SelectedFormElement.Rules.Add(new())"><i class="fa-solid fa-plus"></i></button>
-
+                            <RuleEditor Input="SelectedFormElement" />
                         </div>
 
                         @if (SelectedFormElement is FormTableElement formTableElement)

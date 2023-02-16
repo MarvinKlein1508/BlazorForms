@@ -94,13 +94,19 @@ namespace FormularPortal.Pages.Admin.Forms
 
         public void StartDragColumnFromToolbar()
         {
-            dragDropServiceColumns.ActiveItem = new FormColumn();
+            dragDropServiceColumns.ActiveItem = new FormColumn()
+            {
+                Form = Input
+            };
             dragDropServiceColumns.Items = new List<FormColumn>();
             StateHasChanged();
         }
         public void StartDragRowFromToolbar()
         {
-            dragDropServiceRows.ActiveItem = new FormRow(1);
+            dragDropServiceRows.ActiveItem = new FormRow(1)
+            {
+                Form = Input
+            };
             dragDropServiceRows.Items = new List<FormRow>();
             StateHasChanged();
         }
@@ -108,6 +114,7 @@ namespace FormularPortal.Pages.Admin.Forms
         {
             var newElement = element.DeepCopyByExpressionTree();
             newElement.GenerateGuid();
+            newElement.Form = Input;
             dragDropServiceElements.ActiveItem = newElement;
             dragDropServiceElements.Items = new List<FormElement>();
             StateHasChanged();

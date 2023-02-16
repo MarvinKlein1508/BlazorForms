@@ -7,7 +7,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// Represents a column for a <see cref="FormRow"/>
     /// </summary>
-    public class FormColumn :  IDbModel, IHasSortableElement
+    public class FormColumn :  IDbModel, IHasSortableElement, IHasRuleSet
     {
         [CompareField("column_id")]
         public int ColumnId { get; set; }

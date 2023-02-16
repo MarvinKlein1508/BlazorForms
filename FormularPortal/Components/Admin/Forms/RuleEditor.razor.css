@@ -11,9 +11,9 @@
     gap: .5em;
 }
 
-.ruleset-wrapper > * {
-    flex: 1;
-}
+    .ruleset-wrapper > * {
+        flex: 1;
+    }
 
 .btn-delete-rule {
     position: absolute;

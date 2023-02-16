@@ -71,7 +71,7 @@ VALUES
                 // Loop through the data and map everything.
                 foreach (var row in rows)
                 {
-                    row.Parent = form;
+                    row.Form = form;
                     foreach (var column in columns.Where(x => x.RowId == row.RowId))
                     {
                         column.Parent = row;
