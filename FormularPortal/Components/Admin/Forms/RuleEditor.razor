@@ -98,7 +98,6 @@
 
             if (searchElement is not null)
             {
-                ruleSet.ElementId = searchElement.ElementId;
                 ruleSet.Element = searchElement;
                 if (searchElement is FormElementWithOptions formElementWithOptions)
                 {
@@ -106,8 +105,7 @@
                 }
             }
             else
-            {
-                ruleSet.ElementId = 0;
+            {           
                 ruleSet.Element = null;
                 ruleSet.ValueString = string.Empty;
             }
