@@ -111,6 +111,7 @@ column_id = @COLUMN_ID";
             foreach (var rule in input.Rules)
             {
                 rule.FormId = input.FormId;
+                rule.RowId = input.RowId;
                 rule.ColumnId = input.ColumnId;
                 if (rule.RuleId is 0)
                 {

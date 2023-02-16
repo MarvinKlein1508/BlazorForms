@@ -107,5 +107,21 @@ namespace FormPortal.Core.Models
                 }
             }
         }
+
+        public void RemoveRow(FormRow row)
+        {
+            Rows.Remove(row);
+            DeleteRulesForElement(row.GetElements().ToArray());
+        }
+
+        public void RemoveColumn(FormColumn column)
+        {
+            foreach (var row in Rows)
+            {
+                row.Columns.Remove(column);
+            }
+
+            DeleteRulesForElement(column.GetElements().ToArray());  
+        }
     }
 }

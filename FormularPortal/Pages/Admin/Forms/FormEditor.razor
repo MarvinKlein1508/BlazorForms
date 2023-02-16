@@ -243,6 +243,7 @@ else
         else if (SelectedFormRow is not null)
         {
             <div class="formular-element-editor">
+                <h2>Zeileneigenschaften</h2>
                 <EditForm Model="SelectedFormRow">
                     <TabControl>
                         <TabPage Text="Allgemein">
@@ -264,6 +265,31 @@ else
                 </div>
             </div>
         }
+        else if(SelectedFormColumn is not null)
+        {
+            <div class="formular-element-editor">
+                <h2>Spalteneigenschaften</h2>
+                <EditForm Model="SelectedFormColumn">
+                    <TabControl>
+                        <TabPage Text="Allgemein">
+                            <div class="form-check">
+                                <div class="checkbox">
+                                    <InputCheckbox @bind-Value="SelectedFormColumn.IsActive" id="formcolumn-active" class="form-check-input" />
+                                    <label for="formcolumn-active">Aktiv</label>
+                                    <ValidationMessage For="() => SelectedFormColumn.IsActive" />
+                                </div>
+                            </div>
+                        </TabPage>
+                        <TabPage Text="Regeln">
+                            <RuleEditor Input="SelectedFormColumn" />
+                        </TabPage>
+                    </TabControl>
+                </EditForm>
+                <div class="toolbar">
+                    <button type="button" class="btn btn-danger" @onclick="() => SelectedFormColumn = null">Schließen</button>
+                </div>
+            </div>
+        }
         else
         {
 
@@ -277,16 +303,17 @@ else
                 <div class="form-grid-editor">
                     <div class="grid-container">
                         <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row">
-                            <ContextMenuTrigger MenuId="rowMenu" Data="row">
+                            <ContextMenuTrigger MenuId="editorMenu" Data="row">
                                 <div class="formular-row">
                                     <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                                        <ContextMenuTrigger MenuId="editorMenu" Data="column" CssClass="contextmenu-trigger-column">
 
-                                        <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
-                                            <div class="formular-element grid-item">
-                                                <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
-                                            </div>
-                                        </Dropzone>
-
+                                            <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
+                                                <div class="formular-element grid-item">
+                                                    <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                                </div>
+                                            </Dropzone>
+                                        </ContextMenuTrigger>
                                     </Dropzone>
                                 </div>
                             </ContextMenuTrigger>
@@ -295,11 +322,10 @@ else
                 </div>
             </div>
 
-            <ContextMenu Id="rowMenu">
-                <Item OnClick="OnRowContextMenuPropertiesAsync">Eigenschaften</Item>
-                <Item OnClick="OnRowContextMenuDeleteAsync">Löschen</Item>
+            <ContextMenu Id="editorMenu">
+                <Item OnClick="OnContextMenuPropertiesAsync">Eigenschaften</Item>
+                <Item OnClick="OnContextMenuDeleteAsync">Löschen</Item>
             </ContextMenu>
-
         }
 
         <div class="toolbar-wrapper">

@@ -227,7 +227,6 @@
     flex: 1;
     border: 2px dashed orange;
     border-radius: .5em;
-    padding: 1em;
 }
 
 
@@ -291,3 +290,8 @@
         top: 0;
         right: 0;
     }
+
+
+::deep .contextmenu-trigger-column {
+    padding: 1em;
+}

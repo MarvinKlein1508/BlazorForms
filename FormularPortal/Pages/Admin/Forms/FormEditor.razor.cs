@@ -21,7 +21,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public List<FormElement> SelectedFormElementStack { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }
         public FormRow? SelectedFormRow { get; set; }
-
+        public FormColumn? SelectedFormColumn { get; set; }
         public bool EditFormProperties { get; set; }
 
         public FormValidator Validator { get; } = new FormValidator(new FormRowValidator(new FormColumnValidator()));
@@ -56,26 +56,28 @@ namespace FormularPortal.Pages.Admin.Forms
         }
         public void DropDelete()
         {
+            if (Input is null)
+            {
+                return;
+            }
+
             if (dragDropServiceRows.ActiveItem is not null)
             {
                 // Delete all rules for each element in the row
-                Input?.DeleteRulesForElement(dragDropServiceRows.ActiveItem.GetElements().ToArray());
-                dragDropServiceRows.Items.Remove(dragDropServiceRows.ActiveItem);
+                Input.RemoveRow(dragDropServiceRows.ActiveItem);
 
 
             }
             else if (dragDropServiceColumns.ActiveItem is not null)
             {
                 // Delete all rules for each element in the column
-                Input?.DeleteRulesForElement(dragDropServiceColumns.ActiveItem.GetElements().ToArray());
-
-                dragDropServiceColumns.Items.Remove(dragDropServiceColumns.ActiveItem);
-                Input?.RemoveEmptyRows();
+                Input.RemoveColumn(dragDropServiceColumns.ActiveItem);
+                Input.RemoveEmptyRows();
             }
             else if (dragDropServiceElements.ActiveItem is not null)
             {
                 // Delete all rules for each element for this element
-                Input?.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
+                Input.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
                 dragDropServiceElements.Items.Remove(dragDropServiceElements.ActiveItem);
             }
         }
@@ -236,25 +238,34 @@ namespace FormularPortal.Pages.Admin.Forms
             Input.Image = fs.ToArray();
         }
 
-        private Task OnRowContextMenuDeleteAsync(ItemClickEventArgs e)
+        private Task OnContextMenuDeleteAsync(ItemClickEventArgs e)
         {
             if (Input is not null)
             {
-                var row = e.Data as FormRow;
-
-                if (row is not null)
+                if (e.Data is FormRow row)
                 {
-                    Input.Rows.Remove(row);
+                    Input.RemoveRow(row);
+                }
+                else if (e.Data is FormColumn column)
+                {
+                    Input.RemoveColumn(column);
                 }
             }
             return Task.CompletedTask;
         }
 
-        private Task OnRowContextMenuPropertiesAsync(ItemClickEventArgs e)
+        private Task OnContextMenuPropertiesAsync(ItemClickEventArgs e)
         {
-            if (Input is not null && e.Data is FormRow row)
+            if (Input is not null)
             {
-                SelectedFormRow = row;
+                if (e.Data is FormRow row)
+                {
+                    SelectedFormRow = row;
+                }
+                else if (e.Data is FormColumn column)
+                {
+                    SelectedFormColumn = column;
+                }
             }
 
             return Task.CompletedTask;
