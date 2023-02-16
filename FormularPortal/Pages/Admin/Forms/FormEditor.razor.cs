@@ -20,6 +20,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public Form StartCopy { get; set; } = new();
         public List<FormElement> SelectedFormElementStack { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }
+        public FormRow? SelectedFormRow { get; set; }
 
         public bool EditFormProperties { get; set; }
 
@@ -246,6 +247,16 @@ namespace FormularPortal.Pages.Admin.Forms
                     Input.Rows.Remove(row);
                 }
             }
+            return Task.CompletedTask;
+        }
+
+        private Task OnRowContextMenuPropertiesAsync(ItemClickEventArgs e)
+        {
+            if (Input is not null && e.Data is FormRow row)
+            {
+                SelectedFormRow = row;
+            }
+
             return Task.CompletedTask;
         }
     }

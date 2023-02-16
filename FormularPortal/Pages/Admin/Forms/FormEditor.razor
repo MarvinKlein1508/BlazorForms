@@ -240,6 +240,30 @@ else
                 </EditForm>
             </div>
         }
+        else if (SelectedFormRow is not null)
+        {
+            <div class="formular-element-editor">
+                <EditForm Model="SelectedFormRow">
+                    <TabControl>
+                        <TabPage Text="Allgemein">
+                            <div class="form-check">
+                                <div class="checkbox">
+                                    <InputCheckbox @bind-Value="SelectedFormRow.IsActive" id="formrow-active" class="form-check-input" />
+                                    <label for="formrow-active">Aktiv</label>
+                                    <ValidationMessage For="() => SelectedFormRow.IsActive" />
+                                </div>
+                            </div>
+                        </TabPage>
+                        <TabPage Text="Regeln">
+                            <RuleEditor Input="SelectedFormRow" />
+                        </TabPage>
+                    </TabControl>
+                </EditForm>
+                <div class="toolbar">
+                    <button type="button" class="btn btn-danger" @onclick="() => SelectedFormRow = null">Schließen</button>
+                </div>
+            </div>
+        }
         else
         {
 
@@ -272,8 +296,8 @@ else
             </div>
 
             <ContextMenu Id="rowMenu">
-                <Item OnClick="@OnRowContextMenuDeleteAsync">Löschen</Item>
-                <Item OnClick="@OnClick">Eigenschaften</Item>
+                <Item OnClick="OnRowContextMenuPropertiesAsync">Eigenschaften</Item>
+                <Item OnClick="OnRowContextMenuDeleteAsync">Löschen</Item>
             </ContextMenu>
 
         }
