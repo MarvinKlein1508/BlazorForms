@@ -260,23 +260,29 @@ else
 
                 <div class="form-grid-editor">
                     <div class="grid-container">
-                        <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row" ItemWrapperClass="@((x) => $"formular-row")">
-                            <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
-                                <div class="grid-container">
-                                    <div class="grid-item">
+                        <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row">
+                            <ContextMenuTrigger MenuId="rowMenu" Data="row">
+                                <div class="formular-row">
+                                    <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+
                                         <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                             <div class="formular-element grid-item">
                                                 <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                             </div>
                                         </Dropzone>
-                                    </div>
+
+                                    </Dropzone>
                                 </div>
-                            </Dropzone>
+                            </ContextMenuTrigger>
                         </Dropzone>
                     </div>
                 </div>
             </div>
 
+            <ContextMenu Id="rowMenu">
+                <Item OnClick="@OnRowContextMenuDeleteAsync">Löschen</Item>
+                <Item OnClick="@OnClick">Eigenschaften</Item>
+            </ContextMenu>
 
         }
 
@@ -389,5 +395,11 @@ else
 }
 
 
+@code {
+    void OnClick(ItemClickEventArgs e)
+    {
+        Console.WriteLine($"Item Clicked => Menu: {e.ContextMenuId}, MenuTarget: {e.ContextMenuTargetId}, IsCanceled: {e.IsCanceled}, MenuItem: {e.MenuItemElement}, MouseEvent: {e.MouseEvent}");
+    }
+}
 
 

@@ -1,3 +1,4 @@
+using BlazorContextMenu;
 using DatabaseControllerProvider;
 using FluentValidation.Results;
 using FormPortal.Core.Models;
@@ -225,6 +226,20 @@ namespace FormularPortal.Pages.Admin.Forms
             await e.File.OpenReadStream(e.File.Size).CopyToAsync(fs);
 
             Input.Image = fs.ToArray();
+        }
+
+        private Task OnRowContextMenuDeleteAsync(ItemClickEventArgs e)
+        {
+            if (Input is not null)
+            {
+                var row = e.Data as FormRow;
+
+                if (row is not null)
+                {
+                    Input.Rows.Remove(row);
+                }
+            }
+            return Task.CompletedTask;
         }
     }
 }
