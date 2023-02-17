@@ -67,6 +67,15 @@ else
                                     <ValidationMessage For="() => SelectedFormElement.Name" />
                                 </div>
 
+                                @if(SelectedFormElement is FormLabelElement labelElement)
+                                {
+                                    <div class="mb-3">
+                                        <label for="labelElement-description">Beschreibung</label>
+                                        <InputCkEditor @bind-Value="labelElement.Description" />
+                                        <ValidationMessage For="() => labelElement.Description" />
+                                    </div>
+                                }
+
                                 @if (SelectedFormElement is FormNumberElement numberElement)
                                 {
                                     <div class="form-floating mb-3">

@@ -124,6 +124,7 @@ CREATE TABLE form_elements_file_attributes
 CREATE TABLE form_elements_label_attributes
 (
 	element_id INTEGER NOT NULL,
+	description TEXT NOT NULL,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

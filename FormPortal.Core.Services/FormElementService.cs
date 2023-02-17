@@ -182,6 +182,10 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormLabelElement)
             {
                 tableName = "form_elements_label_attributes";
+                fields.AddRange(new string[]
+                {
+                    "description"
+                });
             }
 
             if (input is FormNumberElement)

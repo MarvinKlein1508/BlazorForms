@@ -42,7 +42,7 @@
                                 }
                                 else if (element is FormLabelElement formLabelElement)
                                 {
-                                    <p>@element.Name</p>
+                                    @((MarkupString)formLabelElement.Description)
                                 }
                                 else if (element is FormNumberElement formNumberElement)
                                 {
