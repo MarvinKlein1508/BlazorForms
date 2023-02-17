@@ -7,7 +7,7 @@
     flex-wrap: wrap;
 }
 
-#form-wrapper {
+.form-editor-wrapper {
     height: 100vh;
     height: 100dvh;
     position: relative;
@@ -56,7 +56,7 @@
         color: #fff;
     }
 
-#form-editor {
+.form-editor {
     background-color: #eeeded;
     position: relative;
     overflow: auto;
@@ -64,13 +64,24 @@
     flex-direction: column;
 }
 
+.form-editor-header {
+    flex: 1 0 10;
+}
 
+.form-editor-content {
+    flex: auto;
+    overflow-y: auto;
+    display: flex;
+    position: relative;
+}
 
 #topbar {
     background-color: rgb(242, 247, 255);
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    position: relative;
+    width: 100%;
 }
 
     #topbar .btn {
@@ -238,6 +249,8 @@
     padding: 1em;
     background: #fff;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
+    position:absolute;
+    inset: 0;
 }
 
 ::deep .formular-element {

@@ -79,6 +79,15 @@
     isDesktop: () => {
         var w = window.innerWidth;
         return w > 1024;
+    },
+    scrollToFragment: (elementId, behavior) => {
+        var element = document.getElementById(elementId);
+
+        if (element) {
+            element.scrollIntoView({
+                behavior: behavior
+            });
+        }
     }
 }
 

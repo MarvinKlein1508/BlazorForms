@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Threading;
 
 namespace FormularPortal
 {
@@ -30,6 +31,11 @@ namespace FormularPortal
         {
             return js.InvokeVoidAsync("blazorHelpers.showToast", type.ToString(), message, timeout);
         }
+
+        public static ValueTask ScrollToFragment(this IJSRuntime js, string id, ScrollBehavior behavior = ScrollBehavior.auto)
+        {
+            return js.InvokeVoidAsync("blazorHelpers.scrollToFragment", id, behavior.ToString());
+        }
     }
 
     public enum ToastType
@@ -39,5 +45,11 @@ namespace FormularPortal
     public enum SweetAlertMessageType
     {
         question, warning, error, success, info
+    }
+
+    public enum ScrollBehavior
+    {
+        auto,
+        smooth
     }
 }

@@ -8,6 +8,7 @@ using FormPortal.Core.Validators.Admin;
 using FormularPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -23,7 +24,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public FormRow? SelectedFormRow { get; set; }
         public FormColumn? SelectedFormColumn { get; set; }
         public bool EditFormProperties { get; set; }
-
+        public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
         public FormValidator Validator { get; } = new FormValidator(new FormRowValidator(new FormColumnValidator()));
         protected override async Task OnParametersSetAsync()
@@ -220,6 +221,9 @@ namespace FormularPortal.Pages.Admin.Forms
                 }
                 else
                 {
+                    // Cache element to jump back to it in editor
+                    var tmp = SelectedFormElement;
+                    ScrollToGuid = tmp.Guid;
                     SelectedFormElement = null;
                 }
             }
@@ -299,6 +303,29 @@ namespace FormularPortal.Pages.Admin.Forms
             }
 
             return Task.CompletedTask;
+        }
+
+        private string GetFormGridEditorCssClass()
+        {
+            if (SelectedFormColumn is not null || SelectedFormRow is not null || SelectedFormElement is not null)
+            {
+                return "d-none";
+            }
+
+            return string.Empty;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!firstRender)
+            {
+                if (ScrollToGuid is not null)
+                {
+                    await jsRuntime.ScrollToFragment(ScrollToGuid!.ToString()!, ScrollBehavior.auto);
+                    ScrollToGuid = null;
+                }
+            }
+
         }
     }
 }
