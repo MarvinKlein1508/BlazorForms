@@ -24,6 +24,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public FormColumn? SelectedFormColumn { get; set; }
         public bool EditFormProperties { get; set; }
 
+        public string ContextMenuHeaderName { get; set; } = string.Empty;
         public FormValidator Validator { get; } = new FormValidator(new FormRowValidator(new FormColumnValidator()));
         protected override async Task OnParametersSetAsync()
         {
@@ -281,6 +282,20 @@ namespace FormularPortal.Pages.Admin.Forms
                 {
                     SelectedFormColumn = column;
                 }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnContextMenuAppearingAsync(MenuAppearingEventArgs e)
+        {
+            if (e.Data is FormRow row)
+            {
+                ContextMenuHeaderName = "Zeile";
+            }
+            else if (e.Data is FormColumn column)
+            {
+                ContextMenuHeaderName = "Spalte";
             }
 
             return Task.CompletedTask;

@@ -342,7 +342,8 @@ else
                 </div>
             </div>
 
-            <ContextMenu Id="editorMenu">
+            <ContextMenu Id="editorMenu" OnAppearing="OnContextMenuAppearingAsync">
+                <Item Enabled="false">@ContextMenuHeaderName</Item>
                 <Item OnClick="OnContextMenuPropertiesAsync">Eigenschaften</Item>
                 <Item OnClick="OnContextMenuDeleteAsync">Löschen</Item>
             </ContextMenu>
