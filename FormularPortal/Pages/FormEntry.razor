@@ -162,9 +162,14 @@
                                                     </tr>
                                                 }
 
-                                                <tr>
-                                                    <td><button type="button" class="btn btn-success" @onclick="formTableElement.NewRow"><i class="fa-solid fa-plus"></i></button></td>
-                                                </tr>
+                                                @if (formTableElement.AllowAddRows)
+                                                {
+                                                    <tr>
+                                                        <td colspan="@formTableElement.Elements.Count">
+                                                            <button type="button" class="btn btn-success" @onclick="formTableElement.NewRow"><i class="fa-solid fa-plus"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>

@@ -111,6 +111,17 @@ else
                                     </div>
                                 }
 
+                                @if(SelectedFormElement is FormTableElement tableElement)
+                                {
+                                    <div class="form-check">
+                                        <div class="checkbox">
+                                            <InputCheckbox @bind-Value="tableElement.AllowAddRows" id="tableElement-allow-add-rows" class="form-check-input" />
+                                            <label for="tableElement-allow-add-rows">Erlaube neue Zeilen hinzuzufügen</label>
+                                            <ValidationMessage For="() => tableElement.AllowAddRows" />
+                                        </div>
+                                    </div>
+                                }
+
                                 <div class="form-check">
                                     <div class="checkbox">
                                         <InputCheckbox @bind-Value="SelectedFormElement.IsRequired" id="formelement-required" class="form-check-input" />

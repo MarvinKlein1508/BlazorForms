@@ -1,9 +1,12 @@
-﻿using FormularPortal.Core;
+﻿using DatabaseControllerProvider;
+using FormularPortal.Core;
 
 namespace FormPortal.Core.Models.FormElements
 {
     public class FormTableElement : FormElement
     {
+        [CompareField("allow_add_rows")]
+        public bool AllowAddRows { get; set; }
         /// <summary>
         /// Holds all elements for the FormEditor
         /// </summary>
@@ -16,6 +19,18 @@ namespace FormPortal.Core.Models.FormElements
         public override ElementType GetElementType() => ElementType.Table;
         public override string GetDefaultName() => "Table";
 
+        public override Dictionary<string, object?> GetParameters()
+        {
+            var parameters = base.GetParameters();
+
+            parameters.Add("ALLOW_ADD_ROWS", AllowAddRows);
+
+            return parameters;
+        }
+
+        /// <summary>
+        /// Adds a new row to fill out for the user.
+        /// </summary>
         public void NewRow()
         {
             var tmp = Elements.DeepCopyByExpressionTree();

@@ -212,6 +212,10 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormTableElement)
             {
                 tableName = "form_elements_table_attributes";
+                fields.AddRange(new string[]
+                {
+                    "allow_add_rows"
+                });
             }
 
             if (input is FormTextElement)

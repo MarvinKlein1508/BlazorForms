@@ -156,6 +156,7 @@ CREATE TABLE form_elements_select_attributes
 CREATE TABLE form_elements_table_attributes
 (
 	element_id INTEGER NOT NULL,
+	allow_add_rows TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
