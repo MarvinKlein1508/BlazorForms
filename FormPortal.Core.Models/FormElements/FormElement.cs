@@ -65,6 +65,26 @@ namespace FormPortal.Core.Models.FormElements
         public abstract string GetDefaultName();
 
         public FormElementTabs ActiveTab { get; set; }
+
+        public bool IsVisible()
+        {
+            if (!IsActive)
+            {
+                return false;
+            }
+
+            if (RuleType is not RuleType.Visible)
+            {
+                return true;
+            }
+
+            if (!Rules.Any())
+            {
+                return true;
+            }
+
+            return Rules.ValidateRules();
+        }
         
     }
     public enum ElementType

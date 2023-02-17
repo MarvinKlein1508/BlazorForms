@@ -60,5 +60,27 @@ namespace FormPortal.Core.Models
                 yield return element;
             }
         }
+
+        public bool IsVisible()
+        {
+            if(!IsActive)
+            {
+                return false;
+            }
+
+            if (RuleType is not RuleType.Visible)
+            {
+                return true;
+            }
+
+            if (!Rules.Any())
+            {
+                return true;
+            }
+
+            return Rules.ValidateRules();
+        }
+
+      
     }
 }
