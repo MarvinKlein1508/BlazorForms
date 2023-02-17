@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Models
 {
@@ -33,8 +34,28 @@ namespace FormPortal.Core.Models
             throw new NotImplementedException();
         }
 
+        public FormEntry()
+        {
+            
+        }
+
+        public FormEntry(Form form)
+        {
+            Form = form;
+
+            foreach (var element in form.GetElements())
+            {
+                if (element is FormTableElement formTableElement)
+                {
+                    formTableElement.NewRow();
+                }
+            }
+        }
 
 
-        
+
+
+
+
     }
 }

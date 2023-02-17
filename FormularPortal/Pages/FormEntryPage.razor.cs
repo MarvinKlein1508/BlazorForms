@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace FormularPortal.Pages
 {
-    public partial class FormEntry
+    public partial class FormEntryPage
     {
         [Parameter]
         public int FormId { get; set; }
-        public Form? Input { get; set; }
+        public FormEntry? Input { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -21,15 +21,7 @@ namespace FormularPortal.Pages
 
             if (form is not null)
             {
-                foreach (var element in form.GetElements())
-                {
-                    if (element is FormTableElement formTableElement)
-                    {
-                        formTableElement.NewRow();
-                    }
-                }
-
-                Input = form;
+                Input = new FormEntry(form);
             }
         }
     }
