@@ -101,6 +101,11 @@ namespace FormPortal.Core.Models
 
         public bool IsVisible()
         {
+            if (!IsActive)
+            {
+                return false;
+            }
+
             if (RuleType is not RuleType.Visible)
             {
                 return true;
@@ -124,7 +129,7 @@ namespace FormPortal.Core.Models
 
 
             List<(LogicalOperator logicOperator, bool result)> checkedRules = new();
-         
+
             foreach (var rule in Rules)
             {
                 var element = rule.Element;
@@ -143,7 +148,7 @@ namespace FormPortal.Core.Models
 
                     checkedRules.Add((rule.LogicalOperator, result));
                 }
-                else if(element is FormElementWithOptions optionsElement)
+                else if (element is FormElementWithOptions optionsElement)
                 {
                     bool result = rule.ComparisonOperator switch
                     {
@@ -154,7 +159,7 @@ namespace FormPortal.Core.Models
 
                     checkedRules.Add((rule.LogicalOperator, result));
                 }
-                else if(element is FormDateElement dateElement)
+                else if (element is FormDateElement dateElement)
                 {
                     bool result = rule.ComparisonOperator switch
                     {
@@ -169,7 +174,7 @@ namespace FormPortal.Core.Models
 
                     checkedRules.Add((rule.LogicalOperator, result));
                 }
-                else if(element is FormCheckboxElement checkboxElement)
+                else if (element is FormCheckboxElement checkboxElement)
                 {
                     bool result = rule.ComparisonOperator switch
                     {
@@ -183,7 +188,7 @@ namespace FormPortal.Core.Models
             }
 
             // When someone has manipulated the values within the database then me might not have any results at all.
-            if(!checkedRules.Any())
+            if (!checkedRules.Any())
             {
                 return false;
             }
@@ -201,11 +206,11 @@ namespace FormPortal.Core.Models
                     _ => false,
                 };
             }
-            
+
 
             return returnResult;
         }
 
-        
+
     }
 }
