@@ -54,17 +54,22 @@
                                 }
                                 else if (element is FormRadioElement formRadioElement)
                                 {
-                                    <div class="form-floating mb-3">
-                                        <InputSelect @bind-Value="formRadioElement.Value" class="form-select" id="@($"form-{element.Guid}")" aria-label="@element.Name">
-                                            <option value="">--- Auswahl ---</option>
+                                    <div class="mb-3">
+                                        <label>@element.Name</label>
+                                        <InputRadioGroup @bind-Value="formRadioElement.Value">
                                             @foreach (var item in formRadioElement.Options)
                                             {
-                                                <option value="@item.Name">@item.Name</option>
+                                                <div class="form-check">
+                                                    <InputRadio Value="@item.Name" class="form-check-input" id="@($"radio-{item.GetHashCode()}")" />
+                                                    <label class="form-check-label" for="@($"radio-{item.GetHashCode()}")">
+                                                        @item.Name
+                                                    </label>
+                                                </div>
                                             }
-                                        </InputSelect>
-                                        <label for="@($"form-{element.Guid}")">@element.Name</label>
+                                        </InputRadioGroup>
                                         <ValidationMessage For="() => formRadioElement.Value" />
                                     </div>
+
                                 }
                                 else if (element is FormSelectElement formSelectElement)
                                 {
