@@ -16,7 +16,7 @@ namespace FormPortal.Core.Models
         [CompareField("form_id")]
         public int FormId { get; set; }
         [CompareField("is_active")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         [CompareField("rule_type")]
         public RuleType RuleType { get; set; }
         [CompareField("sort_order")]

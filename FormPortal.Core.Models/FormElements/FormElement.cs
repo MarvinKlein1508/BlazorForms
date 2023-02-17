@@ -21,7 +21,7 @@ namespace FormPortal.Core.Models.FormElements
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("is_active")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         [CompareField("is_required")]
         public bool IsRequired { get; set; }
         [CompareField("rule_type")]
