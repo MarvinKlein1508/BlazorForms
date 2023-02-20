@@ -25,7 +25,7 @@ namespace FormPortal.Core.Models
         /// Gets all values for table elements which has been submitted by the user.
         /// </summary>
         public List<FormEntryTableElement> EntryTableElements { get; set; } = new();
-        public Form? Form { get; set; }
+        public Form Form { get; set; }
         /// <summary>
         /// Removes all elements from the <see cref="Form"/> instance which are not part of the <see cref="EntryElements"/>
         /// </summary>
@@ -36,11 +36,12 @@ namespace FormPortal.Core.Models
 
         public FormEntry()
         {
-            
+            Form = new();
         }
 
         public FormEntry(Form form)
         {
+            form.EntryMode = true;
             Form = form;
 
             foreach (var element in form.GetElements())

@@ -24,6 +24,7 @@ namespace FormPortal.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
         public int Id => FormId;
+        public bool EntryMode { get; set; }
         public List<FormRow> Rows { get; set; } = new();
         public virtual Dictionary<string, object?> GetParameters()
         {
