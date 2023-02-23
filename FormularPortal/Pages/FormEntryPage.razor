@@ -7,7 +7,9 @@
 @if (Input is not null && Input.Form is not null)
 {
     <h2>@Input.Form.Name</h2>
-    <EditForm Model="Input.Form">
+    <EditForm Model="Input.Form" @ref="_form">
+        <FluentValidationValidator />
+        <ValidationSummary />
         @foreach (var row in Input.Form.Rows)
         {
             @if (row.IsVisible())
@@ -204,6 +206,8 @@
                 </div>
             }
         }
+
+        <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
     </EditForm>
 }
 

@@ -11,10 +11,10 @@ namespace FormPortal.Core.Validators
 {
     public class FormEntryValidator : AbstractValidator<FormEntry>
     {
-        public FormEntryValidator(IValidator<Form> formValidator)
+        public FormEntryValidator()
         {
             RuleFor(x => x.Form)
-                .SetValidator(formValidator);
+                .SetValidator(new FormValidator());
         }
     }
 
