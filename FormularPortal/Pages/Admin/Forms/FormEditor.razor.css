@@ -249,7 +249,7 @@
     padding: 1em;
     background: #fff;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
-    position:absolute;
+    position: absolute;
     inset: 0;
 }
 
@@ -272,7 +272,36 @@
     min-width: 100%;
 }
 
+.toolbar-toggle {
+    display: none;
+}
+
 @media (max-width: 700px) {
+    .toolbar-wrapper {
+        display: none;
+    }
+
+    .toolbar-toggle {
+        display: inline-block;
+        position: fixed;
+        bottom: .75rem;
+        right: .75rem;
+        z-index: 2000;
+    }
+
+        .toolbar-toggle .btn-toolbar {
+            background: rgb(21, 115, 71);
+            padding: 1.5em;
+            color: #fff;
+            border-radius: 50%;
+            border: none;
+            box-shadow: -2px 5px 50px -1px rgba(0,0,0,0.75);
+        }
+
+    .form-editor-wrapper {
+        grid-template-columns: 1fr;
+    }
+
     ::deep .plk-dd-dropzone {
         display: initial;
     }

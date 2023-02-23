@@ -65,21 +65,10 @@
     <script src="_framework/blazor.server.js"></script>
 
     <script src="_content/CKEditor/min.ckeditor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+ 
     <script src="_content/Blazor.ContextMenu/blazorContextMenu.min.js"></script>
     <script src="_content/CKEditor/min.ckeditor.js"></script>
-    <script>
-        // options are optional ;)
-        MobileDragDrop.polyfill({
-            // use this to make use of the scroll behaviour
-            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
-        });
-    </script>
-    <script>
-        Blazor.defaultReconnectionHandler._reconnectCallback = function (d) {
-            document.location.reload();
-        }
-    </script>
+    
 
 </body>
 
