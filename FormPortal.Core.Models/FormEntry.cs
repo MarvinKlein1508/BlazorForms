@@ -46,9 +46,16 @@ namespace FormPortal.Core.Models
 
             foreach (var element in form.GetElements())
             {
-                if (element is FormTableElement formTableElement)
+                if (element is FormTableElement tableElement)
                 {
-                    formTableElement.NewRow();
+                    tableElement.NewRow();
+                }
+                else if(element is FormDateElement dateElement)
+                {
+                    if(dateElement.SetDefaultValueToCurrentDate)
+                    {
+                        dateElement.Value = DateTime.Now;
+                    }
                 }
             }
         }
