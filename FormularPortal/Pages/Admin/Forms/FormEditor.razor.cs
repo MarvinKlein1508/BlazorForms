@@ -26,7 +26,7 @@ namespace FormularPortal.Pages.Admin.Forms
         public bool EditFormProperties { get; set; }
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
-        public FormValidator Validator { get; } = new FormValidator(new FormRowValidator(new FormColumnValidator()));
+        public FormValidator Validator { get; } = new FormValidator();
         protected override async Task OnParametersSetAsync()
         {
 

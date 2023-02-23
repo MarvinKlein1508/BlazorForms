@@ -5,10 +5,10 @@ namespace FormPortal.Core.Validators.Admin
 {
     public class FormRowValidator : AbstractValidator<FormRow>
     {
-        public FormRowValidator(IValidator<FormColumn> columnValidator)
+        public FormRowValidator()
         {
             RuleForEach(x => x.Columns)
-                .SetValidator(columnValidator);
+                .SetValidator(new FormColumnValidator());
         }
     }
 }
