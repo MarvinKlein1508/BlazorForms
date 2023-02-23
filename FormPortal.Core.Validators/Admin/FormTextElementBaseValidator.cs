@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Models.FormElements;
-using System.Globalization;
+using MySqlX.XDevAPI.Common;
+using System.Configuration;
 using System.Text.RegularExpressions;
 
 namespace FormPortal.Core.Validators.Admin
@@ -11,7 +13,8 @@ namespace FormPortal.Core.Validators.Admin
         public FormTextElementBaseValidator() : base()
         {
             RuleFor(x => x.Value)
-                .Must(ValidateValue);
+                .Custom(ValidateValue)
+                .When(IsEntryMode);
 
             RuleFor(x => x.MinLength)
                 .Must(ValidateMinLength)
@@ -25,11 +28,11 @@ namespace FormPortal.Core.Validators.Admin
 
         protected bool ValidateMinLength(FormTextElementBase element, int minLength)
         {
-            return element.MaxLength > minLength;
+            return element.MaxLength >= minLength;
         }
         protected bool ValidateRegexPattern(string regexPattern)
         {
-            if (string.IsNullOrWhiteSpace(regexPattern)) return false;
+            if (string.IsNullOrWhiteSpace(regexPattern)) return true;
 
             try
             {
@@ -44,29 +47,25 @@ namespace FormPortal.Core.Validators.Admin
         }
 
 
-        public bool ValidateValue(FormTextElementBase element, string text)
+        public void ValidateValue(string text, ValidationContext<T> context)
         {
-            bool result = true;
-            if (element.MinLength > 0)
+            T element = context.InstanceToValidate;
+            if (element.IsRequired && text.Length is 0)
             {
-                result = result && text.Length >= element.MinLength;
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
             }
-
-            if (element.MaxLength > 0)
+            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && text.Length is 0)
             {
-                result = result && text.Length <= element.MaxLength;
+                context.AddFailure( new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
             }
-
-            if (element.IsRequired)
+            else if (element.MinLength > 0 && text.Length >= element.MinLength)
             {
-                result = result && text.Length > 0;
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss mindestens {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
-            else if (element.RuleType is RuleType.Required)
+            else if (element.MaxLength > 0 && text.Length <= element.MaxLength)
             {
-                result = result && element.Rules.ValidateRules();
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
-
-            return result;
         }
     }
 }

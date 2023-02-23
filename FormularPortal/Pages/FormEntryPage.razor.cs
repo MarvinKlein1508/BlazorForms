@@ -35,8 +35,7 @@ namespace FormularPortal.Pages
                 return;
             }
             //Input.Form.Name = "TEST";
-            var validator = new FormEntryValidator();
-            var result = validator.Validate(Input);
+            _form.EditContext.Validate();
         }
     }
 }

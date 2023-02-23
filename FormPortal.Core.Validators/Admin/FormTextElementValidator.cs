@@ -7,8 +7,7 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormTextElementValidator() : base()
         {
-            RuleFor(x => x.Value)
-                .Must(ValidateValue);
+           
         }
     }
 }
