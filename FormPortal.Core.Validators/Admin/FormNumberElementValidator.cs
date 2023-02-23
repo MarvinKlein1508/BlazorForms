@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Validators.Admin
@@ -9,39 +11,36 @@ namespace FormPortal.Core.Validators.Admin
         {
             RuleFor(x => x.MinValue)
                 .Must((x, y) => x.MaxValue >= x.MinValue)
-                .WithMessage("Der Mindestwert kann nicht größer sein, als der Maximalwert");
+                .WithMessage("Der Mindestwert kann nicht größer sein, als der Maximalwert.")
+                .When(x => x.MaxValue != 0);
 
             RuleFor(x => x.DecimalPlaces)
                 .GreaterThanOrEqualTo(0);
 
-
             RuleFor(x => x.Value)
-                .GreaterThanOrEqualTo(x => x.MinValue)
+                .Custom(ValidateValue)
                 .When(IsEntryMode);
-
-            RuleFor(x => x.Value)
-                .LessThanOrEqualTo(x => x.MaxValue)
-                .When((x) => x.MaxValue > 0 && IsEntryMode(x));
-
-            RuleFor(x => x.Value)
-                .Must(IsNumberSet)
-                .When(x => IsValueRequired(x) && IsEntryMode(x));
         }
 
-        private bool IsNumberSet(FormNumberElement element, decimal number)
+        public void ValidateValue(decimal number, ValidationContext<FormNumberElement> context)
         {
-            bool result = true;
-            if(element.MinValue != 0)
+            FormNumberElement element = context.InstanceToValidate;
+            if (element.IsRequired && number is 0)
             {
-                result = result && number >= element.MinValue;
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht 0 sein."));
             }
-
-            if(element.MaxValue != 0)
+            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && number is 0)
             {
-                result = result && number <= element.MaxValue;
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht 0 sein."));
             }
-
-            return result;
+            else if (element.MinValue > 0 && number < element.MinValue)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss mindestens den Wert {element.MinValue} betragen."));
+            }
+            else if (element.MaxValue > 0 && number > element.MaxValue)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal den Wert {element.MaxValue} betragen."));
+            }
         }
     }
 
