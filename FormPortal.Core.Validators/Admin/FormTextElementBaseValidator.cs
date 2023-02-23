@@ -58,13 +58,13 @@ namespace FormPortal.Core.Validators.Admin
             {
                 context.AddFailure( new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
             }
-            else if (element.MinLength > 0 && text.Length >= element.MinLength)
+            else if (element.MinLength > 0 && text.Length < element.MinLength)
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss mindestens {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
-            else if (element.MaxLength > 0 && text.Length <= element.MaxLength)
+            else if (element.MaxLength > 0 && text.Length > element.MaxLength)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
         }
     }
