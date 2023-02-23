@@ -8,16 +8,16 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormFileElementValidator() : base()
         {
-            RuleFor(x => x.Value)
+            RuleFor(x => x.Values)
                 .Custom(ValidateValue)
                 .When(IsEntryMode);
         }
 
-        public void ValidateValue(byte[] value, ValidationContext<FormFileElement> context)
+        public void ValidateValue(List<FormFileElementFile> value, ValidationContext<FormFileElement> context)
         {
             var element = context.InstanceToValidate;
 
-            if (IsValueRequired(element) && value.Length > 0)
+            if (IsValueRequired(element) && !value.Any())
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} erfordert eine Datei."));
             }

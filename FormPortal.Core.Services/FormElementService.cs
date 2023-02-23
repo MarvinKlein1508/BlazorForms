@@ -186,7 +186,8 @@ element_option_id = @ELEMENT_OPTION_ID";
                 {
                     "accept_file_types",
                     "min_size",
-                    "max_size"
+                    "max_size",
+                    "allow_multiple_files"
                 });
             }
 

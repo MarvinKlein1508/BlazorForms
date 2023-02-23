@@ -40,35 +40,59 @@ namespace FormularPortal.Pages
 
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {
-            long size = e.File.Size;
-            long size_in_mib = size / 1024 / 1024;
 
-            string contentType = e.File.ContentType;
-
-            string[] allowedContentType = fileElement.AcceptFileTypes.Split(',', StringSplitOptions.TrimEntries);
-
-            if(!allowedContentType.Contains(contentType))
+            foreach (var file in e.GetMultipleFiles())
             {
-                await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ung¸ltiges Dateiformat.");
-                return;
-            }
-
-            if(fileElement.MinSize > 0)
-            {
-                if(size_in_mib < fileElement.MinSize)
+                long size = file.Size;
+                long size_in_mib = size / 1024 / 1024;
+                string contentType = file.ContentType;
+                string filename = file.Name;
+                string[] allowedContentType = fileElement.AcceptFileTypes.Split(',', StringSplitOptions.TrimEntries);
+                if(!allowedContentType.Contains(contentType))
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden (zu klein).");
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ung¸ltiges Dateiformat.");
+                    continue;
                 }
+
+                if(fileElement.MinSize > 0)
+                {
+                    if(size_in_mib < fileElement.MinSize)
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden (zu klein).");
+                        continue;
+                    }
+                }
+
+                if(fileElement.MaxSize > 0)
+                {
+                    long sizeInMiB = size / 1024 / 1024;
+                    if(sizeInMiB > fileElement.MaxSize)
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. (zu groﬂ)");
+                        continue;
+                    }
+                }
+
+                if (fileElement.AllowMultipleFiles || !fileElement.Values.Any())
+                {
+                    await using MemoryStream fs = new();
+                    await file.OpenReadStream(file.Size).CopyToAsync(fs);
+                    fileElement.Values.Add(new FormFileElementFile
+                    {
+                        ContentType = contentType,
+                        Data = fs.ToArray()
+                    });
+                }
+                else
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, dieses Feld unterst¸tzt nur den Upload einer Datei.");
+                }
+
             }
 
-            if(fileElement.MaxSize > 0)
-            {
-                long sizeInMiB = size / 1024 / 1024;
-                if(sizeInMiB > fileElement.MaxSize)
-                {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. (zu groﬂ)");
-                }
-            }
+
+
+
         }
     }
 }

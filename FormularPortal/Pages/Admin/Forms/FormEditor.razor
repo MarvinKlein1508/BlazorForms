@@ -191,6 +191,14 @@ else {
                                                 <label for="fileelement-filetypes">Erlaubte Dateitypen</label>
                                                 <ValidationMessage For="() => fileElement.AcceptFileTypes" />
                                             </div>
+
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="fileElement.AllowMultipleFiles" id="fileelement-multiple" class="form-check-input" />
+                                                    <label for="fileelement-multiple">Upload mehrerer Dateien erlauben</label>
+                                                    <ValidationMessage For="() => fileElement.AllowMultipleFiles" />
+                                                </div>
+                                            </div>
                                         }
 
                                         @if (SelectedFormElement is FormElementWithOptions elementWithOptions) {

@@ -117,6 +117,7 @@ CREATE TABLE form_elements_file_attributes
 	accept_file_types text NOT NULL DEFAULT '',
 	min_size INTEGER NOT NULL DEFAULT 0,
 	max_size INTEGER NOT NULL DEFAULT 0,
+	allow_multiple_files TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
