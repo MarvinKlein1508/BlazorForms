@@ -1,4 +1,5 @@
 using DatabaseControllerProvider;
+using FluentValidation;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Plk.Blazor.DragDrop;
@@ -50,7 +51,8 @@ namespace FormularPortal
 #endif
 
 
-
+            // FluentValidation
+            builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormPortal.Core.Validators.dll")));
 
 
 

@@ -25,6 +25,7 @@
     <PackageReference Include="Blazor.ContextMenu" Version="1.15.0" />
     <PackageReference Include="Blazor.Pagination" Version="2.0.2" />
     <PackageReference Include="BlazorTooltips" Version="7.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
     <PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.0" />
     <PackageReference Include="vNext.BlazorComponents.FluentValidation" Version="1.1.1" />
   </ItemGroup>
