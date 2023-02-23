@@ -171,7 +171,12 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormDateElement)
             {
                 tableName = "form_elements_date_attributes";
-                fields.Add("is_current_date_default");
+                fields.AddRange(new string[] 
+                {
+                    "is_current_date_default",
+                    "min_value",
+                    "max_value"
+                });
             }
 
             if (input is FormFileElement)
@@ -321,7 +326,7 @@ VALUES
 
             await InsertOrUpdateElementRulesAsync(input, dbController);
             await InsertOrUpdateFormTableElementsAsync(input, dbController);
-            await InsertOrUpdateCalcRuleSetsAsync(input, dbController); 
+            await InsertOrUpdateCalcRuleSetsAsync(input, dbController);
         }
 
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)

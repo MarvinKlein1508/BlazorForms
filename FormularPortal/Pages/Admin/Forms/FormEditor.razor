@@ -11,14 +11,12 @@
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
 <PageTitle>Index</PageTitle>
-@if (Input is null)
-{
+@if (Input is null) {
     <div class="loading-wrapper">
         <Spinner />
     </div>
 }
-else
-{
+else {
     <div class="form-editor-wrapper">
         <div class="form-editor">
             <div class="form-editor-header">
@@ -30,8 +28,7 @@ else
             </div>
 
             <div class="form-editor-content">
-                @if (SelectedFormElement is not null)
-                {
+                @if (SelectedFormElement is not null) {
                     <div class="formular-element-editor">
                         <EditForm Model="SelectedFormElement">
                             <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
@@ -45,16 +42,14 @@ else
                                         Regeln
                                     </button>
                                 </li>
-                                @if (SelectedFormElement is FormTableElement)
-                                {
+                                @if (SelectedFormElement is FormTableElement) {
                                     <li class="nav-item">
                                         <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Elements">
                                             Elemente
                                         </button>
                                     </li>
                                 }
-                                @if (SelectedFormElement is FormNumberElement)
-                                {
+                                @if (SelectedFormElement is FormNumberElement) {
                                     <li class="nav-item">
                                         <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.CalcSets">
                                             Wertberechnung
@@ -77,8 +72,7 @@ else
                                             <ValidationMessage For="() => SelectedFormElement.Name" />
                                         </div>
 
-                                        @if (SelectedFormElement is FormLabelElement labelElement)
-                                        {
+                                        @if (SelectedFormElement is FormLabelElement labelElement) {
                                             <div class="mb-3">
                                                 <label for="labelElement-description">Beschreibung</label>
                                                 <InputCkEditor @bind-Value="labelElement.Description" />
@@ -86,8 +80,7 @@ else
                                             </div>
                                         }
 
-                                        @if (SelectedFormElement is FormNumberElement numberElement)
-                                        {
+                                        @if (SelectedFormElement is FormNumberElement numberElement) {
                                             <div class="form-floating mb-3">
                                                 <InputNumber @bind-Value="numberElement.DecimalPlaces" class="form-control" id="numberelement-decimalPlaces" placeholder="Nachkommastellen" />
                                                 <label for="numberelement-decimalPlaces">Nachkommastellen</label>
@@ -109,8 +102,21 @@ else
 
 
 
-                                        @if (SelectedFormElement is FormDateElement dateElement)
-                                        {
+
+
+                                        @if (SelectedFormElement is FormDateElement dateElement) {
+
+                                            <div class="form-floating mb-3">
+                                                <InputDate @bind-Value="dateElement.MinDate" class="form-control" id="dateelement-minvalue" placeholder="Mindestwert" />
+                                                <label for="dateelement-minvalue">Mindestwert</label>
+                                                <ValidationMessage For="() => dateElement.MinDate" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputDate @bind-Value="dateElement.MaxDate" class="form-control" id="dateelement-maxvalue" placeholder="Maximumwert" />
+                                                <label for="dateelement-maxvalue">Maximumwert</label>
+                                                <ValidationMessage For="() => dateElement.MaxDate" />
+                                            </div>
 
                                             <div class="form-check">
                                                 <div class="checkbox">
@@ -121,8 +127,7 @@ else
                                             </div>
                                         }
 
-                                        @if (SelectedFormElement is FormTableElement tableElement)
-                                        {
+                                        @if (SelectedFormElement is FormTableElement tableElement) {
                                             <div class="form-check">
                                                 <div class="checkbox">
                                                     <InputCheckbox @bind-Value="tableElement.AllowAddRows" id="tableElement-allow-add-rows" class="form-check-input" />
@@ -148,8 +153,7 @@ else
                                             </div>
                                         </div>
 
-                                        @if (SelectedFormElement is FormTextElementBase textElement)
-                                        {
+                                        @if (SelectedFormElement is FormTextElementBase textElement) {
                                             <div class="form-floating mb-3">
                                                 <InputNumber @bind-Value="textElement.MinLength" class="form-control" id="textelement-minlength" placeholder="Minimumlänge" />
                                                 <label for="textelement-minlength">Minimumlänge</label>
@@ -169,8 +173,7 @@ else
                                             </div>
                                         }
 
-                                        @if (SelectedFormElement is FormFileElement fileElement)
-                                        {
+                                        @if (SelectedFormElement is FormFileElement fileElement) {
                                             <div class="form-floating mb-3">
                                                 <InputNumber @bind-Value="fileElement.MinSize" class="form-control" id="fileelement-minsize" placeholder="Min. Dateigröße" />
                                                 <label for="fileelement-minsize">Min. Dateigröße</label>
@@ -190,8 +193,7 @@ else
                                             </div>
                                         }
 
-                                        @if (SelectedFormElement is FormElementWithOptions elementWithOptions)
-                                        {
+                                        @if (SelectedFormElement is FormElementWithOptions elementWithOptions) {
                                             <h4>Optionen</h4>
                                             <div class="table-responsive">
                                                 <table class="table table-xs">
@@ -203,8 +205,7 @@ else
                                                     </thead>
                                                     <tbody>
 
-                                                        @foreach (var option in elementWithOptions.Options)
-                                                        {
+                                                        @foreach (var option in elementWithOptions.Options) {
                                                             <tr>
                                                                 <td>
                                                                     <InputText @bind-Value="option.Name" class="form-control" />
@@ -237,8 +238,7 @@ else
                                     <RuleEditor Input="SelectedFormElement" />
                                 </div>
 
-                                @if (SelectedFormElement is FormTableElement formTableElement)
-                                {
+                                @if (SelectedFormElement is FormTableElement formTableElement) {
                                     <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
                                         <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                             <div class="formular-element grid-item">
@@ -248,8 +248,7 @@ else
                                     </div>
                                 }
 
-                                @if (SelectedFormElement is FormNumberElement formNumberElement)
-                                {
+                                @if (SelectedFormElement is FormNumberElement formNumberElement) {
                                     <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))">
 
                                         <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
@@ -270,8 +269,7 @@ else
                         </EditForm>
                     </div>
                 }
-                else if (SelectedFormRow is not null)
-                {
+                else if (SelectedFormRow is not null) {
                     <div class="formular-element-editor">
                         <h2>Zeileneigenschaften</h2>
                         <EditForm Model="SelectedFormRow">
@@ -295,8 +293,7 @@ else
                         </div>
                     </div>
                 }
-                else if (SelectedFormColumn is not null)
-                {
+                else if (SelectedFormColumn is not null) {
                     <div class="formular-element-editor">
                         <h2>Spalteneigenschaften</h2>
                         <EditForm Model="SelectedFormColumn">
@@ -355,8 +352,7 @@ else
             <ul id="element-toolbar">
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
-                @foreach (var item in AppdatenService.Elements)
-                {
+                @foreach (var item in AppdatenService.Elements) {
                     <li class="toolbar-element" draggable="true" @ondragend="CleanToolbarDrag" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
                 }
             </ul>
@@ -372,8 +368,7 @@ else
 
         </div>
     </div>
-    @if (EditFormProperties)
-    {
+    @if (EditFormProperties) {
         <ConfirmModal Title="Formular Eigenschaften"
               OnClosed="() => EditFormProperties = false">
             <EditForm Model="Input">
@@ -419,8 +414,7 @@ else
                                         </label>
                                     </div>
 
-                                    @if (Input.Logo.Length > 0)
-                                    {
+                                    @if (Input.Logo.Length > 0) {
                                         <div class="uploaded-image">
                                             <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Logo)}")" />
                                             <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
@@ -440,8 +434,7 @@ else
                                         </label>
                                     </div>
 
-                                    @if (Input.Image.Length > 0)
-                                    {
+                                    @if (Input.Image.Length > 0) {
                                         <div class="uploaded-image">
                                             <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Image)}")" />
                                             <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
@@ -460,8 +453,7 @@ else
 
 
 @code {
-    void OnClick(ItemClickEventArgs e)
-    {
+    void OnClick(ItemClickEventArgs e) {
         Console.WriteLine($"Item Clicked => Menu: {e.ContextMenuId}, MenuTarget: {e.ContextMenuTargetId}, IsCanceled: {e.IsCanceled}, MenuItem: {e.MenuItemElement}, MouseEvent: {e.MouseEvent}");
     }
 }
