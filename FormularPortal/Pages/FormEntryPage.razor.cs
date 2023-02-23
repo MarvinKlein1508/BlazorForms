@@ -34,7 +34,41 @@ namespace FormularPortal.Pages
             {
                 return;
             }
+
             _form.EditContext.Validate();
+        }
+
+        private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
+        {
+            long size = e.File.Size;
+            long size_in_mib = size / 1024 / 1024;
+
+            string contentType = e.File.ContentType;
+
+            string[] allowedContentType = fileElement.AcceptFileTypes.Split(',', StringSplitOptions.TrimEntries);
+
+            if(!allowedContentType.Contains(contentType))
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ung¸ltiges Dateiformat.");
+                return;
+            }
+
+            if(fileElement.MinSize > 0)
+            {
+                if(size_in_mib < fileElement.MinSize)
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden (zu klein).");
+                }
+            }
+
+            if(fileElement.MaxSize > 0)
+            {
+                long sizeInMiB = size / 1024 / 1024;
+                if(sizeInMiB > fileElement.MaxSize)
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. (zu groﬂ)");
+                }
+            }
         }
     }
 }

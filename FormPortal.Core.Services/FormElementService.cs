@@ -182,6 +182,12 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormFileElement)
             {
                 tableName = "form_elements_file_attributes";
+                fields.AddRange(new string[]
+                {
+                    "accept_file_types",
+                    "min_size",
+                    "max_size"
+                });
             }
 
             if (input is FormLabelElement)

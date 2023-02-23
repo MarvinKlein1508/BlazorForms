@@ -187,7 +187,7 @@ else {
                                             </div>
 
                                             <div class="form-floating mb-3">
-                                                <InputTextArea @bind-Value="fileElement.AcceptFileTypes" class="form-control" id="fileelement-filetypes" placeholder="Erlaubte Dateitypen" />
+                                                <InputText @bind-Value="fileElement.AcceptFileTypes" class="form-control" id="fileelement-filetypes" placeholder="Erlaubte Dateitypen" />
                                                 <label for="fileelement-filetypes">Erlaubte Dateitypen</label>
                                                 <ValidationMessage For="() => fileElement.AcceptFileTypes" />
                                             </div>

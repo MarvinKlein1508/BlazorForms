@@ -4,31 +4,23 @@
 @inject NavigationManager navigationManager
 @inject DbProviderService dbProviderService
 
-@if (Input is not null && Input.Form is not null)
-{
+@if (Input is not null && Input.Form is not null) {
     <h2>@Input.Form.Name</h2>
     <EditForm Model="Input.Form" @ref="_form">
         <FluentValidationValidator />
         <ValidationSummary />
-        @foreach (var row in Input.Form.Rows)
-        {
-            @if (row.IsVisible())
-            {
+        @foreach (var row in Input.Form.Rows) {
+            @if (row.IsVisible()) {
                 <div class="row">
-                    @foreach (var column in row.Columns)
-                    {
-                        @if (column.IsVisible())
-                        {
+                    @foreach (var column in row.Columns) {
+                        @if (column.IsVisible()) {
                             <div class="@row.GetColumnClass()">
-                                @foreach (var element in column.Elements)
-                                {
-                                    if(!element.IsVisible())
-                                    {
+                                @foreach (var element in column.Elements) {
+                                    if (!element.IsVisible()) {
                                         continue;
                                     }
 
-                                    @if (element is FormCheckboxElement formCheckboxElement)
-                                    {
+                                    @if (element is FormCheckboxElement formCheckboxElement) {
                                         <div class="form-check">
                                             <div class="checkbox">
                                                 <InputCheckbox @bind-Value="formCheckboxElement.Value" id="@($"form-{element.Guid}")" class="form-check-input" />
@@ -37,37 +29,36 @@
                                             </div>
                                         </div>
                                     }
-                                    else if (element is FormDateElement formDateElement)
-                                    {
+                                    else if (element is FormDateElement formDateElement) {
                                         <div class="form-floating mb-3">
                                             <InputDate @bind-Value="formDateElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
                                             <label for="@($"form-{element.Guid}")">@element.Name</label>
                                             <ValidationMessage For="() => formDateElement.Value" />
                                         </div>
                                     }
-                                    else if (element is FormFileElement formFileElement)
-                                    {
-                                        <p>TODO: Implement formFileElement</p>
+                                    else if (element is FormFileElement formFileElement) {
+                                        <div class="mb-3">
+                                            <label class="btn btn-dark" for="@($"form-{element.Guid}")">
+                                                @element.Name
+                                                <InputFile accept="@formFileElement.AcceptFileTypes" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" />
+                                            </label>
+                                        </div>
                                     }
-                                    else if (element is FormLabelElement formLabelElement)
-                                    {
+                                    else if (element is FormLabelElement formLabelElement) {
                                         @((MarkupString)formLabelElement.Description)
                                     }
-                                    else if (element is FormNumberElement formNumberElement)
-                                    {
+                                    else if (element is FormNumberElement formNumberElement) {
                                         <div class="form-floating mb-3">
                                             <InputNumber @bind-Value="formNumberElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" step="@formNumberElement.GetStep()" disabled="@(formNumberElement.IsValueCalculated)" />
                                             <label for="@($"form-{element.Guid}")">@element.Name</label>
                                             <ValidationMessage For="() => formNumberElement.Value" />
                                         </div>
                                     }
-                                    else if (element is FormRadioElement formRadioElement)
-                                    {
+                                    else if (element is FormRadioElement formRadioElement) {
                                         <div class="mb-3">
                                             <label>@element.Name</label>
                                             <InputRadioGroup @bind-Value="formRadioElement.Value">
-                                                @foreach (var item in formRadioElement.Options)
-                                                {
+                                                @foreach (var item in formRadioElement.Options) {
                                                     <div class="form-check">
                                                         <InputRadio Value="@item.Name" class="form-check-input" id="@($"radio-{item.GetHashCode()}")" />
                                                         <label class="form-check-label" for="@($"radio-{item.GetHashCode()}")">
@@ -80,13 +71,11 @@
                                         </div>
 
                                     }
-                                    else if (element is FormSelectElement formSelectElement)
-                                    {
+                                    else if (element is FormSelectElement formSelectElement) {
                                         <div class="form-floating mb-3">
                                             <InputSelect @bind-Value="formSelectElement.Value" class="form-select" id="@($"form-{element.Guid}")" aria-label="@element.Name">
                                                 <option value="">--- Auswahl ---</option>
-                                                @foreach (var item in formSelectElement.Options)
-                                                {
+                                                @foreach (var item in formSelectElement.Options) {
                                                     <option value="@item.Name">@item.Name</option>
                                                 }
                                             </InputSelect>
@@ -94,8 +83,7 @@
                                             <ValidationMessage For="() => formSelectElement.Value" />
                                         </div>
                                     }
-                                    else if (element is FormTableElement formTableElement)
-                                    {
+                                    else if (element is FormTableElement formTableElement) {
                                         <div class="table-responsive">
                                             <table class="table mb-3 table-xs">
                                                 <thead>
@@ -104,14 +92,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (var tableRow in formTableElement.ElementValues)
-                                                    {
+                                                    @foreach (var tableRow in formTableElement.ElementValues) {
                                                         <tr>
-                                                            @foreach (var table_element in tableRow)
-                                                            {
+                                                            @foreach (var table_element in tableRow) {
                                                                 <td>
-                                                                    @if (table_element is FormCheckboxElement tableFormCheckboxElement)
-                                                                    {
+                                                                    @if (table_element is FormCheckboxElement tableFormCheckboxElement) {
                                                                         <div class="form-check">
                                                                             <div class="checkbox">
                                                                                 <InputCheckbox @bind-Value="tableFormCheckboxElement.Value" id="@($"form-{table_element.Guid}")" class="form-check-input" />
@@ -120,29 +105,25 @@
                                                                             </div>
                                                                         </div>
                                                                     }
-                                                                    else if (table_element is FormDateElement tableFormDateElement)
-                                                                    {
+                                                                    else if (table_element is FormDateElement tableFormDateElement) {
                                                                         <div class="form-floating mb-3">
                                                                             <InputDate @bind-Value="tableFormDateElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
                                                                             <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
                                                                             <ValidationMessage For="() => tableFormDateElement.Value" />
                                                                         </div>
                                                                     }
-                                                                    else if (table_element is FormNumberElement tableFormNumberElement)
-                                                                    {
+                                                                    else if (table_element is FormNumberElement tableFormNumberElement) {
                                                                         <div class="form-floating mb-3">
                                                                             <InputNumber @bind-Value="tableFormNumberElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" step="@tableFormNumberElement.GetStep()" disabled="@(tableFormNumberElement.IsValueCalculated)" />
                                                                             <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
                                                                             <ValidationMessage For="() => tableFormNumberElement.Value" />
                                                                         </div>
                                                                     }
-                                                                    else if (table_element is FormSelectElement tableFormSelectElement)
-                                                                    {
+                                                                    else if (table_element is FormSelectElement tableFormSelectElement) {
                                                                         <div class="form-floating mb-3">
                                                                             <InputSelect @bind-Value="tableFormSelectElement.Value" class="form-select" id="@($"form-{table_element.Guid}")" aria-label="@table_element.Name">
                                                                                 <option value="">--- Auswahl ---</option>
-                                                                                @foreach (var item in tableFormSelectElement.Options)
-                                                                                {
+                                                                                @foreach (var item in tableFormSelectElement.Options) {
                                                                                     <option value="@item.Name">@item.Name</option>
                                                                                 }
                                                                             </InputSelect>
@@ -150,16 +131,14 @@
                                                                             <ValidationMessage For="() => tableFormSelectElement.Value" />
                                                                         </div>
                                                                     }
-                                                                    else if (table_element is FormTextareaElement tableFormTextareaElement)
-                                                                    {
+                                                                    else if (table_element is FormTextareaElement tableFormTextareaElement) {
                                                                         <div class="form-floating mb-3">
                                                                             <InputTextArea @bind-Value="tableFormTextareaElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
                                                                             <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
                                                                             <ValidationMessage For="() => tableFormTextareaElement.Value" />
                                                                         </div>
                                                                     }
-                                                                    else if (table_element is FormTextElement tableFormTextElement)
-                                                                    {
+                                                                    else if (table_element is FormTextElement tableFormTextElement) {
                                                                         <div class="form-floating mb-3">
                                                                             <InputText @bind-Value="tableFormTextElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" />
                                                                             <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
@@ -171,8 +150,7 @@
                                                         </tr>
                                                     }
 
-                                                    @if (formTableElement.AllowAddRows)
-                                                    {
+                                                    @if (formTableElement.AllowAddRows) {
                                                         <tr>
                                                             <td colspan="@formTableElement.Elements.Count">
                                                                 <button type="button" class="btn btn-success" @onclick="formTableElement.NewRow"><i class="fa-solid fa-plus"></i></button>
@@ -183,16 +161,14 @@
                                             </table>
                                         </div>
                                     }
-                                    else if (element is FormTextareaElement formTextareaElement)
-                                    {
+                                    else if (element is FormTextareaElement formTextareaElement) {
                                         <div class="form-floating mb-3">
                                             <InputTextArea @bind-Value="formTextareaElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
                                             <label for="@($"form-{element.Guid}")">@element.Name</label>
                                             <ValidationMessage For="() => formTextareaElement.Value" />
                                         </div>
                                     }
-                                    else if (element is FormTextElement formTextElement)
-                                    {
+                                    else if (element is FormTextElement formTextElement) {
                                         <div class="form-floating mb-3">
                                             <InputText @bind-Value="formTextElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
                                             <label for="@($"form-{element.Guid}")">@element.Name</label>

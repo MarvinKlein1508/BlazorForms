@@ -6,8 +6,14 @@ namespace FormPortal.Core.Models.FormElements
     {
         [CompareField("accept_file_types")]
         public string AcceptFileTypes { get; set; } = string.Empty;
+        /// <summary>
+        /// Gets the min file size for the uploaded documents in MiB
+        /// </summary>
         [CompareField("min_size")]
         public int MinSize { get; set; }
+        /// <summary>
+        /// Gets the max file size for the uploaded documents in MiB
+        /// </summary>
         [CompareField("max_size")]
         public int MaxSize { get; set; }
         public byte[] Value { get; set; } = Array.Empty<byte>();
