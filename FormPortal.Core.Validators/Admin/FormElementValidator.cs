@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Models.FormElements;
-using System.Net.Http.Headers;
 
 namespace FormPortal.Core.Validators.Admin
 {
@@ -15,7 +14,7 @@ namespace FormPortal.Core.Validators.Admin
 
         }
 
-        protected bool IsNameSet(FormElement element, string name)
+        private bool IsNameSet(FormElement element, string name)
         {
             return element.GetDefaultName() != name;
         }
