@@ -221,12 +221,24 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormTextElement)
             {
                 tableName = "form_elements_text_attributes";
+                fields.AddRange(new string[]
+                {
+                    "regex_pattern",
+                    "min_length",
+                    "max_length",
+                });
 
             }
 
             if (input is FormTextareaElement)
             {
                 tableName = "form_elements_textarea_attributes";
+                fields.AddRange(new string[]
+                {
+                    "regex_pattern",
+                    "min_length",
+                    "max_length",
+                });
             }
 
             return (tableName, fields);
