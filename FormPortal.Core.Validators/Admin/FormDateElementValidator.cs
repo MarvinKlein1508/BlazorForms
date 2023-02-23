@@ -1,5 +1,9 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Models.FormElements;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Numerics;
 
 namespace FormPortal.Core.Validators.Admin
 {
@@ -7,22 +11,35 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormDateElementValidator() : base()
         {
-            RuleFor(x => x.Value)
-                .GreaterThanOrEqualTo(x => x.MinDate.Date)
-                .When(IsEntryMode);
+            RuleFor(x => x.MaxDate)
+                .Must((x, y) => x.MaxDate.Date >= x.MinDate.Date)
+                .WithMessage("Der Mindestwert kann nicht größer sein, als der Maximalwert.")
+                .When(x => x.MaxDate != default);
 
             RuleFor(x => x.Value)
-                .LessThanOrEqualTo(x => x.MaxDate.Date)
-                .When(IsEntryMode);
-
-            RuleFor(x => x.Value)
-                .Must(IsDateSet)
+                .Custom(ValidateValue)
                 .When(IsEntryMode);
         }
 
-        public bool IsDateSet(FormDateElement element, DateTime date)
+        public void ValidateValue(DateTime date, ValidationContext<FormDateElement> context)
         {
-            return date != default;
+            FormDateElement element = context.InstanceToValidate;
+            if (element.IsRequired && date == default)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"Bitte geben Sie für {element.Name} ein Datum an."));
+            }
+            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && date == default)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"Bitte geben Sie für {element.Name} ein Datum an."));
+            }
+            else if (element.MinDate != default && date.Date < element.MinDate.Date)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss größer oder gleich {element.MinDate.ToShortDateString()} sein."));
+            }
+            else if (element.MaxDate != default && date.Date > element.MaxDate.Date)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss kleiner oder gleich {element.MaxDate.ToShortDateString()} sein."));
+            }
         }
     }
 
