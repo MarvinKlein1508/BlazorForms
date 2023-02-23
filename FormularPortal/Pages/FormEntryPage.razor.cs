@@ -34,7 +34,6 @@ namespace FormularPortal.Pages
             {
                 return;
             }
-            //Input.Form.Name = "TEST";
             _form.EditContext.Validate();
         }
     }
