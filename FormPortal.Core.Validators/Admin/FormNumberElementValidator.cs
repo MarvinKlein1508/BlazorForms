@@ -25,11 +25,7 @@ namespace FormPortal.Core.Validators.Admin
         public void ValidateValue(decimal number, ValidationContext<FormNumberElement> context)
         {
             FormNumberElement element = context.InstanceToValidate;
-            if (element.IsRequired && number is 0)
-            {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht 0 sein."));
-            }
-            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && number is 0)
+            if (IsValueRequired(element) && number is 0)
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht 0 sein."));
             }

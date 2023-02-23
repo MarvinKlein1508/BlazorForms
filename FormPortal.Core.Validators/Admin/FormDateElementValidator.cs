@@ -24,11 +24,7 @@ namespace FormPortal.Core.Validators.Admin
         public void ValidateValue(DateTime date, ValidationContext<FormDateElement> context)
         {
             FormDateElement element = context.InstanceToValidate;
-            if (element.IsRequired && date == default)
-            {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"Bitte geben Sie für {element.Name} ein Datum an."));
-            }
-            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && date == default)
+            if (IsValueRequired(element) && date == default)
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"Bitte geben Sie für {element.Name} ein Datum an."));
             }

@@ -50,13 +50,9 @@ namespace FormPortal.Core.Validators.Admin
         public void ValidateValue(string text, ValidationContext<T> context)
         {
             T element = context.InstanceToValidate;
-            if (element.IsRequired && text.Length is 0)
+            if (IsValueRequired(element) && text.Length is 0)
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
-            }
-            else if (element.RuleType is RuleType.Required && element.Rules.ValidateRules() && text.Length is 0)
-            {
-                context.AddFailure( new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
             }
             else if (element.MinLength > 0 && text.Length < element.MinLength)
             {
