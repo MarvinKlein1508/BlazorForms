@@ -80,7 +80,8 @@ namespace FormularPortal.Pages
                     fileElement.Values.Add(new FormFileElementFile
                     {
                         ContentType = contentType,
-                        Data = fs.ToArray()
+                        Data = fs.ToArray(),
+                        Filename = filename
                     });
                 }
                 else
