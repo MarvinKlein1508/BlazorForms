@@ -237,7 +237,7 @@ CREATE TABLE form_entries_elements
 	value_number DECIMAL NOT NULL DEFAULT 0,
 	value_date DATE NOT NULL DEFAULT GETDATE(),
 	PRIMARY KEY (entry_id, element_id),
-	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -251,7 +251,7 @@ CREATE TABLE form_entries_table_elements
 	value_number DECIMAL NOT NULL DEFAULT 0,
 	value_date DATE NOT NULL DEFAULT GETDATE(),
 	PRIMARY KEY (entry_table_element_id),
-	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
