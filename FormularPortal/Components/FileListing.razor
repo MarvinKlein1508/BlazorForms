@@ -1,32 +1,34 @@
-﻿<div class="file-wrapper">
-    @foreach (var file in Files)
-    {
-        <div class="file">
-            <div class="file-icon">
-                @if (IsImage(file))
-                {
-                    <img class="file-image" src="@GetBase64Image(file)" />
-                }
-                else
-                {
+﻿@if (Files.Any())
+{
+    <h2>Dateien</h2>
+    <div class="file-wrapper">
+        @foreach (var file in Files)
+        {
+            <div class="file">
+                <div class="file-icon">
+                    @if (IsImage(file))
+                    {
+                        <img class="file-image" src="@GetBase64Image(file)" />
+                    }
+                    else
+                    {
 
-                    <i class="@($"fa-solid {GetFileIcon(file.Filename)} file-icon fa-5x")"></i>
-                }
+                        <i class="@($"fa-solid {GetFileIcon(file.Filename)} file-icon fa-5x")"></i>
+                    }
 
+                </div>
+                <div class="file-details">
+                    @file.Filename
+                </div>
+                <button type="button" class="btn file-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="@file.GetHashCode()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="@file.GetHashCode()">
+
+                    <li><a class="dropdown-item"><i class="fa-solid fa-trash text-danger me-1"></i>Löschen</a></li>
+                    <li><a class="dropdown-item"><i class="fa-solid fa-download text-primary me-1"></i>Herunterladen</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li class="dropdown-item">Größe: @file.Data.Length</li>
+                </ul>
             </div>
-            <div class="file-details">
-                @file.Filename
-            </div>
-            <button type="button" class="btn file-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="@file.GetHashCode()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-            <ul class="dropdown-menu" aria-labelledby="@file.GetHashCode()">
-
-                <li><a class="dropdown-item"><i class="fa-solid fa-trash text-danger me-1"></i>Löschen</a></li>
-                <li><a class="dropdown-item"><i class="fa-solid fa-download text-primary me-1"></i>Herunterladen</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li class="dropdown-item">Größe: @file.Data.Length</li>
-            </ul>
-        </div>
-    }
-</div>
-
-
+        }
+    </div>
+}

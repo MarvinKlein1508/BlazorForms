@@ -1,13 +1,14 @@
 ﻿.file-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
     gap: 1em;
     position: relative;
     margin-top: 1em;
+    background-color: #fff;
+    border-radius: 1.3rem;
+    padding: 1em;
 }
 .file {
-    width: 200px;
     word-break: break-word;
     text-align: center;
     position: relative;
