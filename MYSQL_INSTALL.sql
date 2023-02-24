@@ -257,6 +257,17 @@ CREATE TABLE form_entries_table_elements
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE form_elements_file_files
+(
+	file_id INTEGER NOT NULL AUTO_INCREMENT,
+	element_id INTEGER NOT NULL,
+	data LONGBLOB NOT NULL,
+	content_type VARCHAR(50),
+	filename VARCHAR(255),
+	PRIMARY KEY(file_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 /* DATA */
 INSERT INTO permissions (name, identifier, description) VALUES 
 ('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),

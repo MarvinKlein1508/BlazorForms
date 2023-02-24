@@ -117,6 +117,7 @@ CREATE TABLE form_elements_file_attributes
 	accept_file_types text NOT NULL DEFAULT '',
 	min_size INTEGER NOT NULL DEFAULT 0,
 	max_size INTEGER NOT NULL DEFAULT 0,
+	allow_multiple_files TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -212,6 +213,58 @@ CREATE TABLE form_elements_number_calc_rules
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
+CREATE TABLE form_entries
+(
+	entry_id INTEGER IDENTITY(1,1) NOT NULL,
+	form_id INTEGER NOT NULL,
+	creation_date DATE NOT NULL DEFAULT GETDATE(),
+	creation_user_id INTEGER DEFAULT NULL,
+	last_change DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	last_change_user_id INTEGER DEFAULT NULL,
+	PRIMARY KEY (entry_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (creation_user_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN KEY (last_change_user_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE form_entries_elements
+(
+	entry_id INTEGER NOT NULL,
+	element_id INTEGER NOT NULL,
+	value_boolean TINYINT NOT NULL DEFAULT 0,
+	value_string VARCHAR(100) NOT NULL DEFAULT '',
+	value_number DECIMAL NOT NULL DEFAULT 0,
+	value_date DATE NOT NULL DEFAULT GETDATE(),
+	PRIMARY KEY (entry_id, element_id),
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE form_entries_table_elements
+(
+	entry_table_element_id INTEGER IDENTITY(1,1) NOT NULL,
+	entry_id INTEGER NOT NULL,
+	element_id INTEGER NOT NULL,
+	value_boolean TINYINT NOT NULL DEFAULT 0,
+	value_string VARCHAR(100) NOT NULL DEFAULT '',
+	value_number DECIMAL NOT NULL DEFAULT 0,
+	value_date DATE NOT NULL DEFAULT GETDATE(),
+	PRIMARY KEY (entry_table_element_id),
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE form_elements_file_files
+(
+	file_id INTEGER IDENTITY(1,1) NOT NULL,
+	element_id INTEGER NOT NULL,
+	data varbinary(MAX) NOT NULL,
+	content_type VARCHAR(50),
+	filename VARCHAR(255),
+	PRIMARY KEY(file_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 INSERT INTO permissions (name, identifier, description) VALUES 
 ('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),
