@@ -1,9 +1,10 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Models
 {
-    public class FormEntry
+    public class FormEntry : IDbModel
     {
         [CompareField("entry_id")]
         public int EntryId { get; set; }
@@ -26,12 +27,27 @@ namespace FormPortal.Core.Models
         /// </summary>
         public List<FormEntryTableElement> EntryTableElements { get; set; } = new();
         public Form Form { get; set; }
+        public int Id => EntryId;
+
         /// <summary>
         /// Removes all elements from the <see cref="Form"/> instance which are not part of the <see cref="EntryElements"/>
         /// </summary>
         public void CleanElements()
         {
             throw new NotImplementedException();
+        }
+
+        public Dictionary<string, object?> GetParameters()
+        {
+            return new Dictionary<string, object?>
+            {
+                { "ENTRY_ID",  EntryId },
+                { "FORM_ID",  FormId },
+                { "CREATION_DATE",  CreationDate },
+                { "CREATION_USER_ID",  CreationUserId },
+                { "LAST_CHANGE",  LastChange },
+                { "LAST_CHANGE_USER_ID",  LastChangeUserId }
+            };
         }
 
         public FormEntry()
