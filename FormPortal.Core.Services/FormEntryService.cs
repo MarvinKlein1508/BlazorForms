@@ -91,8 +91,11 @@ VALUES
                 {
                     foreach (var file in fileElement.Values)
                     {
+                        file.EntryId = input.EntryId;
+                        file.ElementId = element.ElementId;
                         sql = @$"INSERT INTO form_entries_files
 (
+entry_id,
 element_id,
 data,
 content_type,
@@ -100,6 +103,7 @@ filename
 )
 VALUES
 (
+@ENTRY_ID,
 @ELEMENT_ID,
 @DATA,
 @CONTENT_TYPE,

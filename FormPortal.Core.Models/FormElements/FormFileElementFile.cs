@@ -7,6 +7,8 @@ namespace FormPortal.Core.Models.FormElements
     {
         [CompareField("file_id")]
         public int FileId { get; set; }
+        [CompareField("entry_id")]
+        public int EntryId { get; set; }
         [CompareField("element_id")]
         public int ElementId { get; set; }
         [CompareField("data")]
@@ -22,6 +24,7 @@ namespace FormPortal.Core.Models.FormElements
             return new Dictionary<string, object?>
             {
                 { "FILE_ID", FileId },
+                { "ENTRY_ID", EntryId },
                 { "ELEMENT_ID", ElementId },
                 { "DATA", Data },
                 { "CONTENT_TYPE", ContentType },

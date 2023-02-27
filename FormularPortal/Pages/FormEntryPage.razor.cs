@@ -24,18 +24,31 @@ namespace FormularPortal.Pages
 
             if (form is not null)
             {
-                Input = new FormEntry(form);
+                Input = new FormEntry(form)
+                {
+                    FormId = FormId
+                };
             }
         }
 
         private async Task SubmitAsync()
         {
-            if(_form is null || _form.EditContext is null)
+            if(_form is null || _form.EditContext is null || Input is null)
             {
                 return;
             }
 
-            _form.EditContext.Validate();
+            if(_form.EditContext.Validate())
+            {
+                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+
+                Input.CreationDate = DateTime.Now;
+                Input.LastChange = DateTime.Now;
+                Input.LastChangeUserId = 1;
+                Input.CreationUserId = 1;
+
+                await formEntryService.CreateAsync(Input, dbController);
+            }
         }
 
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
