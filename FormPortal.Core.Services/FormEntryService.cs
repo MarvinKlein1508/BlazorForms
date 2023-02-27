@@ -30,7 +30,7 @@ VALUES
 @LAST_CHANGE_USER_ID    
 ); {dbController.GetLastIdSql()}";
 
-            input.EntryId = await dbController.QueryAsync(sql);
+            input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
         }
 
         public Task DeleteAsync(FormEntry input, IDbController dbController)
