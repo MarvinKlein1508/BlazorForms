@@ -63,7 +63,7 @@ namespace FormPortal.Core.Models
             }
         }
 
-        public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
+        public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Number or ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
 
         public IEnumerable<FormNumberElement> GetCalcRuleSetElements()
         {

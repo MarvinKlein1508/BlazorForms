@@ -14,6 +14,18 @@
         </InputSelect>
         <label for="rule-type">Regeltyp</label>
     </div>
+
+    @if (Input.Form.GetRuleElements().Any())
+    {
+        <div class="toolbar">
+            <button type="button" class="btn btn-success" @onclick="AddRuleAsync"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Dem Formular wurden noch keine Elemente hinzugefügt, die zum Aufbau eines Regelsatzes verwendet werden können.</div>
+    }
+
     <Dropzone Items="Input.Rules" Context="rule">
         <div class="rule">
             <div class="ruleset-wrapper">
@@ -30,22 +42,25 @@
                     <InputSelect Value="rule.ElementGuid"
                              ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(rule, guid)"
                              ValueExpression="() => rule.ElementGuid"
-                                 id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
+                                 id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Element">
                         @foreach (var item in Input.Form.GetRuleElements())
                         {
                             <option value="@item.Guid">@item</option>
                         }
                     </InputSelect>
-                    <label for="@($"rule-logic-{rule.GetHashCode()}")">Logik</label>
+                    <label for="@($"rule-logic-{rule.GetHashCode()}")">Element</label>
                 </div>
                 <div class="form-floating">
-                    <InputSelect @bind-Value="rule.ComparisonOperator" id="@($"rule-compare-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
-                        @foreach (ComparisonOperator item in Enum.GetValues(typeof(ComparisonOperator)))
+                    @if (rule.Element is not null)
+                    {
+                        <InputSelect @bind-Value="rule.ComparisonOperator" id="@($"rule-compare-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                            @foreach (ComparisonOperator item in GetAllowedOperators(rule.Element))
                         {
                             <option value="@item">@item</option>
                         }
                     </InputSelect>
-                    <label for="@($"rule-compare-{rule.GetHashCode()}")">Operator</label>
+                        <label for="@($"rule-compare-{rule.GetHashCode()}")">Operator</label>
+                    }
                 </div>
                 <div class="form-floating">
                     @if (rule.Element is FormDateElement formDateElement)
@@ -84,7 +99,7 @@
         </div>
     </Dropzone>
 
-    <button type="button" class="btn btn-success" @onclick="AddRuleAsync"><i class="fa-solid fa-plus"></i></button>
+    
 }
 
 
@@ -102,6 +117,8 @@
             ruleSet.ValueDate = default;
 
             ruleSet.ElementGuid = elementGuid;
+            // Set RuleSet to a rule which is available for every element
+            ruleSet.ComparisonOperator = ComparisonOperator.Equals;
 
             var searchElement = Input.Form.GetElements().FirstOrDefault(x => x.Guid == elementGuid);
 
@@ -131,4 +148,23 @@
         }
         return Task.CompletedTask;
     }
+
+    private ComparisonOperator[] GetAllowedOperators(FormElement? element) => element switch
+    {
+        FormElementWithOptions or FormCheckboxElement => new ComparisonOperator[]
+        {
+                ComparisonOperator.Equals,
+                ComparisonOperator.NotEquals
+        },
+        FormNumberElement or FormDateElement => new ComparisonOperator[]
+        {
+                ComparisonOperator.Equals,
+                ComparisonOperator.NotEquals,
+                ComparisonOperator.LessThanOrEqual,
+                ComparisonOperator.GreaterThanOrEqual,
+                ComparisonOperator.LessThan,
+                ComparisonOperator.GreaterThan
+        },
+        _ => Array.Empty<ComparisonOperator>()
+    };
 }
