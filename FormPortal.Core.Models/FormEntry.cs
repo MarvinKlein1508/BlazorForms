@@ -17,7 +17,7 @@ namespace FormPortal.Core.Models
         [CompareField("last_change")]
         public DateTime LastChange { get; set; } = DateTime.Now;
         [CompareField("last_change_user_id")]
-        public int LastChangeUserId { get; set; }
+        public int? LastChangeUserId { get; set; }
         /// <summary>
         /// Gets all values submitted by the user.
         /// </summary>
@@ -44,9 +44,9 @@ namespace FormPortal.Core.Models
                 { "ENTRY_ID",  EntryId },
                 { "FORM_ID",  FormId },
                 { "CREATION_DATE",  CreationDate },
-                { "CREATION_USER_ID",  CreationUserId },
+                { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
                 { "LAST_CHANGE",  LastChange },
-                { "LAST_CHANGE_USER_ID",  LastChangeUserId }
+                { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId }
             };
         }
 
@@ -66,9 +66,9 @@ namespace FormPortal.Core.Models
                 {
                     tableElement.NewRow();
                 }
-                else if(element is FormDateElement dateElement)
+                else if (element is FormDateElement dateElement)
                 {
-                    if(dateElement.SetDefaultValueToCurrentDate)
+                    if (dateElement.SetDefaultValueToCurrentDate)
                     {
                         dateElement.Value = DateTime.Now;
                     }

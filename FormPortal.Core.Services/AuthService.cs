@@ -21,7 +21,7 @@ namespace FormPortal.Core.Services
         /// Converts the active claims into a <see cref="User"/> object
         /// </summary>
         /// <returns></returns>
-        public async Task<User?> GetUserAsync()
+        public async Task<User?> GetUserAsync(IDbController? dbController = null)
         {
 
             var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
@@ -36,8 +36,19 @@ namespace FormPortal.Core.Services
 
                 var userId = Convert.ToInt32(claim.Value);
 
-                using IDbController dbController = _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
-                return await _userService.GetAsync(userId, dbController);
+                bool shouldDispose = dbController is null;
+
+
+                dbController ??= _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+                
+                var result = await _userService.GetAsync(userId, dbController);
+
+                if(shouldDispose)
+                {
+                    dbController.Dispose();
+                }
+
+                return result;
             }
 
             return null;

@@ -42,10 +42,12 @@ namespace FormularPortal.Pages
             {
                 using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
+                var user = await authService.GetUserAsync(dbController);
+
                 Input.CreationDate = DateTime.Now;
                 Input.LastChange = DateTime.Now;
-                Input.LastChangeUserId = 1;
-                Input.CreationUserId = 1;
+                Input.LastChangeUserId = user?.UserId;
+                Input.CreationUserId = user?.UserId;
 
                 await formEntryService.CreateAsync(Input, dbController);
             }
