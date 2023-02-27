@@ -24,7 +24,7 @@ else {
         <div class="form-editor">
             <div class="form-editor-header">
                 <div id="topbar">
-                    <a role="button" class="btn btn-secondary" href="/Admin/Forms"><i class="fa-solid fa-reply"></i></a>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseItemAsync"><i class="fa-solid fa-reply"></i></button>
                     <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
                     <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
                 </div>
@@ -273,10 +273,6 @@ else {
                                     </div>
                                 }
                             </div>
-
-                            <div class="toolbar">
-                                <button type="button" class="btn btn-danger" @onclick="CloseFormElementAsync">Schließen</button>
-                            </div>
                         </EditForm>
                     </div>
                 }
@@ -299,9 +295,6 @@ else {
                                 </TabPage>
                             </TabControl>
                         </EditForm>
-                        <div class="toolbar">
-                            <button type="button" class="btn btn-danger" @onclick="() => SelectedFormRow = null">Schließen</button>
-                        </div>
                     </div>
                 }
                 else if (SelectedFormColumn is not null) {
@@ -323,9 +316,6 @@ else {
                                 </TabPage>
                             </TabControl>
                         </EditForm>
-                        <div class="toolbar">
-                            <button type="button" class="btn btn-danger" @onclick="() => SelectedFormColumn = null">Schließen</button>
-                        </div>
                     </div>
                 }
 

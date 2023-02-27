@@ -208,29 +208,6 @@ namespace FormularPortal.Pages.Admin.Forms
             SelectedFormElement = element;
             return Task.CompletedTask;
         }
-
-        private Task CloseFormElementAsync()
-        {
-            if (SelectedFormElement is not null)
-            {
-                SelectedFormElementStack.Remove(SelectedFormElement);
-
-                if (SelectedFormElementStack.Any())
-                {
-                    SelectedFormElement = SelectedFormElementStack.Last();
-                }
-                else
-                {
-                    // Cache element to jump back to it in editor
-                    var tmp = SelectedFormElement;
-                    ScrollToGuid = tmp.Guid;
-                    SelectedFormElement = null;
-                }
-            }
-
-            return Task.CompletedTask;
-        }
-
         private string GetTabNavClass(bool isActive) => isActive ? "nav-link active" : "nav-link";
         public string GetTabClass(bool active) => active ? "tab-pane fade active show" : "tab-pane fade";
 
@@ -326,6 +303,36 @@ namespace FormularPortal.Pages.Admin.Forms
                 }
             }
 
+        }
+    
+        private Task CloseItemAsync()
+        {
+            bool redirect = SelectedFormRow is null && SelectedFormColumn is null && SelectedFormElement is null;
+            SelectedFormRow = null;
+            SelectedFormColumn = null;
+            if (SelectedFormElement is not null)
+            {
+                SelectedFormElementStack.Remove(SelectedFormElement);
+
+                if (SelectedFormElementStack.Any())
+                {
+                    SelectedFormElement = SelectedFormElementStack.Last();
+                }
+                else
+                {
+                    // Cache element to jump back to it in editor
+                    var tmp = SelectedFormElement;
+                    ScrollToGuid = tmp.Guid;
+                    SelectedFormElement = null;
+                }
+            }
+
+            if(redirect)
+            {
+                navigationManager.NavigateTo("/Admins/Forms");
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
