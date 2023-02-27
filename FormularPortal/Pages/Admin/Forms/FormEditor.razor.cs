@@ -329,7 +329,7 @@ namespace FormularPortal.Pages.Admin.Forms
 
             if(redirect)
             {
-                navigationManager.NavigateTo("/Admins/Forms");
+                navigationManager.NavigateTo("/Admin/Forms");
             }
 
             return Task.CompletedTask;
