@@ -11,9 +11,26 @@ namespace FormPortal.Core.Services
 {
     public class FormEntryService : IModelService<FormEntry, int>
     {
-        public Task CreateAsync(FormEntry input, IDbController dbController)
+        public async Task CreateAsync(FormEntry input, IDbController dbController)
         {
-            throw new NotImplementedException();
+            string sql = $@"INSERT INTO form_entries
+(
+form_id,
+creation_date,
+creation_user_id,
+last_change,
+last_change_user_id
+)
+VALUES
+(
+@FORM_ID,
+@CREATION_DATE,
+@CREATION_USER_ID,
+@LAST_CHANGE,
+@LAST_CHANGE_USER_ID    
+); {dbController.GetLastIdSql()}";
+
+            input.EntryId = await dbController.QueryAsync(sql);
         }
 
         public Task DeleteAsync(FormEntry input, IDbController dbController)
