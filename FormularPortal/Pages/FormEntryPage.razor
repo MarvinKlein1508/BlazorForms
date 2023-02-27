@@ -50,7 +50,7 @@
                                     else if (element is FormFileElement formFileElement)
                                     {
                                         <div class="mb-3">
-                                            <label class="btn btn-dark" for="@($"form-{element.Guid}")">
+                                            <label role="button" class="btn btn-dark" tabindex="0" for="@($"form-{element.Guid}")">
                                                 @element.Name
                                                 <InputFile accept="@formFileElement.AcceptFileTypes" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" multiple="@formFileElement.AllowMultipleFiles" />
                                             </label>
