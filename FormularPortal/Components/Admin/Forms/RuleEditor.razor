@@ -6,10 +6,7 @@
         <InputSelect @bind-Value="Input.RuleType" class="form-select" id="rule-type" aria-placeholder="Regeltyp">
             @foreach (RuleType item in Enum.GetValues(typeof(RuleType)))
             {
-                @if (Input is FormElement || item is RuleType.None or RuleType.Visible)
-                {
-                    <option value="@item">@item</option>
-                }
+                <option value="@item">@item</option>
             }
         </InputSelect>
         <label for="rule-type">Regeltyp</label>
@@ -99,7 +96,7 @@
         </div>
     </Dropzone>
 
-    
+
 }
 
 

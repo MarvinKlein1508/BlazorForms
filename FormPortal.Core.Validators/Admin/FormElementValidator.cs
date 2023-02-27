@@ -32,10 +32,26 @@ namespace FormPortal.Core.Validators.Admin
             }
 
             // ValidateRuleSets
-            if (element.RuleType is RuleType.Required && element.Rules.ValidateRules())
+            if (element.RuleType is RuleType.Required or RuleType.VisibleRequired && element.Rules.ValidateRules())
             {
                 return true;
             }
+
+            // Validate Column rules
+            if (element.Parent is not null)
+            {
+                if (element.Parent.RuleType is RuleType.Required or RuleType.VisibleRequired && element.Parent.Rules.ValidateRules())
+                {
+                    return true;
+                }
+
+                // Validate Row rules
+                if (element.Parent.Parent is not null && element.Parent.Parent.RuleType is RuleType.Required or RuleType.VisibleRequired && element.Parent.Parent.Rules.ValidateRules())
+                {
+                    return true;
+                }
+            }
+
 
             return false;
         }

@@ -4,6 +4,7 @@
     {
         None,
         Required,
-        Visible
+        Visible,
+        VisibleRequired
     }
 }

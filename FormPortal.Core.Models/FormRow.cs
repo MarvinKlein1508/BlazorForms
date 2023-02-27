@@ -106,7 +106,7 @@ namespace FormPortal.Core.Models
                 return false;
             }
 
-            if (RuleType is not RuleType.Visible)
+            if (RuleType is not RuleType.Visible && RuleType is not RuleType.VisibleRequired)
             {
                 return true;
             }

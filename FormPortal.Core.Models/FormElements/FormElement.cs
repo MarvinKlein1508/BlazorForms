@@ -80,7 +80,7 @@ namespace FormPortal.Core.Models.FormElements
                 return false;
             }
 
-            if (RuleType is not RuleType.Visible)
+            if (RuleType is not RuleType.Visible or RuleType.VisibleRequired)
             {
                 return true;
             }
