@@ -49,7 +49,21 @@ namespace FormularPortal.Pages
                 Input.LastChangeUserId = user?.UserId;
                 Input.CreationUserId = user?.UserId;
 
-                await formEntryService.CreateAsync(Input, dbController);
+                await dbController.StartTransactionAsync();
+                try
+                {
+                    await formEntryService.CreateAsync(Input, dbController);
+                    await dbController.CommitChangesAsync();
+                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich abgeschickt");
+
+                }
+                catch (Exception)
+                {
+                    await dbController.RollbackChangesAsync();
+                    throw;
+                }
+
+                navigationManager.NavigateTo("/");
             }
         }
 
