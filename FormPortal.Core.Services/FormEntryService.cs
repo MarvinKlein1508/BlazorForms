@@ -1,6 +1,7 @@
 ﻿using DatabaseControllerProvider;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
+using FormPortal.Core.Models.FormElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,83 @@ VALUES
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
+            foreach (var element in input.Form.GetElements())
+            {
+                element.EntryId = input.EntryId;
+                sql = @"INSERT INTO form_entries_elements
+(
+entry_id,
+element_id,
+value_boolean,
+value_string,
+value_number,
+value_date
+)
+VALUES
+(
+@ENTRY_ID,
+@ELEMENT_ID,
+@VALUE_BOOLEAN,
+@VALUE_STRING,
+@VALUE_NUMBER,
+@VALUE_DATE
+)";
+                await dbController.QueryAsync(sql, element.GetParameters());
+
+                if (element is FormTableElement tableElement)
+                {
+                    foreach (var row in tableElement.ElementValues)
+                    {
+                        foreach (var row_element in row)
+                        {
+                            row_element.EntryId = input.EntryId;
+                            sql = $@"INSERT INTO form_entries_table_elements
+(
+entry_id,
+element_id,
+value_boolean,
+value_string,
+value_number,
+value_date
+)
+VALUES
+(
+@ENTRY_ID,
+@ELEMENT_ID,
+@VALUE_BOOLEAN,
+@VALUE_STRING,
+@VALUE_NUMBER,
+@VALUE_DATE
+); {dbController.GetLastIdSql()}";
+
+                            await dbController.GetFirstAsync<int>(sql, row_element.GetParameters());
+                        }
+                    }
+                }
+
+                if (element is FormFileElement fileElement)
+                {
+                    foreach (var file in fileElement.Values)
+                    {
+                        sql = @$"INSERT INTO form_entries_files
+(
+element_id,
+data,
+content_type,
+filename
+)
+VALUES
+(
+@ELEMENT_ID,
+@DATA,
+@CONTENT_TYPE,
+@FILENAME
+); {dbController.GetLastIdSql()}";
+
+                        file.FileId = await dbController.GetFirstAsync<int>(sql, file.GetParameters());
+                    }
+                }
+            }
 
         }
 
