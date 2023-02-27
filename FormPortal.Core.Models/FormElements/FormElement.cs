@@ -28,6 +28,8 @@ namespace FormPortal.Core.Models.FormElements
         public RuleType RuleType { get; set; }
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
+
+        public int EntryId { get; set; }
         public int Id => ElementId;
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
