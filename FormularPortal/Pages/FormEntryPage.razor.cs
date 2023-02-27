@@ -16,38 +16,60 @@ namespace FormularPortal.Pages
         public int FormId { get; set; }
         public FormEntry? Input { get; set; }
         private EditForm? _form;
+
+        private User? _user;
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
             var form = await formService.GetAsync(FormId, dbController);
-
+            _user = await authService.GetUserAsync(dbController);
 
             if (form is not null)
             {
+                if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausf¸llen zu kˆnnen, m¸ssen Sie sich zun‰chst einloggen.");
+                    navigationManager.NavigateTo($"/");
+                    return;
+                }
+
+                if (!form.IsActive)
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Dieses Formular ist nicht aktiviert.");
+                    navigationManager.NavigateTo($"/");
+                    return;
+                }
+
                 Input = new FormEntry(form)
                 {
                     FormId = FormId
                 };
             }
+            else
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Formular konnte nicht gefunden werden.");
+                navigationManager.NavigateTo($"/");
+                return;
+            }
         }
 
         private async Task SubmitAsync()
         {
-            if(_form is null || _form.EditContext is null || Input is null)
+            if (_form is null || _form.EditContext is null || Input is null)
             {
                 return;
             }
 
-            if(_form.EditContext.Validate())
+            if (_form.EditContext.Validate())
             {
                 using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
-                var user = await authService.GetUserAsync(dbController);
+
 
                 Input.CreationDate = DateTime.Now;
                 Input.LastChange = DateTime.Now;
-                Input.LastChangeUserId = user?.UserId;
-                Input.CreationUserId = user?.UserId;
+                Input.LastChangeUserId = _user?.UserId;
+                Input.CreationUserId = _user?.UserId;
 
                 await dbController.StartTransactionAsync();
                 try
@@ -77,25 +99,25 @@ namespace FormularPortal.Pages
                 string contentType = file.ContentType;
                 string filename = file.Name;
                 string[] allowedContentType = fileElement.AcceptFileTypes.Split(',', StringSplitOptions.TrimEntries);
-                if(!allowedContentType.Contains(contentType))
+                if (!allowedContentType.Contains(contentType))
                 {
                     await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ung¸ltiges Dateiformat.");
                     continue;
                 }
 
-                if(fileElement.MinSize > 0)
+                if (fileElement.MinSize > 0)
                 {
-                    if(size_in_mib < fileElement.MinSize)
+                    if (size_in_mib < fileElement.MinSize)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden (zu klein).");
                         continue;
                     }
                 }
 
-                if(fileElement.MaxSize > 0)
+                if (fileElement.MaxSize > 0)
                 {
                     long sizeInMiB = size / 1024 / 1024;
-                    if(sizeInMiB > fileElement.MaxSize)
+                    if (sizeInMiB > fileElement.MaxSize)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. (zu groﬂ)");
                         continue;
