@@ -71,6 +71,8 @@ namespace FormPortal.Core.Models.FormElements
             parameters.Add("MIN_VALUE", MinValue);
             parameters.Add("MAX_VALUE", MaxValue);
 
+            parameters["VALUE_NUMBER"] = Value;
+
             return parameters;
         }
 

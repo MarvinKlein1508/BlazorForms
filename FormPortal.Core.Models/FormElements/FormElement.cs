@@ -52,6 +52,11 @@ namespace FormPortal.Core.Models.FormElements
                 { "TYPE", GetElementType() },
                 { "TABLE_PARENT_ELEMENT_ID", TableParentElementId },
                 { "RULE_TYPE", RuleType.ToString() },
+                { "ENTRY_ID", EntryId },
+                { "VALUE_STRING", string.Empty },
+                { "VALUE_BOOLEAN", false },
+                { "VALUE_NUMBER", 0 },
+                { "VALUE_DATE", null },
             };
         }
 

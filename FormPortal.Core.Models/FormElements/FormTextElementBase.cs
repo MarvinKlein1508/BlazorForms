@@ -18,6 +18,8 @@ namespace FormPortal.Core.Models.FormElements
             parameters.Add("REGEX_PATTERN", RegexPattern);
             parameters.Add("MIN_LENGTH", MinLength);
             parameters.Add("MAX_LENGTH", MaxLength);
+
+            parameters["VALUE_STRING"] = Value;
             return parameters;
         }
     }

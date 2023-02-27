@@ -19,6 +19,13 @@ namespace FormPortal.Core.Models.FormElements
             parameters.Add("IS_CURRENT_DATE_DEFAULT", SetDefaultValueToCurrentDate);
             parameters.Add("MIN_VALUE", MinDate);
             parameters.Add("MAX_VALUE", MaxDate);
+
+            // MSSQL cannot handle dates older than this. 
+            if (Value.Year > 1930)
+            {
+                parameters["VALUE_DATE"] = Value;
+            }
+
             return parameters;
         }
 

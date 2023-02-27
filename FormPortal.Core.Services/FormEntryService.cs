@@ -31,6 +31,8 @@ VALUES
 ); {dbController.GetLastIdSql()}";
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+
+
         }
 
         public Task DeleteAsync(FormEntry input, IDbController dbController)
