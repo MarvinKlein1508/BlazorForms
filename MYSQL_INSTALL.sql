@@ -266,7 +266,7 @@ CREATE TABLE form_entries_files
 	content_type VARCHAR(50),
 	filename VARCHAR(255),
 	PRIMARY KEY(file_id),
-	FOREIGN KEY (entry_id) REFERENCES form_elements(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
