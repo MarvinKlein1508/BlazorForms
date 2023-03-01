@@ -18,12 +18,16 @@ namespace FormularPortal.Pages
         public int TotalItems { get; set; }
 
         public List<Form> Data { get; set; } = new();
+        private User? _user;
         protected override async Task OnParametersSetAsync()
         {
             if (Page < 1)
             {
                 Page = 1;
             }
+
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            _user = await authService.GetUserAsync(dbController);
 
             await LoadAsync();
         }
@@ -33,6 +37,8 @@ namespace FormularPortal.Pages
             {
                 navigationManager.NavigateTo("/");
             }
+
+            Filter.HideLoginRequired = _user is null;
 
             Filter.PageNumber = Page;
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);

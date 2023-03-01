@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
@@ -201,9 +202,9 @@ form_id = @FORM_ID";
                 sb.AppendLine(" AND is_active = 1");
             }
 
-            if (filter.ShowOnlyFormsWhichRequireLogin)
+            if (filter.HideLoginRequired)
             {
-                sb.AppendLine(" AND login_required = 1");
+                sb.AppendLine(" AND login_required = 0");
             }
 
 
@@ -371,7 +372,7 @@ WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order";
                         }
                     }
 
-                    if(elementType is ElementType.Number)
+                    if (elementType is ElementType.Number)
                     {
                         IEnumerable<FormNumberElement> numberElements = (IEnumerable<FormNumberElement>)castedElements;
 

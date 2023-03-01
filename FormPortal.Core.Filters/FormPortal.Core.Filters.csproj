@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
+  </ItemGroup>
+
 </Project>

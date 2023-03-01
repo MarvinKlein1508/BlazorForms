@@ -1,4 +1,5 @@
-﻿namespace FormPortal.Core.Models.FormElements
+﻿using FormPortal.Core.Constants;
+namespace FormPortal.Core.Models.FormElements
 {
     public class FormTextElement : FormTextElementBase
     {
