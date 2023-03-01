@@ -12,6 +12,12 @@ namespace FormPortal.Core.Services
 {
     public class FormEntryService : IModelService<FormEntry, int>
     {
+        private readonly FormService _formService;
+
+        public FormEntryService(FormService formService)
+        {
+            _formService = formService;
+        }
         public async Task CreateAsync(FormEntry input, IDbController dbController)
         {
             string sql = $@"INSERT INTO form_entries
@@ -122,9 +128,21 @@ VALUES
             throw new NotImplementedException();
         }
 
-        public Task<FormEntry?> GetAsync(int identifier, IDbController dbController)
+        public async Task<FormEntry?> GetAsync(int entryId, IDbController dbController)
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT * FROM form_entries WHERE entry_id = @ENTRY_ID";
+
+            FormEntry? entry = await dbController.GetFirstAsync<FormEntry>(sql, new
+            {
+                ENTRY_ID = entryId
+            });
+
+            if (entry is not null)
+            {
+                entry.Form = await _formService.GetAsync(entry.FormId, dbController) ?? new();
+            }
+
+            return entry;
         }
 
         public Task UpdateAsync(FormEntry input, IDbController dbController)
