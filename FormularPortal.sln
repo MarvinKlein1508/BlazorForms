@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Services", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKEditor", "CKEditor\CKEditor.csproj", "{E5204AC5-205F-41DB-9BCA-FF35C011389B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormPortal.Tester", "FormPortal.Tester\FormPortal.Tester.csproj", "{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,12 @@ Global
 		{E5204AC5-205F-41DB-9BCA-FF35C011389B}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{E5204AC5-205F-41DB-9BCA-FF35C011389B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5204AC5-205F-41DB-9BCA-FF35C011389B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

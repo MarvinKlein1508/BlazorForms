@@ -63,56 +63,78 @@ VALUES
 
             if (form is not null)
             {
-                // Load all required data here
-                List<FormRow> rows = await GetRowsAsync(form, dbController);
-                List<FormColumn> columns = await GetColumnsAsync(form, dbController);
-                List<FormElement> elements = await GetElementsAsync(form, dbController);
-                List<Rule> rules = await GetRulesAsync(form, dbController);
-
-                // Loop through the data and map everything.
-                foreach (var row in rows)
-                {
-                    row.Form = form;
-                    row.Rules = rules.Where(x => x.RowId == row.RowId && x.ColumnId is null && x.ElementId is null).ToList();
-                    foreach (var column in columns.Where(x => x.RowId == row.RowId))
-                    {
-                        column.Parent = row;
-                        column.Form = form;
-                        column.Rules = rules.Where(x => x.RowId == column.RowId && x.ColumnId == column.ColumnId && x.ElementId is null).ToList();
-                        foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
-                        {
-                            element.Parent = column;
-                            element.Form = form;
-                            element.Rules = rules.Where(x => x.RowId == element.RowId && x.ColumnId == element.ColumnId && x.ElementId == element.ElementId).ToList();
-                            if (element.TableParentElementId is 0)
-                            {
-                                column.Elements.Add(element);
-                            }
-                            else
-                            {
-                                // Search the parent element and add the current element to it
-                                var searchTableElement = elements.FirstOrDefault(x => x.ElementId == element.TableParentElementId) as FormTableElement;
-                                if (searchTableElement is not null)
-                                {
-                                    searchTableElement.Elements.Add(element);
-                                }
-                            }
-                        }
-
-                        row.Columns.Add(column);
-                    }
-                }
-
-                foreach (var rule in rules)
-                {
-                    rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
-                }
-
-
-                form.Rows = rows;
+                await LoadFormContentAsync(form, false, dbController);
             }
 
             return form;
+        }
+
+        public async Task<Form?> GetEntryForm(int formId, IDbController dbController)
+        {
+            string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
+
+            Form? form = await dbController.GetFirstAsync<Form>(sql, new
+            {
+                FORM_ID = formId,
+            });
+
+            if (form is not null)
+            {
+                await LoadFormContentAsync(form, true, dbController);
+            }
+
+            return form;
+        }
+
+        private async Task LoadFormContentAsync(Form form, bool loadEntry, IDbController dbController)
+        {
+            // Load all required data here
+            List<FormRow> rows = await GetRowsAsync(form, dbController);
+            List<FormColumn> columns = await GetColumnsAsync(form, dbController);
+            List<FormElement> elements = await GetElementsAsync(form, loadEntry, dbController);
+            List<Rule> rules = await GetRulesAsync(form, dbController);
+
+            // Loop through the data and map everything.
+            foreach (var row in rows)
+            {
+                row.Form = form;
+                row.Rules = rules.Where(x => x.RowId == row.RowId && x.ColumnId is null && x.ElementId is null).ToList();
+                foreach (var column in columns.Where(x => x.RowId == row.RowId))
+                {
+                    column.Parent = row;
+                    column.Form = form;
+                    column.Rules = rules.Where(x => x.RowId == column.RowId && x.ColumnId == column.ColumnId && x.ElementId is null).ToList();
+                    foreach (var element in elements.Where(x => x.ColumnId == column.ColumnId))
+                    {
+                        element.Parent = column;
+                        element.Form = form;
+                        element.Rules = rules.Where(x => x.RowId == element.RowId && x.ColumnId == element.ColumnId && x.ElementId == element.ElementId).ToList();
+                        if (element.TableParentElementId is 0)
+                        {
+                            column.Elements.Add(element);
+                        }
+                        else
+                        {
+                            // Search the parent element and add the current element to it
+                            var searchTableElement = elements.FirstOrDefault(x => x.ElementId == element.TableParentElementId) as FormTableElement;
+                            if (searchTableElement is not null)
+                            {
+                                searchTableElement.Elements.Add(element);
+                            }
+                        }
+                    }
+
+                    row.Columns.Add(column);
+                }
+            }
+
+            foreach (var rule in rules)
+            {
+                rule.Element = elements.FirstOrDefault(x => x.Guid == rule.ElementGuid);
+            }
+
+
+            form.Rows = rows;
         }
         public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
@@ -317,7 +339,7 @@ form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormElement>> GetElementsAsync(Form form, IDbController dbController)
+        private async Task<List<FormElement>> GetElementsAsync(Form form, bool loadEntry, IDbController dbController)
         {
             List<FormElement> elements = new();
             foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
@@ -327,10 +349,24 @@ form_id = @FORM_ID";
 
                 if (!string.IsNullOrWhiteSpace(tableName))
                 {
-                    string sql = @$"SELECT * FROM form_elements fe
-LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)
-WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order";
+                    var sqlBuilder = new StringBuilder();
+                    sqlBuilder.Append("SELECT fe.*, fea.*");
+                    if (loadEntry)
+                    {
+                        sqlBuilder.Append(",fee.value_boolean, fee.value_string, fee.value_number, fee.value_date");
+                    }
 
+                    sqlBuilder.AppendLine($@" FROM form_elements fe
+LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
+
+                    if (loadEntry)
+                    {
+                        sqlBuilder.AppendLine($@"INNER JOIN form_entries_elements fee ON (fee.element_id = fe.element_id AND fee.form_id = fe.form_id)");
+                    }
+
+                    sqlBuilder.AppendLine(" WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order");
+
+                    string sql = sqlBuilder.ToString();
                     Dictionary<string, object?> parameters = new Dictionary<string, object?>
                     {
                         { "TYPE", elementType },

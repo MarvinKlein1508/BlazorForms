@@ -1,10 +1,12 @@
-﻿using FormPortal.Core.Constants;
+﻿using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 
 namespace FormPortal.Core.Models.FormElements
 {
     public class FormCheckboxElement : FormElement
     {
         public override ElementType GetElementType() => ElementType.Checkbox;
+        [CompareField("value_boolean")]
         public bool Value { get; set; }
         public override string GetDefaultName() => "Checkbox";
 

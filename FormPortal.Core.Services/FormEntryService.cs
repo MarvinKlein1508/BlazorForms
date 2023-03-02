@@ -2,6 +2,7 @@
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ VALUES
                 sql = @"INSERT INTO form_entries_elements
 (
 entry_id,
+form_id,
 element_id,
 value_boolean,
 value_string,
@@ -54,6 +56,7 @@ value_date
 VALUES
 (
 @ENTRY_ID,
+@FORM_ID,
 @ELEMENT_ID,
 @VALUE_BOOLEAN,
 @VALUE_STRING,
@@ -139,7 +142,33 @@ VALUES
 
             if (entry is not null)
             {
-                entry.Form = await _formService.GetAsync(entry.FormId, dbController) ?? new();
+                entry.Form = await _formService.GetEntryForm(entry.FormId, dbController) ?? new();
+
+                // Load values
+                sql = "SELECT * FROM form_entries_elements WHERE entry_id = @ENTRY_ID";
+
+                var values = await dbController.SelectDataAsync<FormEntryElement>(sql, new
+                {
+                    ENTRY_ID = entry.EntryId
+                });
+
+
+                sql = "SELECT * FROM form_entries_table_elements WHERE entry_id = @ENTRY_ID";
+
+
+                var tableValues = await dbController.SelectDataAsync<FormEntryTableElement>(sql, new
+                {
+                    ENTRY_ID = entryId
+                });
+
+
+
+                // TODO: Remove all elements from the form which are not part of it anymore
+
+                var elements = entry.Form.GetElements().ToArray();
+
+
+                
             }
 
             return entry;

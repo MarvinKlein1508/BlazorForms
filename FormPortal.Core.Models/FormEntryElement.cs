@@ -6,6 +6,8 @@ namespace FormPortal.Core.Models
     {
         [CompareField("entry_id")]
         public int EntryId { get; set; }
+        [CompareField("form_id")]
+        public int FormId { get; set; }
         [CompareField("element_id")]
         public int ElementId { get; set; }
         [CompareField("value_boolean")]

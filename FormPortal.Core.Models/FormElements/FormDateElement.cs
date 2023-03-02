@@ -11,7 +11,7 @@ namespace FormPortal.Core.Models.FormElements
         public DateTime MinDate { get; set; }
         [CompareField("max_value")]
         public DateTime MaxDate { get; set; }
-
+        [CompareField("value_date")]
         public DateTime Value { get; set; }
         public override ElementType GetElementType() => ElementType.Date;
         public override Dictionary<string, object?> GetParameters()

@@ -10,7 +10,7 @@ namespace FormPortal.Core.Models.FormElements
         public int MinLength { get; set; }
         [CompareField("max_length")]
         public int MaxLength { get; set; }
-
+        [CompareField("value_string")]
         public string Value { get; set; } = string.Empty;
         public override Dictionary<string, object?> GetParameters()
         {

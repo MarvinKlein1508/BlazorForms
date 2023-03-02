@@ -14,7 +14,7 @@ namespace FormPortal.Core.Models.FormElements
         public decimal MinValue { get; set; }
         [CompareField("max_value")]
         public decimal MaxValue { get; set; }
-
+        [CompareField("value_number")]
         public decimal Value
         {
             get
