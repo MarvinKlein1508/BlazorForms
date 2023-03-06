@@ -154,7 +154,6 @@ VALUES
                         
                         foreach (var rowElement in row)
                         {
-                            //rowElement.Form = form;
                             FormEntryTableElement? searchValue = searchEntries.FirstOrDefault(x => x.ElementId == rowElement.ElementId && x.TableRowNumber == i);
 
                             if(searchValue is not null)
