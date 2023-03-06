@@ -409,7 +409,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         }
                     }
 
-                    if (elementType is ElementType.File && entryId > 0)
+                    if (elementType is ElementType.File && entryId > 0 && castedElements.Any())
                     {
                         IEnumerable<FormFileElement> fileElements = (IEnumerable<FormFileElement>)castedElements;
 
