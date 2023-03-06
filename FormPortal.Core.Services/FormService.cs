@@ -135,6 +135,8 @@ VALUES
                 }
             }
 
+            form.Rows = rows;
+
             if (entryId is > 0)
             {
                 List<FormEntryTableElement> tableEntries = await GetTableEntriesAsync(entryId, dbController);
@@ -149,9 +151,10 @@ VALUES
                     for (int i = 1; i <= rowAmount; i++)
                     {
                         var row = element.NewRow();
-
+                        
                         foreach (var rowElement in row)
                         {
+                            //rowElement.Form = form;
                             FormEntryTableElement? searchValue = searchEntries.FirstOrDefault(x => x.ElementId == rowElement.ElementId && x.TableRowNumber == i);
 
                             if(searchValue is not null)
@@ -169,7 +172,7 @@ VALUES
             }
 
 
-            form.Rows = rows;
+            
         }
         public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)

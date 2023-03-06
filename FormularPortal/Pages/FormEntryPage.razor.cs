@@ -14,6 +14,8 @@ namespace FormularPortal.Pages
     {
         [Parameter]
         public int FormId { get; set; }
+        [Parameter]
+        public int EntryId { get; set; }
         public FormEntry? Input { get; set; }
         private EditForm? _form;
 
@@ -21,35 +23,43 @@ namespace FormularPortal.Pages
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
-            var form = await formService.GetAsync(FormId, dbController);
             _user = await authService.GetUserAsync(dbController);
 
-            if (form is not null)
+            if (EntryId > 0)
             {
-                if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
-                {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausfüllen zu können, müssen Sie sich zunächst einloggen.");
-                    navigationManager.NavigateTo($"/");
-                    return;
-                }
-
-                if (!form.IsActive)
-                {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Dieses Formular ist nicht aktiviert.");
-                    navigationManager.NavigateTo($"/");
-                    return;
-                }
-
-                Input = new FormEntry(form)
-                {
-                    FormId = FormId
-                };
+                Input = await formEntryService.GetAsync(EntryId, dbController);
+                FormId = Input?.FormId ?? 0;
             }
-            else
+            else if (FormId > 0)
             {
-                await jsRuntime.ShowToastAsync(ToastType.error, "Formular konnte nicht gefunden werden.");
-                navigationManager.NavigateTo($"/");
-                return;
+                var form = await formService.GetAsync(FormId, dbController);
+                if (form is not null)
+                {
+                    if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausfüllen zu können, müssen Sie sich zunächst einloggen.");
+                        navigationManager.NavigateTo($"/");
+                        return;
+                    }
+
+                    if (!form.IsActive)
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Dieses Formular ist nicht aktiviert.");
+                        navigationManager.NavigateTo($"/");
+                        return;
+                    }
+
+                    Input = new FormEntry(form)
+                    {
+                        FormId = FormId
+                    };
+                }
+                else
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Formular konnte nicht gefunden werden.");
+                    navigationManager.NavigateTo($"/");
+                    return;
+                }
             }
         }
 

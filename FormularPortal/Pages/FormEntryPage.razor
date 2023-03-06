@@ -1,4 +1,5 @@
 ﻿@page "/Forms/{FormId:int}"
+@page "/Entry/{EntryId:int}"
 @inject FormService formService
 @inject FormEntryService formEntryService
 @inject AuthService authService
@@ -184,7 +185,7 @@
                                                     {
                                                         <tr>
                                                             <td colspan="@formTableElement.Elements.Count">
-                                                                <button type="button" class="btn btn-success" @onclick="formTableElement.NewRow"><i class="fa-solid fa-plus"></i></button>
+                                                                <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><i class="fa-solid fa-plus"></i></button>
                                                             </td>
                                                         </tr>
                                                     }
