@@ -18,25 +18,8 @@ namespace FormPortal.Core.Models
         public DateTime LastChange { get; set; } = DateTime.Now;
         [CompareField("last_change_user_id")]
         public int? LastChangeUserId { get; set; }
-        /// <summary>
-        /// Gets all values submitted by the user.
-        /// </summary>
-        public List<FormEntryElement> EntryElements { get; set; } = new();
-        /// <summary>
-        /// Gets all values for table elements which has been submitted by the user.
-        /// </summary>
-        public List<FormEntryTableElement> EntryTableElements { get; set; } = new();
         public Form Form { get; set; }
         public int Id => EntryId;
-
-        /// <summary>
-        /// Removes all elements from the <see cref="Form"/> instance which are not part of the <see cref="EntryElements"/>
-        /// </summary>
-        public void CleanElements()
-        {
-            throw new NotImplementedException();
-        }
-
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
