@@ -94,7 +94,9 @@ VALUES
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
             List<Rule> rules = await GetRulesAsync(form, dbController);
+            
 
+            List<FormTableElement> tableElements = new();
             // Loop through the data and map everything.
             foreach (var row in rows)
             {
@@ -121,11 +123,43 @@ VALUES
                             if (searchTableElement is not null)
                             {
                                 searchTableElement.Elements.Add(element);
+                                if (!tableElements.Contains(searchTableElement))
+                                {
+                                    tableElements.Add(searchTableElement);
+                                }
                             }
                         }
                     }
 
                     row.Columns.Add(column);
+                }
+            }
+
+            if (entryId is > 0)
+            {
+                List<FormEntryTableElement> tableEntries = await GetTableEntriesAsync(entryId, dbController);
+
+                // Generate the List of values for this FormTableElement
+                foreach (var element in tableElements)
+                {
+                    var searchEntries = tableEntries.Where(x => x.TableParentElementId == element.ElementId).ToList();
+
+                    int rowAmount = searchEntries.Count / (element.Elements.Count != 0 ? element.Elements.Count : 1);
+
+                    for (int i = 1; i <= rowAmount; i++)
+                    {
+                        var row = element.NewRow();
+
+                        foreach (var rowElement in row)
+                        {
+                            FormEntryTableElement? searchValue = searchEntries.FirstOrDefault(x => x.ElementId == rowElement.ElementId && x.TableRowNumber == i);
+
+                            if(searchValue is not null)
+                            {
+                                rowElement.SetValue(searchValue);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -362,10 +396,24 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
                     if (entryId > 0)
                     {
-                        sqlBuilder.AppendLine($@"INNER JOIN form_entries_elements fee ON (fee.element_id = fe.element_id AND fee.form_id = fe.form_id AND fee.entry_id = {entryId})");
+                        sqlBuilder.AppendLine($@"LEFT JOIN form_entries_elements fee ON (fee.element_id = fe.element_id AND fee.form_id = fe.form_id AND fee.entry_id = {entryId})");
                     }
 
-                    sqlBuilder.AppendLine(" WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order");
+                    sqlBuilder.AppendLine(" WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID");
+
+                    if(entryId > 0)
+                    {
+                        sqlBuilder.AppendLine(@$" AND 
+(
+    value_boolean IS NOT NULL 
+    OR value_string IS NOT NULL
+    OR value_number IS NOT NULL
+    OR value_date IS NOT NULL
+    OR fe.element_id IN (SELECT DISTINCT fete.element_id FROM form_entries_table_elements fete WHERE entry_id = {entryId})
+)");
+                    }
+
+                    sqlBuilder.AppendLine(" ORDER BY sort_order");
 
                     string sql = sqlBuilder.ToString();
                     Dictionary<string, object?> parameters = new Dictionary<string, object?>
@@ -427,6 +475,11 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         }
                     }
 
+                    if(elementType is ElementType.Table)
+                    {
+
+                    }
+
                     if (elementType is ElementType.Number)
                     {
                         IEnumerable<FormNumberElement> numberElements = (IEnumerable<FormNumberElement>)castedElements;
@@ -456,6 +509,30 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
             return elements;
         }
+
+        /// <summary>
+        /// Get the base <see cref="Rule"/> objects for a specific form.
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="dbController"></param>
+        /// <returns></returns>
+        private async Task<List<FormEntryTableElement>> GetTableEntriesAsync(int entryId, IDbController dbController)
+        {
+            if(entryId <= 0)
+            {
+                return new();
+            }
+
+            string sql = "SELECT * FROM form_entries_table_elements WHERE entry_id = @ENTRY_ID";
+
+            List<FormEntryTableElement> entries = await dbController.SelectDataAsync<FormEntryTableElement>(sql, new
+            {
+                ENTRY_ID = entryId
+            });
+
+            return entries;
+        }
+
         /// <summary>
         /// Get the base <see cref="Rule"/> objects for a specific form.
         /// </summary>

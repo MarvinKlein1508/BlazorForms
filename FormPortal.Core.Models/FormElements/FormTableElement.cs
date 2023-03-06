@@ -32,10 +32,11 @@ namespace FormPortal.Core.Models.FormElements
         /// <summary>
         /// Adds a new row to fill out for the user.
         /// </summary>
-        public void NewRow()
+        public List<FormElement> NewRow()
         {
             var tmp = Elements.DeepCopyByExpressionTree();
             ElementValues.Add(tmp);
+            return tmp;
         }
     }
 }

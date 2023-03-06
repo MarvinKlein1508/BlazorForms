@@ -67,6 +67,7 @@ VALUES
 
                 if (element is FormTableElement tableElement)
                 {
+                    int rowNumber = 1;
                     foreach (var row in tableElement.ElementValues)
                     {
                         foreach (var row_element in row)
@@ -74,6 +75,8 @@ VALUES
                             row_element.EntryId = input.EntryId;
                             sql = $@"INSERT INTO form_entries_table_elements
 (
+table_row_number,
+table_parent_element_id,
 entry_id,
 element_id,
 value_boolean,
@@ -83,6 +86,8 @@ value_date
 )
 VALUES
 (
+@TABLE_ROW_NUMBER,
+@TABLE_PARENT_ELEMENT_ID,
 @ENTRY_ID,
 @ELEMENT_ID,
 @VALUE_BOOLEAN,
@@ -91,8 +96,13 @@ VALUES
 @VALUE_DATE
 ); {dbController.GetLastIdSql()}";
 
-                            await dbController.GetFirstAsync<int>(sql, row_element.GetParameters());
+                            var parameters = row_element.GetParameters();
+                            parameters.Add("TABLE_ROW_NUMBER", rowNumber);
+                            
+                            await dbController.GetFirstAsync<int>(sql, parameters);
                         }
+
+                        rowNumber++;
                     }
                 }
 
@@ -143,7 +153,8 @@ VALUES
             if (entry is not null)
             {
                 entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
- 
+
+                
             }
 
             return entry;

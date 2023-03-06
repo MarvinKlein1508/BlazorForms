@@ -247,14 +247,15 @@ CREATE TABLE form_entries_elements
 
 CREATE TABLE form_entries_table_elements
 (
-	entry_table_element_id INTEGER NOT NULL AUTO_INCREMENT,
+	table_row_number INTEGER NOT NULL,
+	table_parent_element_id INTEGER NOT NULL,
 	entry_id INTEGER NOT NULL,
 	element_id INTEGER NOT NULL,
 	value_boolean TINYINT NOT NULL DEFAULT 0,
 	value_string VARCHAR(100) NOT NULL DEFAULT '',
 	value_number DECIMAL NOT NULL DEFAULT 0,
 	value_date DATE DEFAULT NULL,
-	PRIMARY KEY (entry_table_element_id),
+	PRIMARY KEY (table_row_number, table_parent_element_id, entry_id, element_id),
 	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

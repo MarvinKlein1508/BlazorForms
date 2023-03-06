@@ -22,5 +22,10 @@ namespace FormPortal.Core.Models.FormElements
             parameters["VALUE_STRING"] = Value;
             return parameters;
         }
+
+        public override void SetValue(FormEntryElement element)
+        {
+            Value = element.ValueString;
+        }
     }
 }

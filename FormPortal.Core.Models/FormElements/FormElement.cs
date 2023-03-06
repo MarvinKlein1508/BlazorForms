@@ -92,6 +92,11 @@ namespace FormPortal.Core.Models.FormElements
 
             return Rules.ValidateRules();
         }
+
+        public virtual void SetValue(FormEntryElement element)
+        {
+
+        }
         
     }
 }

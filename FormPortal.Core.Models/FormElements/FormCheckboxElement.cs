@@ -16,5 +16,10 @@ namespace FormPortal.Core.Models.FormElements
             parameters["VALUE_BOOLEAN"] = Value;
             return parameters;
         }
+
+        public override void SetValue(FormEntryElement element)
+        {
+            Value = element.ValueBoolean;
+        }
     }
 }

@@ -98,5 +98,10 @@ namespace FormPortal.Core.Models.FormElements
         }
 
         public override string GetDefaultName() => "Number";
+
+        public override void SetValue(FormEntryElement element)
+        {
+            Value = element.ValueNumber;
+        }
     }
 }

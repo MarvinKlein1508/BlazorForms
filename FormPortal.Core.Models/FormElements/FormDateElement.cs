@@ -31,5 +31,10 @@ namespace FormPortal.Core.Models.FormElements
         }
 
         public override string GetDefaultName() => "Date";
+
+        public override void SetValue(FormEntryElement element)
+        {
+            Value = element.ValueDate;
+        }
     }
 }
