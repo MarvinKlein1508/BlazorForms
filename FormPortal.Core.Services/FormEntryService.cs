@@ -142,7 +142,7 @@ VALUES
 
             if (entry is not null)
             {
-                entry.Form = await _formService.GetEntryForm(entry.FormId, dbController) ?? new();
+                entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
 
                 // Load values
                 sql = "SELECT * FROM form_entries_elements WHERE entry_id = @ENTRY_ID";

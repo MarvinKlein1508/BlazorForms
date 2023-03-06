@@ -4,6 +4,7 @@ using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
+using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace FormPortal.Core.Services
@@ -63,13 +64,13 @@ VALUES
 
             if (form is not null)
             {
-                await LoadFormContentAsync(form, false, dbController);
+                await LoadFormContentAsync(form, 0, dbController);
             }
 
             return form;
         }
 
-        public async Task<Form?> GetEntryForm(int formId, IDbController dbController)
+        public async Task<Form?> GetEntryForm(int formId, int entryId, IDbController dbController)
         {
             string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
 
@@ -80,18 +81,18 @@ VALUES
 
             if (form is not null)
             {
-                await LoadFormContentAsync(form, true, dbController);
+                await LoadFormContentAsync(form, entryId, dbController);
             }
 
             return form;
         }
 
-        private async Task LoadFormContentAsync(Form form, bool loadEntry, IDbController dbController)
+        private async Task LoadFormContentAsync(Form form, int entryId, IDbController dbController)
         {
             // Load all required data here
             List<FormRow> rows = await GetRowsAsync(form, dbController);
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
-            List<FormElement> elements = await GetElementsAsync(form, loadEntry, dbController);
+            List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
             List<Rule> rules = await GetRulesAsync(form, dbController);
 
             // Loop through the data and map everything.
@@ -339,7 +340,7 @@ form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormElement>> GetElementsAsync(Form form, bool loadEntry, IDbController dbController)
+        private async Task<List<FormElement>> GetElementsAsync(Form form, int entryId, IDbController dbController)
         {
             List<FormElement> elements = new();
             foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
@@ -351,7 +352,7 @@ form_id = @FORM_ID";
                 {
                     var sqlBuilder = new StringBuilder();
                     sqlBuilder.Append("SELECT fe.*, fea.*");
-                    if (loadEntry)
+                    if (entryId > 0)
                     {
                         sqlBuilder.Append(",fee.value_boolean, fee.value_string, fee.value_number, fee.value_date");
                     }
@@ -359,9 +360,9 @@ form_id = @FORM_ID";
                     sqlBuilder.AppendLine($@" FROM form_elements fe
 LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
-                    if (loadEntry)
+                    if (entryId > 0)
                     {
-                        sqlBuilder.AppendLine($@"INNER JOIN form_entries_elements fee ON (fee.element_id = fe.element_id AND fee.form_id = fe.form_id)");
+                        sqlBuilder.AppendLine($@"INNER JOIN form_entries_elements fee ON (fee.element_id = fe.element_id AND fee.form_id = fe.form_id AND fee.entry_id = {entryId})");
                     }
 
                     sqlBuilder.AppendLine(" WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID ORDER BY sort_order");
@@ -405,6 +406,24 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                             {
                                 item.Options = options.Where(x => x.ElementId == item.ElementId).ToList();
                             }
+                        }
+                    }
+
+                    if (elementType is ElementType.File && entryId > 0)
+                    {
+                        IEnumerable<FormFileElement> fileElements = (IEnumerable<FormFileElement>)castedElements;
+
+                        List<int> elementIds = fileElements.Select(x => x.ElementId).ToList();
+                        sql = $"SELECT * FROM form_entries_files WHERE entry_id = @ENTRY_ID AND element_id IN ({string.Join(",", elementIds)})";
+
+                        List<FormFileElementFile> files = await dbController.SelectDataAsync<FormFileElementFile>(sql, new
+                        {
+                            ENTRY_ID = entryId
+                        });
+
+                        foreach (var item in fileElements)
+                        {
+                            item.Values = files.Where(x => x.ElementId == item.ElementId && x.EntryId == entryId).ToList();
                         }
                     }
 
