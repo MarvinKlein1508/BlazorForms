@@ -144,28 +144,7 @@ VALUES
             {
                 entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
 
-                // Load values
-                sql = "SELECT * FROM form_entries_elements WHERE entry_id = @ENTRY_ID";
-
-                var values = await dbController.SelectDataAsync<FormEntryElement>(sql, new
-                {
-                    ENTRY_ID = entry.EntryId
-                });
-
-
-                sql = "SELECT * FROM form_entries_table_elements WHERE entry_id = @ENTRY_ID";
-
-
-                var tableValues = await dbController.SelectDataAsync<FormEntryTableElement>(sql, new
-                {
-                    ENTRY_ID = entryId
-                });
-
-
-
-                // TODO: Remove all elements from the form which are not part of it anymore
-
-                var elements = entry.Form.GetElements().ToArray();
+     
 
 
                 
