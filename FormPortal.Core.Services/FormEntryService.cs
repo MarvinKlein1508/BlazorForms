@@ -40,6 +40,11 @@ VALUES
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
 
+            await CreateElementsAsync(input, dbController);
+        }
+        private async Task CreateElementsAsync(FormEntry input, IDbController dbController)
+        {
+            string sql = string.Empty;
             foreach (var element in input.Form.GetElements())
             {
                 element.EntryId = input.EntryId;
@@ -98,7 +103,7 @@ VALUES
 
                             var parameters = row_element.GetParameters();
                             parameters.Add("TABLE_ROW_NUMBER", rowNumber);
-                            
+
                             await dbController.GetFirstAsync<int>(sql, parameters);
                         }
 
@@ -133,7 +138,6 @@ VALUES
                     }
                 }
             }
-
         }
 
         public Task DeleteAsync(FormEntry input, IDbController dbController)
@@ -154,15 +158,37 @@ VALUES
             {
                 entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
 
-                
+
             }
 
             return entry;
         }
 
-        public Task UpdateAsync(FormEntry input, IDbController dbController)
+        public async Task UpdateAsync(FormEntry input, IDbController dbController)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE form_entries SET
+last_change = @LAST_CHANGE,
+last_change_user_id = @LAST_CHANGE_USER_ID
+WHERE
+entry_id = @ENTRY_ID";
+
+            await dbController.QueryAsync(sql, input.GetParameters());
+
+            // Remove all entry_elements and insert everything again
+            // Removing in the base table results in all other being deleted automatically
+            var deleteSqls = new List<string>
+            {
+                "DELETE FROM form_entries_elements WHERE entry_id = @ENTRY_ID",
+                "DELETE FROM form_entries_files WHERE entry_id = @ENTRY_ID",
+                "DELETE FROM form_entries_table_elements WHERE entry_id = @ENTRY_ID"
+            };
+
+            foreach (var deleteSql in deleteSqls)
+            {
+                await dbController.QueryAsync(deleteSql, input.GetParameters());
+            }
+            
+            await CreateElementsAsync(input, dbController);
         }
 
         public Task UpdateAsync(FormEntry input, FormEntry oldInputToCompare, IDbController dbController)

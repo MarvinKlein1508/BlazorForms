@@ -2,9 +2,6 @@ using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
-using FormPortal.Core.Validators;
-using FormPortal.Core.Validators.Admin;
-using FormularPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -74,19 +71,29 @@ namespace FormularPortal.Pages
             {
                 using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
 
+                if (Input.EntryId is 0)
+                {
+                    Input.CreationDate = DateTime.Now;
+                    Input.CreationUserId = _user?.UserId;
+                }
 
-
-                Input.CreationDate = DateTime.Now;
                 Input.LastChange = DateTime.Now;
                 Input.LastChangeUserId = _user?.UserId;
-                Input.CreationUserId = _user?.UserId;
 
                 await dbController.StartTransactionAsync();
                 try
                 {
-                    await formEntryService.CreateAsync(Input, dbController);
+                    if(Input.EntryId is 0)
+                    {
+                        await formEntryService.CreateAsync(Input, dbController);
+                    }
+                    else
+                    {
+                        await formEntryService.UpdateAsync(Input, dbController);
+                    }
+
                     await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich abgeschickt");
+                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich gespeichert");
 
                 }
                 catch (Exception)
@@ -151,10 +158,6 @@ namespace FormularPortal.Pages
                 }
 
             }
-
-
-
-
         }
     }
 }
