@@ -3,6 +3,8 @@ using DatabaseControllerProvider;
 using Blazor.Pagination;
 using FormPortal.Core.Models;
 using FormPortal.Core.Filters;
+using System.Data;
+using FormPortal.Core.Pdf;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -29,6 +31,20 @@ namespace FormularPortal.Pages.Admin.Forms
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
             Data = await formEntryService.GetAsync(Filter, dbController);
+        }
+
+        private async Task DownloadAsync(EntryListItem item)
+        {
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            var entry = await formEntryService.GetAsync(item.EntryId, dbController);
+            if (entry is not null)
+            {
+                var report = await ReportFormEntry.CreateAsync(entry);
+
+                var data = report.GetBytes();
+
+                await downloadService.DownloadFile($"{item.FormName}_{item.EntryId}.pdf", data, "application/pdf");
+            }
         }
     }
 }

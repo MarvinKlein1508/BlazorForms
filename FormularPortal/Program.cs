@@ -1,3 +1,4 @@
+using BlazorDownloadFile;
 using DatabaseControllerProvider;
 using FluentValidation;
 using FormPortal.Core.Services;
@@ -27,7 +28,7 @@ namespace FormularPortal
                 });
 
             builder.Services.AddBlazorDragDrop();
-
+            builder.Services.AddBlazorDownloadFile();
             builder.Services.AddScoped<DbProviderService>();
             builder.Services.AddScoped<PermissionService>();
             builder.Services.AddScoped<UserService>();

@@ -3,6 +3,7 @@
 @inject FormEntryService formEntryService
 @inject DbProviderService dbProviderService
 @inject NavigationManager navigationManager
+@inject IBlazorDownloadFileService downloadService
 
 <div class="col-lg-3 col-sm-12 order-lg-3">
     <div class="card">
@@ -52,6 +53,7 @@
                                 <td>@item.LastChange.ToString()</td>
                                 <td>@item.UsernameLastChange</td>
                                 <td class="text-right">
+                                    <button type="button" class="btn btn-info" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
                                     <a class="btn btn-primary" href="/Entry/@item.FormId"><i class="fa-solid fa-edit"></i></a>
                                 </td>
                             </tr>

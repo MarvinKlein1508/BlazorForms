@@ -24,6 +24,7 @@
     <PackageReference Include="Blazor.BootstrapTabs" Version="1.0.0" />
     <PackageReference Include="Blazor.ContextMenu" Version="1.15.0" />
     <PackageReference Include="Blazor.Pagination" Version="2.0.2" />
+    <PackageReference Include="BlazorDownloadFile" Version="2.4.0.2" />
     <PackageReference Include="BlazorTooltips" Version="7.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
     <PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.0" />
@@ -37,6 +38,7 @@
     <ProjectReference Include="..\FormPortal.Core.Filters\FormPortal.Core.Filters.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
     <ProjectReference Include="..\FormularPortal.Core\FormularPortal.Core.csproj" />
