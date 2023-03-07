@@ -32,7 +32,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Services", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKEditor", "CKEditor\CKEditor.csproj", "{E5204AC5-205F-41DB-9BCA-FF35C011389B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormPortal.Tester", "FormPortal.Tester\FormPortal.Tester.csproj", "{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Tester", "FormPortal.Tester\FormPortal.Tester.csproj", "{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormPortal.Core.Pdf", "FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj", "{A5F51390-8967-4E84-9D74-3F74ABD1B516}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,12 @@ Global
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

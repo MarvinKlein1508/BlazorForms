@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Pdf;
 using FormPortal.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,8 +43,12 @@ namespace FormPortal.Tester
 
             var formEntryService = ActivatorUtilities.GetServiceOrCreateInstance<FormEntryService>(host.Services);
 
-            var entry = await formEntryService.GetAsync(4, sqlController);
+            var entry = await formEntryService.GetAsync(5, sqlController);
 
+
+            ReportFormEntry report = await ReportFormEntry.CreateAsync(entry);
+
+            report.Print("D:\\TEST.PDF");
         }
     }
 }

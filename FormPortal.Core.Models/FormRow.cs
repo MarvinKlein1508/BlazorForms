@@ -116,7 +116,7 @@ namespace FormPortal.Core.Models
                 return true;
             }
 
-            return Rules.ValidateRules();
+            return Rules.ValidateRules() && Columns.Any(x => x.IsVisible());
         }
     }
 }

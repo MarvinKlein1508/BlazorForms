@@ -16,6 +16,7 @@
     <ProjectReference Include="..\FormPortal.Core.Filters\FormPortal.Core.Filters.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
   </ItemGroup>
