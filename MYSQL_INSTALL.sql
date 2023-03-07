@@ -236,7 +236,7 @@ CREATE TABLE form_entries_elements
 	form_id INTEGER NOT NULL,
 	element_id INTEGER NOT NULL,
 	value_boolean TINYINT NOT NULL DEFAULT 0,
-	value_string VARCHAR(100) NOT NULL DEFAULT '',
+	value_string TEXT NOT NULL DEFAULT '',
 	value_number DECIMAL NOT NULL DEFAULT 0,
 	value_date DATE DEFAULT NULL,
 	PRIMARY KEY (entry_id, form_id, element_id),
