@@ -1,8 +1,80 @@
 ﻿@page "/Admin/Entries"
 @attribute [Authorize(Roles = Roles.EDIT_SUBMITTED_FORMS)]
+@inject FormEntryService formEntryService
+@inject DbProviderService dbProviderService
+@inject NavigationManager navigationManager
 
-<h3>FormEntries</h3>
+<div class="col-lg-3 col-sm-12 order-lg-3">
+    <div class="card">
+        <div class="card-header">
+            <h4>Filter</h4>
+        </div>
+        <div class="card-content" style="padding: 0 1.3rem;">
+            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
+                    <label for="form-filter-searchphrase">Suchbegriff</label>
+                </div>
 
-@code {
+                <div class="toolbar">
+                    <button type="submit" class="btn btn-primary">Suchen</button>
+                </div>
 
-}
+            </EditForm>
+        </div>
+    </div>
+</div>
+<div class="col-lg-9 col-sm-12">
+
+    <div class="card">
+        <div class="card-content">
+            <!-- Table with no outer spacing -->
+            <div class="table-responsive">
+                <table class="table mb-0 table-lg">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Formular</th>
+                            <th>Anlagedatum</th>
+                            <th>Anlageuser</th>
+                            <th>Letzte Änderung</th>
+                            <th>Letzter Bearbeiter</th>
+                            <th class="text-right">AKTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Virtualize Items="Data" Context="item">
+                            <tr>
+                                <td>@item.EntryId</td>
+                                <td>@item.FormName</td>
+                                <td>@item.CreationDate.ToShortDateString()</td>
+                                <td>@item.UsernameCreator</td>
+                                <td>@item.LastChange.ToString()</td>
+                                <td>@item.UsernameLastChange</td>
+                                <td class="text-right">
+                                    <a class="btn btn-primary" href="/Entry/@item.FormId"><i class="fa-solid fa-edit"></i></a>
+                                </td>
+                            </tr>
+                        </Virtualize>
+
+                        @if (!Data.Any())
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center">Es wurden keine Formulare gefunden.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <Pagination CurrentPageNumber="Page"
+                ItemsPerPage="Filter.Limit"
+                TotalItems="TotalItems"
+                NavUrl="/Admin/Forms/" />
+</div>
+
+

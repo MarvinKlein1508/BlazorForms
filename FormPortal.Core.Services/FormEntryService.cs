@@ -1,4 +1,5 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
@@ -187,13 +188,84 @@ entry_id = @ENTRY_ID";
             {
                 await dbController.QueryAsync(deleteSql, input.GetParameters());
             }
-            
+
             await CreateElementsAsync(input, dbController);
         }
 
         public Task UpdateAsync(FormEntry input, FormEntry oldInputToCompare, IDbController dbController)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendLine($@"SELECT DISTINCT fe.*, 
+COALESCE(u1.display_name, '') AS username_creator, 
+COALESCE(u2.display_name, '') AS username_last_change,
+f.name AS form_name
+FROM form_entries fe
+LEFT JOIN forms f ON f.form_id = fe.form_id
+LEFT JOIN form_entries_elements fee ON (fee.form_id = fe.form_id AND fee.entry_id = fe.entry_id)
+LEFT JOIN users u1 ON (u1.user_id = fe.creation_user_id)
+LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)
+WHERE 1 = 1");
+            sqlBuilder.AppendLine(GetFilterWhere(filter));
+            sqlBuilder.Append(" ORDER BY entry_id DESC ");
+            sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
+
+            string sql = sqlBuilder.ToString();
+
+            List<EntryListItem> entries = await dbController.SelectDataAsync<EntryListItem>(sql, GetFilterParameter(filter));
+
+            return entries;
+        }
+
+        public async Task<int> GetTotalAsync(FormEntryFilter filter, IDbController dbController)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+
+            sqlBuilder.AppendLine(@$"SELECT COUNT(DISTINCT(fe.entry_id))
+FROM form_entries fe
+LEFT JOIN forms f ON f.form_id = fe.form_id
+LEFT JOIN form_entries_elements fee ON (fee.form_id = fe.form_id AND fee.entry_id = fe.entry_id)
+LEFT JOIN users u1 ON (u1.user_id = fe.creation_user_id)
+LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)
+WHERE 1 = 1");
+
+            sqlBuilder.AppendLine(GetFilterWhere(filter));
+
+            string sql = sqlBuilder.ToString();
+
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+
+            return result;
+        }
+
+        public string GetFilterWhere(FormEntryFilter filter)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+
+            if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+            {
+                sqlBuilder.AppendLine(@" AND 
+(
+    f.name LIKE @SEARCHPHRASE
+OR u1.display_name LIKE @SEARCHPHRASE
+OR u2.display_name LIKE @SEARCHPHRASE
+)");
+            }
+
+            string sql = sqlBuilder.ToString();
+            return sql;
+        }
+
+        public Dictionary<string, object?> GetFilterParameter(FormEntryFilter filter)
+        {
+            return new Dictionary<string, object?>
+            {
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
+            };
         }
     }
 }

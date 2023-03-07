@@ -33,6 +33,17 @@
         </Authorized>
     </AuthorizeView>
 
+    <AuthorizeView Roles="@(Roles.EDIT_SUBMITTED_FORMS)">
+        <Authorized>
+            <li class="sidebar-item">
+                <NavLink href="/Admin/Entries" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>Formulareinträge</span>
+                </NavLink>
+            </li>
+        </Authorized>
+    </AuthorizeView>
+
 
 
     <li class="sidebar-title">Account</li>
