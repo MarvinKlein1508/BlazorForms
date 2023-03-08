@@ -158,7 +158,7 @@ VALUES
             if (entry is not null)
             {
                 entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
-
+                entry.Form.EntryMode = true;
 
             }
 
