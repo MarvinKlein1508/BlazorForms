@@ -10,7 +10,7 @@ namespace FormPortal.Core.Validators.Admin
         {
             RuleFor(x => x.Name)
                 .Must(IsNameSet)
-                .WithMessage("Bitte geben Sie dem Feld einen Namen");
+                .WithMessage(x => $"Bitte geben Sie dem Feld '{x.Name}' einen Namen");
 
         }
 
