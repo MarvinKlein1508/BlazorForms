@@ -160,8 +160,10 @@ namespace FormularPortal.Pages.Admin.Forms
                 {
                     StringBuilder errorBuilder = new StringBuilder();
                     errorBuilder.AppendLine("Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
+                    
                     foreach (var item in validationResult.Errors)
                     {
+                        errorBuilder.AppendLine(Environment.NewLine);
                         errorBuilder.AppendLine(item.ErrorMessage);
                     }
 
