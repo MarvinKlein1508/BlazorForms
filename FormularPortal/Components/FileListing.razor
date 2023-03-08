@@ -1,4 +1,5 @@
-﻿@if (Files.Any())
+﻿@inject IBlazorDownloadFileService downloadService
+@if (Files.Any())
 {
     <h2>Dateien</h2>
     <div class="file-wrapper">
@@ -23,10 +24,10 @@
                 <button type="button" class="btn file-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="@file.GetHashCode()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="@file.GetHashCode()">
 
-                    <li><a class="dropdown-item"><i class="fa-solid fa-trash text-danger me-1"></i>Löschen</a></li>
-                    <li><a class="dropdown-item"><i class="fa-solid fa-download text-primary me-1"></i>Herunterladen</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li class="dropdown-item">Größe: @file.Data.Length</li>
+                    <li class="dropdown-item" role="button" @onclick="async () => await DeleteAsync(file)"><i class="fa-solid fa-trash text-danger"></i> Löschen</li>
+                    <li class="dropdown-item" role="button" @onclick="async () => await DownloadAsync(file)"><i class="fa-solid fa-download text-primary"></i> Herunterladen</li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item">Größe: @ToHumanReadableFileSize(file.Data)</li>
                 </ul>
             </div>
         }

@@ -1,34 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
-using FormularPortal;
-using FormularPortal.Components;
-using Plk.Blazor.DragDrop;
-using FormPortal.Core.Services;
-using FormularPortal.Components.Modals;
-using DatabaseControllerProvider;
-using Blazor.Pagination;
-using Blazor.BootstrapTabs;
-using FormularPortal.Core;
-using BlazorTooltips;
-using vNext.BlazorComponents.FluentValidation;
-using FormPortal.Core.Constants;
-using FormPortal.Core.Interfaces;
-using FormPortal.Core.Models;
-using FormPortal.Core.Filters;
 using FormPortal.Core.Models.FormElements;
-using BlazorContextMenu;
-using CKEditor;
 
 namespace FormularPortal.Components
 {
@@ -45,6 +16,17 @@ namespace FormularPortal.Components
             string base64Image = Convert.ToBase64String(file.Data);
 
             return $"data:{file.ContentType};base64, {base64Image}";
+        }
+
+        private Task DeleteAsync(FormFileElementFile file)
+        {
+            Files.Remove(file);
+            return Task.CompletedTask;
+        }
+
+        private async Task DownloadAsync(FormFileElementFile file)
+        {
+            await downloadService.DownloadFile(file.Filename, file.Data, file.ContentType);
         }
         private string GetFileIcon(string filename)
         {
@@ -63,6 +45,19 @@ namespace FormularPortal.Components
                 ".mp4" => "fa-file-video",
                 _ => "fa-file",
             };
+        }
+
+        public static string ToHumanReadableFileSize(byte[] data)
+        {
+            long bytes = data.LongLength;
+            string[] sizes = { "B", "KiB", "MiB", "GiB", "TiB" };
+            int order = 0;
+            while (bytes >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                bytes = bytes / 1024;
+            }
+            return String.Format("{0:0.##} {1}", bytes, sizes[order]);
         }
     }
 }
