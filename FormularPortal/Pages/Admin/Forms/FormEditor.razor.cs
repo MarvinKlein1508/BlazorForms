@@ -9,6 +9,7 @@ using FormularPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using System.Text;
 
 namespace FormularPortal.Pages.Admin.Forms
 {
@@ -157,7 +158,16 @@ namespace FormularPortal.Pages.Admin.Forms
 
                 if (!validationResult.IsValid)
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, $"Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
+                    StringBuilder errorBuilder = new StringBuilder();
+                    errorBuilder.AppendLine("Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
+                    foreach (var item in validationResult.Errors)
+                    {
+                        errorBuilder.AppendLine(item.ErrorMessage);
+                    }
+
+                    string errorMessage = errorBuilder.ToString();
+
+                    await jsRuntime.ShowToastAsync(ToastType.error, errorMessage);
                     return;
                 }
 
@@ -304,7 +314,7 @@ namespace FormularPortal.Pages.Admin.Forms
             }
 
         }
-    
+
         private Task CloseItemAsync()
         {
             bool redirect = SelectedFormRow is null && SelectedFormColumn is null && SelectedFormElement is null;
@@ -327,7 +337,7 @@ namespace FormularPortal.Pages.Admin.Forms
                 }
             }
 
-            if(redirect)
+            if (redirect)
             {
                 navigationManager.NavigateTo("/Admin/Forms");
             }
