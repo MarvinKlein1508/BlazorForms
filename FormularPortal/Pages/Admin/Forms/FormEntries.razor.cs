@@ -15,6 +15,8 @@ namespace FormularPortal.Pages.Admin.Forms
         public int TotalItems { get; set; }
         public List<EntryListItem> Data { get; set; } = new();
 
+        public List<EntryListItem> DownloadingList { get; set; } = new();
+
         protected override async Task OnParametersSetAsync()
         {
             if (Page < 1)
@@ -35,6 +37,7 @@ namespace FormularPortal.Pages.Admin.Forms
 
         private async Task DownloadAsync(EntryListItem item)
         {
+            DownloadingList.Add(item);
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
             var entry = await formEntryService.GetAsync(item.EntryId, dbController);
             if (entry is not null)
@@ -45,6 +48,7 @@ namespace FormularPortal.Pages.Admin.Forms
 
                 await downloadService.DownloadFile($"{item.FormName}_{item.EntryId}.pdf", data, "application/pdf");
             }
+            DownloadingList.Remove(item);
         }
     }
 }

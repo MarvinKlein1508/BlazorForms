@@ -1,0 +1,9 @@
+﻿<button class="@ButtonClass" type="button" disabled>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <span class="visually-hidden">Loading...</span>
+</button>
+
+
+@code {
+    [Parameter] public string ButtonClass { get; set; } = "btn btn-primary";
+}

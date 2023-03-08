@@ -53,7 +53,14 @@
                                 <td>@item.LastChange.ToString()</td>
                                 <td>@item.UsernameLastChange</td>
                                 <td class="text-right">
-                                    <button type="button" class="btn btn-info" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
+                                    @if(DownloadingList.Contains(item))
+                                    {
+                                        <LoadingButton ButtonClass="btn btn-info me-1" />
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
+                                    }
                                     <a class="btn btn-primary" href="/Entry/@item.EntryId"><i class="fa-solid fa-edit"></i></a>
                                 </td>
                             </tr>
