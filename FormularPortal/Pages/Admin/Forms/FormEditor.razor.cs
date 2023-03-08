@@ -150,30 +150,26 @@ namespace FormularPortal.Pages.Admin.Forms
                 return;
             }
 
-            foreach (var element in Input.GetElements())
+            ValidationResult validationResult = Validator.Validate(Input);
+
+            if (!validationResult.IsValid)
             {
+                StringBuilder errorBuilder = new StringBuilder();
+                errorBuilder.AppendLine("Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
 
-
-                ValidationResult validationResult = Validator.Validate(Input);
-
-                if (!validationResult.IsValid)
+                foreach (var item in validationResult.Errors)
                 {
-                    StringBuilder errorBuilder = new StringBuilder();
-                    errorBuilder.AppendLine("Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
-                    
-                    foreach (var item in validationResult.Errors)
-                    {
-                        errorBuilder.AppendLine(Environment.NewLine);
-                        errorBuilder.AppendLine(item.ErrorMessage);
-                    }
-
-                    string errorMessage = errorBuilder.ToString();
-
-                    await jsRuntime.ShowToastAsync(ToastType.error, errorMessage);
-                    return;
+                    errorBuilder.AppendLine(Environment.NewLine);
+                    errorBuilder.AppendLine(item.ErrorMessage);
                 }
 
+                string errorMessage = errorBuilder.ToString();
+
+                await jsRuntime.ShowToastAsync(ToastType.error, errorMessage);
+                return;
             }
+
+
 
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
