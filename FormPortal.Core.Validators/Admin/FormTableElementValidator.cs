@@ -40,6 +40,10 @@ namespace FormPortal.Core.Validators.Admin
                      });
                  })
                  .When(IsEntryMode);
+
+            RuleFor(x => x.Elements)
+                .Must(x => x.Any())
+                .WithMessage(x => $"Tabelle '{x.Name}' muss mindestens ein Element beinhalten");
         }
     }
 }
