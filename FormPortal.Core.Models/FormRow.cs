@@ -43,6 +43,7 @@ namespace FormPortal.Core.Models
         /// <param name="columns"></param>
         public FormRow(Form form, int columns)
         {
+            Form = form;
             for (int i = 0; i < columns; i++)
             {
                 Columns.Add(new FormColumn(form));
