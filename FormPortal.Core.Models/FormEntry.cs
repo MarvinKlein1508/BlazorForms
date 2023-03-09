@@ -28,6 +28,7 @@ namespace FormPortal.Core.Models
             {
                 { "ENTRY_ID",  EntryId },
                 { "FORM_ID",  FormId },
+                { "NAME", Name },
                 { "CREATION_DATE",  CreationDate },
                 { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
                 { "LAST_CHANGE",  LastChange },

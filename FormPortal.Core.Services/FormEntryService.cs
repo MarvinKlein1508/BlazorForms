@@ -25,6 +25,7 @@ namespace FormPortal.Core.Services
             string sql = $@"INSERT INTO form_entries
 (
 form_id,
+name,
 creation_date,
 creation_user_id,
 last_change,
@@ -33,6 +34,7 @@ last_change_user_id
 VALUES
 (
 @FORM_ID,
+@NAME,
 @CREATION_DATE,
 @CREATION_USER_ID,
 @LAST_CHANGE,
@@ -168,6 +170,7 @@ VALUES
         public async Task UpdateAsync(FormEntry input, IDbController dbController)
         {
             string sql = @"UPDATE form_entries SET
+name = @NAME,
 last_change = @LAST_CHANGE,
 last_change_user_id = @LAST_CHANGE_USER_ID
 WHERE
