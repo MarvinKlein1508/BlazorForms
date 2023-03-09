@@ -1,0 +1,8 @@
+﻿.form-card {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-card .card-text {
+        flex: 1;
+    }
