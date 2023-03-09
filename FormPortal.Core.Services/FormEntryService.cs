@@ -254,6 +254,7 @@ WHERE 1 = 1");
                 sqlBuilder.AppendLine(@" AND 
 (
     f.name LIKE @SEARCHPHRASE
+OR fe.name LIKE @SEARCHPHRASE
 OR u1.display_name LIKE @SEARCHPHRASE
 OR u2.display_name LIKE @SEARCHPHRASE
 )");

@@ -13,6 +13,15 @@
     <EditForm Model="Input.Form" @ref="_form">
         <FluentValidationValidator />
         <ValidationSummary />
+        <div class="row">
+            <div class="col-12">
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name des Dokuments" />
+                    <label for="form-name">Name des Dokuments</label>
+                    <ValidationMessage For="() => Input.Name" />
+                </div>
+            </div>
+        </div>
         @foreach (var row in Input.Form.Rows)
         {
             @if (row.IsVisible())

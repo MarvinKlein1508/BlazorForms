@@ -46,7 +46,14 @@ namespace FormularPortal.Pages.Admin.Forms
 
                 var data = report.GetBytes();
 
-                await downloadService.DownloadFile($"{item.FormName}_{item.EntryId}.pdf", data, "application/pdf");
+                string filename = item.Name;
+
+                if (string.IsNullOrWhiteSpace(filename))
+                {
+                    filename = $"{item.FormName}_{item.EntryId}";
+                }
+
+                await downloadService.DownloadFile($"{filename}.pdf", data, "application/pdf");
             }
             DownloadingList.Remove(item);
         }

@@ -36,6 +36,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Formular</th>
+                            <th>Dokumentenname</th>
                             <th>Anlagedatum</th>
                             <th>Anlageuser</th>
                             <th>Letzte Änderung</th>
@@ -48,12 +49,13 @@
                             <tr>
                                 <td>@item.EntryId</td>
                                 <td>@item.FormName</td>
+                                <td>@item.Name</td>
                                 <td>@item.CreationDate.ToShortDateString()</td>
                                 <td>@item.UsernameCreator</td>
                                 <td>@item.LastChange.ToString()</td>
                                 <td>@item.UsernameLastChange</td>
                                 <td class="text-right">
-                                    @if(DownloadingList.Contains(item))
+                                    @if (DownloadingList.Contains(item))
                                     {
                                         <LoadingButton ButtonClass="btn btn-info me-1" />
                                     }
