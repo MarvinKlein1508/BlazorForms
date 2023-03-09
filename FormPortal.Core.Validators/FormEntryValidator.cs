@@ -15,8 +15,13 @@ namespace FormPortal.Core.Validators
         {
             RuleFor(x => x.Form)
                 .SetValidator(new FormValidator());
+
+            RuleFor(x => x.Name)
+                .MaximumLength(50)
+                .NotEmpty()
+                .NotNull();
         }
     }
 
-    
+
 }

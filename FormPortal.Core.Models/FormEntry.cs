@@ -10,6 +10,8 @@ namespace FormPortal.Core.Models
         public int EntryId { get; set; }
         [CompareField("form_id")]
         public int FormId { get; set; }
+        [CompareField("name")]
+        public string Name { get; set; } = string.Empty;
         [CompareField("creation_date")]
         public DateTime CreationDate { get; set; } = DateTime.Now;
         [CompareField("creation_user_id")]
