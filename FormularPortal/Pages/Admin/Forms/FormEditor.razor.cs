@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Text;
-
+using FluentValidation;
 namespace FormularPortal.Pages.Admin.Forms
 {
     public partial class FormEditor
@@ -42,6 +42,7 @@ namespace FormularPortal.Pages.Admin.Forms
             {
                 Input = new Form();
                 Input.Rows.Add(new FormRow(Input, 1));
+                EditFormProperties = true;
             }
         }
 
@@ -111,6 +112,7 @@ namespace FormularPortal.Pages.Admin.Forms
             element.Parent = column;
             return Task.CompletedTask;
         }
+
 
 
         public void StartDragColumnFromToolbar()
