@@ -260,6 +260,11 @@ OR u2.display_name LIKE @SEARCHPHRASE
 )");
             }
 
+            if (filter.UserId > 0)
+            {
+                sqlBuilder.AppendLine(@" AND creation_user_id = @USERID");
+            }
+
             string sql = sqlBuilder.ToString();
             return sql;
         }
@@ -268,7 +273,8 @@ OR u2.display_name LIKE @SEARCHPHRASE
         {
             return new Dictionary<string, object?>
             {
-                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" },
+                { "USERID", filter.UserId }
             };
         }
     }
