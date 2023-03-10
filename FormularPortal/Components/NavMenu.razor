@@ -49,6 +49,14 @@
     <li class="sidebar-title">Account</li>
     <AuthorizeView>
         <Authorized>
+
+            <li class="sidebar-item">
+                <NavLink href="/Account/Entries" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
+                    <i class="fa-solid fa-pen"></i>
+                    <span>Meine Formulare</span>
+                </NavLink>
+            </li>
+
             <li class="sidebar-item">
                 <NavLink href="/Account/Details" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
                     <i class="fa-solid fa-user"></i>
