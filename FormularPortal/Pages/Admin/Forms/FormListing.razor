@@ -5,6 +5,8 @@
 @inject DbProviderService dbProviderService
 @inject NavigationManager navigationManager
 
+<PageTitle>Formulare</PageTitle>
+
 <div class="toolbar">
     <a role="button" class="btn btn-success" href="/Admin/FormEditor"><i class="fa-solid fa-plus"></i></a>
 </div>
@@ -77,12 +79,3 @@
                 TotalItems="TotalItems"
                 NavUrl="/Admin/Forms/" />
 </div>
-
-@*@if (SelectedForDeletion is not null)
-{
-    <ConfirmModal Title="Notiz löschen?"
-              OnClosed="() => SelectedForDeletion = null"
-              OnConfirmed="DeleteAsync">
-        <p>Möchten Sie die Notiz wirklich löschen?</p>
-    </ConfirmModal>
-}*@

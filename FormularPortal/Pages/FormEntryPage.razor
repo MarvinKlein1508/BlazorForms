@@ -9,6 +9,9 @@
 
 @if (Input is not null && Input.Form is not null)
 {
+
+    <PageTitle>@Input.Form.Name ausfüllen</PageTitle>
+
     <h2>@Input.Form.Name</h2>
     <EditForm Model="Input.Form" @ref="_form">
         <FluentValidationValidator />
