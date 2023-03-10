@@ -1,31 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <!--<RazorLangVersion>3.0</RazorLangVersion>-->
-    <Version>2.5.0</Version>
-    <PackageId>blazor-dragdrop</PackageId>
-    <Authors>Postlagerkarte</Authors>
-    <Product>Blazor Drag Drop Library</Product>
-    <PackageProjectUrl>https://github.com/Postlagerkarte/blazor-dragdrop</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Postlagerkarte/blazor-dragdrop</RepositoryUrl>
-    <PackageTags>dragdrop blazor draggable drop</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Easy-to-use and feature rich Drag and drop library for Blazor</Description>
-    <AssemblyVersion>2.2.2.0</AssemblyVersion>
-    <FileVersion>2.2.2.0</FileVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Configurations>Debug;Release;DebugKlein</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<!--<RazorLangVersion>3.0</RazorLangVersion>-->
+		<Version>2.5.0</Version>
+		<PackageId>blazor-dragdrop</PackageId>
+		<Authors>Postlagerkarte</Authors>
+		<Product>Blazor Drag Drop Library</Product>
+		<PackageProjectUrl>https://github.com/Postlagerkarte/blazor-dragdrop</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Postlagerkarte/blazor-dragdrop</RepositoryUrl>
+		<PackageTags>dragdrop blazor draggable drop</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Description>Easy-to-use and feature rich Drag and drop library for Blazor</Description>
+		<AssemblyVersion>2.2.2.0</AssemblyVersion>
+		<FileVersion>2.2.2.0</FileVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Configurations>Debug;Release;DebugKlein</Configurations>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.8" />
-    <!--<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />-->
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.3" />
+		<!--<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />-->
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\" />
+	</ItemGroup>
 
 </Project>
