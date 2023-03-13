@@ -40,10 +40,10 @@ namespace FormPortal.Core.Services
 
 
                 dbController ??= _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
-                
+
                 var result = await _userService.GetAsync(userId, dbController);
 
-                if(shouldDispose)
+                if (shouldDispose)
                 {
                     dbController.Dispose();
                 }

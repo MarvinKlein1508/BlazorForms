@@ -70,7 +70,7 @@ namespace FormPortal.Core.Models
         {
             foreach (var element in GetElements())
             {
-                if(element is FormTableElement formTableElement)
+                if (element is FormTableElement formTableElement)
                 {
                     foreach (var table_element in formTableElement.Elements)
                     {
@@ -80,7 +80,7 @@ namespace FormPortal.Core.Models
                         }
                     }
                 }
-                else if(element is FormNumberElement formNumberElement)
+                else if (element is FormNumberElement formNumberElement)
                 {
                     yield return formNumberElement;
                 }
@@ -98,7 +98,7 @@ namespace FormPortal.Core.Models
                     {
                         element.Rules.RemoveAll(x => elements.Contains(x.Element));
 
-                        if(element is FormTableElement formTableElement)
+                        if (element is FormTableElement formTableElement)
                         {
                             foreach (var table_element in formTableElement.Elements)
                             {
@@ -123,7 +123,7 @@ namespace FormPortal.Core.Models
                 row.Columns.Remove(column);
             }
 
-            DeleteRulesForElement(column.GetElements().ToArray());  
+            DeleteRulesForElement(column.GetElements().ToArray());
         }
     }
 }

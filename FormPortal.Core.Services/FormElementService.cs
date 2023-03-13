@@ -1,8 +1,6 @@
 ﻿using DatabaseControllerProvider;
 using FormPortal.Core.Interfaces;
-using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
-using System.Xml.Linq;
 
 namespace FormPortal.Core.Services
 {
@@ -171,7 +169,7 @@ element_option_id = @ELEMENT_OPTION_ID";
             if (input is FormDateElement)
             {
                 tableName = "form_elements_date_attributes";
-                fields.AddRange(new string[] 
+                fields.AddRange(new string[]
                 {
                     "is_current_date_default",
                     "min_value",

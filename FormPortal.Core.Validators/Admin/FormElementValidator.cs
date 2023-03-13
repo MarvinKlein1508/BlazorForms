@@ -58,7 +58,7 @@ namespace FormPortal.Core.Validators.Admin
 
         protected bool IsEntryMode(FormElement element)
         {
-            if(element.Form is null)
+            if (element.Form is null)
             {
                 return false;
             }

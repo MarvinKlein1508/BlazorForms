@@ -44,7 +44,7 @@ VALUES
             foreach (var rule in input.Rules)
             {
                 rule.FormId = input.FormId;
-                rule.RowId = input.RowId;   
+                rule.RowId = input.RowId;
                 if (rule.RuleId is 0)
                 {
                     await _ruleService.CreateAsync(rule, dbController);

@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using FormPortal.Core.Constants;
 using FormPortal.Core.Models.FormElements;
-using MySqlX.XDevAPI.Common;
-using System.Configuration;
 using System.Text.RegularExpressions;
 
 namespace FormPortal.Core.Validators.Admin

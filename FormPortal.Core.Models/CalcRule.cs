@@ -16,10 +16,10 @@ namespace FormPortal.Core.Models
         public int ElementId { get; set; }
         [CompareField("math_operator")]
         public MathOperators MathOperator { get; set; }
-        
+
         [CompareField("guid_element")]
         public Guid GuidElement { get; set; }
-        
+
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 

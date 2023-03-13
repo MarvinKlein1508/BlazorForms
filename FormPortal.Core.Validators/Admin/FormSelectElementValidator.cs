@@ -6,7 +6,7 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormSelectElementValidator() : base()
         {
-            
+
         }
     }
 

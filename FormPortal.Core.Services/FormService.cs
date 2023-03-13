@@ -4,7 +4,6 @@ using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
-using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace FormPortal.Core.Services
@@ -94,7 +93,7 @@ VALUES
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
             List<Rule> rules = await GetRulesAsync(form, dbController);
-            
+
 
             List<FormTableElement> tableElements = new();
             // Loop through the data and map everything.
@@ -151,12 +150,12 @@ VALUES
                     for (int i = 1; i <= rowAmount; i++)
                     {
                         var row = element.NewRow();
-                        
+
                         foreach (var rowElement in row)
                         {
                             FormEntryTableElement? searchValue = searchEntries.FirstOrDefault(x => x.ElementId == rowElement.ElementId && x.TableRowNumber == i);
 
-                            if(searchValue is not null)
+                            if (searchValue is not null)
                             {
                                 rowElement.SetValue(searchValue);
                             }
@@ -171,7 +170,7 @@ VALUES
             }
 
 
-            
+
         }
         public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
@@ -403,7 +402,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
                     sqlBuilder.AppendLine(" WHERE fe.type = @TYPE AND fe.form_id = @FORM_ID");
 
-                    if(entryId > 0)
+                    if (entryId > 0)
                     {
                         sqlBuilder.AppendLine(@$" AND 
 (
@@ -477,7 +476,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         }
                     }
 
-                    if(elementType is ElementType.Table)
+                    if (elementType is ElementType.Table)
                     {
 
                     }
@@ -520,7 +519,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
         /// <returns></returns>
         private async Task<List<FormEntryTableElement>> GetTableEntriesAsync(int entryId, IDbController dbController)
         {
-            if(entryId <= 0)
+            if (entryId <= 0)
             {
                 return new();
             }

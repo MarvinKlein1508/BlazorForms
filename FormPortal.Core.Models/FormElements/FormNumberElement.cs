@@ -31,7 +31,7 @@ namespace FormPortal.Core.Models.FormElements
                 foreach (var rule in CalcRules)
                 {
                     var element = Form?.GetCalcRuleSetElements().FirstOrDefault(x => x.Guid == rule.GuidElement);
-                    
+
                     if (element is not null)
                     {
                         switch (rule.MathOperator)

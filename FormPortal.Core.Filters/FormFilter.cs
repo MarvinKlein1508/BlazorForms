@@ -1,5 +1,4 @@
-﻿using FormPortal.Core.Constants;
-using FormPortal.Core.Filters.Abstract;
+﻿using FormPortal.Core.Filters.Abstract;
 
 namespace FormPortal.Core.Filters
 {

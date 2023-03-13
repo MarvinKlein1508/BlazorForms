@@ -8,7 +8,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// Represents a column for a <see cref="FormRow"/>
     /// </summary>
-    public class FormColumn :  IDbModel, IHasSortableElement, IHasRuleSet
+    public class FormColumn : IDbModel, IHasSortableElement, IHasRuleSet
     {
         [CompareField("column_id")]
         public int ColumnId { get; set; }
@@ -34,7 +34,7 @@ namespace FormPortal.Core.Models
 
         public FormColumn()
         {
-            
+
         }
 
         public FormColumn(Form form)
@@ -63,7 +63,7 @@ namespace FormPortal.Core.Models
 
         public bool IsVisible()
         {
-            if(!IsActive)
+            if (!IsActive)
             {
                 return false;
             }
@@ -81,6 +81,6 @@ namespace FormPortal.Core.Models
             return Rules.ValidateRules() && Elements.Any(x => x.IsVisible());
         }
 
-      
+
     }
 }

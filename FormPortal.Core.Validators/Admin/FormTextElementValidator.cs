@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using FormPortal.Core.Models.FormElements;
+﻿using FormPortal.Core.Models.FormElements;
 
 namespace FormPortal.Core.Validators.Admin
 {
@@ -7,7 +6,7 @@ namespace FormPortal.Core.Validators.Admin
     {
         public FormTextElementValidator() : base()
         {
-           
+
         }
     }
 }

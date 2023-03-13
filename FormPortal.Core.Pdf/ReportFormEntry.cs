@@ -1,12 +1,7 @@
 ﻿using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
-using iText.Html2pdf.Attach.Impl.Layout.Form.Element;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FormPortal.Core.Pdf
 {
