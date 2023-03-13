@@ -109,7 +109,7 @@ else
                                                 <ValidationMessage For="() => numberElement.MaxValue" />
                                             </div>
 
-                                            @if(numberElement.TableParentElementId > 0)
+                                            @if(numberElement.TableParentElementId != 0)
                                             {
                                                 <div class="form-check">
                                                     <div class="checkbox">
@@ -275,7 +275,7 @@ else
                                 @if (SelectedFormElement is FormTableElement formTableElement)
                                 {
                                     <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
-                                        <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
+                                        <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" OnItemDrop="(x) => x.TableParentElementId = -1" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                             <div class="formular-element grid-item">
                                                 <div class="element-wrapper">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                             </div>
