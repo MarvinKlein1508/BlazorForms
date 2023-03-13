@@ -5,7 +5,7 @@ using FormPortal.Core.Models;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace FormularPortal.Pages
+namespace FormPortal.Pages
 {
     public partial class Dashboard : IHasPagination
     {

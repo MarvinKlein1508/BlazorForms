@@ -5,7 +5,7 @@ using FormPortal.Core.Models;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace FormularPortal.Pages.Admin.Forms
+namespace FormPortal.Pages.Admin.Forms
 {
     public partial class FormListing : IHasPagination
     {

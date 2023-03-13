@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System.Threading;
 
-namespace FormularPortal
+namespace FormPortal
 {
     public static class IJSRuntimeExtensions
     {

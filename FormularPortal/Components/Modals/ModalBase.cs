@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace FormularPortal.Components.Modals
+namespace FormPortal.Components.Modals
 {
     public class ModalBase : ComponentBase
     {

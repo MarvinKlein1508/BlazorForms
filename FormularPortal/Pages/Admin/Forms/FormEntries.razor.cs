@@ -1,7 +1,7 @@
 using FormPortal.Core.Filters;
 using Microsoft.AspNetCore.Components;
 
-namespace FormularPortal.Pages.Admin.Forms
+namespace FormPortal.Pages.Admin.Forms
 {
     public partial class FormEntries
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
-namespace FormularPortal.Pages.Account
+namespace FormPortal.Pages.Account
 {
     public partial class AccountDetails
     {

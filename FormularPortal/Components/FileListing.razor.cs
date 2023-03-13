@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using FormPortal.Core.Models.FormElements;
 
-namespace FormularPortal.Components
+namespace FormPortal.Components
 {
     public partial class FileListing
     {

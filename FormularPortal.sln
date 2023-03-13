@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormularPortal", "FormularPortal\FormularPortal.csproj", "{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal", "FormularPortal\FormPortal.csproj", "{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormularPortal.Core", "FormularPortal.Core\FormularPortal.Core.csproj", "{5638E729-F748-4F49-B02D-362ECE3A8447}"
 EndProject

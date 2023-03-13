@@ -1,4 +1,4 @@
-﻿namespace FormularPortal.Components.Modals
+﻿namespace FormPortal.Components.Modals
 {
     public enum ModalSize
     {

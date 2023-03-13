@@ -7,7 +7,7 @@ using FormularPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 
-namespace FormularPortal.Pages.Admin
+namespace FormPortal.Pages.Admin
 {
     public partial class UserManagement : IHasPagination
     {

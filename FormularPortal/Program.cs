@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 
-namespace FormularPortal
+namespace FormPortal
 {
     public class Program
     {

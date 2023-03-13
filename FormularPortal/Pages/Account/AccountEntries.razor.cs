@@ -3,7 +3,7 @@ using DatabaseControllerProvider;
 using FormPortal.Core.Filters;
 using Microsoft.AspNetCore.Components;
 
-namespace FormularPortal.Pages.Account
+namespace FormPortal.Pages.Account
 {
     public partial class AccountEntries
     {

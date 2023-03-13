@@ -5,7 +5,7 @@ using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace FormularPortal.Pages
+namespace FormPortal.Pages
 {
     public partial class FormEntryPage
     {
@@ -83,7 +83,7 @@ namespace FormularPortal.Pages
                 await dbController.StartTransactionAsync();
                 try
                 {
-                    if(Input.EntryId is 0)
+                    if (Input.EntryId is 0)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
                     }
