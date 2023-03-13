@@ -10,7 +10,7 @@
     <ProjectReference Include="..\DatabaseControllerProvider\DatabaseControllerProvider.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
-    <ProjectReference Include="..\FormularPortal.Core\FormularPortal.Core.csproj" />
+    <ProjectReference Include="..\FormularPortal.Core\FormPortal.Core.csproj" />
   </ItemGroup>
 
 </Project>

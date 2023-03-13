@@ -1,4 +1,4 @@
-﻿namespace FormularPortal.Core
+﻿namespace FormPortal.Core
 {
     public static class StringExtensions
     {

@@ -5,7 +5,7 @@ using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
 using FormPortal.Core.Validators.Admin;
-using FormularPortal.Core;
+using FormPortal.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;

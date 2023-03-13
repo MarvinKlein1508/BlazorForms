@@ -41,7 +41,7 @@
     <ProjectReference Include="..\FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
     <ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
-    <ProjectReference Include="..\FormularPortal.Core\FormularPortal.Core.csproj" />
+    <ProjectReference Include="..\FormularPortal.Core\FormPortal.Core.csproj" />
     <ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
   </ItemGroup>
 
