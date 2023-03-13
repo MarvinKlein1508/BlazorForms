@@ -16,6 +16,8 @@ namespace FormPortal.Components
 
         [Parameter, EditorRequired]
         public string NavUrl { get; set; } = string.Empty;
+        [Parameter, EditorRequired]
+        public string BaseUrl { get; set; } = string.Empty;
         public List<EntryListItem> DownloadingList { get; set; } = new();
 
         protected override async Task OnParametersSetAsync()
@@ -27,7 +29,7 @@ namespace FormPortal.Components
         {
             if (navigateToPage1)
             {
-                navigationManager.NavigateTo(NavUrl);
+                navigationManager.NavigateTo(BaseUrl);
             }
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
