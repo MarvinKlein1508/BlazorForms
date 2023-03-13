@@ -173,9 +173,17 @@ namespace FormPortal.Core.Services
             return result;
         }
 
-        public Task UpdateAsync(User input, IDbController dbController)
+        public async Task UpdateAsync(User input, IDbController dbController)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE users SET
+username = @USERNAME,
+display_name = @DISPLAY_NAME,
+email = @EMAIL
+WHERE user_id = @USER_ID";
+
+            await dbController.QueryAsync(sql, input.GetParameters());
+
+            await _permissionService.UpdateUserPermissionsAsync(input, dbController);
         }
 
         public Task UpdateAsync(User input, User oldInputToCompare, IDbController dbController)
