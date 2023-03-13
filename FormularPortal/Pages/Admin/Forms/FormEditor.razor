@@ -108,11 +108,18 @@ else
                                                 <label for="numberelement-maxvalue">Maximumwert</label>
                                                 <ValidationMessage For="() => numberElement.MaxValue" />
                                             </div>
+
+                                            @if(numberElement.TableParentElementId > 0)
+                                            {
+                                                <div class="form-check">
+                                                    <div class="checkbox">
+                                                        <InputCheckbox @bind-Value="numberElement.IsSummable" id="numberelement-issummable" class="form-check-input" />
+                                                        <label for="numberelement-issummable">Summiere Wert</label>
+                                                        <ValidationMessage For="() => numberElement.IsSummable" />
+                                                    </div>
+                                                </div>
+                                            }
                                         }
-
-
-
-
 
                                         @if (SelectedFormElement is FormDateElement dateElement)
                                         {

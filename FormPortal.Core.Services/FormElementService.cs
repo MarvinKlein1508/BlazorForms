@@ -205,7 +205,8 @@ element_option_id = @ELEMENT_OPTION_ID";
                 {
                     "decimal_places",
                     "min_value",
-                    "max_value"
+                    "max_value",
+                    "is_summable"
                 });
             }
 

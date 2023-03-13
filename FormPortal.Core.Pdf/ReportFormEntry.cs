@@ -146,6 +146,9 @@ namespace FormPortal.Core.Pdf
                                     sb.AppendLine($"</tr>");
                                     sb.AppendLine($"</thead>");
                                     sb.AppendLine($"<tbody>");
+
+                                    var totals = new Dictionary<int, TableSum>();
+
                                     foreach (var tableRow in tableElement.ElementValues)
                                     {
                                         sb.AppendLine($"<tr>");
@@ -167,8 +170,26 @@ namespace FormPortal.Core.Pdf
                                             }
                                             else if (table_element is FormNumberElement tableNumberElement)
                                             {
+                                                string numberFormat = "0.";
+                                                for (int i = 0; i < tableNumberElement.DecimalPlaces; i++)
+                                                {
+                                                    numberFormat += "0";
+                                                }
+
+                                                if (tableNumberElement.IsSummable)
+                                                {
+                                                    if (totals.ContainsKey(tableNumberElement.SortOrder))
+                                                    {
+                                                        totals[tableNumberElement.SortOrder].Value += tableNumberElement.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        totals.Add(tableNumberElement.SortOrder, new TableSum(numberFormat, tableNumberElement.Value));
+                                                    }
+                                                }
+
                                                 sb.AppendLine($"<div class='element'>");
-                                                sb.AppendLine($"{tableNumberElement.Value}");
+                                                sb.AppendLine($"{tableNumberElement.Value.ToString(numberFormat)}");
                                                 sb.AppendLine("</div>");
                                             }
                                             else if (table_element is FormSelectElement tableSelectElement)
@@ -186,6 +207,30 @@ namespace FormPortal.Core.Pdf
                                             sb.AppendLine($"</td>");
                                         }
                                         sb.AppendLine($"</tr>");
+
+                                    }
+                                    if (totals.Any())
+                                    {
+                                        sb.AppendLine($"<tr>");
+                                        sb.AppendLine($"<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">Summen</th>");
+                                        sb.AppendLine($"</tr>");
+                                        sb.AppendLine("<tr>");
+                                        for (int i = 1; i <= tableElement.Elements.Count; i++)
+                                        {
+                                            if (totals.TryGetValue(i, out TableSum? total))
+                                            {
+                                                sb.AppendLine($"<td>");
+                                                sb.AppendLine($"<div class='element'>");
+                                                sb.AppendLine($"{total.Value.ToString(total.NumberFormat)}");
+                                                sb.AppendLine("</div>");
+                                                sb.AppendLine($"</td>");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine("<td></td>");
+                                            }
+                                        }
+                                        sb.AppendLine("</tr>");
                                     }
                                     sb.AppendLine($"</tbody>");
                                     sb.AppendLine($"</table>");

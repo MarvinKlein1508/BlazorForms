@@ -14,6 +14,8 @@ namespace FormPortal.Core.Models.FormElements
         public decimal MinValue { get; set; }
         [CompareField("max_value")]
         public decimal MaxValue { get; set; }
+        [CompareField("is_summable")]
+        public bool IsSummable { get; set; }
         [CompareField("value_number")]
         public decimal Value
         {
@@ -73,6 +75,7 @@ namespace FormPortal.Core.Models.FormElements
             parameters.Add("DECIMAL_PLACES", DecimalPlaces);
             parameters.Add("MIN_VALUE", MinValue);
             parameters.Add("MAX_VALUE", MaxValue);
+            parameters.Add("IS_SUMMABLE", IsSummable);
 
             parameters["VALUE_NUMBER"] = Value;
 
