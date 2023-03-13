@@ -353,10 +353,9 @@ else
                                 <div class="formular-row">
                                     <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
                                         <ContextMenuTrigger MenuId="editorMenu" Data="column" CssClass="contextmenu-trigger-column">
-
                                             <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                                 <div class="formular-element grid-item">
-                                                    <div class="element-wrapper" id="@element.Guid">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                                    <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                                 </div>
                                             </Dropzone>
                                         </ContextMenuTrigger>
