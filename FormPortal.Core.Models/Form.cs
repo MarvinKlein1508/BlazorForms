@@ -50,6 +50,10 @@ namespace FormPortal.Core.Models
             }
         }
 
+        /// <summary>
+        /// Gets all elements, excluding elements within <see cref="FormTableElement.Elements"/>
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<FormElement> GetElements()
         {
             foreach (var row in Rows)
@@ -63,7 +67,36 @@ namespace FormPortal.Core.Models
                 }
             }
         }
+        /// <summary>
+        /// Gets all elements including elements within <see cref="FormTableElement.Elements"/>
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<FormElement> GetAllElements()
+        {
+            foreach (var element in GetElements())
+            {
+                yield return element;
+                if (element is FormTableElement tableElement)
+                {
+                    foreach (var table_element in tableElement.Elements)
+                    {
+                        yield return table_element;
+                    }
+                }
+            }
+        }
 
+
+        public IEnumerable<FormColumn> GetColumns()
+        {
+            foreach (var row in Rows)
+            {
+                foreach (var column in row.Columns)
+                {
+                    yield return column;
+                }
+            }
+        }
         public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Number or ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
 
         public IEnumerable<FormNumberElement> GetCalcRuleSetElements()

@@ -204,6 +204,42 @@ namespace FormPortal.Pages.Admin.Forms
             else
             {
                 await OnParametersSetAsync();
+
+                // We need to reset the active object in order to save the correct data.
+                if (SelectedFormRow is not null)
+                {
+                    SelectedFormRow = Input.Rows.FirstOrDefault(x => x.RowId == SelectedFormRow.RowId);
+                }
+
+                if (SelectedFormColumn is not null)
+                {
+                    SelectedFormColumn = Input.GetColumns().FirstOrDefault(x => x.RowId == SelectedFormColumn.RowId && x.ColumnId == SelectedFormColumn.ColumnId);
+                }
+
+                if (SelectedFormElement is not null)
+                {
+                    SelectedFormElement = Input.GetAllElements().FirstOrDefault(x => x.ElementId == SelectedFormElement.ElementId);
+                }
+
+                if (SelectedFormElementStack.Any())
+                {
+                    for (int i = 0; i < SelectedFormElementStack.Count;)
+                    {
+                        var element = Input.GetAllElements().FirstOrDefault(x => x.ElementId == SelectedFormElementStack[i].ElementId);
+
+                        if (element is not null)
+                        {
+                            SelectedFormElementStack[i] = element;
+                            i++;
+                        }
+                        else
+                        {
+                            SelectedFormElementStack.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+                }
             }
 
             await jsRuntime.ShowToastAsync(ToastType.success, "Form has been saved successfully.");
