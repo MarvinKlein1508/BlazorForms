@@ -38,16 +38,16 @@ namespace FormPortal.Core.Models.FormElements
                     {
                         switch (rule.MathOperator)
                         {
-                            case Constants.MathOperators.Addition:
+                            case MathOperators.Addition:
                                 value += element.Value;
                                 break;
-                            case Constants.MathOperators.Substraction:
+                            case MathOperators.Substraction:
                                 value -= element.Value;
                                 break;
-                            case Constants.MathOperators.Mulitply:
+                            case MathOperators.Mulitply:
                                 value *= element.Value;
                                 break;
-                            case Constants.MathOperators.Divide:
+                            case MathOperators.Divide:
                                 if (element.Value != 0)
                                 {
                                     value /= element.Value;
