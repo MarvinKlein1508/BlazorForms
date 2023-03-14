@@ -218,7 +218,12 @@ namespace FormPortal.Pages.Admin.Forms
 
                 if (SelectedFormElement is not null)
                 {
+                    var activeTab = SelectedFormElement.ActiveTab;
                     SelectedFormElement = Input.GetAllElements().FirstOrDefault(x => x.ElementId == SelectedFormElement.ElementId);
+                    if (SelectedFormElement is not null)
+                    {
+                        SelectedFormElement.ActiveTab = activeTab;
+                    }
                 }
 
                 if (SelectedFormElementStack.Any())
@@ -229,6 +234,8 @@ namespace FormPortal.Pages.Admin.Forms
 
                         if (element is not null)
                         {
+                            var activeTab = SelectedFormElementStack[i].ActiveTab;
+                            element.ActiveTab = activeTab;
                             SelectedFormElementStack[i] = element;
                             i++;
                         }
