@@ -207,18 +207,20 @@ form_id = @FORM_ID";
             }
 
 
-            var (newRowIds, newColumnIds, newElementIds, newRuleIds) = GetHashSets(input);
-            var (oldRowIds, oldColumnIds, oldElementIds, oldRuleIds) = GetHashSets(oldInputToCompare);
+            var (newRowIds, newColumnIds, newElementIds, newRuleIds, newCalcRuleIds) = GetHashSets(input);
+            var (oldRowIds, oldColumnIds, oldElementIds, oldRuleIds, oldCalcRuleIds) = GetHashSets(oldInputToCompare);
 
             oldRowIds.ExceptWith(newRowIds);
             oldColumnIds.ExceptWith(newColumnIds);
             oldElementIds.ExceptWith(newElementIds);
             oldRuleIds.ExceptWith(newRuleIds);
+            oldCalcRuleIds.ExceptWith(newCalcRuleIds);
 
             await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController);
             await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController);
             await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
             await CleanTableAsync(oldRuleIds, "form_elements_rules", "rule_id", dbController);
+            await CleanTableAsync(oldCalcRuleIds, "form_elements_number_calc_rules", "calc_rule_id", dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -282,12 +284,13 @@ form_id = @FORM_ID";
 
             return result;
         }
-        private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds, HashSet<int> ruleIds) GetHashSets(Form input)
+        private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds, HashSet<int> ruleIds, HashSet<int> calcRuleIds) GetHashSets(Form input)
         {
             HashSet<int> rowIds = new();
             HashSet<int> columnIds = new();
             HashSet<int> elementIds = new();
             HashSet<int> ruleIds = new();
+            HashSet<int> calcRuleIds = new();
 
             foreach (var row in input.Rows)
             {
@@ -303,19 +306,36 @@ form_id = @FORM_ID";
                             ruleIds.Add(rule.RuleId);
                         }
 
+                        if (element is FormNumberElement numberElement)
+                        {
+                            foreach (var calcRule in numberElement.CalcRules)
+                            {
+                                calcRuleIds.Add(calcRule.CalcRuleId);
+                            }
+                        }
+
                         if (element is FormTableElement formTableElement)
                         {
                             foreach (var tableElement in formTableElement.Elements)
                             {
                                 // Since table elements are within the same table, we can just add it to the same hashset.x
                                 elementIds.Add(tableElement.ElementId);
+
+
+                                if (tableElement is FormNumberElement tableNumberElement)
+                                {
+                                    foreach (var calcRule in tableNumberElement.CalcRules)
+                                    {
+                                        calcRuleIds.Add(calcRule.CalcRuleId);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
 
-            return (rowIds, columnIds, elementIds, ruleIds);
+            return (rowIds, columnIds, elementIds, ruleIds, calcRuleIds);
         }
 
         /// <summary>
