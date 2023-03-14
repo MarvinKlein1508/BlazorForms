@@ -31,8 +31,7 @@ namespace FormPortal.Core.Services
             _configuration = configuration;
             using IDbController dbController = dbProviderService.GetDbController(ConnectionString);
             Permissions = await PermissionService.GetAllAsync(dbController);
-
-            // TODO: Init FirstUserExists
+            FirstUserExists = await UserService.FirstUserExistsAsync(dbController);
         }
         public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;
         public static bool IsLdapLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;

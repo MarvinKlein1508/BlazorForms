@@ -190,5 +190,14 @@ WHERE user_id = @USER_ID";
         {
             throw new NotImplementedException();
         }
+
+        public static async Task<bool> FirstUserExistsAsync(IDbController dbController)
+        {
+            string sql = "SELECT * FROM users";
+
+            var tmp = await dbController.GetFirstAsync<object>(sql);
+
+            return tmp != null;
+        }
     }
 }
