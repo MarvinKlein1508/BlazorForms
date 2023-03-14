@@ -4,7 +4,7 @@ using FormPortal.Core.Interfaces;
 
 namespace FormPortal.Core.Models.FormElements
 {
-    public abstract class FormElement : IDbModel, IHasSortableElement, IHasRuleSet
+    public abstract class FormElement : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormElementTabs>
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
