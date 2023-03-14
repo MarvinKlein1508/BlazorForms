@@ -16,7 +16,7 @@
                          ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
                          ValueExpression="() => Rule.GuidElement"
                              id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Element">
-                    @foreach (var item in Input.GetCalcRuleSetElements())
+                    @foreach (var item in Input.GetCalcRuleSetElements(Element.TableParentElementId != 0))
                     {
                         @if (item != Element)
                         {

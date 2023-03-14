@@ -99,11 +99,11 @@ namespace FormPortal.Core.Models
         }
         public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Number or ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
 
-        public IEnumerable<FormNumberElement> GetCalcRuleSetElements()
+        public IEnumerable<FormNumberElement> GetCalcRuleSetElements(bool tableElements)
         {
             foreach (var element in GetElements())
             {
-                if (element is FormTableElement formTableElement)
+                if (element is FormTableElement formTableElement && tableElements)
                 {
                     foreach (var table_element in formTableElement.Elements)
                     {
@@ -113,7 +113,7 @@ namespace FormPortal.Core.Models
                         }
                     }
                 }
-                else if (element is FormNumberElement formNumberElement)
+                else if (element is FormNumberElement formNumberElement && !tableElements)
                 {
                     yield return formNumberElement;
                 }

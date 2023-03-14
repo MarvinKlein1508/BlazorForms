@@ -28,11 +28,13 @@ namespace FormPortal.Core.Models.FormElements
 
                 decimal value = 0;
 
-                var tmp = Form?.GetCalcRuleSetElements().ToList();
+                bool isPartOfTable = TableParentElementId != 0;
+
+                var tmp = Form?.GetCalcRuleSetElements(isPartOfTable).ToList();
 
                 foreach (var rule in CalcRules)
                 {
-                    var element = Form?.GetCalcRuleSetElements().FirstOrDefault(x => x.Guid == rule.GuidElement);
+                    var element = Form?.GetCalcRuleSetElements(isPartOfTable).FirstOrDefault(x => x.Guid == rule.GuidElement);
 
                     if (element is not null)
                     {
