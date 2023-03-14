@@ -2,7 +2,7 @@
 @page "/Account/Entries/Page/{Page:int}"
 @attribute [Authorize]
 @inject FormEntryService formEntryService
-@inject DbProviderService dbProviderService
+@inject IDbProviderService dbProviderService
 @inject AuthService authService
 
 <PageTitle>Meine Formulare</PageTitle>

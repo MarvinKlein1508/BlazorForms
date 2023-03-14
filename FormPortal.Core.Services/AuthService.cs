@@ -9,9 +9,9 @@ namespace FormPortal.Core.Services
     {
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly UserService _userService;
-        private readonly DbProviderService _dbProviderService;
+        private readonly IDbProviderService _dbProviderService;
 
-        public AuthService(AuthenticationStateProvider authenticationStateProvider, UserService userService, DbProviderService dbProviderService)
+        public AuthService(AuthenticationStateProvider authenticationStateProvider, UserService userService, IDbProviderService dbProviderService)
         {
             _authenticationStateProvider = authenticationStateProvider;
             _userService = userService;
@@ -39,7 +39,7 @@ namespace FormPortal.Core.Services
                 bool shouldDispose = dbController is null;
 
 
-                dbController ??= _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+                dbController ??= _dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
                 var result = await _userService.GetAsync(userId, dbController);
 

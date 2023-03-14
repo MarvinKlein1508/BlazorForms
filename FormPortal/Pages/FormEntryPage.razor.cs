@@ -19,7 +19,7 @@ namespace FormPortal.Pages
         private User? _user;
         protected override async Task OnParametersSetAsync()
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
 
             if (EntryId > 0)
@@ -69,7 +69,7 @@ namespace FormPortal.Pages
 
             if (_form.EditContext.Validate())
             {
-                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
                 if (Input.EntryId is 0)
                 {

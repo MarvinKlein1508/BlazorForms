@@ -32,7 +32,7 @@ namespace FormPortal.Components
                 navigationManager.NavigateTo(BaseUrl);
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
             Data = await formEntryService.GetAsync(Filter, dbController);
         }
@@ -40,7 +40,7 @@ namespace FormPortal.Components
         private async Task DownloadAsync(EntryListItem item)
         {
             DownloadingList.Add(item);
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             var entry = await formEntryService.GetAsync(item.EntryId, dbController);
             if (entry is not null)
             {

@@ -16,7 +16,7 @@ namespace FormPortal.Pages.Admin
 #nullable disable
         [Inject] public TService Service { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
-        [Inject] public DbProviderService DbProviderService { get; set; }
+        [Inject] public IDbProviderService DbProviderService { get; set; }
 #nullable enable
 
         protected List<T> Data { get; set; } = new();
@@ -49,7 +49,7 @@ namespace FormPortal.Pages.Admin
             {
                 return;
             }
-            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
             await dbController.StartTransactionAsync();
 
             try
@@ -75,7 +75,7 @@ namespace FormPortal.Pages.Admin
 
             if (_form.EditContext.Validate())
             {
-                using IDbController dbController = DbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+                using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
                 await dbController.StartTransactionAsync();
                 try
                 {

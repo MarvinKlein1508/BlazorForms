@@ -26,7 +26,7 @@ namespace FormPortal.Pages
                 Page = 1;
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
 
             await LoadAsync();
@@ -41,7 +41,7 @@ namespace FormPortal.Pages
             Filter.HideLoginRequired = _user is null;
 
             Filter.PageNumber = Page;
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
         }

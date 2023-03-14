@@ -39,7 +39,7 @@ namespace FormPortal.Pages.Admin
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
             Filter.PageNumber = navigateToPage1 ? 1 : Page;
-            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
         }

@@ -46,7 +46,7 @@ namespace FormPortal.Pages.Admin.Forms
 
         public async Task LoadEditModeAsync()
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
             Form? form = await formService.GetAsync(FormId, dbController);
 
@@ -172,7 +172,7 @@ namespace FormPortal.Pages.Admin.Forms
 
 
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
             await dbController.StartTransactionAsync();
 

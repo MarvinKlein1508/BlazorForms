@@ -20,7 +20,7 @@ namespace FormPortal.Pages.Account
 
             Filter.PageNumber = Page;
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             var user = await authService.GetUserAsync(dbController);
             Filter.UserId = user?.UserId ?? 0;
         }

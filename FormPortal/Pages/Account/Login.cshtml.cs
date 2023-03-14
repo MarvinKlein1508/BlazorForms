@@ -18,14 +18,14 @@ namespace FormularPortal.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly DbProviderService _dbProviderService;
+        private readonly IDbProviderService _dbProviderService;
         private readonly UserService _userService;
 
         [BindProperty]
         public LoginInput Input { get; set; } = new LoginInput();
         public string? ReturnUrl { get; set; }
 
-        public LoginModel(DbProviderService dbProviderService, UserService userService)
+        public LoginModel(IDbProviderService dbProviderService, UserService userService)
         {
             _dbProviderService = dbProviderService;
             _userService = userService;
@@ -53,7 +53,7 @@ namespace FormularPortal.Pages.Account
             {
 
                 // Erst prüfen wir gegen die Datenbank
-                IDbController dbController = _dbProviderService.GetDbController(AppdatenService.DbProvider, AppdatenService.ConnectionString);
+                IDbController dbController = _dbProviderService.GetDbController(AppdatenService.ConnectionString);
                 User? user = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.

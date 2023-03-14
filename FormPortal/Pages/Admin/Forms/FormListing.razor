@@ -2,7 +2,7 @@
 @page "/Admin/Forms/{Page:int}"
 @attribute [Authorize(Roles = Roles.EDIT_FORMS)]
 @inject FormService formService
-@inject DbProviderService dbProviderService
+@inject IDbProviderService dbProviderService
 @inject NavigationManager navigationManager
 
 <PageTitle>Formulare</PageTitle>

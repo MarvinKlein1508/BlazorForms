@@ -29,7 +29,7 @@ namespace FormPortal
 
             builder.Services.AddBlazorDragDrop();
             builder.Services.AddBlazorDownloadFile();
-            builder.Services.AddScoped<DbProviderService>();
+            builder.Services.AddScoped<IDbProviderService, MySqlProviderService>();
             builder.Services.AddScoped<PermissionService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<FormService>();
