@@ -26,11 +26,9 @@ namespace FormPortal.Core.Services
 
         private static IConfiguration? _configuration;
 
-        public static async Task InitAsync(IConfiguration configuration)
+        public static async Task InitAsync(IConfiguration configuration, IDbProviderService dbProviderService)
         {
             _configuration = configuration;
-            // HACK: Refactor to dependency injection
-            IDbProviderService dbProviderService = new MySqlProviderService();
             using IDbController dbController = dbProviderService.GetDbController(ConnectionString);
             Permissions = await PermissionService.GetAllAsync(dbController);
 

@@ -3,6 +3,8 @@ using DatabaseControllerProvider;
 using FluentValidation;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 
@@ -55,13 +57,13 @@ namespace FormPortal
 
             // FluentValidation
             builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormPortal.Core.Validators.dll")));
-
-
-
-
             var app = builder.Build();
+            using var serviceScope = app.Services.CreateScope();
 
-            await AppdatenService.InitAsync(builder.Configuration);
+            var services = serviceScope.ServiceProvider;
+            var dbProviderService = services.GetRequiredService<IDbProviderService>()!;
+
+            await AppdatenService.InitAsync(builder.Configuration, dbProviderService);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
