@@ -138,6 +138,11 @@ namespace FormPortal.Core.Models
                                 table_element.Rules.RemoveAll(x => elements.Contains(x.Element));
                             }
                         }
+
+                        if (element is FormNumberElement numberElement)
+                        {
+                            numberElement.CalcRules.RemoveAll(x => elements.Select(x => x.Guid).Contains(x.GuidElement));
+                        }
                     }
                 }
             }
