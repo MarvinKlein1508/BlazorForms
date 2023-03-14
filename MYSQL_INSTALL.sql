@@ -278,7 +278,7 @@ CREATE TABLE form_entries_files
 /* DATA */
 INSERT INTO permissions (name, identifier, description) VALUES 
 ('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),
-('Submitted forms management','EDIT_SUBMITTED_FORMS','Allows the user the edit submitted form entries.'),
+('Submitted forms management','EDIT_ENTRIES','Allows the user the edit submitted form entries.'),
 ('User management','EDIT_USERS','Allows the user to manage the users.'),
 ('Delete forms','DELETE_FORMS','Allows the user to entire forms.'),
 ('Delete Entries','DELETE_ENTRIES','Allows the user to delete submitted form entries.');

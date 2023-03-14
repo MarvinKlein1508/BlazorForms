@@ -4,6 +4,8 @@
 @inject FormService formService
 @inject IDbProviderService dbProviderService
 @inject NavigationManager navigationManager
+@inject AuthService authService
+@inject IJSRuntime jsRuntime
 
 <PageTitle>Formulare</PageTitle>
 
@@ -55,6 +57,10 @@
                                 <td>@item.IsActive</td>
                                 <td>@item.IsOnlyAvailableForLoggedInUsers</td>
                                 <td class="text-right">
+                                    @if (UserCanDeleteForms)
+                                    {
+                                        <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
+                                    }
                                     <a class="btn btn-primary" href="/Admin/FormEditor/@item.FormId"><i class="fa-solid fa-edit"></i></a>
                                 </td>
                             </tr>
@@ -79,3 +85,12 @@
                 TotalItems="TotalItems"
                 NavUrl="/Admin/Forms/" />
 </div>
+
+@if (SelectedForDeletion is not null)
+{
+    <ConfirmModal Title="Formular löschen?"
+              OnClosed="() => SelectedForDeletion = null"
+              OnConfirmed="DeleteAsync">
+        <p>Wenn Sie das Formular "@SelectedForDeletion.Name" löschen, dann werden auch alle ausgefüllten Formulare unwiderruflich gelöscht. Möchten Sie das Formular wirklich löschen?</p>
+    </ConfirmModal>
+}

@@ -6,7 +6,7 @@
         </NavLink>
     </li>
 
-    <AuthorizeView Roles="@($"{Roles.EDIT_FORMS}, {Roles.EDIT_SUBMITTED_FORMS}, {Roles.EDIT_USERS}")">
+    <AuthorizeView Roles="@($"{Roles.EDIT_FORMS}, {Roles.EDIT_ENTRIES}, {Roles.EDIT_USERS}")">
         <Authorized>
             <li class="sidebar-title">Administration</li>
         </Authorized>
@@ -33,7 +33,7 @@
         </Authorized>
     </AuthorizeView>
 
-    <AuthorizeView Roles="@(Roles.EDIT_SUBMITTED_FORMS)">
+    <AuthorizeView Roles="@(Roles.EDIT_ENTRIES)">
         <Authorized>
             <li class="sidebar-item">
                 <NavLink href="/Admin/Entries" class='sidebar-link blazor-link' Match="NavLinkMatch.All">
