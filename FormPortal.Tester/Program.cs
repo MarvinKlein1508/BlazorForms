@@ -21,7 +21,7 @@ namespace FormPortal.Tester
            })
            .ConfigureServices(builder =>
            {
-               builder.AddScoped<DbProviderService>();
+               builder.AddScoped<IDbProviderService>();
                builder.AddScoped<PermissionService>();
                builder.AddScoped<UserService>();
                builder.AddScoped<FormService>();
@@ -35,20 +35,11 @@ namespace FormPortal.Tester
            })
            .Build();
 
-            var configuration = ActivatorUtilities.GetServiceOrCreateInstance<IConfiguration>(host.Services);
 
-            await AppdatenService.InitAsync(configuration);
-
-            using MySqlController sqlController = new MySqlController(AppdatenService.ConnectionString);
-
-            var formEntryService = ActivatorUtilities.GetServiceOrCreateInstance<FormEntryService>(host.Services);
-
-            var entry = await formEntryService.GetAsync(5, sqlController);
-
-
-            ReportFormEntry report = await ReportFormEntry.CreateAsync(entry);
-
-            report.Print("D:\\TEST.PDF");
         }
     }
+
+
+
+
 }
