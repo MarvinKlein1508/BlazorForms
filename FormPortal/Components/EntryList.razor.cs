@@ -1,9 +1,11 @@
 using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
 using FormPortal.Core.Pdf;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace FormPortal.Components
 {
@@ -20,9 +22,14 @@ namespace FormPortal.Components
         public string BaseUrl { get; set; } = string.Empty;
         public List<EntryListItem> DownloadingList { get; set; } = new();
 
+        public bool UserCanDeleteEntries { get; set; }
+        public User? User { get; set; }
+        public EntryListItem? SelectedForDeletion { get; set; }
         protected override async Task OnParametersSetAsync()
         {
             await LoadAsync();
+            UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
+            User = await authService.GetUserAsync();
         }
 
         public async Task LoadAsync(bool navigateToPage1 = false)
@@ -58,6 +65,36 @@ namespace FormPortal.Components
                 await downloadService.DownloadFile($"{filename}.pdf", data, "application/pdf");
             }
             DownloadingList.Remove(item);
+        }
+
+        private async Task DeleteAsync()
+        {
+            if (SelectedForDeletion is null)
+            {
+                return;
+            }
+
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+
+            await dbController.StartTransactionAsync();
+
+            try
+            {
+
+                await formEntryService.DeleteAsync(SelectedForDeletion, dbController);
+                await dbController.CommitChangesAsync();
+                await jsRuntime.ShowToastAsync(ToastType.success, "Formulareintrag wurde erfolgreich gelöscht.");
+
+
+                SelectedForDeletion = null;
+            }
+            catch (Exception)
+            {
+                await dbController.RollbackChangesAsync();
+                throw;
+            }
+
+            await LoadAsync();
         }
     }
 }

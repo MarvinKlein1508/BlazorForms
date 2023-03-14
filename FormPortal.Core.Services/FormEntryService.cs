@@ -142,7 +142,14 @@ VALUES
         {
             throw new NotImplementedException();
         }
-
+        public async Task DeleteAsync(EntryListItem input, IDbController dbController)
+        {
+            string sql = "DELETE FROM form_entries WHERE entry_id = @ENTRY_ID";
+            await dbController.QueryAsync(sql, new
+            {
+                ENTRY_ID = input.EntryId
+            });
+        }
         public async Task<FormEntry?> GetAsync(int entryId, IDbController dbController)
         {
             string sql = @"SELECT * FROM form_entries WHERE entry_id = @ENTRY_ID";
