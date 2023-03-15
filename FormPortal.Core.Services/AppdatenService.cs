@@ -33,7 +33,7 @@ namespace FormPortal.Core.Services
             Permissions = await PermissionService.GetAllAsync(dbController);
             FirstUserExists = await UserService.FirstUserExistsAsync(dbController);
         }
-        public static string ConnectionString => _configuration?.GetConnectionString("Default") ?? string.Empty;
+        public static string ConnectionString => _configuration?["ConnectionString"] ?? string.Empty;
         public static bool IsLdapLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
         public static bool IsLocalLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
         public static string LdapServer => _configuration?["Login:LDAP_SERVER"] ?? string.Empty;
