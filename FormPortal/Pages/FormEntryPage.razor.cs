@@ -108,6 +108,11 @@ namespace FormPortal.Pages
 
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {
+            if (e.FileCount > 10)
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Es können maximal 10 Dateien auf einmal hochgeladen werden.");
+                return;
+            }
 
             foreach (var file in e.GetMultipleFiles())
             {
