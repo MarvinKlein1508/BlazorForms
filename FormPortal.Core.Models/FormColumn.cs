@@ -8,7 +8,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// Represents a column for a <see cref="FormRow"/>
     /// </summary>
-    public class FormColumn : IDbModel, IHasSortableElement, IHasRuleSet
+    public class FormColumn : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormColumnTabs>
     {
         [CompareField("column_id")]
         public int ColumnId { get; set; }
@@ -31,6 +31,7 @@ namespace FormPortal.Core.Models
         public List<Rule> Rules { get; set; } = new();
         public FormRow? Parent { get; set; }
         public Form? Form { get; set; }
+        public FormColumnTabs ActiveTab { get; set; }
 
         public FormColumn()
         {

@@ -8,7 +8,7 @@ namespace FormPortal.Core.Models
     /// <summary>
     /// Represents a row within the Form.
     /// </summary>
-    public class FormRow : IDbModel, IHasSortableElement, IHasRuleSet
+    public class FormRow : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormRowTabs>
     {
         [CompareField("row_id")]
         public int RowId { get; set; }
@@ -28,6 +28,7 @@ namespace FormPortal.Core.Models
         public List<FormColumn> Columns { get; set; } = new();
         public List<Rule> Rules { get; set; } = new();
         public Form? Form { get; set; }
+        public FormRowTabs ActiveTab { get; set; }
 
         /// <summary>
         /// Creates an empty row.
