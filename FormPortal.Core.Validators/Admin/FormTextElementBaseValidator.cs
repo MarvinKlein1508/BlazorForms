@@ -25,6 +25,11 @@ namespace FormPortal.Core.Validators.Admin
 
         protected bool ValidateMinLength(FormTextElementBase element, int minLength)
         {
+            if (element.MaxLength is 0)
+            {
+                return true;
+            }
+
             return element.MaxLength >= minLength;
         }
         protected bool ValidateRegexPattern(string regexPattern)
