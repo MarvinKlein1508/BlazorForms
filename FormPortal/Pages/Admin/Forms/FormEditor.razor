@@ -109,7 +109,7 @@ else
                                                 <ValidationMessage For="() => numberElement.MaxValue" />
                                             </div>
 
-                                            @if(numberElement.TableParentElementId != 0)
+                                            @if (numberElement.TableParentElementId != 0)
                                             {
                                                 <div class="form-check">
                                                     <div class="checkbox">
@@ -289,9 +289,9 @@ else
 
                                         <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
                                             <ElementCalcRule Input="Input"
-                                                 Rule="calc_rule"
-                                                 Element="SelectedFormElement"
-                                                 OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
+                                                             Rule="calc_rule"
+                                                             Element="SelectedFormElement"
+                                                             OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                         </Dropzone>
                                         <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
@@ -306,20 +306,36 @@ else
                     <div class="formular-element-editor">
                         <h2>Zeileneigenschaften</h2>
                         <EditForm Model="SelectedFormRow">
-                            <TabControl>
-                                <TabPage Text="Allgemein">
-                                    <div class="form-check">
-                                        <div class="checkbox">
-                                            <InputCheckbox @bind-Value="SelectedFormRow.IsActive" id="formrow-active" class="form-check-input" />
-                                            <label for="formrow-active">Aktiv</label>
-                                            <ValidationMessage For="() => SelectedFormRow.IsActive" />
+                            <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormRow.ActiveTab is FormRowTabs.General))" @onclick="() => SelectedFormRow.ActiveTab = FormRowTabs.General">
+                                        Allgemein
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormRow.ActiveTab is FormRowTabs.Rules))" @onclick="() => SelectedFormRow.ActiveTab = FormRowTabs.Rules">
+                                        Regeln
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="@(GetTabClass(SelectedFormRow.ActiveTab is FormRowTabs.General))">
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <InputCheckbox @bind-Value="SelectedFormRow.IsActive" id="formrow-active" class="form-check-input" />
+                                                <label for="formrow-active">Aktiv</label>
+                                                <ValidationMessage For="() => SelectedFormRow.IsActive" />
+                                            </div>
                                         </div>
                                     </div>
-                                </TabPage>
-                                <TabPage Text="Regeln">
+                                </div>
+
+                                <div class="@(GetTabClass(SelectedFormRow.ActiveTab is FormRowTabs.Rules))">
                                     <RuleEditor Input="SelectedFormRow" />
-                                </TabPage>
-                            </TabControl>
+                                </div>
+                            </div>
                         </EditForm>
                     </div>
                 }
@@ -328,20 +344,36 @@ else
                     <div class="formular-element-editor">
                         <h2>Spalteneigenschaften</h2>
                         <EditForm Model="SelectedFormColumn">
-                            <TabControl>
-                                <TabPage Text="Allgemein">
-                                    <div class="form-check">
-                                        <div class="checkbox">
-                                            <InputCheckbox @bind-Value="SelectedFormColumn.IsActive" id="formcolumn-active" class="form-check-input" />
-                                            <label for="formcolumn-active">Aktiv</label>
-                                            <ValidationMessage For="() => SelectedFormColumn.IsActive" />
+                            <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormColumn.ActiveTab is FormColumnTabs.General))" @onclick="() => SelectedFormColumn.ActiveTab = FormColumnTabs.General">
+                                        Allgemein
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormColumn.ActiveTab is FormColumnTabs.Rules))" @onclick="() => SelectedFormColumn.ActiveTab = FormColumnTabs.Rules">
+                                        Regeln
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="@(GetTabClass(SelectedFormColumn.ActiveTab is FormColumnTabs.General))">
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <InputCheckbox @bind-Value="SelectedFormColumn.IsActive" id="formcolumn-active" class="form-check-input" />
+                                                <label for="formcolumn-active">Aktiv</label>
+                                                <ValidationMessage For="() => SelectedFormColumn.IsActive" />
+                                            </div>
                                         </div>
                                     </div>
-                                </TabPage>
-                                <TabPage Text="Regeln">
+                                </div>
+
+                                <div class="@(GetTabClass(SelectedFormColumn.ActiveTab is FormColumnTabs.Rules))">
                                     <RuleEditor Input="SelectedFormColumn" />
-                                </TabPage>
-                            </TabControl>
+                                </div>
+                            </div>
                         </EditForm>
                     </div>
                 }
@@ -389,7 +421,7 @@ else
                 <div class="delete-zone"
                      ondragover="event.preventDefault();"
                      ondragstart="event.dataTransfer.setData('', event.target.id);"
-                 @ondrop="() => DropDelete()">
+                @ondrop="() => DropDelete()">
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
@@ -399,7 +431,7 @@ else
     @if (EditFormProperties)
     {
         <ConfirmModal Title="Formular Eigenschaften"
-              OnClosed="() => EditFormProperties = false">
+                      OnClosed="() => EditFormProperties = false">
             <EditForm Model="Input">
                 <div class="row">
                     <div class="col-12">

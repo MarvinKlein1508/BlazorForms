@@ -208,12 +208,22 @@ namespace FormPortal.Pages.Admin.Forms
                 // We need to reset the active object in order to save the correct data.
                 if (SelectedFormRow is not null)
                 {
+                    var activeTab = SelectedFormRow.ActiveTab;
                     SelectedFormRow = Input.Rows.FirstOrDefault(x => x.RowId == SelectedFormRow.RowId);
+                    if (SelectedFormRow is not null)
+                    {
+                        SelectedFormRow.ActiveTab = activeTab;
+                    }
                 }
 
                 if (SelectedFormColumn is not null)
                 {
+                    var activeTab = SelectedFormColumn.ActiveTab;
                     SelectedFormColumn = Input.GetColumns().FirstOrDefault(x => x.RowId == SelectedFormColumn.RowId && x.ColumnId == SelectedFormColumn.ColumnId);
+                    if (SelectedFormColumn is not null)
+                    {
+                        SelectedFormColumn.ActiveTab = activeTab;
+                    }
                 }
 
                 if (SelectedFormElement is not null)
