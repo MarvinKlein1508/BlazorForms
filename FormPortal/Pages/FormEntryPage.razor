@@ -65,7 +65,7 @@
                                         <div class="mb-3">
                                             <label role="button" class="btn btn-dark" tabindex="0" for="@($"form-{element.Guid}")">
                                                 @element.Name
-                                                <InputFile accept="@formFileElement.AcceptFileTypes" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" multiple="@formFileElement.AllowMultipleFiles" />
+                                                <InputFile accept="@formFileElement.GetAcceptTypesDefinition()" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" multiple="@formFileElement.AllowMultipleFiles" />
                                             </label>
 
                                             <FileListing Files="formFileElement.Values"/>

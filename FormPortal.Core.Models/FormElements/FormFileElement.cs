@@ -5,8 +5,6 @@ namespace FormPortal.Core.Models.FormElements
 {
     public class FormFileElement : FormElement
     {
-        [CompareField("accept_file_types")]
-        public string AcceptFileTypes { get; set; } = string.Empty;
         /// <summary>
         /// Gets the min file size for the uploaded documents in MiB
         /// </summary>
@@ -19,19 +17,30 @@ namespace FormPortal.Core.Models.FormElements
         public int MaxSize { get; set; }
         [CompareField("allow_multiple_files")]
         public bool AllowMultipleFiles { get; set; }
+
+        public List<string> AcceptedFileTypes { get; set; } = new();
         public List<FormFileElementFile> Values { get; set; } = new();
         public override ElementType GetElementType() => ElementType.File;
 
         public override Dictionary<string, object?> GetParameters()
         {
             var parameters = base.GetParameters();
-            parameters.Add("ACCEPT_FILE_TYPES", AcceptFileTypes);
             parameters.Add("MIN_SIZE", MinSize);
             parameters.Add("MAX_SIZE", MaxSize);
             parameters.Add("ALLOW_MULTIPLE_FILES", AllowMultipleFiles);
             return parameters;
         }
         public override string GetDefaultName() => "File";
+
+        public string GetAcceptTypesDefinition()
+        {
+            if (!AcceptedFileTypes.Any())
+            {
+                return string.Empty;
+            }
+
+            return string.Join(", ", AcceptedFileTypes);
+        }
 
 
     }

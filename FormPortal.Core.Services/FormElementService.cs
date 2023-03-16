@@ -75,6 +75,7 @@ VALUES
             await InsertOrUpdateElementRulesAsync(input, dbController);
             await InsertOrUpdateFormTableElementsAsync(input, dbController);
             await InsertOrUpdateCalcRuleSetsAsync(input, dbController);
+            await InsertOrUpdateAcceptedFileTypesAsync(input, dbController);
         }
 
         private async Task InsertOrUpdateCalcRuleSetsAsync(FormElement input, IDbController dbController)
@@ -182,7 +183,6 @@ element_option_id = @ELEMENT_OPTION_ID";
                 tableName = "form_elements_file_attributes";
                 fields.AddRange(new string[]
                 {
-                    "accept_file_types",
                     "min_size",
                     "max_size",
                     "allow_multiple_files"
@@ -333,8 +333,38 @@ VALUES
             await InsertOrUpdateElementRulesAsync(input, dbController);
             await InsertOrUpdateFormTableElementsAsync(input, dbController);
             await InsertOrUpdateCalcRuleSetsAsync(input, dbController);
+            await InsertOrUpdateAcceptedFileTypesAsync(input, dbController);
         }
+        private async Task InsertOrUpdateAcceptedFileTypesAsync(FormElement input, IDbController dbController)
+        {
+            if (input is FormFileElement fileElement)
+            {
+                string sql = "DELETE FROM form_elements_file_types WHERE element_id = @ELEMENT_ID";
+                await dbController.QueryAsync(sql, new
+                {
+                    ELEMENT_ID = input.ElementId
+                });
 
+                foreach (var contentType in fileElement.AcceptedFileTypes)
+                {
+                    sql = @"INSERT INTO form_elements_file_types
+(
+element_id,
+content_type
+)
+VALUES
+(
+@ELEMENT_ID,
+@CONTENT_TYPE
+)";
+                    await dbController.QueryAsync(sql, new
+                    {
+                        ELEMENT_ID = input.ElementId,
+                        CONTENT_TYPE = contentType
+                    });
+                }
+            }
+        }
         private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController)
         {
             input.Rules.SetSortOrder();

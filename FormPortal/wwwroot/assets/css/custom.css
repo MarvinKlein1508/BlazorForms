@@ -1,4 +1,13 @@
-﻿.menu-button {
+﻿:root {
+    --blazor-tag-wrapper-border-radius: .25rem;
+    --blazor-tag-wrapper-border: 1px solid #dce7f1;
+}
+
+.blazor-tag-wrapper {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+}
+.menu-button {
     /*background: yellow;*/
     padding: 1em;
     position: absolute;

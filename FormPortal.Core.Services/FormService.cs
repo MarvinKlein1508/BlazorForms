@@ -478,28 +478,34 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         }
                     }
 
-                    if (elementType is ElementType.File && entryId > 0 && castedElements.Any())
+
+                    if (elementType is ElementType.File && castedElements.Any())
                     {
                         IEnumerable<FormFileElement> fileElements = (IEnumerable<FormFileElement>)castedElements;
 
                         List<int> elementIds = fileElements.Select(x => x.ElementId).ToList();
-                        sql = $"SELECT * FROM form_entries_files WHERE entry_id = @ENTRY_ID AND element_id IN ({string.Join(",", elementIds)})";
-
-                        List<FormFileElementFile> files = await dbController.SelectDataAsync<FormFileElementFile>(sql, new
+                        List<FormFileElementFile> files = new();
+                        if (entryId > 0)
                         {
-                            ENTRY_ID = entryId
-                        });
+                            sql = $"SELECT * FROM form_entries_files WHERE entry_id = @ENTRY_ID AND element_id IN ({string.Join(",", elementIds)})";
+
+                            files = await dbController.SelectDataAsync<FormFileElementFile>(sql, new
+                            {
+                                ENTRY_ID = entryId
+                            });
+                        }
+
+                        sql = $"SELECT * FROM form_elements_file_types WHERE element_id IN ({string.Join(",", elementIds)})";
+
+                        var acceptedFileTypes = await dbController.SelectDataAsync<(int elementId, string contentType)>(sql);
 
                         foreach (var item in fileElements)
                         {
                             item.Values = files.Where(x => x.ElementId == item.ElementId && x.EntryId == entryId).ToList();
+                            item.AcceptedFileTypes = acceptedFileTypes.Where(x => x.elementId == item.ElementId).Select(x => x.contentType).ToList();
                         }
                     }
 
-                    if (elementType is ElementType.Table)
-                    {
-
-                    }
 
                     if (elementType is ElementType.Number)
                     {

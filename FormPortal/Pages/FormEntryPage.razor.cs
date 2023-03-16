@@ -120,8 +120,9 @@ namespace FormPortal.Pages
                 long size_in_mib = size / 1024 / 1024;
                 string contentType = file.ContentType;
                 string filename = file.Name;
-                string[] allowedContentType = fileElement.AcceptFileTypes.Split(',', StringSplitOptions.TrimEntries);
-                if (!allowedContentType.Contains(contentType))
+
+                // TODO: Check case intensive
+                if (!fileElement.AcceptedFileTypes.Contains(contentType))
                 {
                     await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ungültiges Dateiformat.");
                     continue;

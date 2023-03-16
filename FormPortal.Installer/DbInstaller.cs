@@ -142,11 +142,19 @@ CREATE TABLE form_elements_date_attributes
 CREATE TABLE form_elements_file_attributes
 (
 	element_id INTEGER NOT NULL,
-	accept_file_types text NOT NULL DEFAULT '',
 	min_size INTEGER NOT NULL DEFAULT 0,
 	max_size INTEGER NOT NULL DEFAULT 0,
 	allow_multiple_files TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);"));
+
+            _tables.Add(new SqlTable("form_elements_file_types", @"
+CREATE TABLE form_elements_file_types
+(
+	element_id INTEGER NOT NULL,
+	content_type VARCHAR(255) NOT NULL,
+	PRIMARY KEY(element_id, content_type),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 

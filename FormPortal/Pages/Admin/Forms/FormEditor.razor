@@ -210,10 +210,9 @@ else
                                                 <ValidationMessage For="() => fileElement.MaxSize" />
                                             </div>
 
-                                            <div class="form-floating mb-3">
-                                                <InputText @bind-Value="fileElement.AcceptFileTypes" class="form-control" id="fileelement-filetypes" placeholder="Erlaubte Dateitypen" />
-                                                <label for="fileelement-filetypes">Erlaubte Dateitypen</label>
-                                                <ValidationMessage For="() => fileElement.AcceptFileTypes" />
+                                            <div class="mb-3">
+                                                <InputTags Value="fileElement.AcceptedFileTypes" Label="Erlaubte Dateitypen" />
+                                                <ValidationMessage For="() => fileElement.AcceptedFileTypes" />
                                             </div>
 
                                             <div class="form-check">
