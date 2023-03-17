@@ -10,7 +10,10 @@ namespace FormPortal.Pages.Admin.Forms
 {
     public partial class FormListing : IHasPagination
     {
-        public FormFilter Filter { get; set; } = new FormFilter();
+        public FormFilter Filter { get; set; } = new()
+        {
+            Limit = AppdatenService.PageLimit
+        };
 
         public List<Form> Data { get; set; } = new();
         [Parameter]
@@ -43,7 +46,7 @@ namespace FormPortal.Pages.Admin.Forms
 
         private async Task DeleteAsync()
         {
-            if(SelectedForDeletion is null)
+            if (SelectedForDeletion is null)
             {
                 return;
             }

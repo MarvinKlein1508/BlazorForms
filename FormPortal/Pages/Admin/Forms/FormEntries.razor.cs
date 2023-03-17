@@ -1,4 +1,5 @@
 using FormPortal.Core.Filters;
+using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace FormPortal.Pages.Admin.Forms
@@ -8,7 +9,10 @@ namespace FormPortal.Pages.Admin.Forms
         [Parameter]
         public int Page { get; set; }
 
-        public FormEntryFilter Filter { get; set; } = new();
+        public FormEntryFilter Filter { get; set; } = new()
+        {
+            Limit = AppdatenService.PageLimit
+        };
 
         protected override Task OnParametersSetAsync()
         {

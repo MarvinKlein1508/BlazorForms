@@ -11,7 +11,8 @@ namespace FormPortal.Pages
     {
         public FormFilter Filter { get; set; } = new()
         {
-            ShowOnlyActiveForms = true
+            ShowOnlyActiveForms = true,
+            Limit = AppdatenService.PageLimit
         };
         [Parameter]
         public int Page { get; set; } = 1;

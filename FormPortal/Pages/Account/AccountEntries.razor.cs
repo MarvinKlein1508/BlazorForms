@@ -7,7 +7,10 @@ namespace FormPortal.Pages.Account
 {
     public partial class AccountEntries
     {
-        public FormEntryFilter Filter { get; set; } = new();
+        public FormEntryFilter Filter { get; set; } = new()
+        {
+            Limit = AppdatenService.PageLimit
+        };
 
         [Parameter]
         public int Page { get; set; } = 1;

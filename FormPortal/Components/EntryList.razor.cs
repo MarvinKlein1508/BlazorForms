@@ -12,7 +12,10 @@ namespace FormPortal.Components
     public partial class EntryList
     {
         [Parameter]
-        public FormEntryFilter Filter { get; set; } = new();
+        public FormEntryFilter Filter { get; set; } = new()
+        {
+            Limit = AppdatenService.PageLimit
+        };
         public int TotalItems { get; set; }
         public List<EntryListItem> Data { get; set; } = new();
 

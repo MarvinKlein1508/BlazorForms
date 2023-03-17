@@ -13,7 +13,10 @@ namespace FormPortal.Pages.Admin
     {
         private int _page = 1;
         private User? _loggedInUser;
-        public UserFilter Filter { get; set; } = new();
+        public UserFilter Filter { get; set; } = new()
+        {
+            Limit = AppdatenService.PageLimit
+        };
         public Permission? SelectedPermission { get; set; }
         public int Page { get => _page; set => _page = value < 1 ? 1 : value; }
         public int TotalItems { get; set; }
