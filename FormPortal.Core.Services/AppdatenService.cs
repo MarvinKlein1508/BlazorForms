@@ -40,5 +40,6 @@ namespace FormPortal.Core.Services
         public static string LdapDomainServer => _configuration?["Login:DOMAIN_SERVER"] ?? string.Empty;
         public static string LdapDistinguishedName => _configuration?["Login:DistinguishedName"] ?? string.Empty;
 
+        public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
     }
 }
