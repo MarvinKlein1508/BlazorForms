@@ -1,4 +1,5 @@
 using DatabaseControllerProvider;
+using FormPortal.Core.Constants;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
@@ -24,8 +25,18 @@ namespace FormPortal.Pages
 
             if (EntryId > 0)
             {
-                Input = await formEntryService.GetAsync(EntryId, dbController);
-                FormId = Input?.FormId ?? 0;
+                var form = await formEntryService.GetAsync(EntryId, dbController);
+                if (form is not null)
+                {
+                    Input = form;
+                    FormId = Input?.FormId ?? 0;
+
+                    bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
+                    if (_user is null || (Input?.CreationUserId != _user.UserId && !hasEditRole))
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.success, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
+                    }
+                }
             }
             else if (FormId > 0)
             {
