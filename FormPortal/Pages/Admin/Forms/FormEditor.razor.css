@@ -339,4 +339,5 @@
 
 ::deep .contextmenu-trigger-column {
     padding: 1em;
+    height: 100%;
 }
