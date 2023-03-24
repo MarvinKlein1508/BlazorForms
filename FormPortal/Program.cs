@@ -42,7 +42,6 @@ namespace FormPortal
             builder.Services.AddScoped<RuleService>();
             builder.Services.AddScoped<CalcRuleService>();
             builder.Services.AddScoped<FormEntryService>();
-            builder.Services.AddBlazorContextMenu();
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
 #if DEBUG

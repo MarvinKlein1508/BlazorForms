@@ -1,4 +1,3 @@
-using BlazorContextMenu;
 using DatabaseControllerProvider;
 using FluentValidation.Results;
 using FormPortal.Core;
@@ -274,27 +273,6 @@ namespace FormPortal.Pages.Admin.Forms
 
             Input.Image = fs.ToArray();
         }
-
-        private Task OnContextMenuDeleteAsync(ItemClickEventArgs e)
-        {
-            if (Input is not null)
-            {
-                if (e.Data is FormRow row)
-                {
-                    Input.RemoveRow(row);
-                }
-                else if (e.Data is FormColumn column)
-                {
-                    Input.RemoveColumn(column);
-                }
-            }
-            return Task.CompletedTask;
-        }
-
-
-
-
-
         private string GetFormGridEditorCssClass()
         {
             if (SelectedFormElement is not null)
