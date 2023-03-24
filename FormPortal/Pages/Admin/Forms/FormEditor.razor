@@ -299,9 +299,9 @@ else
 
                                         <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
                                             <ElementCalcRule Input="Input"
-                                                             Rule="calc_rule"
-                                                             Element="SelectedFormElement"
-                                                             OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
+                                                 Rule="calc_rule"
+                                                 Element="SelectedFormElement"
+                                                 OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                         </Dropzone>
                                         <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
@@ -309,69 +309,75 @@ else
                                 }
 
                                 <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Row))">
-                                    <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
-                                        <li class="nav-item">
-                                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.General">
-                                                Allgemein
-                                            </button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.Rules">
-                                                Regeln
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    @if (SelectedFormElement.Row is not null)
+                                    {
+                                        <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.General">
+                                                    Allgemein
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.Rules">
+                                                    Regeln
+                                                </button>
+                                            </li>
+                                        </ul>
 
-                                    <div class="tab-content">
-                                        <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))">
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    <div class="checkbox">
-                                                        <InputCheckbox @bind-Value="SelectedFormElement.Row.IsActive" id="formrow-active" class="form-check-input" />
-                                                        <label for="formrow-active">Aktiv</label>
-                                                        <ValidationMessage For="() => SelectedFormElement.Row.IsActive" />
+                                        <div class="tab-content">
+                                            <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))">
+                                                <div class="col-12">
+                                                    <div class="form-check">
+                                                        <div class="checkbox">
+                                                            <InputCheckbox @bind-Value="SelectedFormElement.Row.IsActive" id="formrow-active" class="form-check-input" />
+                                                            <label for="formrow-active">Aktiv</label>
+                                                            <ValidationMessage For="() => SelectedFormElement.Row.IsActive" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))">
-                                            <RuleEditor Input="SelectedFormElement.Row" />
+                                            <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))">
+                                                <RuleEditor Input="SelectedFormElement.Row" />
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
 
                                 <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Column))">
-                                    <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
-                                        <li class="nav-item">
-                                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.General">
-                                                Allgemein
-                                            </button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.Rules">
-                                                Regeln
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    @if (SelectedFormElement.Parent is not null)
+                                    {
+                                        <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.General">
+                                                    Allgemein
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.Rules">
+                                                    Regeln
+                                                </button>
+                                            </li>
+                                        </ul>
 
-                                    <div class="tab-content">
-                                        <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))">
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    <div class="checkbox">
-                                                        <InputCheckbox @bind-Value="SelectedFormElement.Parent.IsActive" id="formcolumn-active" class="form-check-input" />
-                                                        <label for="formcolumn-active">Aktiv</label>
-                                                        <ValidationMessage For="() => SelectedFormElement.Parent.IsActive" />
+                                        <div class="tab-content">
+                                            <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))">
+                                                <div class="col-12">
+                                                    <div class="form-check">
+                                                        <div class="checkbox">
+                                                            <InputCheckbox @bind-Value="SelectedFormElement.Parent.IsActive" id="formcolumn-active" class="form-check-input" />
+                                                            <label for="formcolumn-active">Aktiv</label>
+                                                            <ValidationMessage For="() => SelectedFormElement.Parent.IsActive" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))">
-                                            <RuleEditor Input="SelectedFormElement.Parent" />
+                                            <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))">
+                                                <RuleEditor Input="SelectedFormElement.Parent" />
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
                             </div>
                         </EditForm>
@@ -415,7 +421,7 @@ else
                 <div class="delete-zone"
                      ondragover="event.preventDefault();"
                      ondragstart="event.dataTransfer.setData('', event.target.id);"
-                @ondrop="() => DropDelete()">
+                 @ondrop="() => DropDelete()">
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
@@ -425,7 +431,7 @@ else
     @if (EditFormProperties)
     {
         <ConfirmModal Title="Formular Eigenschaften"
-                      OnClosed="() => EditFormProperties = false">
+              OnClosed="() => EditFormProperties = false">
             <EditForm Model="Input">
                 <div class="row">
                     <div class="col-12">
