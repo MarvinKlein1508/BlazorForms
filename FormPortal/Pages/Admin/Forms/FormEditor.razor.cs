@@ -20,8 +20,6 @@ namespace FormPortal.Pages.Admin.Forms
         public Form StartCopy { get; set; } = new();
         public List<FormElement> SelectedFormElementStack { get; set; } = new();
         public FormElement? SelectedFormElement { get; set; }
-        public FormRow? SelectedFormRow { get; set; }
-        public FormColumn? SelectedFormColumn { get; set; }
         public bool EditFormProperties { get; set; }
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
@@ -206,25 +204,6 @@ namespace FormPortal.Pages.Admin.Forms
                 await OnParametersSetAsync();
 
                 // We need to reset the active object in order to save the correct data.
-                if (SelectedFormRow is not null)
-                {
-                    var activeTab = SelectedFormRow.ActiveTab;
-                    SelectedFormRow = Input.Rows.FirstOrDefault(x => x.RowId == SelectedFormRow.RowId);
-                    if (SelectedFormRow is not null)
-                    {
-                        SelectedFormRow.ActiveTab = activeTab;
-                    }
-                }
-
-                if (SelectedFormColumn is not null)
-                {
-                    var activeTab = SelectedFormColumn.ActiveTab;
-                    SelectedFormColumn = Input.GetColumns().FirstOrDefault(x => x.RowId == SelectedFormColumn.RowId && x.ColumnId == SelectedFormColumn.ColumnId);
-                    if (SelectedFormColumn is not null)
-                    {
-                        SelectedFormColumn.ActiveTab = activeTab;
-                    }
-                }
 
                 if (SelectedFormElement is not null)
                 {
@@ -312,40 +291,13 @@ namespace FormPortal.Pages.Admin.Forms
             return Task.CompletedTask;
         }
 
-        private Task OnContextMenuPropertiesAsync(ItemClickEventArgs e)
-        {
-            if (Input is not null)
-            {
-                if (e.Data is FormRow row)
-                {
-                    SelectedFormRow = row;
-                }
-                else if (e.Data is FormColumn column)
-                {
-                    SelectedFormColumn = column;
-                }
-            }
 
-            return Task.CompletedTask;
-        }
 
-        private Task OnContextMenuAppearingAsync(MenuAppearingEventArgs e)
-        {
-            if (e.Data is FormRow row)
-            {
-                ContextMenuHeaderName = "Zeile";
-            }
-            else if (e.Data is FormColumn column)
-            {
-                ContextMenuHeaderName = "Spalte";
-            }
 
-            return Task.CompletedTask;
-        }
 
         private string GetFormGridEditorCssClass()
         {
-            if (SelectedFormColumn is not null || SelectedFormRow is not null || SelectedFormElement is not null)
+            if (SelectedFormElement is not null)
             {
                 return "d-none";
             }
@@ -368,9 +320,8 @@ namespace FormPortal.Pages.Admin.Forms
 
         private Task CloseItemAsync()
         {
-            bool redirect = SelectedFormRow is null && SelectedFormColumn is null && SelectedFormElement is null;
-            SelectedFormRow = null;
-            SelectedFormColumn = null;
+            bool redirect = SelectedFormElement is null;
+
             if (SelectedFormElement is not null)
             {
                 SelectedFormElementStack.Remove(SelectedFormElement);

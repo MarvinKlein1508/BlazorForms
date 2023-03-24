@@ -35,6 +35,7 @@ namespace FormPortal.Core.Models.FormElements
         public abstract ElementType GetElementType();
         public FormColumn? Parent { get; set; }
         public List<Rule> Rules { get; set; } = new();
+        public FormRow? Row => Parent?.Parent;
         public Form? Form { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {

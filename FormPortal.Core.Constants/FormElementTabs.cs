@@ -5,6 +5,8 @@
         General,
         Rules,
         Elements,
-        CalcSets
+        CalcSets,
+        Row,
+        Column
     }
 }

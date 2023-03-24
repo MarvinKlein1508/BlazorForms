@@ -257,6 +257,7 @@
 ::deep .formular-element {
     border: 1px solid green;
     border-radius: .5em;
+    margin: 0 1em;
 }
 
 ::deep .table-dropzone {
@@ -279,7 +280,7 @@
 
 @media (max-width: 700px) {
     .toolbar-wrapper {
-        display: none;
+       display: none;
     }
 
     .toolbar-toggle {
