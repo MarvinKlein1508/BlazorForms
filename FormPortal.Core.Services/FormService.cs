@@ -219,7 +219,7 @@ form_id = @FORM_ID";
             await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController);
             await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController);
             await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
-            await CleanTableAsync(oldRuleIds, "form_elements_rules", "rule_id", dbController);
+            await CleanTableAsync(oldRuleIds, "form_rules", "rule_id", dbController);
             await CleanTableAsync(oldCalcRuleIds, "form_elements_number_calc_rules", "calc_rule_id", dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
