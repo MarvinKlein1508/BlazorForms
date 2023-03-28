@@ -124,10 +124,14 @@ public partial class Dropzone<TItem>
         DragDropService.DragTargetItem = default;
     }
 
-    public void OnDragStart(TItem item)
+    public async Task OnDragStart(TItem item)
     {
         DragDropService.ActiveItem = item;
         DragDropService.Items = Items;
+        
+        await DragStart.InvokeAsync(item);
+        
+
     }
 
     public string CheckIfItemIsInTransit(TItem item)
@@ -207,6 +211,9 @@ public partial class Dropzone<TItem>
     [Parameter]
     public Action<TItem> DragEnd { get; set; }
 
+    [Parameter]
+    public EventCallback<TItem> DragStart { get; set; }
+
     /// <summary>
     /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to the given Accept Delegate
     /// </summary>
@@ -224,6 +231,7 @@ public partial class Dropzone<TItem>
     /// </summary>
     [Parameter]
     public EventCallback<TItem> OnReplacedItemDrop { get; set; }
+
 
     /// <summary>
     /// If set to true, items will we be swapped/inserted instantly.

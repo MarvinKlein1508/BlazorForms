@@ -82,6 +82,7 @@
     justify-content: space-evenly;
     position: relative;
     width: 100%;
+    flex-wrap: wrap;
 }
 
     #topbar .btn {
@@ -100,6 +101,8 @@
     padding: .5em;
 }
 
+
+
 .delete-zone {
     border: 2px dashed #f66363;
     border-radius: .5em;
@@ -107,6 +110,16 @@
     display: flex;
     align-items: center;
 }
+
+.delete-wrapper-mobile {
+    display: none;
+    flex-basis: 100%;
+    min-height: 5em;
+}
+
+    .delete-wrapper-mobile .delete-zone {
+        min-height: 5em;
+    }
 
     .delete-zone i {
         width: 100%;
@@ -238,6 +251,7 @@
     flex: 1;
     border: 2px dashed orange;
     border-radius: .5em;
+    min-height: 5em;
 }
 
 
@@ -282,7 +296,9 @@
     .toolbar-wrapper {
        display: none;
     }
-
+    .delete-wrapper-mobile {
+        display: block;
+    }
     .toolbar-toggle {
         display: inline-block;
         position: fixed;

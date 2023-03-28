@@ -23,8 +23,6 @@ namespace FormPortal.Pages.Admin.Forms
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
         public FormValidator Validator { get; } = new FormValidator();
-
-        public FormElement? SelectedElementForDeletion { get; set; }
         protected override async Task OnParametersSetAsync()
         {
 
@@ -54,18 +52,6 @@ namespace FormPortal.Pages.Admin.Forms
                 Input = form.DeepCopyByExpressionTree();
                 StartCopy = form.DeepCopyByExpressionTree();
             }
-        }
-
-        public void DeleteElement()
-        {
-            if(Input is null || SelectedElementForDeletion is null || SelectedElementForDeletion.Parent is null)
-            {
-                return;
-            }
-
-            SelectedElementForDeletion.Parent.Elements.Remove(SelectedElementForDeletion);
-            Input.DeleteRulesForElement(SelectedElementForDeletion);
-            SelectedElementForDeletion = null;
         }
         public void DropDelete()
         {
@@ -274,6 +260,16 @@ namespace FormPortal.Pages.Admin.Forms
             await e.File.OpenReadStream(e.File.Size).CopyToAsync(fs);
 
             Input.Logo = fs.ToArray();
+        }
+
+        private string GetMobileDeleteWrapperClass()
+        {
+            if(dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
+            {
+                return "d-block";
+            }
+
+            return "d-none";
         }
 
         private async Task UploadImageAsync(InputFileChangeEventArgs e)

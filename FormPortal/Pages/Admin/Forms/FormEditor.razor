@@ -29,6 +29,15 @@ else
                     <button type="button" class="btn btn-secondary" @onclick="CloseItemAsync"><i class="fa-solid fa-reply"></i></button>
                     <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
                     <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+
+                    <div class="delete-wrapper delete-wrapper-mobile @GetMobileDeleteWrapperClass()">
+                        <div class="delete-zone"
+                             ondragover="event.preventDefault();"
+                             ondragstart="event.dataTransfer.setData('', event.target.id);"
+                        @ondrop="() => DropDelete()">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -388,16 +397,15 @@ else
 
                 <div class="form-grid-editor @GetFormGridEditorCssClass()">
                     <div class="grid-container">
-                        <Dropzone Class="large-dropzone" Items="Input.Rows" Context="row">
+                        <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormRow" Class="large-dropzone" Items="Input.Rows" Context="row">
 
                             <div class="formular-row">
-                                <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
-                                    <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
+                                <Dropzone DragStart="(item) => StateHasChanged()" OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                                    <Dropzone DragStart="(item) => StateHasChanged()" OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                         <div class="formular-element grid-item">
                                             <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">
                                                 <span>(@element.GetElementType()) @element</span>
                                                 <div class="element-buttons">
-                                                    <button type="button" class="btn btn-danger" @onclick="() => SelectedElementForDeletion = element"><i class="fa-solid fa-trash"></i></button>
                                                     <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button>
                                                 </div>
                                             </div>
@@ -516,15 +524,6 @@ else
                     </div>
                 </div>
             </EditForm>
-        </ConfirmModal>
-    }
-
-    @if (SelectedElementForDeletion is not null)
-    {
-        <ConfirmModal Title="Element löschen?"
-                      OnConfirmed="DeleteElement"
-                      OnClosed="() => SelectedElementForDeletion = null">
-            <p>Möchten Sie das Element wirklich löschen?</p>
         </ConfirmModal>
     }
 }
