@@ -6,3 +6,10 @@
     .form-card .card-text {
         flex: 1;
     }
+
+
+.form-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    gap: 1em;
+}
