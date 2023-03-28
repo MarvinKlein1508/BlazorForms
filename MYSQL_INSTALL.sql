@@ -26,7 +26,7 @@ CREATE TABLE user_permissions
 	permission_id INTEGER NOT NULL,
 	PRIMARY KEY(user_id, permission_id),
 	FOREIGN KEY (user_id) REFERENCES users(user_id),
-	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id)
+	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE forms
