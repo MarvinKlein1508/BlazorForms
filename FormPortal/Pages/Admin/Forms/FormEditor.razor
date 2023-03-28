@@ -299,9 +299,9 @@ else
 
                                         <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
                                             <ElementCalcRule Input="Input"
-                                                 Rule="calc_rule"
-                                                 Element="SelectedFormElement"
-                                                 OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
+                                                             Rule="calc_rule"
+                                                             Element="SelectedFormElement"
+                                                             OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                         </Dropzone>
                                         <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
 
@@ -394,7 +394,13 @@ else
                                 <Dropzone OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
                                     <Dropzone OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
                                         <div class="formular-element grid-item">
-                                            <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                            <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">
+                                                <span>(@element.GetElementType()) @element</span>
+                                                <div class="element-buttons">
+                                                    <button type="button" class="btn btn-danger" @onclick="() => SelectedElementForDeletion = element"><i class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </Dropzone>
                                 </Dropzone>
@@ -421,7 +427,7 @@ else
                 <div class="delete-zone"
                      ondragover="event.preventDefault();"
                      ondragstart="event.dataTransfer.setData('', event.target.id);"
-                 @ondrop="() => DropDelete()">
+                @ondrop="() => DropDelete()">
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
@@ -431,7 +437,7 @@ else
     @if (EditFormProperties)
     {
         <ConfirmModal Title="Formular Eigenschaften"
-              OnClosed="() => EditFormProperties = false">
+                      OnClosed="() => EditFormProperties = false">
             <EditForm Model="Input">
                 <div class="row">
                     <div class="col-12">
@@ -510,6 +516,15 @@ else
                     </div>
                 </div>
             </EditForm>
+        </ConfirmModal>
+    }
+
+    @if (SelectedElementForDeletion is not null)
+    {
+        <ConfirmModal Title="Element löschen?"
+                      OnConfirmed="DeleteElement"
+                      OnClosed="() => SelectedElementForDeletion = null">
+            <p>Möchten Sie das Element wirklich löschen?</p>
         </ConfirmModal>
     }
 }
