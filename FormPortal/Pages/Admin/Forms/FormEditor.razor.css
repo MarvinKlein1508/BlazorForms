@@ -308,17 +308,26 @@
     }
 
         .toolbar-toggle .btn-toolbar {
-            background: rgb(21, 115, 71);
-            padding: 1.5em;
             color: #fff;
             border-radius: 50%;
+            font-size: 1.6rem;
             border: none;
             box-shadow: -2px 5px 50px -1px rgba(0,0,0,0.75);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 11px;
+            border-radius: 51%;
+            box-sizing: border-box;
         }
 
-    .form-editor-wrapper {
-        grid-template-columns: 1fr;
-    }
+            
+
+            .form-editor-wrapper {
+                grid-template-columns: 1fr;
+            }
 
     ::deep .plk-dd-dropzone {
         display: initial;

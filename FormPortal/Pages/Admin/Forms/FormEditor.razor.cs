@@ -23,6 +23,8 @@ namespace FormPortal.Pages.Admin.Forms
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
         public FormValidator Validator { get; } = new FormValidator();
+
+        private bool _showMobileToolbar;
         protected override async Task OnParametersSetAsync()
         {
 
@@ -95,6 +97,16 @@ namespace FormPortal.Pages.Admin.Forms
             dragDropServiceElements.Items = new List<FormElement>();
 
         }
+
+        private string GetToolbarDraggingCss()
+        {
+            if(dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
+            {
+                return "plk-dd-in-transit no-pointer-events plk-dd-inprogess";
+            }
+
+            return string.Empty;
+        }
         public Task OnColumnDroppedAsync(FormColumn column, FormRow row)
         {
             column.Parent = row;
@@ -116,6 +128,7 @@ namespace FormPortal.Pages.Admin.Forms
             {
                 dragDropServiceColumns.ActiveItem = new FormColumn(Input);
                 dragDropServiceColumns.Items = new List<FormColumn>();
+                _showMobileToolbar = false;
             }
             StateHasChanged();
         }
@@ -125,18 +138,19 @@ namespace FormPortal.Pages.Admin.Forms
             {
                 dragDropServiceRows.ActiveItem = new FormRow(Input, 1);
                 dragDropServiceRows.Items = new List<FormRow>();
+                _showMobileToolbar = false;
             }
             StateHasChanged();
         }
-        public Task OnToolbarElementDragStartAsync(FormElement element)
+        public void OnToolbarElementDragStart(FormElement element)
         {
             var newElement = element.DeepCopyByExpressionTree();
             newElement.GenerateGuid();
             newElement.Form = Input;
             dragDropServiceElements.ActiveItem = newElement;
             dragDropServiceElements.Items = new List<FormElement>();
+            _showMobileToolbar = false;
             StateHasChanged();
-            return Task.CompletedTask;
         }
 
 
@@ -291,6 +305,18 @@ namespace FormPortal.Pages.Admin.Forms
             }
 
             return string.Empty;
+        }
+
+        private string GetToobalWrapperCss()
+        {
+            if(_showMobileToolbar)
+            {
+                return "d-block";
+            }
+            else
+            {
+                return "d-none";
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

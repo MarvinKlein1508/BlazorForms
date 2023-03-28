@@ -20,7 +20,16 @@
 else
 {
     <div class="toolbar-toggle">
-        <button type="button" class="btn-toolbar"><i class="fa-solid fa-plus"></i></button>
+        <button type="button" class="btn-toolbar @(_showMobileToolbar ? "bg-danger" : "bg-success")" @onclick="() => _showMobileToolbar = !_showMobileToolbar">
+            @if (!_showMobileToolbar)
+            {
+                <i class="fa-solid fa-plus"></i>
+            }
+            else
+            {
+                <i class="fa-solid fa-xmark"></i>
+            }
+        </button>
     </div>
     <div class="form-editor-wrapper">
         <div class="form-editor">
@@ -420,14 +429,16 @@ else
 
 
         </div>
-        <div class="toolbar-wrapper">
+        <div class="toolbar-wrapper @GetToobalWrapperCss()">
             <h4>Toolbar</h4>
-            <ul id="element-toolbar">
+            <ul id="element-toolbar" ondragstart="event.dataTransfer.setData('text', event.target.id);">
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
                 @foreach (var item in AppdatenService.Elements)
                 {
-                    <li class="toolbar-element" draggable="true" @ondragend="CleanToolbarDrag" @ondragstart="async () => await OnToolbarElementDragStartAsync(item)">@item</li>
+                    <li class="toolbar-element @GetToolbarDraggingCss()" draggable="true"
+                    @ondragend="CleanToolbarDrag"
+                    @ondragstart="() => OnToolbarElementDragStart(item)">@item</li>
                 }
             </ul>
 
