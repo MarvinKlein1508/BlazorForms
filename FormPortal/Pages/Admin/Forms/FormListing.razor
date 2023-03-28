@@ -56,7 +56,7 @@
                                 <td>@item.Name</td>
                                 <td>@item.IsActive</td>
                                 <td>@item.IsOnlyAvailableForLoggedInUsers</td>
-                                <td class="text-right">
+                                <td class="text-right text-nowrap">
                                     @if (UserCanDeleteForms)
                                     {
                                         <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
