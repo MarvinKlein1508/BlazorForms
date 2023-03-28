@@ -40,7 +40,7 @@ if (settings.LdapSettings.ENABLE_LOCAL_LOGIN && settings.LdapSettings.ENABLE_LDA
     Console.WriteLine("Do you want to create a local admin account? (Y/N)");
     createLocalAccount = ReadConsole(false, ValidateBoolean);
 }
-else if (settings.LdapSettings.ENABLE_LDAP_LOGIN && !settings.LdapSettings.ENABLE_LDAP_LOGIN)
+else if (settings.LdapSettings.ENABLE_LOCAL_LOGIN && !settings.LdapSettings.ENABLE_LDAP_LOGIN)
 {
     // When LDAP is disabled, a local account is required.
     createLocalAccount = true;
