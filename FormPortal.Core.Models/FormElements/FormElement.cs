@@ -50,7 +50,7 @@ namespace FormPortal.Core.Models.FormElements
                 { "IS_ACTIVE", IsActive },
                 { "IS_REQUIRED", IsRequired },
                 { "SORT_ORDER", SortOrder },
-                { "TYPE", GetElementType() },
+                { "TYPE", GetElementType().ToString() },
                 { "TABLE_PARENT_ELEMENT_ID", TableParentElementId },
                 { "RULE_TYPE", RuleType.ToString() },
                 { "ENTRY_ID", EntryId },
