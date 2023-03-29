@@ -7,8 +7,6 @@ Create dynamic PDF forms completely in the web.
 ![Calc editor](images/calc_editor.png)
 ![New form entry](images/new_form_entry.png)
 
-
-
 ## Requirements
 * MariaDB Database
 * ASP.NET Core 7 Hosting Bundle x64
@@ -29,12 +27,18 @@ Create dynamic PDF forms completely in the web.
 * Many validation options (e.g. REGEX)
 * Calc values of elements based on other element values
 * Support for SUM in tables
+* Support for GIFs in the dashboard
 
 ## Installation
 This app ships with a fully installer for appsettings and database. Simply run `FormPortal.Installer.exe` as administrator and follow the setup wizzard.
 
 ## Hosting
 Hosting this app is quite simple. It supports all hosting possibilities from ASP.NET Core. For more information take a look on the [official docs from Microsoft](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/server?view=aspnetcore-7.0).
+
+## Recommendations
+This app is toring uploaded files within the database. The default limit from MariaDB is 1MB per request. We highly recommend you increase this setting on your server to something which fits your use case. This limit can be increased by changing the value of `max_allowed_packet` from your MariaDb server.
+
+This can usually be done within the `my.ini` file.
 
 
 ## NOT READY YET
