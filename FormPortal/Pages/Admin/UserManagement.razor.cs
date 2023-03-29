@@ -46,6 +46,12 @@ namespace FormPortal.Pages.Admin
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
         }
+
+        protected override async Task DeleteAsync()
+        {
+            await base.DeleteAsync();
+            await LoadAsync();
+        }
         protected override Task NewAsync()
         {
             Input = new User
