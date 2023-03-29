@@ -42,6 +42,7 @@
 		<ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
 		<ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
+		<ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
 		<ProjectReference Include="..\FormPortal.Installer\FormPortal.Installer.csproj" />
 		<ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
 	</ItemGroup>

@@ -34,11 +34,11 @@ namespace FormPortal.Core.Services
             FirstUserExists = await UserService.FirstUserExistsAsync(dbController);
         }
         public static string ConnectionString => _configuration?["ConnectionString"] ?? string.Empty;
-        public static bool IsLdapLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
-        public static bool IsLocalLoginEnabled => _configuration?.GetSection("Login").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
-        public static string LdapServer => _configuration?["Login:LDAP_SERVER"] ?? string.Empty;
-        public static string LdapDomainServer => _configuration?["Login:DOMAIN_SERVER"] ?? string.Empty;
-        public static string LdapDistinguishedName => _configuration?["Login:DistinguishedName"] ?? string.Empty;
+        public static bool IsLdapLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
+        public static bool IsLocalLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
+        public static string LdapServer => _configuration?["LdapSettings:LDAP_SERVER"] ?? string.Empty;
+        public static string LdapDomainServer => _configuration?["LdapSettings:DOMAIN_SERVER"] ?? string.Empty;
+        public static string LdapDistinguishedName => _configuration?["LdapSettings:DistinguishedName"] ?? string.Empty;
 
         public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
     }

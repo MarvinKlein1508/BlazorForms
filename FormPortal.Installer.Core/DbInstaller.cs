@@ -1,13 +1,15 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormPortal.Installer
+namespace FormPortal.Installer.Core
 {
-    internal static class DbInstaller
+    public static class DbInstaller
     {
         private static List<SqlTable> _tables = new();
         private static List<string> _data = new();
@@ -342,7 +344,7 @@ VALUES
 ('Delete Entries','DELETE_ENTRIES','Allows the user to delete submitted form entries.');");
         }
 
-        internal static async Task InstallAsync(IDbController dbController)
+        public static async Task InstallAsync(IDbController dbController)
         {
             int zähler = 0;
             Console.WriteLine("Creating tables...");
@@ -362,6 +364,14 @@ VALUES
             Console.WriteLine("Data has been successfully inserted.");
 
 
+        }
+    
+        public static string HashPassword(User user)
+        {
+            PasswordHasher<User> hasher = new();
+            string passwordHashed = hasher.HashPassword(user, user.Password + user.Salt);
+
+            return passwordHashed;
         }
     }
 }

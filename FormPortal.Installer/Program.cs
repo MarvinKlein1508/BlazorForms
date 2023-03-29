@@ -3,8 +3,7 @@ using FormPortal.Core;
 using FormPortal.Core.Models;
 using FormPortal.Core.Services;
 using FormPortal.Core.Settings;
-using FormPortal.Installer;
-using Microsoft.AspNetCore.Identity;
+using FormPortal.Installer.Core;
 using MySql.Data.MySqlClient;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -57,8 +56,8 @@ if (createLocalAccount)
     Console.WriteLine("Please enter password:");
     user.Password = ReadConsole(false, x => ValidateString(x, false));
 
-    PasswordHasher<User> hasher = new();
-    string passwordHashed = hasher.HashPassword(user, user.Password + user.Salt);
+    
+    string passwordHashed = DbInstaller.HashPassword(user);
     user.Password = passwordHashed;
 }
 
