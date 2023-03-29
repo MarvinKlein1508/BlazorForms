@@ -56,7 +56,7 @@
                                 <td>@user.Username</td>
                                 <td>@user.Email</td>
                                 <td class="text-right">
-                                    @if (user.Origin is "local")
+                                    @if (user.Origin is "local" && _loggedInUser?.Id != user.Id)
                                     {
                                         <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = user">
                                             <i class="fa-solid fa-trash"></i>
