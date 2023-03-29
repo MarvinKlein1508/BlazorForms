@@ -9,7 +9,7 @@ namespace FormPortal.Core.Models
         public int UserId { get; set; }
         [CompareField("username")]
         public string Username { get; set; } = string.Empty;
-        [CompareField("displayname")]
+        [CompareField("display_name")]
         public string DisplayName { get; set; } = string.Empty;
         [CompareField("active_directory_guid")]
         public Guid? ActiveDirectoryGuid { get; set; }
