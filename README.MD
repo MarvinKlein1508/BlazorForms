@@ -1,5 +1,41 @@
 # FormPortal
 Create dynamic PDF forms completely in the web.
 
+![Dashboard](images/dashboard.png)
+![Form builder](images/form_builder.png)
+![Element editor](images/element_editor.png)
+![Calc editor](images/calc_editor.png)
+![New form entry](images/new_form_entry.png)
+
+
+
+## Requirements
+* MariaDB Database
+* ASP.NET Core 7 Hosting Bundle x64
+
+## Features
+* Login via LDAP or local account
+* Create unlimited amount of forms
+* Submitted forms can be edited afterwards
+* Limit forms to logged in users
+* Upload custom logo and images for each form
+* Rich form builder with 12 custom elements
+* Form builder is fully usable on both mobile and desktop
+* Define rules to display certain elements, rows and columns
+* Integrated file upload component
+* Search for form entries
+* Overview of your own submitted forms
+* Changes to forms doesn't affect past form entries
+* Many validation options (e.g. REGEX)
+* Calc values of elements based on other element values
+* Support for SUM in tables
+
+## Installation
+This app ships with a fully installer for appsettings and database. Simply run `FormPortal.Installer.exe` as administrator and follow the setup wizzard.
+
+## Hosting
+Hosting this app is quite simple. It supports all hosting possibilities from ASP.NET Core. For more information take a look on the [official docs from Microsoft](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/server?view=aspnetcore-7.0).
+
+
 ## NOT READY YET
 This Software is still in development and should not be used right now since it's missing some major core functionalities.
