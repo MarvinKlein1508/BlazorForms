@@ -5,6 +5,7 @@ using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Org.BouncyCastle.Math.EC;
 
 namespace FormPortal.Pages
 {
@@ -46,6 +47,13 @@ namespace FormPortal.Pages
                     if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausfüllen zu können, müssen Sie sich zunächst einloggen.");
+                        navigationManager.NavigateTo($"/");
+                        return;
+                    }
+
+                    if (form.IsOnlyAvailableForLoggedInUsers && form.AllowedUsersForNewEntries.Any() && _user is not null && form.AllowedUsersForNewEntries.FirstOrDefault(x => x.UserId == _user.UserId) is null)
+                    {
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt dieses Formular auszufüllen.");
                         navigationManager.NavigateTo($"/");
                         return;
                     }
