@@ -231,7 +231,12 @@ form_id = @FORM_ID";
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
             StringBuilder sb = new();
-            sb.AppendLine("SELECT * FROM forms WHERE 1 = 1");
+            sb.AppendLine("SELECT f.* FROM forms f");
+            if (filter.UserId > 0)
+            {
+                sb.AppendLine("LEFT JOIN form_to_user fu ON (f.form_id = fu.form_id)");
+            }
+            sb.AppendLine("WHERE 1 = 1");
             sb.AppendLine(GetFilterWhere(filter));
             sb.AppendLine(@$"  ORDER BY form_id DESC");
             sb.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
@@ -246,7 +251,8 @@ form_id = @FORM_ID";
         {
             return new Dictionary<string, object?>
             {
-                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" }
+                { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" },
+                { "USER_ID", filter.UserId }
             };
         }
         public string GetFilterWhere(FormFilter filter)
@@ -273,6 +279,10 @@ form_id = @FORM_ID";
                 sb.AppendLine(" AND login_required = 0");
             }
 
+            if (filter.UserId > 0)
+            {
+                sb.AppendLine(" AND (user_id IS NULL OR user_id = @USER_ID)");
+            }
 
 
             string sql = sb.ToString();
@@ -281,7 +291,12 @@ form_id = @FORM_ID";
         public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
         {
             StringBuilder sb = new();
-            sb.AppendLine("SELECT COUNT(*) FROM forms WHERE 1 = 1");
+            sb.AppendLine("SELECT COUNT(*) FROM forms f");
+            if (filter.UserId > 0)
+            {
+                sb.AppendLine("LEFT JOIN form_to_user fu ON (f.form_id = fu.form_id)");
+            }
+            sb.AppendLine("WHERE 1 = 1");
             sb.AppendLine(GetFilterWhere(filter));
 
             string sql = sb.ToString();

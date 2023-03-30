@@ -6,5 +6,6 @@ namespace FormPortal.Core.Filters
     {
         public bool ShowOnlyActiveForms { get; set; }
         public bool HideLoginRequired { get; set; }
+        public int UserId { get; set; }
     }
 }

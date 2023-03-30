@@ -29,7 +29,7 @@ namespace FormPortal.Pages
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
-
+            Filter.UserId = _user?.UserId ?? 0;
             await LoadAsync();
         }
         public async Task LoadAsync(bool navigateToPage1 = false)
