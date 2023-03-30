@@ -27,6 +27,14 @@ namespace FormPortal.Core.Models
         public int Id => FormId;
         public bool EntryMode { get; set; }
         public List<FormRow> Rows { get; set; } = new();
+        /// <summary>
+        /// Gets a list of <see cref="User.Id"/> of all users which are capable of creating a new <see cref="FormEntry"/> for this form.
+        /// </summary>
+        public List<int> AllowedUserIdsForNewEntries { get; set; } = new();
+        /// <summary>
+        /// Gets a list of <see cref="User.Id"/> of all users which are capable of editing and deleting entries for this form.
+        /// </summary>
+        public List<int> ManagerUserIds { get; set; } = new();
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
