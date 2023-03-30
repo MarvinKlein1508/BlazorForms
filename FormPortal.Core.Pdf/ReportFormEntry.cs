@@ -70,10 +70,10 @@ namespace FormPortal.Core.Pdf
 
                                 if (element is FormTextElementBase textElement)
                                 {
-                                    sb.AppendLine($"<label class=\"input-label\">{element}</label>");
-                                    sb.AppendLine($"<div class='element'>");
-                                    sb.AppendLine($"{textElement.Value}");
-                                    sb.AppendLine("</div>");
+                                    sb.AppendLine($"\t\t\t\t<label class=\"input-label\">{element}</label>");
+                                    sb.AppendLine($"\t\t\t\t\t<div class='element'>");
+                                    sb.AppendLine($"\t\t\t\t\t\t{textElement.Value}");
+                                    sb.AppendLine("\t\t\t\t\t</div>");
                                 }
                                 else if (element is FormLabelElement labelElement)
                                 {
@@ -83,86 +83,86 @@ namespace FormPortal.Core.Pdf
                                         .Replace("</b>", "</span>")
                                         .Replace("</strong>", "</span>");
 
-                                    sb.AppendLine($"<p>{description}</p>");
+                                    sb.AppendLine($"\t\t\t\t<p>{description}</p>");
                                 }
                                 else if (element is FormNumberElement numberElement)
                                 {
-                                    sb.AppendLine($"<label class=\"input-label\">{element}</label>");
-                                    sb.AppendLine($"<div class='element'>");
-                                    sb.AppendLine($"{numberElement.Value}");
-                                    sb.AppendLine("</div>");
+                                    sb.AppendLine($"\t\t\t\t<label class=\"input-label\">{element}</label>");
+                                    sb.AppendLine($"\t\t\t\t<div class='element'>");
+                                    sb.AppendLine($"\t\t\t\t\t{numberElement.Value}");
+                                    sb.AppendLine("<\t\t\t\t/div>");
                                 }
                                 else if (element is FormSelectElement selectElement)
                                 {
-                                    sb.AppendLine($"<label class=\"input-label\">{element}</label>");
-                                    sb.AppendLine($"<div class='element'>");
-                                    sb.AppendLine($"{selectElement.Value}");
-                                    sb.AppendLine("</div>");
+                                    sb.AppendLine($"\t\t\t\t<label class=\"input-label\">{element}</label>");
+                                    sb.AppendLine($"\t\t\t\t<div class='element'>");
+                                    sb.AppendLine($"\t\t\t\t\t{selectElement.Value}");
+                                    sb.AppendLine("\t\t\t\t</div>");
                                 }
                                 else if (element is FormDateElement dateElement)
                                 {
-                                    sb.AppendLine($"<label class=\"input-label\">{element}</label>");
-                                    sb.AppendLine($"<div class='element'>");
-                                    sb.AppendLine($"{dateElement.Value.ToShortDateString()}");
-                                    sb.AppendLine("</div>");
+                                    sb.AppendLine($"\t\t\t\t<label class=\"input-label\">{element}</label>");
+                                    sb.AppendLine($"\t\t\t\t<div class='element'>");
+                                    sb.AppendLine($"\t\t\t\t\t{dateElement.Value.ToShortDateString()}");
+                                    sb.AppendLine("\t\t\t\t</div>");
                                 }
                                 else if (element is FormRadioElement radioElement)
                                 {
 
-                                    sb.AppendLine($"<fieldset>");
-                                    sb.AppendLine($"<legend>{element}</legend>");
+                                    sb.AppendLine($"\t\t\t\t<fieldset>");
+                                    sb.AppendLine($"\t\t\t\t\t<legend>{element}</legend>");
                                     foreach (var item in radioElement.Options)
                                     {
                                         bool isChecked = item.Name == radioElement.Value;
-                                        sb.AppendLine($"<div class=\"radio-wrapper\">");
-                                        sb.AppendLine($"<input type='radio' value='{item.Name}' name='{item.GetHashCode()}' {(isChecked ? "checked" : string.Empty)}>");
-                                        sb.AppendLine($"<label>{item.Name}</label>");
-                                        sb.AppendLine($"</div>");
+                                        sb.AppendLine($"\t\t\t\t\t<div class=\"radio-wrapper\">");
+                                        sb.AppendLine($"\t\t\t\t\t\t<input type='radio' value='{item.Name}' name='{item.GetHashCode()}' {(isChecked ? "checked" : string.Empty)}>");
+                                        sb.AppendLine($"\t\t\t\t\t\t<label>{item.Name}</label>");
+                                        sb.AppendLine($"\t\t\t\t\t</div>");
                                     }
-                                    sb.AppendLine($"</fieldset>");
+                                    sb.AppendLine($"\t\t\t\t</fieldset>");
                                 }
                                 else if (element is FormCheckboxElement checkboxElement)
                                 {
                                     bool isChecked = checkboxElement.Value;
-                                    sb.AppendLine($"<div>");
-                                    sb.AppendLine($"<input type='checkbox' name='{checkboxElement.GetHashCode()}' {(isChecked ? "checked" : string.Empty)} />");
-                                    sb.AppendLine($"<label>{checkboxElement.Name}</label>");
-                                    sb.AppendLine($"</div>");
+                                    sb.AppendLine($"\t\t\t\t<div>");
+                                    sb.AppendLine($"\t\t\t\t\t<input type='checkbox' name='{checkboxElement.GetHashCode()}' {(isChecked ? "checked" : string.Empty)} />");
+                                    sb.AppendLine($"\t\t\t\t\t<label>{checkboxElement.Name}</label>");
+                                    sb.AppendLine($"\t\t\t\t</div>");
                                 }
                                 else if (element is FormTableElement tableElement)
                                 {
-                                    sb.AppendLine($"<table class='table table-xs form-table'>");
-                                    sb.AppendLine($"<thead>");
-                                    sb.AppendLine($"<tr>");
-                                    sb.AppendLine($"<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">{element.Name}</th>");
-                                    sb.AppendLine($"</tr>");
-                                    sb.AppendLine($"<tr>");
+                                    sb.AppendLine($"\t\t\t\t<table class='table table-xs form-table'>");
+                                    sb.AppendLine($"\t\t\t\t\t<thead>");
+                                    sb.AppendLine($"\t\t\t\t\t\t<tr>");
+                                    sb.AppendLine($"\t\t\t\t\t\t\t<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">{element.Name}</th>");
+                                    sb.AppendLine($"\t\t\t\t\t\t</tr>");
+                                    sb.AppendLine($"\t\t\t\t\t\t<tr>");
                                     foreach (var header in tableElement.Elements)
                                     {
-                                        sb.AppendLine($"<th class=\"nowrap\">");
-                                        sb.AppendLine($"{header.Name}");
-                                        sb.AppendLine($"</th>");
+                                        sb.AppendLine($"\t\t\t\t\t\t\t<th class=\"nowrap\">");
+                                        sb.AppendLine($"\t\t\t\t\t\t\t\t{header.Name}");
+                                        sb.AppendLine($"\t\t\t\t\t\t\t</th>");
                                     }
-                                    sb.AppendLine($"</tr>");
-                                    sb.AppendLine($"</thead>");
-                                    sb.AppendLine($"<tbody>");
+                                    sb.AppendLine($"\t\t\t\t\t\t</tr>");
+                                    sb.AppendLine($"\t\t\t\t\t</thead>");
+                                    sb.AppendLine($"\t\t\t\t\t<tbody>");
 
                                     var totals = new Dictionary<int, TableSum>();
 
                                     foreach (var tableRow in tableElement.ElementValues)
                                     {
-                                        sb.AppendLine($"<tr>");
+                                        sb.AppendLine($"\t\t\t\t\t\t<tr>");
                                         foreach (var table_element in tableRow)
                                         {
-                                            sb.AppendLine($"<td class='element'>");
+                                            sb.AppendLine($"\t\t\t\t\t\t\t<td class='element'>");
                                             if (table_element is FormCheckboxElement tableCheckboxElement)
                                             {
                                                 bool isChecked = tableCheckboxElement.Value;
-                                                sb.AppendLine($"<input type='checkbox' name='{tableCheckboxElement.GetHashCode()}' {(isChecked ? "checked" : string.Empty)} />");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t<input type='checkbox' name='{tableCheckboxElement.GetHashCode()}' {(isChecked ? "checked" : string.Empty)} />");
                                             }
                                             else if (table_element is FormDateElement tableDateElement)
                                             {
-                                                sb.AppendLine($"{tableDateElement.Value.ToShortDateString()}");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t{tableDateElement.Value.ToShortDateString()}");
                                             }
                                             else if (table_element is FormNumberElement tableNumberElement)
                                             {
@@ -184,19 +184,19 @@ namespace FormPortal.Core.Pdf
                                                     }
                                                 }
 
-                                                sb.AppendLine($"{tableNumberElement.Value.ToString(numberFormat)}");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t{tableNumberElement.Value.ToString(numberFormat)}");
                                             }
                                             else if (table_element is FormSelectElement tableSelectElement)
                                             {
-                                                sb.AppendLine($"{tableSelectElement.Value}");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t{tableSelectElement.Value}");
                                             }
                                             else if (table_element is FormTextElementBase tableTextElement)
                                             {
-                                                sb.AppendLine($"{tableTextElement.Value}");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t{tableTextElement.Value}");
                                             }
-                                            sb.AppendLine($"</td>");
+                                            sb.AppendLine($"\t\t\t\t\t\t\t</td>");
                                         }
-                                        sb.AppendLine($"</tr>");
+                                        sb.AppendLine($"\t\t\t\t\t\t</tr>");
 
                                     }
                                     if (totals.Any())
@@ -222,8 +222,8 @@ namespace FormPortal.Core.Pdf
                                         }
                                         sb.AppendLine("</tr>");
                                     }
-                                    sb.AppendLine($"</tbody>");
-                                    sb.AppendLine($"</table>");
+                                    sb.AppendLine($"\t\t\t\t\t</tbody>");
+                                    sb.AppendLine($"\t\t\t\t</table>");
                                 }
 
                             }
