@@ -7,6 +7,8 @@ namespace FormPortal.Core.Models
 {
     public class Form : IDbModel, IHasSortableElement
     {
+        private bool _isOnlyAvailableForLoggedInUsers;
+
         [CompareField("form_id")]
         public int FormId { get; set; }
         [CompareField("name")]
@@ -14,7 +16,7 @@ namespace FormPortal.Core.Models
         [CompareField("description")]
         public string Description { get; set; } = string.Empty;
         [CompareField("login_required")]
-        public bool IsOnlyAvailableForLoggedInUsers { get; set; }
+        public bool IsOnlyAvailableForLoggedInUsers { get => _isOnlyAvailableForLoggedInUsers || AllowedUsersForNewEntries.Any(); set => _isOnlyAvailableForLoggedInUsers = value; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("logo")]

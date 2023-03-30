@@ -476,7 +476,7 @@ else
                             <TabPage Text="Berechtigungen">
                                 <div class="form-check">
                                     <div class="checkbox">
-                                        <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" />
+                                        <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" disabled="@Input.AllowedUsersForNewEntries.Any()" />
                                         <label for="form-login-required">Login zum ausfüllen erforderlich</label>
                                         <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
                                     </div>
