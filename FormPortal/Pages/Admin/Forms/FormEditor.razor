@@ -441,16 +441,6 @@ else
                     @ondragstart="() => OnToolbarElementDragStart(item)">@item</li>
                 }
             </ul>
-
-            <div class="delete-wrapper">
-                <div class="delete-zone"
-                     ondragover="event.preventDefault();"
-                     ondragstart="event.dataTransfer.setData('', event.target.id);"
-                @ondrop="() => DropDelete()">
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-
         </div>
     </div>
     @if (EditFormProperties)
