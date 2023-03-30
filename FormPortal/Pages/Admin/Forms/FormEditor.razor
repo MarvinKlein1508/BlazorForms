@@ -4,6 +4,7 @@
 @layout EmptyLayout
 @using FormPortal.Components.Admin.Forms
 @inject FormService formService
+@inject UserService userService
 @inject IDbProviderService dbProviderService
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
@@ -466,17 +467,43 @@ else
 
                                 <div class="form-check">
                                     <div class="checkbox">
+                                        <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
+                                        <label for="form-active">Aktiv</label>
+                                        <ValidationMessage For="() => Input.IsActive" />
+                                    </div>
+                                </div>
+                            </TabPage>
+                            <TabPage Text="Berechtigungen">
+                                <div class="form-check">
+                                    <div class="checkbox">
                                         <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" />
                                         <label for="form-login-required">Login zum ausfüllen erforderlich</label>
                                         <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
                                     </div>
                                 </div>
 
-                                <div class="form-check">
-                                    <div class="checkbox">
-                                        <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
-                                        <label for="form-active">Aktiv</label>
-                                        <ValidationMessage For="() => Input.IsActive" />
+                                <h4>Berechtigte User</h4>
+                                <p>Allen ausgewählten User steht das Formular zum Ausfüllen zur Verfügung. Wenn Niemand ausgewählt wurde, dann steht das Formular allen eingeloggten Usern zur Verfügung.</p>
+
+                                <div class="col-12">
+                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="PerformSearch" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                    @if (_searchUsers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                    {
+                                        <ul class="autocomplete-dropdown">
+                                            @foreach (var item in _searchUsers)
+                                            {
+                                                <li><button @onclick="async () => await UserSelectedAsync(item)" type="button">@item.DisplayName</button></li>
+                                            }
+                                        </ul>
+                                    }
+
+
+                                    <div class="autocomplete-search">
+                                        @foreach (var item in Input.AllowedUsersForNewEntries)
+                                        {
+                                            <p><i @onclick="async () => await UserRemovedAsync(item)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
+                                        }
                                     </div>
                                 </div>
                             </TabPage>
@@ -500,7 +527,6 @@ else
                                 </div>
 
                             </TabPage>
-
                             <TabPage Text="Bild">
                                 <p>Das Bild wird im Dashboard als Vorschaubild verwendet.</p>
                                 <div class="mb-3">

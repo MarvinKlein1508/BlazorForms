@@ -1,6 +1,7 @@
 using DatabaseControllerProvider;
 using FluentValidation.Results;
 using FormPortal.Core;
+using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
@@ -23,9 +24,11 @@ namespace FormPortal.Pages.Admin.Forms
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
         public FormValidator Validator { get; } = new FormValidator();
+        public UserFilter FilterUser { get; set; } = new();
 
         private bool _showMobileToolbar;
         private bool _isToolbarDrag;
+        private List<User> _searchUsers = new();
         protected override async Task OnParametersSetAsync()
         {
 
@@ -362,6 +365,40 @@ namespace FormPortal.Pages.Admin.Forms
             if (redirect)
             {
                 navigationManager.NavigateTo("/Admin/Forms");
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private async Task PerformSearch()
+        {
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            _searchUsers = await userService.GetAsync(FilterUser, dbController);
+        }
+
+        private Task UserSelectedAsync(User user)
+        {
+            if (Input is not null)
+            {
+                _searchUsers.Remove(user);
+
+                var searchUser = Input.AllowedUsersForNewEntries.FirstOrDefault(x => x.Id == user.Id);
+
+                if (searchUser is null)
+                {
+                    FilterUser.BlockedIds.Add(user.Id);
+                    Input.AllowedUsersForNewEntries.Add(user);
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task UserRemovedAsync(User user)
+        {
+            if (Input is not null)
+            {
+                Input.AllowedUsersForNewEntries.Remove(user);
+                FilterUser.BlockedIds.Remove(user.Id);
             }
 
             return Task.CompletedTask;

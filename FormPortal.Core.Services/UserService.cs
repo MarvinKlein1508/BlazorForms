@@ -149,7 +149,7 @@ namespace FormPortal.Core.Services
             {
                 sb.AppendLine(@" AND 
 (
-        UPPER(anzeigename) LIKE @SEARCHPHRASE
+        UPPER(display_name) LIKE @SEARCHPHRASE
     OR  UPPER(email) LIKE @SEARCHPHRASE
     OR  UPPER(username) LIKE @SEARCHPHRASE
 )");
