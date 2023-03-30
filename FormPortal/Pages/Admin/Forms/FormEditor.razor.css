@@ -312,7 +312,7 @@
         position: fixed;
         bottom: .75rem;
         right: .75rem;
-        z-index: 2000;
+        z-index: 100;
     }
 
         .toolbar-toggle .btn-toolbar {
