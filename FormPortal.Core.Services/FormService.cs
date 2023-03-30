@@ -4,6 +4,7 @@ using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
+using System.Diagnostics;
 using System.Text;
 
 namespace FormPortal.Core.Services
@@ -439,7 +440,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                     string sql = sqlBuilder.ToString();
                     Dictionary<string, object?> parameters = new Dictionary<string, object?>
                     {
-                        { "TYPE", elementType },
+                        { "TYPE", elementType.ToString() },
                         { "FORM_ID", form.FormId }
                     };
 
