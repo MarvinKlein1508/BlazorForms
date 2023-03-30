@@ -12,3 +12,10 @@
 .content {
     font-size: .8rem;
 }
+
+td.element {
+    padding: 1em;
+    vertical-align: middle;
+    text-align: center;
+    border-top: none;
+}

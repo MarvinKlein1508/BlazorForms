@@ -131,7 +131,7 @@ namespace FormPortal.Core.Pdf
                                 }
                                 else if (element is FormTableElement tableElement)
                                 {
-                                    sb.AppendLine($"<table class='table table-xs'>");
+                                    sb.AppendLine($"<table class='table table-xs form-table'>");
                                     sb.AppendLine($"<thead>");
                                     sb.AppendLine($"<tr>");
                                     sb.AppendLine($"<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">{element.Name}</th>");
@@ -154,19 +154,15 @@ namespace FormPortal.Core.Pdf
                                         sb.AppendLine($"<tr>");
                                         foreach (var table_element in tableRow)
                                         {
-                                            sb.AppendLine($"<td>");
+                                            sb.AppendLine($"<td class='element'>");
                                             if (table_element is FormCheckboxElement tableCheckboxElement)
                                             {
                                                 bool isChecked = tableCheckboxElement.Value;
-                                                sb.AppendLine($"<div>");
                                                 sb.AppendLine($"<input type='checkbox' name='{tableCheckboxElement.GetHashCode()}' {(isChecked ? "checked" : string.Empty)} />");
-                                                sb.AppendLine($"</div>");
                                             }
                                             else if (table_element is FormDateElement tableDateElement)
                                             {
-                                                sb.AppendLine($"<div class='element'>");
                                                 sb.AppendLine($"{tableDateElement.Value.ToShortDateString()}");
-                                                sb.AppendLine("</div>");
                                             }
                                             else if (table_element is FormNumberElement tableNumberElement)
                                             {
@@ -188,21 +184,15 @@ namespace FormPortal.Core.Pdf
                                                     }
                                                 }
 
-                                                sb.AppendLine($"<div class='element'>");
                                                 sb.AppendLine($"{tableNumberElement.Value.ToString(numberFormat)}");
-                                                sb.AppendLine("</div>");
                                             }
                                             else if (table_element is FormSelectElement tableSelectElement)
                                             {
-                                                sb.AppendLine($"<div class='element'>");
                                                 sb.AppendLine($"{tableSelectElement.Value}");
-                                                sb.AppendLine("</div>");
                                             }
                                             else if (table_element is FormTextElementBase tableTextElement)
                                             {
-                                                sb.AppendLine($"<div class='element'>");
                                                 sb.AppendLine($"{tableTextElement.Value}");
-                                                sb.AppendLine("</div>");
                                             }
                                             sb.AppendLine($"</td>");
                                         }
