@@ -304,7 +304,7 @@ else
                                 @if (SelectedFormElement is FormTableElement formTableElement)
                                 {
                                     <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
-                                        <Dropzone TItem="FormElement" Class="table-dropzone large-dropzone" OnItemDrop="(x) => x.TableParentElementId = -1" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
+                                        <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormElement" Class="table-dropzone large-dropzone" OnItemDrop="(x) => x.TableParentElementId = -1" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                             <div class="formular-element grid-item">
                                                 <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
                                             </div>
