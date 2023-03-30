@@ -201,26 +201,24 @@ namespace FormPortal.Core.Pdf
                                     }
                                     if (totals.Any())
                                     {
-                                        sb.AppendLine($"<tr>");
-                                        sb.AppendLine($"<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">Summen</th>");
-                                        sb.AppendLine($"</tr>");
-                                        sb.AppendLine("<tr>");
+                                        sb.AppendLine($"\t\t\t\t\t\t<tr>");
+                                        sb.AppendLine($"\t\t\t\t\t\t\t<th class=\"text-center\" colspan=\"{tableElement.Elements.Count}\">Summen</th>");
+                                        sb.AppendLine($"\t\t\t\t\t\t</tr>");
+                                        sb.AppendLine("\t\t\t\t\t\t<tr>");
                                         for (int i = 1; i <= tableElement.Elements.Count; i++)
                                         {
                                             if (totals.TryGetValue(i, out TableSum? total))
                                             {
-                                                sb.AppendLine($"<td>");
-                                                sb.AppendLine($"<div class='element'>");
-                                                sb.AppendLine($"{total.Value.ToString(total.NumberFormat)}");
-                                                sb.AppendLine("</div>");
-                                                sb.AppendLine($"</td>");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t<td class='element'>");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t\t{total.Value.ToString(total.NumberFormat)}");
+                                                sb.AppendLine($"\t\t\t\t\t\t\t</td>");
                                             }
                                             else
                                             {
-                                                sb.AppendLine("<td></td>");
+                                                sb.AppendLine("\t\t\t\t\t\t\t<td></td>");
                                             }
                                         }
-                                        sb.AppendLine("</tr>");
+                                        sb.AppendLine("\t\t\t\t\t\t</tr>");
                                     }
                                     sb.AppendLine($"\t\t\t\t\t</tbody>");
                                     sb.AppendLine($"\t\t\t\t</table>");
