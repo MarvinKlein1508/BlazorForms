@@ -210,8 +210,6 @@ form_id = @FORM_ID";
                 }
             }
 
-            await CreateOrUpdateFormPermissionsAsync(input, dbController);
-
             var (newRowIds, newColumnIds, newElementIds, newRuleIds, newCalcRuleIds) = GetHashSets(input);
             var (oldRowIds, oldColumnIds, oldElementIds, oldRuleIds, oldCalcRuleIds) = GetHashSets(oldInputToCompare);
 
@@ -226,6 +224,9 @@ form_id = @FORM_ID";
             await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
             await CleanTableAsync(oldRuleIds, "form_rules", "rule_id", dbController);
             await CleanTableAsync(oldCalcRuleIds, "form_elements_number_calc_rules", "calc_rule_id", dbController);
+
+
+            await CreateOrUpdateFormPermissionsAsync(input, dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -380,7 +381,7 @@ form_id = @FORM_ID";
         }
         private async Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController)
         {
-            string sql = @"SELECT u.username, u.display_name, u.email, u.origin FROM form_to_user fu
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_to_user fu
 INNER JOIN users u ON (u.user_id = fu.user_id)
 WHERE fu.form_id = @FORM_ID";
 
@@ -615,7 +616,10 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
         private async Task CreateOrUpdateFormPermissionsAsync(Form input, IDbController dbController)
         {
             string sql = "DELETE FROM form_to_user WHERE form_id = @FORM_ID";
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, new
+            {
+                FORM_ID = input.FormId
+            });
 
             foreach (var user in input.AllowedUsersForNewEntries)
             {
