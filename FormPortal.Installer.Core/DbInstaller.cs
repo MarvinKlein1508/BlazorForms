@@ -63,6 +63,25 @@ CREATE TABLE forms
 	PRIMARY KEY (form_id)
 );"));
 
+            _tables.Add(new SqlTable("form_to_user", @"
+CREATE TABLE form_to_user
+(
+	form_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	PRIMARY KEY(form_id, user_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);"));
+
+            _tables.Add(new SqlTable("form_managers", @"
+CREATE TABLE form_managers
+(
+	form_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	PRIMARY KEY(form_id, user_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);"));
 
             _tables.Add(new SqlTable("form_rows", @"
 CREATE TABLE form_rows

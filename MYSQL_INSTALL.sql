@@ -41,6 +41,24 @@ CREATE TABLE forms
 	PRIMARY KEY (form_id)
 );
 
+CREATE TABLE form_to_user
+(
+	form_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	PRIMARY KEY(form_id, user_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE form_managers
+(
+	form_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	PRIMARY KEY(form_id, user_id),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE form_rows
 (
 	row_id INTEGER NOT NULL AUTO_INCREMENT,
