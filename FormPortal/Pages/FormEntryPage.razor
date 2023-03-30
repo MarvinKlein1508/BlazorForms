@@ -68,7 +68,7 @@
                                                 <InputFile accept="@formFileElement.GetAcceptTypesDefinition()" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" multiple="@formFileElement.AllowMultipleFiles" />
                                             </label>
 
-                                            <FileListing Files="formFileElement.Values"/>
+                                            <FileListing Files="formFileElement.Values" />
                                         </div>
                                         <ValidationMessage For="() => formFileElement.Values" />
                                     }
@@ -123,7 +123,7 @@
                                             <table class="table mb-3 table-xs">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center" colspan="@formTableElement.Elements.Count">@element.Name</th>
+                                                        <th class="text-center" colspan="@(formTableElement.Elements.Count + 1)">@element.Name</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -190,7 +190,15 @@
                                                                         </div>
                                                                     }
                                                                 </td>
+
+
                                                             }
+                                                            <td>
+                                                                @if (formTableElement.ElementValues.Count > 1)
+                                                                {
+                                                                    <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><i class="fa-solid fa-trash"></i></button>
+                                                                }
+                                                            </td>
                                                         </tr>
                                                     }
 
