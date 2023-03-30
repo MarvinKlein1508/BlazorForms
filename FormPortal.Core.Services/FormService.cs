@@ -45,6 +45,8 @@ VALUES
                 row.FormId = input.FormId;
                 await _formRowService.CreateAsync(row, dbController);
             }
+
+            await CreateOrUpdateFormPermissionsAsync(input, dbController);
         }
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
@@ -90,6 +92,7 @@ VALUES
         private async Task LoadFormContentAsync(Form form, int entryId, IDbController dbController)
         {
             // Load all required data here
+            form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController);
             List<FormRow> rows = await GetRowsAsync(form, dbController);
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
@@ -207,6 +210,7 @@ form_id = @FORM_ID";
                 }
             }
 
+            await CreateOrUpdateFormPermissionsAsync(input, dbController);
 
             var (newRowIds, newColumnIds, newElementIds, newRuleIds, newCalcRuleIds) = GetHashSets(input);
             var (oldRowIds, oldColumnIds, oldElementIds, oldRuleIds, oldCalcRuleIds) = GetHashSets(oldInputToCompare);
@@ -373,6 +377,16 @@ form_id = @FORM_ID";
             });
 
             return rows;
+        }
+        private async Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController)
+        {
+            string sql = @"SELECT u.username, u.display_name, u.email, u.origin FROM form_to_user fu
+INNER JOIN users u ON (u.user_id = fu.user_id)
+WHERE fu.form_id = @FORM_ID";
+
+            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
+
+            return results;
         }
         /// <summary>
         /// Get the base <see cref="FormColumn"/> objects for a specific form.
@@ -597,6 +611,31 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             ElementType.Textarea => "form_elements_textarea_attributes",
             _ => string.Empty,
         };
+    
+        private async Task CreateOrUpdateFormPermissionsAsync(Form input, IDbController dbController)
+        {
+            string sql = "DELETE FROM form_to_user WHERE form_id = @FORM_ID";
+            await dbController.QueryAsync(sql, input.GetParameters());
+
+            foreach (var user in input.AllowedUsersForNewEntries)
+            {
+                sql = @"INSERT INTO form_to_user
+(
+form_id,
+user_id 
+)
+VALUES
+(
+@FORM_ID,
+@USER_ID
+)";
+                await dbController.QueryAsync(sql, new
+                {
+                    FORM_ID = input.Id,
+                    USER_ID = user.Id
+                });
+            }
+        }
     }
 
 
