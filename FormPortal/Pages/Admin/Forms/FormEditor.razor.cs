@@ -25,6 +25,7 @@ namespace FormPortal.Pages.Admin.Forms
         public FormValidator Validator { get; } = new FormValidator();
 
         private bool _showMobileToolbar;
+        private bool _isToolbarDrag;
         protected override async Task OnParametersSetAsync()
         {
 
@@ -96,11 +97,13 @@ namespace FormPortal.Pages.Admin.Forms
             dragDropServiceElements.ActiveItem = null;
             dragDropServiceElements.Items = new List<FormElement>();
 
+            _isToolbarDrag = false;
+
         }
 
         private string GetToolbarDraggingCss()
         {
-            if(dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
+            if (dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
             {
                 return "plk-dd-in-transit no-pointer-events plk-dd-inprogess";
             }
@@ -129,6 +132,7 @@ namespace FormPortal.Pages.Admin.Forms
                 dragDropServiceColumns.ActiveItem = new FormColumn(Input);
                 dragDropServiceColumns.Items = new List<FormColumn>();
                 _showMobileToolbar = false;
+                _isToolbarDrag = true;
             }
             StateHasChanged();
         }
@@ -139,6 +143,7 @@ namespace FormPortal.Pages.Admin.Forms
                 dragDropServiceRows.ActiveItem = new FormRow(Input, 1);
                 dragDropServiceRows.Items = new List<FormRow>();
                 _showMobileToolbar = false;
+                _isToolbarDrag = true;
             }
             StateHasChanged();
         }
@@ -150,6 +155,7 @@ namespace FormPortal.Pages.Admin.Forms
             dragDropServiceElements.ActiveItem = newElement;
             dragDropServiceElements.Items = new List<FormElement>();
             _showMobileToolbar = false;
+            _isToolbarDrag = true;
             StateHasChanged();
         }
 
@@ -276,9 +282,9 @@ namespace FormPortal.Pages.Admin.Forms
             Input.Logo = fs.ToArray();
         }
 
-        private string GetMobileDeleteWrapperClass()
+        private string GetDeleteWrapperClass()
         {
-            if(dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
+            if (!_isToolbarDrag && (dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null))
             {
                 return "d-block";
             }
@@ -309,7 +315,7 @@ namespace FormPortal.Pages.Admin.Forms
 
         private string GetToobalWrapperCss()
         {
-            if(_showMobileToolbar)
+            if (_showMobileToolbar)
             {
                 return "d-block";
             }

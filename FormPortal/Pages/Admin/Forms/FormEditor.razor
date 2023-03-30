@@ -39,7 +39,7 @@ else
                     <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
                     <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
 
-                    <div class="delete-wrapper delete-wrapper-mobile @GetMobileDeleteWrapperClass()">
+                    <div class="delete-wrapper delete-wrapper-mobile @GetDeleteWrapperClass()">
                         <div class="delete-zone"
                              ondragover="event.preventDefault();"
                              ondragstart="event.dataTransfer.setData('', event.target.id);"
