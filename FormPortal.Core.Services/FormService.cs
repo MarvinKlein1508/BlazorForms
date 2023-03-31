@@ -46,6 +46,7 @@ VALUES
             }
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
+            await CreateOrUpdateFormManagersAsync(input, dbController);
         }
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
@@ -92,6 +93,7 @@ VALUES
         {
             // Load all required data here
             form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController);
+            form.ManagerUsers = await GetManagersForFormAsync(form, dbController);
             List<FormRow> rows = await GetRowsAsync(form, dbController);
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
@@ -226,6 +228,7 @@ form_id = @FORM_ID";
 
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
+            await CreateOrUpdateFormManagersAsync(input, dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -398,6 +401,17 @@ form_id = @FORM_ID";
             string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_to_user fu
 INNER JOIN users u ON (u.user_id = fu.user_id)
 WHERE fu.form_id = @FORM_ID";
+
+            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
+
+            return results;
+        }
+
+        private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
+        {
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_managers fm
+INNER JOIN users u ON (u.user_id = fm.user_id)
+WHERE fm.form_id = @FORM_ID";
 
             List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
 
@@ -638,6 +652,33 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             foreach (var user in input.AllowedUsersForNewEntries)
             {
                 sql = @"INSERT INTO form_to_user
+(
+form_id,
+user_id 
+)
+VALUES
+(
+@FORM_ID,
+@USER_ID
+)";
+                await dbController.QueryAsync(sql, new
+                {
+                    FORM_ID = input.Id,
+                    USER_ID = user.Id
+                });
+            }
+        }
+        private async Task CreateOrUpdateFormManagersAsync(Form input, IDbController dbController)
+        {
+            string sql = "DELETE FROM form_managers WHERE form_id = @FORM_ID";
+            await dbController.QueryAsync(sql, new
+            {
+                FORM_ID = input.FormId
+            });
+
+            foreach (var user in input.AllowedUsersForNewEntries)
+            {
+                sql = @"INSERT INTO form_managers
 (
 form_id,
 user_id 
