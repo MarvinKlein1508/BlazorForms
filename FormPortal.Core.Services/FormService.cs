@@ -676,7 +676,7 @@ VALUES
                 FORM_ID = input.FormId
             });
 
-            foreach (var user in input.AllowedUsersForNewEntries)
+            foreach (var user in input.ManagerUsers)
             {
                 sql = @"INSERT INTO form_managers
 (
