@@ -18,6 +18,28 @@ namespace FormPortal.Pages
         private EditForm? _form;
 
         private User? _user;
+
+        private async Task<bool> CanEditEntryAsync(FormEntry? entry)
+        {
+            if(entry is null)
+            {
+                return false;
+            }
+
+            bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
+
+            if(hasEditRole)
+            {
+                return true;
+            }
+
+            if(_user is null)
+            {
+                return false;
+            }
+
+            return entry.CreationUserId == _user.UserId || entry.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId);
+        }
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
@@ -31,10 +53,12 @@ namespace FormPortal.Pages
                     Input = form;
                     FormId = Input?.FormId ?? 0;
 
-                    bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
-                    if (_user is null || (Input?.CreationUserId != _user.UserId && !hasEditRole))
+                    bool canEdit = await CanEditEntryAsync(Input);
+                    if (!canEdit)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.success, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
+                        await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
+                        navigationManager.NavigateTo("/");
+                        return;
                     }
                 }
             }
