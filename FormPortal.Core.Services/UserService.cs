@@ -155,6 +155,11 @@ namespace FormPortal.Core.Services
 )");
             }
 
+            if(filter.BlockedIds.Any())
+            {
+                sb.AppendLine($" AND user_id NOT IN ({string.Join(",", filter.BlockedIds)})");
+            }
+
 
             string sql = sb.ToString();
             return sql;
