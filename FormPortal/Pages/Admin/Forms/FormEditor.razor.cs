@@ -383,14 +383,19 @@ namespace FormPortal.Pages.Admin.Forms
         }
         private async Task PerformSearch(bool searchManagers = false)
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
-            if (searchManagers)
+            if (Input is not null)
             {
-                _searchManagers = await userService.GetAsync(FilterUser, dbController);
-            }
-            else
-            {
-                _searchUsers = await userService.GetAsync(FilterUser, dbController);
+                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+                if (searchManagers)
+                {
+                    FilterUser.BlockedIds = Input.ManagerUsers.Select(x => x.Id).ToList();
+                    _searchManagers = await userService.GetAsync(FilterUser, dbController);
+                }
+                else
+                {
+                    FilterUser.BlockedIds = Input.AllowedUsersForNewEntries.Select(x => x.Id).ToList();
+                    _searchUsers = await userService.GetAsync(FilterUser, dbController);
+                }
             }
         }
         private Task UserSelectedAsync(User user, List<User> list)
