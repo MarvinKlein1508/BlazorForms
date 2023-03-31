@@ -489,14 +489,14 @@ else
                                 <p>Allen ausgewählten User steht das Formular zum Ausfüllen zur Verfügung. Wenn Niemand ausgewählt wurde, dann steht das Formular allen eingeloggten Usern zur Verfügung.</p>
 
                                 <div class="col-12">
-                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="PerformSearch" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch()" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
 
                                     @if (_searchUsers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
                                     {
                                         <ul class="autocomplete-dropdown">
                                             @foreach (var item in _searchUsers)
                                             {
-                                                <li><button @onclick="async () => await UserSelectedAsync(item)" type="button">@item.DisplayName</button></li>
+                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.AllowedUsersForNewEntries)" type="button">@item.DisplayName</button></li>
                                             }
                                         </ul>
                                     }
@@ -505,7 +505,32 @@ else
                                     <div class="autocomplete-search">
                                         @foreach (var item in Input.AllowedUsersForNewEntries)
                                         {
-                                            <p><i @onclick="async () => await UserRemovedAsync(item)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
+                                            <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
+                                        }
+                                    </div>
+                                </div>
+                            </TabPage>
+                            <TabPage Text="Bearbeiter">
+                                <p>Allen ausgewählten User können alle Formulareinträge für dieses Formular verwalten.</p>
+
+                                <div class="col-12">
+                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch(true)" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                    @if (_searchManagers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                    {
+                                        <ul class="autocomplete-dropdown">
+                                            @foreach (var item in _searchManagers)
+                                            {
+                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.ManagerUsers)" type="button">@item.DisplayName</button></li>
+                                            }
+                                        </ul>
+                                    }
+
+
+                                    <div class="autocomplete-search">
+                                        @foreach (var item in Input.ManagerUsers)
+                                        {
+                                            <p><i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
                                         }
                                     </div>
                                 </div>

@@ -33,6 +33,7 @@ namespace FormPortal.Pages.Admin.Forms
         private bool _showMobileToolbar;
         private bool _isToolbarDrag;
         private List<User> _searchUsers = new();
+        private List<User> _searchManagers = new();
 #nullable disable
         private HotKeysContext _hotKeysContext;
 #nullable enable
@@ -380,34 +381,37 @@ namespace FormPortal.Pages.Admin.Forms
 
             return Task.CompletedTask;
         }
-        private async Task PerformSearch()
+        private async Task PerformSearch(bool searchManagers = false)
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
-            _searchUsers = await userService.GetAsync(FilterUser, dbController);
-        }
-        private Task UserSelectedAsync(User user)
-        {
-            if (Input is not null)
+            if (searchManagers)
             {
-                _searchUsers.Remove(user);
-
-                var searchUser = Input.AllowedUsersForNewEntries.FirstOrDefault(x => x.Id == user.Id);
-
-                if (searchUser is null)
-                {
-                    FilterUser.BlockedIds.Add(user.Id);
-                    Input.AllowedUsersForNewEntries.Add(user);
-                }
+                _searchManagers = await userService.GetAsync(FilterUser, dbController);
             }
+            else
+            {
+                _searchUsers = await userService.GetAsync(FilterUser, dbController);
+            }
+        }
+        private Task UserSelectedAsync(User user, List<User> list)
+        {
+            _searchUsers.Remove(user);
+
+            var searchUser = list.FirstOrDefault(x => x.Id == user.Id);
+
+            if (searchUser is null)
+            {
+                FilterUser.BlockedIds.Add(user.Id);
+                list.Add(user);
+            }
+
             return Task.CompletedTask;
         }
-        private Task UserRemovedAsync(User user)
+        private Task UserRemovedAsync(User user, List<User> list)
         {
-            if (Input is not null)
-            {
-                Input.AllowedUsersForNewEntries.Remove(user);
-                FilterUser.BlockedIds.Remove(user.Id);
-            }
+
+            list.Remove(user);
+            FilterUser.BlockedIds.Remove(user.Id);
 
             return Task.CompletedTask;
         }
