@@ -37,7 +37,7 @@ namespace FormPortal.Core.Models
         public int Id => RuleId;
         [IgnoreModificationCheck]
         public FormElement? Element { get; set; }
-        
+
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

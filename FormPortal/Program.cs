@@ -3,8 +3,6 @@ using DatabaseControllerProvider;
 using FluentValidation;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 using Toolbelt.Blazor.Extensions.DependencyInjection;

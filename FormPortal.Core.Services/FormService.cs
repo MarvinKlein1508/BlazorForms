@@ -4,7 +4,6 @@ using FormPortal.Core.Filters;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
-using System.Diagnostics;
 using System.Text;
 
 namespace FormPortal.Core.Services
@@ -627,7 +626,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             ElementType.Textarea => "form_elements_textarea_attributes",
             _ => string.Empty,
         };
-    
+
         private async Task CreateOrUpdateFormPermissionsAsync(Form input, IDbController dbController)
         {
             string sql = "DELETE FROM form_to_user WHERE form_id = @FORM_ID";

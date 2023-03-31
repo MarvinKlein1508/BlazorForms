@@ -56,7 +56,7 @@ if (createLocalAccount)
     Console.WriteLine("Please enter password:");
     user.Password = ReadConsole(false, x => ValidateString(x, false));
 
-    
+
     string passwordHashed = DbInstaller.HashPassword(user);
     user.Password = passwordHashed;
 }

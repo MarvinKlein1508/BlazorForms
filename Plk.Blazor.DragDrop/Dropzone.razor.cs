@@ -128,9 +128,9 @@ public partial class Dropzone<TItem>
     {
         DragDropService.ActiveItem = item;
         DragDropService.Items = Items;
-        
+
         await DragStart.InvokeAsync(item);
-        
+
 
     }
 

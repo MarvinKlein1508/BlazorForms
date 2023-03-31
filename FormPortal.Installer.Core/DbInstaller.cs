@@ -1,11 +1,6 @@
 ﻿using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FormPortal.Installer.Core
 {
@@ -384,7 +379,7 @@ VALUES
 
 
         }
-    
+
         public static string HashPassword(User user)
         {
             PasswordHasher<User> hasher = new();

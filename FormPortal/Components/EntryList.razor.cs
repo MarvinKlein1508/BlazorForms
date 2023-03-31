@@ -5,7 +5,6 @@ using FormPortal.Core.Models;
 using FormPortal.Core.Pdf;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace FormPortal.Components
 {

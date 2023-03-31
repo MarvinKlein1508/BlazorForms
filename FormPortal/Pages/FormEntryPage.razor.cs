@@ -5,7 +5,6 @@ using FormPortal.Core.Models.FormElements;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Org.BouncyCastle.Math.EC;
 
 namespace FormPortal.Pages
 {
