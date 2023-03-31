@@ -5,5 +5,6 @@ namespace FormPortal.Core.Filters
     public class FormEntryFilter : PageFilterBase
     {
         public int UserId { get; set; }
+        public bool SearchAssigned { get; set; }
     }
 }

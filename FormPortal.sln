@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Settings", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Installer", "FormPortal.Installer\FormPortal.Installer.csproj", "{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormPortal.Installer.Core", "FormPortal.Installer.Core\FormPortal.Installer.Core.csproj", "{EE59B2E2-1CB1-419E-9B8A-C3EADD462A29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Installer.Core", "FormPortal.Installer.Core\FormPortal.Installer.Core.csproj", "{EE59B2E2-1CB1-419E-9B8A-C3EADD462A29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
