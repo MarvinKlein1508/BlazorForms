@@ -400,7 +400,7 @@ namespace FormPortal.Pages.Admin.Forms
         }
         private Task UserSelectedAsync(User user, List<User> list)
         {
-            _searchUsers.Remove(user);
+            list.Remove(user);
 
             var searchUser = list.FirstOrDefault(x => x.Id == user.Id);
 
