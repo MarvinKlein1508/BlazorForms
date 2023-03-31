@@ -213,8 +213,13 @@ FROM form_entries fe
 LEFT JOIN forms f ON f.form_id = fe.form_id
 LEFT JOIN form_entries_elements fee ON (fee.form_id = fe.form_id AND fee.entry_id = fe.entry_id)
 LEFT JOIN users u1 ON (u1.user_id = fe.creation_user_id)
-LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)
-WHERE 1 = 1");
+LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
+
+            if (filter.SearchAssigned)
+            {
+                sqlBuilder.AppendLine("INNER JOIN form_managers fm ON (fm.form_id = f.form_id)");
+            }
+            sqlBuilder.AppendLine("WHERE 1 = 1");
             sqlBuilder.AppendLine(GetFilterWhere(filter));
             sqlBuilder.Append(" ORDER BY entry_id DESC ");
             sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
@@ -235,8 +240,14 @@ FROM form_entries fe
 LEFT JOIN forms f ON f.form_id = fe.form_id
 LEFT JOIN form_entries_elements fee ON (fee.form_id = fe.form_id AND fee.entry_id = fe.entry_id)
 LEFT JOIN users u1 ON (u1.user_id = fe.creation_user_id)
-LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)
-WHERE 1 = 1");
+LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
+
+            if (filter.SearchAssigned)
+            {
+                sqlBuilder.AppendLine("INNER JOIN form_managers fm ON (fm.form_id = f.form_id)");
+            }
+
+            sqlBuilder.AppendLine("WHERE 1 = 1");
 
             sqlBuilder.AppendLine(GetFilterWhere(filter));
 
@@ -262,9 +273,14 @@ OR u2.display_name LIKE @SEARCHPHRASE
 )");
             }
 
-            if (filter.UserId > 0)
+            if (filter.UserId > 0 && !filter.SearchAssigned)
             {
                 sqlBuilder.AppendLine(@" AND creation_user_id = @USERID");
+            }
+
+            if (filter.SearchAssigned)
+            {
+                sqlBuilder.AppendLine(@" AND fm.user_id = @USERID");
             }
 
             string sql = sqlBuilder.ToString();
