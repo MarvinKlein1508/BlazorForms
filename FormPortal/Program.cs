@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace FormPortal
 {
@@ -42,6 +43,7 @@ namespace FormPortal
             builder.Services.AddScoped<RuleService>();
             builder.Services.AddScoped<CalcRuleService>();
             builder.Services.AddScoped<FormEntryService>();
+            builder.Services.AddHotKeys2();
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
 #if DEBUG

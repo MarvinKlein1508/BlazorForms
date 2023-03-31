@@ -11,6 +11,8 @@
 @inject DragDropService<FormElement> dragDropServiceElements
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
+@inject HotKeys hotKeys
+@implements IDisposable
 <PageTitle>FormEditor - @FormId</PageTitle>
 <NavigationLock ConfirmExternalNavigation="true" OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 @if (Input is null)

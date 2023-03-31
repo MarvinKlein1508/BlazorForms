@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using System.Text;
+using Toolbelt.Blazor.HotKeys2;
+
 namespace FormPortal.Pages.Admin.Forms
 {
     public partial class FormEditor
@@ -31,6 +33,24 @@ namespace FormPortal.Pages.Admin.Forms
         private bool _showMobileToolbar;
         private bool _isToolbarDrag;
         private List<User> _searchUsers = new();
+#nullable disable
+        private HotKeysContext _hotKeysContext;
+#nullable enable
+        protected override Task OnInitializedAsync()
+        {
+            _hotKeysContext = hotKeys.CreateContext()
+                .Add(ModCode.None, Code.Escape, async () =>
+                {
+                    await CloseItemAsync();
+                    await InvokeAsync(StateHasChanged);
+                }, "Zurück", Exclude.None)
+                .Add(ModCode.Ctrl, Code.S, async () =>
+                {
+                    await SaveAsync();
+                    await InvokeAsync(StateHasChanged);
+                }, "Speichern", Exclude.None);
+            return base.OnInitializedAsync();
+        }
         protected override async Task OnParametersSetAsync()
         {
 
@@ -403,8 +423,11 @@ namespace FormPortal.Pages.Admin.Forms
                     context.PreventNavigation();
                 }
             }
+        }
 
-            
+        public void Dispose()
+        {
+            _hotKeysContext.Dispose();
         }
     }
 }
