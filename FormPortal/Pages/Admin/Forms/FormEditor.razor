@@ -12,6 +12,7 @@
 @inject DragDropService<FormRow> dragDropServiceRows
 @inject DragDropService<FormColumn> dragDropServiceColumns
 <PageTitle>FormEditor - @FormId</PageTitle>
+<NavigationLock ConfirmExternalNavigation="true" OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 @if (Input is null)
 {
     <div class="loading-wrapper">

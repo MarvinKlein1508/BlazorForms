@@ -27,7 +27,9 @@ namespace FormPortal.Core.Models
         /// </summary>
         public List<FormColumn> Columns { get; set; } = new();
         public List<Rule> Rules { get; set; } = new();
+        [IgnoreModificationCheck]
         public Form? Form { get; set; }
+        [IgnoreModificationCheck]
         public FormRowTabs ActiveTab { get; set; }
 
         /// <summary>

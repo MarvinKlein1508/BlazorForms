@@ -8,6 +8,8 @@ using FormPortal.Core.Services;
 using FormPortal.Core.Validators.Admin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
 using System.Text;
 namespace FormPortal.Pages.Admin.Forms
 {
@@ -45,8 +47,12 @@ namespace FormPortal.Pages.Admin.Forms
                 Input.Rows.Add(new FormRow(Input, 1));
                 EditFormProperties = true;
             }
-        }
 
+            if (Input is not null)
+            {
+                StartCopy = Input.DeepCopyByExpressionTree();
+            }
+        }
         public async Task LoadEditModeAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
@@ -88,7 +94,6 @@ namespace FormPortal.Pages.Admin.Forms
 
             CleanToolbarDrag();
         }
-
         public void CleanToolbarDrag()
         {
             dragDropServiceRows.ActiveItem = null;
@@ -103,7 +108,6 @@ namespace FormPortal.Pages.Admin.Forms
             _isToolbarDrag = false;
 
         }
-
         private string GetToolbarDraggingCss()
         {
             if (dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null)
@@ -119,15 +123,11 @@ namespace FormPortal.Pages.Admin.Forms
             Input?.RemoveEmptyRows();
             return Task.CompletedTask;
         }
-
         public Task OnElementDroppedAsync(FormElement element, FormColumn column)
         {
             element.Parent = column;
             return Task.CompletedTask;
         }
-
-
-
         public void StartDragColumnFromToolbar()
         {
             if (Input is not null)
@@ -161,8 +161,6 @@ namespace FormPortal.Pages.Admin.Forms
             _isToolbarDrag = true;
             StateHasChanged();
         }
-
-
         public async Task SaveAsync()
         {
             if (Input is null)
@@ -263,7 +261,6 @@ namespace FormPortal.Pages.Admin.Forms
             await jsRuntime.ShowToastAsync(ToastType.success, "Form has been saved successfully.");
 
         }
-
         private Task OpenFormElementAsync(FormElement element)
         {
             SelectedFormElementStack.Add(element);
@@ -272,7 +269,6 @@ namespace FormPortal.Pages.Admin.Forms
         }
         private string GetTabNavClass(bool isActive) => isActive ? "nav-link active" : "nav-link";
         public string GetTabClass(bool active) => active ? "tab-pane fade active show" : "tab-pane fade";
-
         private async Task UploadLogoAsync(InputFileChangeEventArgs e)
         {
             if (Input is null)
@@ -284,7 +280,6 @@ namespace FormPortal.Pages.Admin.Forms
 
             Input.Logo = fs.ToArray();
         }
-
         private string GetDeleteWrapperClass()
         {
             if (!_isToolbarDrag && (dragDropServiceColumns.ActiveItem is not null || dragDropServiceElements.ActiveItem is not null || dragDropServiceRows.ActiveItem is not null))
@@ -294,7 +289,6 @@ namespace FormPortal.Pages.Admin.Forms
 
             return "d-none";
         }
-
         private async Task UploadImageAsync(InputFileChangeEventArgs e)
         {
             if (Input is null)
@@ -315,7 +309,6 @@ namespace FormPortal.Pages.Admin.Forms
 
             return string.Empty;
         }
-
         private string GetToobalWrapperCss()
         {
             if (_showMobileToolbar)
@@ -327,7 +320,6 @@ namespace FormPortal.Pages.Admin.Forms
                 return "d-none";
             }
         }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRender)
@@ -340,7 +332,6 @@ namespace FormPortal.Pages.Admin.Forms
             }
 
         }
-
         private Task CloseItemAsync()
         {
             bool redirect = SelectedFormElement is null;
@@ -369,13 +360,11 @@ namespace FormPortal.Pages.Admin.Forms
 
             return Task.CompletedTask;
         }
-
         private async Task PerformSearch()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             _searchUsers = await userService.GetAsync(FilterUser, dbController);
         }
-
         private Task UserSelectedAsync(User user)
         {
             if (Input is not null)
@@ -392,7 +381,6 @@ namespace FormPortal.Pages.Admin.Forms
             }
             return Task.CompletedTask;
         }
-
         private Task UserRemovedAsync(User user)
         {
             if (Input is not null)
@@ -402,6 +390,21 @@ namespace FormPortal.Pages.Admin.Forms
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+        {
+            if (Input.HasBeenModified(StartCopy))
+            {
+                var isConfirmed = await jsRuntime.InvokeAsync<bool>("confirm", "Sie haben noch nicht alle Änderungen gespeichert. Möchten Sie den Editor dennoch verlassen?");
+
+                if (!isConfirmed)
+                {
+                    context.PreventNavigation();
+                }
+            }
+
+            
         }
     }
 }

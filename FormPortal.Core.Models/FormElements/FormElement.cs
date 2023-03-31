@@ -33,9 +33,12 @@ namespace FormPortal.Core.Models.FormElements
         public int Id => ElementId;
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
+        [IgnoreModificationCheck]
         public FormColumn? Parent { get; set; }
         public List<Rule> Rules { get; set; } = new();
+        [IgnoreModificationCheck]
         public FormRow? Row => Parent?.Parent;
+        [IgnoreModificationCheck]
         public Form? Form { get; set; }
         public virtual Dictionary<string, object?> GetParameters()
         {
@@ -71,7 +74,7 @@ namespace FormPortal.Core.Models.FormElements
             Guid = Guid.NewGuid();
         }
         public abstract string GetDefaultName();
-
+        [IgnoreModificationCheck]
         public FormElementTabs ActiveTab { get; set; }
 
         public bool IsVisible()

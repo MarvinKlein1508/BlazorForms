@@ -35,9 +35,9 @@ namespace FormPortal.Core.Models
         public int SortOrder { get; set; }
 
         public int Id => RuleId;
+        [IgnoreModificationCheck]
         public FormElement? Element { get; set; }
-        public FormElement? Parent { get; set; }
-
+        
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

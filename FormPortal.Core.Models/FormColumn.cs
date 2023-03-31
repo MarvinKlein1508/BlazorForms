@@ -29,8 +29,11 @@ namespace FormPortal.Core.Models
         /// </summary>
         public List<FormElement> Elements { get; set; } = new();
         public List<Rule> Rules { get; set; } = new();
+        [IgnoreModificationCheck]
         public FormRow? Parent { get; set; }
+        [IgnoreModificationCheck]
         public Form? Form { get; set; }
+        [IgnoreModificationCheck]
         public FormColumnTabs ActiveTab { get; set; }
 
         public FormColumn()
