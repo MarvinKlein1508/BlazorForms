@@ -98,5 +98,20 @@ namespace FormPortal.Components
 
             await LoadAsync();
         }
+
+        private bool CanDeleteEntry(EntryListItem entry)
+        {
+            if (UserCanDeleteEntries)
+            {
+                return true;
+            }
+            
+            if(User is null)
+            {
+                return false;
+            }
+
+            return entry.CreationUserId == User.UserId || entry.ManagerIds.Contains(User.UserId);
+        }
     }
 }

@@ -24,5 +24,7 @@ namespace FormPortal.Core.Models
         public string UsernameCreator { get; set; } = string.Empty;
         [CompareField("username_last_change")]
         public string UsernameLastChange { get; set; } = string.Empty;
+
+        public List<int> ManagerIds { get; set; } = new();
     }
 }

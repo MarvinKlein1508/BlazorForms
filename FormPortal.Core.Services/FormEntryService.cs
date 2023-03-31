@@ -228,6 +228,25 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
             List<EntryListItem> entries = await dbController.SelectDataAsync<EntryListItem>(sql, GetFilterParameter(filter));
 
+            // We need the managers to be able to check for delete permissions
+            if (entries.Any())
+            {
+                List<int> formIds = entries.Select(x => x.FormId).Distinct().ToList();
+
+                sql = $@"SELECT * FROM form_managers WHERE form_id IN ({string.Join(",", formIds)})";
+
+                List<FormManagerMapping> mappings = await dbController.SelectDataAsync<FormManagerMapping>(sql);
+
+                if (mappings.Any())
+                {
+                    foreach (var entry in entries)
+                    {
+                        entry.ManagerIds = mappings.Where(x => x.FormId == entry.FormId).Select(x => x.UserId).ToList();
+                    }
+                }
+
+            }
+
             return entries;
         }
 

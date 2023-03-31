@@ -54,7 +54,7 @@
                                 <td>@item.LastChange.ToString()</td>
                                 <td>@item.UsernameLastChange</td>
                                 <td class="text-right text-nowrap">
-                                    @if (UserCanDeleteEntries || (User is not null && item.CreationUserId == User.UserId))
+                                    @if (CanDeleteEntry(item))
                                     {
                                         <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
                                     }
@@ -95,8 +95,8 @@
 @if (SelectedForDeletion is not null)
 {
     <ConfirmModal Title="Formulareintrag löschen?"
-              OnClosed="() => SelectedForDeletion = null"
-              OnConfirmed="DeleteAsync">
+                  OnClosed="() => SelectedForDeletion = null"
+                  OnConfirmed="DeleteAsync">
         <p>Möchten Sie den Formulareintrag wirklich löschen?</p>
     </ConfirmModal>
 }
