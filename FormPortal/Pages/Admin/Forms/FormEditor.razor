@@ -577,6 +577,13 @@ else
                                 </div>
 
                             </TabPage>
+                            @if (emailConfig.Value.Enabled)
+                            {
+                                <TabPage Text="Emails">
+                                    <p>Hinterlegte E-Mail Adressen werden automatisch benachrichtigt, wenn ein neuer Formulareintrag für dieses Formular angelegt wird.</p>
+                                    <InputTags Value="Input.Reciepients" Options="_emailInputOptions" />
+                                </TabPage>
+                            }
                         </TabControl>
                     </div>
                 </div>

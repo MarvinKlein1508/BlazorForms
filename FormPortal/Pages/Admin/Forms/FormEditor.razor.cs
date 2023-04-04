@@ -1,3 +1,4 @@
+using BlazorInputTags;
 using DatabaseControllerProvider;
 using FluentValidation.Results;
 using FormPortal.Core;
@@ -37,6 +38,16 @@ namespace FormPortal.Pages.Admin.Forms
 #nullable disable
         private HotKeysContext _hotKeysContext;
 #nullable enable
+
+        private InputTagOptions _emailInputOptions = new InputTagOptions
+        {
+            DisplayLabel = false,
+            ValidateTag = (text) =>
+            {
+                return Task.FromResult(StringExtensions.IsEmail(text));
+            },
+            InputPlaceholder = "Enter email, add with Enter"
+        };
         protected override Task OnInitializedAsync()
         {
             _hotKeysContext = hotKeys.CreateContext()
