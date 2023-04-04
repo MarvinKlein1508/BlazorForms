@@ -134,63 +134,68 @@ namespace FormPortal.Pages
                     {
                         await formEntryService.CreateAsync(Input, dbController);
 
-                        if (emailConfig.Value.Enabled && Input.Form.Recipients.Any())
+                        if (emailConfig.Value.Enabled && Input.Form.ManagerUsers.Any())
                         {
                             MimeMessage email = new MimeMessage();
                             email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
-                            foreach (var recipient in Input.Form.Recipients)
+                            foreach (var manager in Input.Form.ManagerUsers)
                             {
-                                email.To.Add(new MailboxAddress(recipient, recipient));
-                            }
-                            email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
+                                if (manager.EmailEnabled && StringExtensions.IsEmail(manager.Email))
+                                {
+                                    email.To.Add(new MailboxAddress(manager.Email, manager.Email));
 
-
-
-
-                            ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
-                            var bytes = entry.GetBytes();
-
-                            var body = new TextPart("html")
-                            {
-                                Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
-                            };
-
-                            string filename = Input.Name;
-
-                            if (string.IsNullOrWhiteSpace(filename))
-                            {
-                                filename = $"{Input.Form.Name}_{Input.EntryId}";
+                                }
                             }
 
-                            using MemoryStream memoryStream = new MemoryStream(bytes);
-                            // create an image attachment for the file located at path
-                            var attachment = new MimePart("application", "pdf")
+                            if (email.To.Any())
                             {
-                                Content = new MimeContent(memoryStream),
-                                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                                ContentTransferEncoding = ContentEncoding.Base64,
-                                FileName = $"{filename}.pdf"
-                            };
+                                email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
 
-                            // now create the multipart/mixed container to hold the message text and the
-                            // image attachment
-                            var multipart = new Multipart("mixed")
-                            {
-                                body,
-                                attachment
-                            };
+                                ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
+                                var bytes = entry.GetBytes();
 
-                            // now set the multipart/mixed as the message body
-                            email.Body = multipart;
+                                var body = new TextPart("html")
+                                {
+                                    Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
+                                };
 
-                            try
-                            {
-                                EmailExtensions.SendMail(email, emailConfig.Value);
+                                string filename = Input.Name;
 
-                            }
-                            catch (Exception ex)
-                            {
-                                await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
+                                if (string.IsNullOrWhiteSpace(filename))
+                                {
+                                    filename = $"{Input.Form.Name}_{Input.EntryId}";
+                                }
+
+                                using MemoryStream memoryStream = new MemoryStream(bytes);
+                                // create an image attachment for the file located at path
+                                var attachment = new MimePart("application", "pdf")
+                                {
+                                    Content = new MimeContent(memoryStream),
+                                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                                    ContentTransferEncoding = ContentEncoding.Base64,
+                                    FileName = $"{filename}.pdf"
+                                };
+
+                                // now create the multipart/mixed container to hold the message text and the
+                                // image attachment
+                                var multipart = new Multipart("mixed")
+                                {
+                                    body,
+                                    attachment
+                                };
+
+                                // now set the multipart/mixed as the message body
+                                email.Body = multipart;
+
+                                try
+                                {
+                                    EmailExtensions.SendMail(email, emailConfig.Value);
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
+                                }
                             }
                         }
                     }

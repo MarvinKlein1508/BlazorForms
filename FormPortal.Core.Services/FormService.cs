@@ -47,7 +47,6 @@ VALUES
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
-            await CreateOrUpdateFormRecipientsAsync(input, dbController);
         }
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
@@ -95,7 +94,6 @@ VALUES
             // Load all required data here
             form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController);
             form.ManagerUsers = await GetManagersForFormAsync(form, dbController);
-            form.Recipients = await GetRecipientsForFormAsync(form, dbController); 
             List<FormRow> rows = await GetRowsAsync(form, dbController);
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
@@ -231,7 +229,6 @@ form_id = @FORM_ID";
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
-            await CreateOrUpdateFormRecipientsAsync(input, dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -410,18 +407,11 @@ WHERE fu.form_id = @FORM_ID";
             return results;
         }
 
-        private async Task<List<string>> GetRecipientsForFormAsync(Form form, IDbController dbController)
-        {
-            string sql = @"SELECT email FROM form_recipients WHERE form_id = @FORM_ID";
-
-            List<string> results = await dbController.SelectDataAsync<string>(sql, form.GetParameters());
-
-            return results;
-        }
+        
 
         private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
         {
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_managers fm
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email FROM form_managers fm
 INNER JOIN users u ON (u.user_id = fm.user_id)
 WHERE fm.form_id = @FORM_ID";
 
@@ -693,44 +683,20 @@ VALUES
                 sql = @"INSERT INTO form_managers
 (
 form_id,
-user_id 
+user_id,
+receive_email
 )
 VALUES
 (
 @FORM_ID,
-@USER_ID
+@USER_ID,
+@RECEIVE_EMAIL
 )";
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
-                    USER_ID = user.Id
-                });
-            }
-        }
-        private async Task CreateOrUpdateFormRecipientsAsync(Form input, IDbController dbController)
-        {
-            string sql = "DELETE FROM form_recipients WHERE form_id = @FORM_ID";
-            await dbController.QueryAsync(sql, new
-            {
-                FORM_ID = input.FormId
-            });
-
-            foreach (var email in input.Recipients)
-            {
-                sql = @"INSERT INTO form_recipients
-(
-form_id,
-email 
-)
-VALUES
-(
-@FORM_ID,
-@EMAIL
-)";
-                await dbController.QueryAsync(sql, new
-                {
-                    FORM_ID = input.Id,
-                    EMAIL = email
+                    USER_ID = user.Id,
+                    RECEIVE_EMAIL = user.EmailEnabled
                 });
             }
         }

@@ -73,19 +73,12 @@ CREATE TABLE form_managers
 (
 	form_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
+    receive_email TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(form_id, user_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
-            _tables.Add(new SqlTable("form_recipients", @"
-CREATE TABLE form_recipients
-(
-	form_id INTEGER NOT NULL,
-	email VARCHAR(255) NOT NULL,
-	PRIMARY KEY (form_id, email),
-	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE
-);"));
 
             _tables.Add(new SqlTable("form_rows", @"
 CREATE TABLE form_rows

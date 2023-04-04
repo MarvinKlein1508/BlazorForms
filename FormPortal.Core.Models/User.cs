@@ -24,6 +24,11 @@ namespace FormPortal.Core.Models
 
         public List<Permission> Permissions { get; set; } = new();
         public int Id => UserId;
+        /// <summary>
+        /// Gets or sets a flag for a form manager to receive an email for new form entries
+        /// </summary>
+        [CompareField("receive_email")]
+        public bool EmailEnabled { get; set; }
 
         public Dictionary<string, object?> GetParameters()
         {
