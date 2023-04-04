@@ -2,10 +2,12 @@ using BlazorDownloadFile;
 using DatabaseControllerProvider;
 using FluentValidation;
 using FormPortal.Core.Services;
+using FormPortal.Core.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace FormPortal
 {
@@ -14,7 +16,7 @@ namespace FormPortal
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var config = builder.Configuration;
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor()
@@ -44,6 +46,8 @@ namespace FormPortal
             builder.Services.AddHotKeys2();
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
+            builder.Services.AddOptions<EmailSettings>()
+                .Bind(config.GetRequiredSection(EmailSettings.SectionName));
 #if DEBUG
 
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), true, true);

@@ -9,6 +9,7 @@ namespace FormPortal.Core.Settings
 {
     public class EmailSettings
     {
+        public const string SectionName = "EmailSettings";
         public bool Enabled { get; set; }
         public string Host { get; set; } = string.Empty;
         public int Port { get; set; } = 25;

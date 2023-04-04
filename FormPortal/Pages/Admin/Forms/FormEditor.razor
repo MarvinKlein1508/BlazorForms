@@ -3,6 +3,7 @@
 @attribute [Authorize(Roles = Roles.EDIT_FORMS)]
 @layout EmptyLayout
 @using FormPortal.Components.Admin.Forms
+@inject IOptions<EmailSettings> emailConfig
 @inject FormService formService
 @inject UserService userService
 @inject IDbProviderService dbProviderService
