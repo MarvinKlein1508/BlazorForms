@@ -47,7 +47,7 @@ VALUES
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
-            await CreateOrUpdateFormEmailsAsync(input, dbController);
+            await CreateOrUpdateFormRecipientsAsync(input, dbController);
         }
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
@@ -95,6 +95,7 @@ VALUES
             // Load all required data here
             form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController);
             form.ManagerUsers = await GetManagersForFormAsync(form, dbController);
+            form.Recipients = await GetRecipientsForFormAsync(form, dbController); 
             List<FormRow> rows = await GetRowsAsync(form, dbController);
             List<FormColumn> columns = await GetColumnsAsync(form, dbController);
             List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
@@ -230,7 +231,7 @@ form_id = @FORM_ID";
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
-            await CreateOrUpdateFormEmailsAsync(input, dbController);
+            await CreateOrUpdateFormRecipientsAsync(input, dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -405,6 +406,15 @@ INNER JOIN users u ON (u.user_id = fu.user_id)
 WHERE fu.form_id = @FORM_ID";
 
             List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
+
+            return results;
+        }
+
+        private async Task<List<string>> GetRecipientsForFormAsync(Form form, IDbController dbController)
+        {
+            string sql = @"SELECT email FROM form_recipients WHERE form_id = @FORM_ID";
+
+            List<string> results = await dbController.SelectDataAsync<string>(sql, form.GetParameters());
 
             return results;
         }
@@ -697,7 +707,7 @@ VALUES
                 });
             }
         }
-        private async Task CreateOrUpdateFormEmailsAsync(Form input, IDbController dbController)
+        private async Task CreateOrUpdateFormRecipientsAsync(Form input, IDbController dbController)
         {
             string sql = "DELETE FROM form_recipients WHERE form_id = @FORM_ID";
             await dbController.QueryAsync(sql, new
@@ -705,7 +715,7 @@ VALUES
                 FORM_ID = input.FormId
             });
 
-            foreach (var email in input.Reciepients)
+            foreach (var email in input.Recipients)
             {
                 sql = @"INSERT INTO form_recipients
 (

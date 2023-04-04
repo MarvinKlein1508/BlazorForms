@@ -26,7 +26,7 @@ namespace FormPortal.Core.Models
         public byte[] Image { get; set; } = Array.Empty<byte>();
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
-        public List<string> Reciepients { get; set; } = new();
+        public List<string> Recipients { get; set; } = new();
         public int Id => FormId;
         public bool EntryMode { get; set; }
         public List<FormRow> Rows { get; set; } = new();

@@ -78,8 +78,8 @@ CREATE TABLE form_managers
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
-            _tables.Add(new SqlTable("form_reciepients", @"
-CREATE TABLE form_reciepients
+            _tables.Add(new SqlTable("form_recipients", @"
+CREATE TABLE form_recipients
 (
 	form_id INTEGER NOT NULL,
 	email VARCHAR(255) NOT NULL,
