@@ -113,9 +113,9 @@ namespace FormPortal.Pages
                 return;
             }
 
+            _isSaving = true;
             if (_form.EditContext.Validate())
             {
-                _isSaving = true;
                 using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
                 if (Input.EntryId is 0)
@@ -144,7 +144,7 @@ namespace FormPortal.Pages
                             }
                             email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
 
-                           
+
 
 
                             ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
@@ -208,9 +208,9 @@ namespace FormPortal.Pages
                     await dbController.RollbackChangesAsync();
                     throw;
                 }
-                _isSaving = false;
                 navigationManager.NavigateTo("/");
             }
+            _isSaving = false;
         }
 
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
