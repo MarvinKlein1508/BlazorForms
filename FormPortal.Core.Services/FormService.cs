@@ -47,6 +47,7 @@ VALUES
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
+            await CreateOrUpdateFormEmailsAsync(input, dbController);
         }
         public async Task DeleteAsync(Form input, IDbController dbController)
         {
@@ -229,6 +230,7 @@ form_id = @FORM_ID";
 
             await CreateOrUpdateFormPermissionsAsync(input, dbController);
             await CreateOrUpdateFormManagersAsync(input, dbController);
+            await CreateOrUpdateFormEmailsAsync(input, dbController);
         }
         public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
         {
@@ -692,6 +694,33 @@ VALUES
                 {
                     FORM_ID = input.Id,
                     USER_ID = user.Id
+                });
+            }
+        }
+        private async Task CreateOrUpdateFormEmailsAsync(Form input, IDbController dbController)
+        {
+            string sql = "DELETE FROM form_recipients WHERE form_id = @FORM_ID";
+            await dbController.QueryAsync(sql, new
+            {
+                FORM_ID = input.FormId
+            });
+
+            foreach (var email in input.Reciepients)
+            {
+                sql = @"INSERT INTO form_recipients
+(
+form_id,
+email 
+)
+VALUES
+(
+@FORM_ID,
+@EMAIL
+)";
+                await dbController.QueryAsync(sql, new
+                {
+                    FORM_ID = input.Id,
+                    EMAIL = email
                 });
             }
         }
