@@ -6,6 +6,7 @@
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
 @inject IDbProviderService dbProviderService
+@inject IOptions<EmailSettings> emailConfig
 
 @if (Input is not null && Input.Form is not null)
 {
@@ -238,7 +239,16 @@
             }
         }
 
-        <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
+        <div class="toolbar">
+            @if (_isSaving)
+            {
+                <LoadingButton ButtonClass="btn btn-success" />
+            }
+            else
+            {
+                <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
+            }
+        </div>
     </EditForm>
 }
 

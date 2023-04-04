@@ -1,10 +1,13 @@
 using DatabaseControllerProvider;
+using FormPortal.Core;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
+using FormPortal.Core.Pdf;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MimeKit;
 
 namespace FormPortal.Pages
 {
@@ -18,22 +21,23 @@ namespace FormPortal.Pages
         private EditForm? _form;
 
         private User? _user;
+        private bool _isSaving;
 
         private async Task<bool> CanEditEntryAsync(FormEntry? entry)
         {
-            if(entry is null)
+            if (entry is null)
             {
                 return false;
             }
 
             bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
 
-            if(hasEditRole)
+            if (hasEditRole)
             {
                 return true;
             }
 
-            if(_user is null)
+            if (_user is null)
             {
                 return false;
             }
@@ -111,6 +115,7 @@ namespace FormPortal.Pages
 
             if (_form.EditContext.Validate())
             {
+                _isSaving = true;
                 using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
 
                 if (Input.EntryId is 0)
@@ -128,6 +133,66 @@ namespace FormPortal.Pages
                     if (Input.EntryId is 0)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
+
+                        if (emailConfig.Value.Enabled && Input.Form.Recipients.Any())
+                        {
+                            MimeMessage email = new MimeMessage();
+                            email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
+                            foreach (var recipient in Input.Form.Recipients)
+                            {
+                                email.To.Add(new MailboxAddress(recipient, recipient));
+                            }
+                            email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
+
+                           
+
+
+                            ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
+                            var bytes = entry.GetBytes();
+
+                            var body = new TextPart("html")
+                            {
+                                Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
+                            };
+
+                            string filename = Input.Name;
+
+                            if (string.IsNullOrWhiteSpace(filename))
+                            {
+                                filename = $"{Input.Form.Name}_{Input.EntryId}";
+                            }
+
+                            using MemoryStream memoryStream = new MemoryStream(bytes);
+                            // create an image attachment for the file located at path
+                            var attachment = new MimePart("application", "pdf")
+                            {
+                                Content = new MimeContent(memoryStream),
+                                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                                ContentTransferEncoding = ContentEncoding.Base64,
+                                FileName = $"{filename}.pdf"
+                            };
+
+                            // now create the multipart/mixed container to hold the message text and the
+                            // image attachment
+                            var multipart = new Multipart("mixed")
+                            {
+                                body,
+                                attachment
+                            };
+
+                            // now set the multipart/mixed as the message body
+                            email.Body = multipart;
+
+                            try
+                            {
+                                EmailExtensions.SendMail(email, emailConfig.Value);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
+                            }
+                        }
                     }
                     else
                     {
@@ -143,7 +208,7 @@ namespace FormPortal.Pages
                     await dbController.RollbackChangesAsync();
                     throw;
                 }
-
+                _isSaving = false;
                 navigationManager.NavigateTo("/");
             }
         }

@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
+    <ProjectReference Include="..\FormPortal.Core.Settings\FormPortal.Core.Settings.csproj" />
   </ItemGroup>
 
   <ItemGroup>
