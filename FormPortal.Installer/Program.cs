@@ -156,6 +156,9 @@ static void SetupSmtp(AppSettings settings)
 
             settings.EmailSettings.Port = port;
 
+            Console.WriteLine("Do you want to use SSL? (Y/N)");
+            settings.EmailSettings.UseSSL = ReadConsole(false, ValidateBoolean);
+
             Console.WriteLine("SMTP username:");
             settings.EmailSettings.Username = ReadConsole(true, x => ValidateString(x, true));
             Console.WriteLine("SMTP password:");
