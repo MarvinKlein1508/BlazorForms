@@ -59,6 +59,15 @@ CREATE TABLE form_managers
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE form_reciepients
+(
+	form_id INTEGER NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	PRIMARY KEY (form_id, email),
+	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
 CREATE TABLE form_rows
 (
 	row_id INTEGER NOT NULL AUTO_INCREMENT,
