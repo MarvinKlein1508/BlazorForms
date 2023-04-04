@@ -4,13 +4,19 @@ using FormPortal.Core.Models;
 using FormPortal.Core.Services;
 using FormPortal.Core.Settings;
 using FormPortal.Installer.Core;
+using MailKit.Net.Smtp;
+using MimeKit;
 using MySql.Data.MySqlClient;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
+AppSettings settings = new AppSettings();
+
+
 IDbController dbController = ConnectToDatabase();
 
-AppSettings settings = new AppSettings();
+
+
 settings.ConnectionString = dbController.ConnectionString;
 
 bool createLocalAccount = false;
@@ -66,6 +72,11 @@ if (settings.LdapSettings.ENABLE_LDAP_LOGIN)
     ConnectToLdap(settings);
 }
 
+// E-Mail setup
+Console.WriteLine("Do you want to to be able to send new emails for new form entries? (Y/N)");
+settings.EmailSettings.Enabled = ReadConsole(false, ValidateBoolean);
+SetupSmtp(settings);
+
 Console.WriteLine("Creating database...");
 
 await DbInstaller.InstallAsync(dbController);
@@ -115,7 +126,118 @@ static void ConnectToLdap(AppSettings settings)
         return result ? (x, true) : (x, false);
     });
 }
+static void SetupSmtp(AppSettings settings)
+{
+    if (settings.EmailSettings.Enabled)
+    {
+        bool successful = false;
+        do
+        {
+            Console.WriteLine("Host:");
+            settings.EmailSettings.Host = ReadConsole(false, x => ValidateString(x, false));
 
+            Console.WriteLine("Port (leave empty for default 25):");
+            int port = ReadConsole<int>(true, x =>
+            {
+                if (string.IsNullOrWhiteSpace(x))
+                {
+                    return (25, true);
+                };
+
+                if (int.TryParse(x, out int port))
+                {
+                    return (port, true);
+                }
+                else
+                {
+                    return (0, false);
+                }
+            });
+
+            settings.EmailSettings.Port = port;
+
+            Console.WriteLine("SMTP username:");
+            settings.EmailSettings.Username = ReadConsole(true, x => ValidateString(x, true));
+            Console.WriteLine("SMTP password:");
+            settings.EmailSettings.Password = ReadConsole(true, x => ValidateString(x, true));
+            Console.WriteLine("SMTP sender name:");
+            settings.EmailSettings.SenderName = ReadConsole(false, x => ValidateString(x, false));
+            Console.WriteLine("SMTP sender email:");
+            settings.EmailSettings.SenderEmail = ReadConsole(false, x =>
+            {
+                if (string.IsNullOrWhiteSpace(x))
+                {
+                    return (string.Empty, false);
+                }
+
+                if (!StringExtensions.IsEmail(x))
+                {
+                    return (string.Empty, false);
+                }
+
+                return (x, true);
+            });
+
+            Console.WriteLine("SMTP reply to:");
+            settings.EmailSettings.ReplyTo = ReadConsole(false, x =>
+            {
+                if (string.IsNullOrWhiteSpace(x))
+                {
+                    return (string.Empty, false);
+                }
+
+                if (!StringExtensions.IsEmail(x))
+                {
+                    return (string.Empty, false);
+                }
+
+                return (x, true);
+            });
+
+
+            // Check if SMTP is working
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(settings.EmailSettings.SenderName, settings.EmailSettings.SenderEmail));
+            message.To.Add(new MailboxAddress(settings.EmailSettings.SenderName, settings.EmailSettings.SenderEmail));
+            message.Subject = "Test from FormPortal Installation";
+
+            message.Body = new TextPart("plain")
+            {
+                Text = @"This is just a test message to test the SMTP credentials."
+            };
+
+            try
+            {
+                using var client = new SmtpClient();
+                if (settings.EmailSettings.UseSSL)
+                {
+                    client.Connect(settings.EmailSettings.Host, settings.EmailSettings.Port, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
+                }
+                else
+                {
+                    client.Connect(settings.EmailSettings.Host, settings.EmailSettings.Port, false);
+                }
+
+                // Note: only needed if the SMTP server requires authentication
+                if (!string.IsNullOrWhiteSpace(settings.EmailSettings.Username) && !string.IsNullOrWhiteSpace(settings.EmailSettings.Password))
+                {
+                    client.Authenticate(settings.EmailSettings.Username, settings.EmailSettings.Password);
+                }
+
+                var response = client.Send(message);
+                client.Disconnect(true);
+                successful = true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine();
+                Console.WriteLine("Please try again!");
+            }
+        } while (!successful);
+    }
+}
 IDbController ConnectToDatabase()
 {
 
