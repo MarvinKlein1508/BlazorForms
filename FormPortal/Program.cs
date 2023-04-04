@@ -42,6 +42,11 @@ namespace FormPortal
             builder.Services.AddScoped<CalcRuleService>();
             builder.Services.AddScoped<FormEntryService>();
             builder.Services.AddHotKeys2();
+            builder.Services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Languages";
+            });
+
             builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
 #if DEBUG
@@ -72,6 +77,13 @@ namespace FormPortal
                 app.UseHsts();
             }
 
+            var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0])
+    .AddSupportedCultures(AppdatenService.SupportedCultures)
+    .AddSupportedUICultures(AppdatenService.SupportedCultures);
+
+            app.UseRequestLocalization(localizationOptions);
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -80,6 +92,7 @@ namespace FormPortal
 
             app.UseAuthentication();
 
+            app.MapControllers();
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
