@@ -120,6 +120,9 @@
   <data name="PLACEHOLDER_SEARCHTERM" xml:space="preserve">
     <value>Suchbegriff</value>
   </data>
+  <data name="TEXT_BUTTON_FILL_OUT" xml:space="preserve">
+    <value>Ausfüllen</value>
+  </data>
   <data name="TEXT_BUTTON_SEARCH" xml:space="preserve">
     <value>Suchen</value>
   </data>
