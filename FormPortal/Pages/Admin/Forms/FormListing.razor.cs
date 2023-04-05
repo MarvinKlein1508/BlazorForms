@@ -59,7 +59,7 @@ namespace FormPortal.Pages.Admin.Forms
             {
                 await formService.DeleteAsync(SelectedForDeletion, dbController);
                 await dbController.CommitChangesAsync();
-                await jsRuntime.ShowToastAsync(ToastType.success, "Formular wurde erfolgreich gelöscht.");
+                await jsRuntime.ShowToastAsync(ToastType.success, localizer["DELETE_MESSAGE"]);
                 SelectedForDeletion = null;
             }
             catch (Exception)
