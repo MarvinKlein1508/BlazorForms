@@ -125,6 +125,10 @@
     <value>Save</value>
     <comment>Text for save buttons</comment>
   </data>
+  <data name="DELETE_MESSAGE" xml:space="preserve">
+    <value>Record was successfully deleted!</value>
+    <comment>ManagementPageBase</comment>
+  </data>
   <data name="FILTER_BUTTON_SEARCH" xml:space="preserve">
     <value>Search</value>
     <comment>The button text for the common filters on the right side</comment>
@@ -132,6 +136,18 @@
   <data name="FILTER_PLACEHOLDER_SEARCHTERM" xml:space="preserve">
     <value>Search term</value>
     <comment>The placeholder text for the common filters on the right side</comment>
+  </data>
+  <data name="MODAL_EDIT_TITLE" xml:space="preserve">
+    <value>Edit record</value>
+    <comment>ManagementPageBase</comment>
+  </data>
+  <data name="MODAL_NEW_TITLE" xml:space="preserve">
+    <value>New record</value>
+    <comment>ManagementPageBase</comment>
+  </data>
+  <data name="SAVE_MESSAGE" xml:space="preserve">
+    <value>Record was saved successfully!</value>
+    <comment>ManagementPageBase</comment>
   </data>
   <data name="SELECT_CHOOSE" xml:space="preserve">
     <value>--- Select ---</value>

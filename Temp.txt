@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
-    <value>Abbrechen</value>
-    <comment>Text for cancel buttons</comment>
-  </data>
-  <data name="BUTTON_TEXT_SAVE" xml:space="preserve">
-    <value>Speichern</value>
-    <comment>Text for save buttons</comment>
-  </data>
   <data name="DELETE_MESSAGE" xml:space="preserve">
     <value>Datensatz wurde erfolgreich gelöscht!</value>
-    <comment>ManagementPageBase</comment>
-  </data>
-  <data name="FILTER_BUTTON_SEARCH" xml:space="preserve">
-    <value>Suchen</value>
-    <comment>The button text for the common filters on the right side</comment>
-  </data>
-  <data name="FILTER_PLACEHOLDER_SEARCHTERM" xml:space="preserve">
-    <value>Suchbegriff</value>
-    <comment>The placeholder text for the common filters on the right side</comment>
   </data>
   <data name="MODAL_EDIT_TITLE" xml:space="preserve">
     <value>Datensatz bearbeiten</value>
-    <comment>ManagementPageBase</comment>
   </data>
   <data name="MODAL_NEW_TITLE" xml:space="preserve">
     <value>Neuer Datensatz</value>
-    <comment>ManagementPageBase</comment>
   </data>
   <data name="SAVE_MESSAGE" xml:space="preserve">
     <value>Datensatz wurde erfolgreich gespeichert!</value>
-    <comment>ManagementPageBase</comment>
-  </data>
-  <data name="SELECT_CHOOSE" xml:space="preserve">
-    <value>--- Auswählen ---</value>
-    <comment>Default text for blank option of select elements</comment>
   </data>
 </root>

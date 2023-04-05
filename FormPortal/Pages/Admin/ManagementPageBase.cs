@@ -4,6 +4,7 @@ using FormPortal.Core.Interfaces;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 
 namespace FormPortal.Pages.Admin
@@ -17,6 +18,9 @@ namespace FormPortal.Pages.Admin
         [Inject] public TService Service { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
         [Inject] public IDbProviderService DbProviderService { get; set; }
+
+        [Inject]
+        private IStringLocalizer<App> AppLocalizer { get; set; }
 #nullable enable
 
         protected List<T> Data { get; set; } = new();
@@ -56,7 +60,7 @@ namespace FormPortal.Pages.Admin
             {
                 await Service.DeleteAsync(SelectedForDeletion, dbController);
                 await dbController.CommitChangesAsync();
-                await JSRuntime.ShowToastAsync(ToastType.success, "Datensatz wurde erfolgreich gelöscht!");
+                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["DELETE_MESSAGE"]);
                 SelectedForDeletion = null;
             }
             catch (Exception)
@@ -97,7 +101,7 @@ namespace FormPortal.Pages.Admin
                 }
 
 
-                await JSRuntime.ShowToastAsync(ToastType.success, "Datensatz wurde erfolgreich gespeichert!");
+                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
 
                 Input = null;
             }
@@ -112,10 +116,10 @@ namespace FormPortal.Pages.Admin
 
             if (Input.Id > 0)
             {
-                return $"Datensatz bearbeiten";
+                return AppLocalizer["MODAL_EDIT_TITLE"];
             }
 
-            return "Neuer Datensatz";
+            return AppLocalizer["MODAL_NEW_TITLE"];
         }
     }
 }
