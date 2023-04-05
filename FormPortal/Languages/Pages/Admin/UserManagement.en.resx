@@ -117,8 +117,59 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TEXT_BUTTON_FILL_OUT" xml:space="preserve">
-    <value>Ausfüllen</value>
-    <comment>The text for the button to fill out a form</comment>
+  <data name="HEADING_PERMISSIONS" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="INPUT_DISPLAYNAME" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="INPUT_EMAIL" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="INPUT_PASSWORD" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="INPUT_USERNAME" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="MODAL_DELETE_TEXT" xml:space="preserve">
+    <value>Do you really want to delete the user "{0}"?</value>
+  </data>
+  <data name="MODAL_DELETE_TITLE" xml:space="preserve">
+    <value>Delete user?</value>
+  </data>
+  <data name="MODAL_EDIT_TITLE" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="PAGETITLE" xml:space="preserve">
+    <value>User management</value>
+  </data>
+  <data name="TEXT_OWN_PERMISSIONS" xml:space="preserve">
+    <value>You cannot manage permissions for yourself.</value>
+  </data>
+  <data name="TH_PERMISSIONS_ACTION" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="TH_PERMISSIONS_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="TH_PERMISSIONS_NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="TH_USERS_ACTION" xml:space="preserve">
+    <value>ACTION</value>
+  </data>
+  <data name="TH_USERS_EMAIL" xml:space="preserve">
+    <value>E-MAIL</value>
+  </data>
+  <data name="TH_USERS_NAME" xml:space="preserve">
+    <value>NAME</value>
+  </data>
+  <data name="TH_USERS_USERNAME" xml:space="preserve">
+    <value>USERNAME</value>
+  </data>
+  <data name="TOOLTIP_NEW_USER" xml:space="preserve">
+    <value>New local user</value>
+    <comment>Tooltip for add user button in toolbar</comment>
   </data>
 </root>

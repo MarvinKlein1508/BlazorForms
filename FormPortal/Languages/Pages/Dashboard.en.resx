@@ -117,13 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PLACEHOLDER_SEARCHTERM" xml:space="preserve">
-    <value>Search term</value>
-  </data>
   <data name="TEXT_BUTTON_FILL_OUT" xml:space="preserve">
     <value>Fill out</value>
-  </data>
-  <data name="TEXT_BUTTON_SEARCH" xml:space="preserve">
-    <value>Search</value>
+    <comment>The text for the button to fill out a form</comment>
   </data>
 </root>

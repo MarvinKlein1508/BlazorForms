@@ -3,6 +3,7 @@
 @inject AuthService authService
 @inject IDbProviderService dbProviderService
 @inject NavigationManager navigationManager
+@inject IStringLocalizer<App> appLocalizer
 @inject IStringLocalizer<Dashboard> localizer
 
 <PageTitle>Dashboard</PageTitle>
@@ -17,12 +18,12 @@
         <div class="card-content" style="padding: 0 1.3rem;">
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
-                    <label for="form-filter-searchphrase">@localizer["PLACEHOLDER_SEARCHTERM"]</label>
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                    <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                 </div>
 
                 <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">@localizer["TEXT_BUTTON_SEARCH"]</button>
+                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                 </div>
 
             </EditForm>

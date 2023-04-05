@@ -117,8 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TEXT_BUTTON_FILL_OUT" xml:space="preserve">
-    <value>Ausfüllen</value>
-    <comment>The text for the button to fill out a form</comment>
+  <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Text for cancel buttons</comment>
+  </data>
+  <data name="BUTTON_TEXT_SAVE" xml:space="preserve">
+    <value>Save</value>
+    <comment>Text for save buttons</comment>
+  </data>
+  <data name="FILTER_BUTTON_SEARCH" xml:space="preserve">
+    <value>Search</value>
+    <comment>The button text for the common filters on the right side</comment>
+  </data>
+  <data name="FILTER_PLACEHOLDER_SEARCHTERM" xml:space="preserve">
+    <value>Search term</value>
+    <comment>The placeholder text for the common filters on the right side</comment>
+  </data>
+  <data name="SELECT_CHOOSE" xml:space="preserve">
+    <value>--- Select ---</value>
+    <comment>Default text for blank option of select elements</comment>
   </data>
 </root>
