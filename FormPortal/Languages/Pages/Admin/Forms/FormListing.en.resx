@@ -117,44 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
-    <value>Cancel</value>
-    <comment>Text for cancel buttons</comment>
+  <data name="MODAL_DELETE_TEXT" xml:space="preserve">
+    <value>If you delete the form "{0}", then all filled forms will also be irrevocably deleted. Do you really want to delete this form?</value>
   </data>
-  <data name="BUTTON_TEXT_SAVE" xml:space="preserve">
-    <value>Save</value>
-    <comment>Text for save buttons</comment>
+  <data name="MODAL_DELETE_TITLE" xml:space="preserve">
+    <value>Delete form?</value>
   </data>
-  <data name="DELETE_MESSAGE" xml:space="preserve">
-    <value>Record was successfully deleted!</value>
-    <comment>ManagementPageBase</comment>
+  <data name="PAGETITLE" xml:space="preserve">
+    <value>Forms</value>
   </data>
-  <data name="FILTER_BUTTON_SEARCH" xml:space="preserve">
-    <value>Search</value>
-    <comment>The button text for the common filters on the right side</comment>
+  <data name="TABLE_NO_ENTRIES" xml:space="preserve">
+    <value>No forms were found.</value>
   </data>
-  <data name="FILTER_PLACEHOLDER_SEARCHTERM" xml:space="preserve">
-    <value>Search term</value>
-    <comment>The placeholder text for the common filters on the right side</comment>
+  <data name="TH_ACTION" xml:space="preserve">
+    <value>ACTION</value>
   </data>
-  <data name="FILTER_TITLE" xml:space="preserve">
-    <value>Filter</value>
-    <comment>Text for common filter card header</comment>
+  <data name="TH_ACTIVE" xml:space="preserve">
+    <value>Active</value>
   </data>
-  <data name="MODAL_EDIT_TITLE" xml:space="preserve">
-    <value>Edit record</value>
-    <comment>ManagementPageBase</comment>
+  <data name="TH_ID" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="MODAL_NEW_TITLE" xml:space="preserve">
-    <value>New record</value>
-    <comment>ManagementPageBase</comment>
+  <data name="TH_LOGIN_REQUIRED" xml:space="preserve">
+    <value>Login required</value>
   </data>
-  <data name="SAVE_MESSAGE" xml:space="preserve">
-    <value>Record was saved successfully!</value>
-    <comment>ManagementPageBase</comment>
-  </data>
-  <data name="SELECT_CHOOSE" xml:space="preserve">
-    <value>--- Select ---</value>
-    <comment>Default text for blank option of select elements</comment>
+  <data name="TH_NAME" xml:space="preserve">
+    <value>Name</value>
   </data>
 </root>

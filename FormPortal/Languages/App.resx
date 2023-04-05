@@ -137,6 +137,10 @@
     <value>Suchbegriff</value>
     <comment>The placeholder text for the common filters on the right side</comment>
   </data>
+  <data name="FILTER_TITLE" xml:space="preserve">
+    <value>Filter</value>
+    <comment>Text for common filter card header</comment>
+  </data>
   <data name="MODAL_EDIT_TITLE" xml:space="preserve">
     <value>Datensatz bearbeiten</value>
     <comment>ManagementPageBase</comment>
