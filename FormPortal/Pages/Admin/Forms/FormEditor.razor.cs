@@ -39,15 +39,26 @@ namespace FormPortal.Pages.Admin.Forms
         private HotKeysContext _hotKeysContext;
 #nullable enable
 
-        private InputTagOptions _emailInputOptions = new InputTagOptions
+        private InputTagOptions _fileTypeOptions = new InputTagOptions
         {
-            DisplayLabel = false,
-            ValidateTag = (text) =>
-            {
-                return Task.FromResult(StringExtensions.IsEmail(text));
-            },
-            InputPlaceholder = "Enter email, add with Enter"
+            InputPlaceholder = "Enter extension, add with Enter"
         };
+
+        private async Task<bool> ValidateFileTypeAsync(string fileType)
+        {
+            if (fileType.Contains('.'))
+            {
+                return false;
+            }
+
+            if (!AppdatenService.MimeTypes.TryGetValue(fileType, out var mimeType))
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Dateityp wird nicht unterstützt.");
+                return false;
+            }
+
+            return true;
+        }
         protected override Task OnInitializedAsync()
         {
             _hotKeysContext = hotKeys.CreateContext()

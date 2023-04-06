@@ -226,15 +226,34 @@ namespace FormPortal.Pages
                 return;
             }
 
+            List<string> allowedMimeTypes = new();
+
+            foreach (var extension in fileElement.AcceptedFileTypes)
+            {
+                string blank_extension = extension.Replace(".", string.Empty);
+                if (!AppdatenService.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
+                {
+                    allowedMimeTypes.Add(mimeType);
+                }
+            }
+
             foreach (var file in e.GetMultipleFiles())
             {
                 long size = file.Size;
                 long size_in_mib = size / 1024 / 1024;
                 string contentType = file.ContentType;
                 string filename = file.Name;
+                string extension = Path.GetExtension(filename).Replace(".", string.Empty);
 
-                // TODO: Check case intensive
-                if (!fileElement.AcceptedFileTypes.Contains(contentType))
+
+                // Check file extension in MimeType list
+                if (!AppdatenService.MimeTypes.TryGetValue(extension, out var mimeType))
+                {
+                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. Dateityp wird nicht unterstützt.");
+                    continue;
+                }
+
+                if (!fileElement.AcceptedFileTypes.Contains(extension) || !allowedMimeTypes.Contains(contentType))
                 {
                     await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ungültiges Dateiformat.");
                     continue;

@@ -245,7 +245,7 @@ else
                                             </div>
 
                                             <div class="mb-3">
-                                                <InputTags Value="fileElement.AcceptedFileTypes" Label="Erlaubte Dateitypen" />
+                                                <InputTags Value="fileElement.AcceptedFileTypes" Label="Erlaubte Dateitypen" Options="_fileTypeOptions" ValidateTag="ValidateFileTypeAsync" />
                                                 <ValidationMessage For="() => fileElement.AcceptedFileTypes" />
                                             </div>
 
