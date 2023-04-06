@@ -32,14 +32,25 @@ namespace FormPortal.Core.Models.FormElements
         }
         public override string GetDefaultName() => "File";
 
-        public string GetAcceptTypesDefinition()
+        public string GetAcceptTypesDefinition(Dictionary<string, string> mimeTypes)
         {
             if (!AcceptedFileTypes.Any())
             {
                 return string.Empty;
             }
 
-            return string.Join(", ", AcceptedFileTypes);
+            List<string> allowedMimeTypes = new();
+
+            foreach (var extension in AcceptedFileTypes)
+            {
+                string blank_extension = extension.Replace(".", string.Empty);
+                if (mimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
+                {
+                    allowedMimeTypes.Add(mimeType);
+                }
+            }
+
+            return string.Join(", ", allowedMimeTypes.Distinct());
         }
 
 
