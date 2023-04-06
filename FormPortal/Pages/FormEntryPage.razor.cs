@@ -231,7 +231,7 @@ namespace FormPortal.Pages
             foreach (var extension in fileElement.AcceptedFileTypes)
             {
                 string blank_extension = extension.Replace(".", string.Empty);
-                if (!AppdatenService.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
+                if (AppdatenService.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
                 {
                     allowedMimeTypes.Add(mimeType);
                 }
