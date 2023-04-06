@@ -7,6 +7,11 @@ namespace FormPortal.Core.Services
 {
     public static class AppdatenService
     {
+        public static string[] SupportedCultures => new string[]
+        {
+            "de-DE",
+            "en-US"
+        };
         public static bool FirstUserExists { get; set; } = false;
         public static List<FormElement> Elements { get; } = new List<FormElement>
         {

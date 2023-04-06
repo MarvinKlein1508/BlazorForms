@@ -2,12 +2,13 @@
 @inject AuthService authService
 @inherits ManagementBasePage<User, UserService>
 @attribute [Authorize(Roles = Roles.EDIT_USERS)]
-
-<PageTitle>Benutzerverwaltung</PageTitle>
-<h3>Benutzerverwaltung</h3>
+@inject IStringLocalizer<App> appLocalizer
+@inject IStringLocalizer<UserManagement> localizer
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
+<h3>@localizer["PAGETITLE"]</h3>
 
 <div class="toolbar">
-    <Tooltip Title="Neuer lokaler Benutzer">
+    <Tooltip Title="@localizer["TOOLTIP_NEW_USER"]">
         <button type="button" class="btn btn-success" @onclick="NewAsync"><i class="fa-solid fa-plus"></i></button>
     </Tooltip>
 </div>
@@ -17,17 +18,17 @@
 <div class="col-lg-3 col-sm-12 order-lg-3">
     <div class="card">
         <div class="card-header">
-            <h4>Filter</h4>
+            <h4>@appLocalizer["FILTER_TITLE"]</h4>
         </div>
         <div class="card-content" style="padding: 0 1.3rem;">
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="usermanagement-filter-searchphrase" placeholder="Suchbegriff" />
-                    <label for="usermanagement-filter-searchphrase">Suchbegriff</label>
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="usermanagement-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                    <label for="usermanagement-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                 </div>
 
                 <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">Suchen</button>
+                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                 </div>
 
             </EditForm>
@@ -43,10 +44,10 @@
                 <table class="table mb-0 table-lg">
                     <thead>
                         <tr>
-                            <th>BENUTZER</th>
-                            <th>USERNAME</th>
-                            <th>E-MAIL</th>
-                            <th class="text-right">AKTION</th>
+                            <th>@localizer["TH_USERS_NAME"]</th>
+                            <th>@localizer["TH_USERS_USERNAME"]</th>
+                            <th>@localizer["TH_USERS_EMAIL"]</th>
+                            <th class="text-right">@localizer["TH_USERS_ACTION"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,10 +84,10 @@
 
 @if (Input is not null)
 {
-    <Modal Title="@($"{Input.DisplayName} bearbeiten")"
-       OnClosed="() => Input = null"
-       ModalSize="ModalSize.LG"
-       HideFooter="true">
+    <Modal Title="@String.Format(localizer["MODAL_EDIT_TITLE"], Input.DisplayName)"
+           OnClosed="() => Input = null"
+           ModalSize="ModalSize.LG"
+           HideFooter="true">
 
         <EditForm Model="Input" @ref="_form">
             <FluentValidationValidator />
@@ -96,40 +97,40 @@
                     @if (Input.Origin is "local")
                     {
                         <div class="form-floating mb-3">
-                            <InputText @bind-Value="Input.Username" class="form-control" id="user-username" placeholder="Username" />
-                            <label for="user-username">Username</label>
+                            <InputText @bind-Value="Input.Username" class="form-control" id="user-username" placeholder="@localizer["INPUT_USERNAME"]" />
+                            <label for="user-username">@localizer["INPUT_USERNAME"]</label>
                             <ValidationMessage For="() => Input.Username" />
                         </div>
 
                         <div class="form-floating mb-3">
-                            <InputText @bind-Value="Input.DisplayName" class="form-control" id="user-displayname" placeholder="Anzeigename" />
-                            <label for="user-displayname">Anzeigename</label>
+                            <InputText @bind-Value="Input.DisplayName" class="form-control" id="user-displayname" placeholder="@localizer["INPUT_DISPLAYNAME"]" />
+                            <label for="user-displayname">@localizer["INPUT_DISPLAYNAME"]</label>
                             <ValidationMessage For="() => Input.DisplayName" />
                         </div>
 
                         <div class="form-floating mb-3">
-                            <InputText @bind-Value="Input.Email" class="form-control" id="user-email" placeholder="E-Mail" type="email" />
-                            <label for="user-email">E-Mail</label>
+                            <InputText @bind-Value="Input.Email" class="form-control" id="user-email" placeholder="@localizer["INPUT_EMAIL"]" type="email" />
+                            <label for="user-email">@localizer["INPUT_EMAIL"]</label>
                             <ValidationMessage For="() => Input.Email" />
                         </div>
 
                         @if (Input.UserId is 0)
                         {
                             <div class="form-floating mb-3">
-                                <InputText @bind-Value="Input.Password" class="form-control" id="user-password" placeholder="Passwort" type="password" />
-                                <label for="user-password">Passwort</label>
+                                <InputText @bind-Value="Input.Password" class="form-control" id="user-password" placeholder="@localizer["INPUT_PASSWORD"]" type="password" />
+                                <label for="user-password">@localizer["INPUT_PASSWORD"]</label>
                                 <ValidationMessage For="() => Input.Password" />
                             </div>
                         }
                     }
 
-             
 
-                    <h4>Berechtigungen</h4>
+
+                    <h4>@localizer["HEADING_PERMISSIONS"]</h4>
 
                     @if (_loggedInUser is not null && Input.UserId == _loggedInUser.UserId)
                     {
-                        <p>Sie können nicht die Berechtigungen für sich selbst verwalten.</p>
+                        <p>@localizer["TEXT_OWN_PERMISSIONS"]</p>
                     }
                     else
                     {
@@ -137,9 +138,9 @@
                             <table class="table table-lg">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Beschreibung</th>
-                                        <th>Aktion</th>
+                                        <th>@localizer["TH_PERMISSIONS_NAME"]</th>
+                                        <th>@localizer["TH_PERMISSIONS_DESCRIPTION"]</th>
+                                        <th>@localizer["TH_PERMISSIONS_ACTION"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -164,11 +165,11 @@
                                                     <select @onchange="PermissionSelectionChangedAsync" class="form-select" id="inputGroupSelect04" aria-label="Berechtigung">
                                                         @if (SelectedPermission is null)
                                                         {
-                                                            <option value="0" selected>--- Auswählen ---</option>
+                                                            <option value="0" selected>@appLocalizer["SELECT_CHOOSE"]</option>
                                                         }
                                                         else
                                                         {
-                                                            <option value="0">--- Auswählen ---</option>
+                                                            <option value="0">@appLocalizer["SELECT_CHOOSE"]</option>
                                                         }
 
                                                         @foreach (var permission in AppdatenService.Permissions)
@@ -200,18 +201,18 @@
         </EditForm>
 
         <div class="toolbar">
-            <button type="button" class="btn btn-danger" @onclick="() => Input = null">Abbrechen</button>
-            <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+            <button type="button" class="btn btn-danger" @onclick="() => Input = null">@appLocalizer["BUTTON_TEXT_CANCEL"]</button>
+            <button type="button" class="btn btn-success" @onclick="SaveAsync">@appLocalizer["BUTTON_TEXT_SAVE"]</button>
         </div>
     </Modal>
 }
 
 @if (SelectedForDeletion is not null)
 {
-    <ConfirmModal Title="Benutzer löschen?"
-              OnClosed="() => SelectedForDeletion = null"
-              OnConfirmed="DeleteAsync">
-        <p>Möchten Sie den Benutzer "@SelectedForDeletion.DisplayName" wirklich löschen?</p>
+    <ConfirmModal Title="@localizer["MODAL_DELETE_TITLE"]"
+                  OnClosed="() => SelectedForDeletion = null"
+                  OnConfirmed="DeleteAsync">
+        <p>@String.Format(localizer["MODAL_DELETE_TEXT"], SelectedForDeletion.DisplayName)</p>
     </ConfirmModal>
 }
 

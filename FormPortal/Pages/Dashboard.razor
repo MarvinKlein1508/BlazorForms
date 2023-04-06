@@ -3,25 +3,27 @@
 @inject AuthService authService
 @inject IDbProviderService dbProviderService
 @inject NavigationManager navigationManager
+@inject IStringLocalizer<App> appLocalizer
+@inject IStringLocalizer<Dashboard> localizer
 
-<PageTitle>Dashboard</PageTitle>
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
-<h3>Dashboard</h3>
+<h3>@localizer["PAGETITLE"]</h3>
 
 <div class="col-lg-3 col-sm-12 order-lg-3">
     <div class="card">
         <div class="card-header">
-            <h4>Filter</h4>
+            <h4>@appLocalizer["FILTER_TITLE"]</h4>
         </div>
         <div class="card-content" style="padding: 0 1.3rem;">
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
-                    <label for="form-filter-searchphrase">Suchbegriff</label>
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                    <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                 </div>
 
                 <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">Suchen</button>
+                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                 </div>
 
             </EditForm>
@@ -47,7 +49,7 @@
                     <div class="card-body form-card">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">@item.Description</p>
-                        <a href="/Forms/@item.FormId" class="btn btn-primary">Ausfüllen</a>
+                        <a href="/Forms/@item.FormId" class="btn btn-primary">@localizer["TEXT_BUTTON_FILL_OUT"]</a>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,15 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Web
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
+@{
+    this.HttpContext.Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(
+            new RequestCulture(
+                CultureInfo.CurrentCulture,
+                CultureInfo.CurrentUICulture)));
+}
 @namespace FormPortal.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 

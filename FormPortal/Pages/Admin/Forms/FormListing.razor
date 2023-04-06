@@ -6,8 +6,11 @@
 @inject NavigationManager navigationManager
 @inject AuthService authService
 @inject IJSRuntime jsRuntime
+@inject IStringLocalizer<App> appLocalizer
+@inject IStringLocalizer<FormListing> localizer
 
-<PageTitle>Formulare</PageTitle>
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
+<h3>@localizer["PAGETITLE"]</h3>
 
 <div class="toolbar">
     <a role="button" class="btn btn-success" href="/Admin/FormEditor"><i class="fa-solid fa-plus"></i></a>
@@ -16,17 +19,17 @@
 <div class="col-lg-3 col-sm-12 order-lg-3">
     <div class="card">
         <div class="card-header">
-            <h4>Filter</h4>
+            <h4>@appLocalizer["FILTER_TITLE"]</h4>
         </div>
         <div class="card-content" style="padding: 0 1.3rem;">
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
-                    <label for="form-filter-searchphrase">Suchbegriff</label>
+                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                    <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                 </div>
 
                 <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">Suchen</button>
+                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                 </div>
 
             </EditForm>
@@ -42,11 +45,11 @@
                 <table class="table mb-0 table-lg">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Aktiv</th>
-                            <th>Login erforderlich</th>
-                            <th class="text-right">AKTION</th>
+                            <th>@localizer["TH_ID"]</th>
+                            <th>@localizer["TH_NAME"]</th>
+                            <th>@localizer["TH_ACTIVE"]</th>
+                            <th>@localizer["TH_LOGIN_REQUIRED"]</th>
+                            <th class="text-right">@localizer["TH_ACTION"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +72,7 @@
                         @if (!Data.Any())
                         {
                             <tr>
-                                <td colspan="5" class="text-center">Es wurden keine Formulare gefunden.</td>
+                                <td colspan="5" class="text-center">@localizer["TABLE_NO_ENTRIES"]</td>
                             </tr>
                         }
                     </tbody>
@@ -88,9 +91,9 @@
 
 @if (SelectedForDeletion is not null)
 {
-    <ConfirmModal Title="Formular löschen?"
-              OnClosed="() => SelectedForDeletion = null"
-              OnConfirmed="DeleteAsync">
-        <p>Wenn Sie das Formular "@SelectedForDeletion.Name" löschen, dann werden auch alle ausgefüllten Formulare unwiderruflich gelöscht. Möchten Sie das Formular wirklich löschen?</p>
+    <ConfirmModal Title="@localizer["MODAL_DELETE_TITLE"]"
+                  OnClosed="() => SelectedForDeletion = null"
+                  OnConfirmed="DeleteAsync">
+        <p>@String.Format(localizer["MODAL_DELETE_TEXT"], SelectedForDeletion.Name)</p>
     </ConfirmModal>
 }

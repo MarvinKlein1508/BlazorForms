@@ -48,4 +48,8 @@
 		<ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Languages\Components\" />
+	</ItemGroup>
+
 </Project>
