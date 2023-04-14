@@ -15,12 +15,15 @@ Create dynamic PDF forms completely in the web.
 * Login via LDAP or local account
 * Create unlimited amount of forms
 * Submitted forms can be edited afterwards
-* Limit forms to logged in users
+* Forms can be limited to fill out by certain users or logged in users
+* Define managers for forms who can see all submitted entries
+* E-Mail notifications for form managers
+* All entries are downloadable as PDF
 * Upload custom logo and images for each form
 * Rich form builder with 12 custom elements
 * Form builder is fully usable on both mobile and desktop
 * Define rules to display certain elements, rows and columns
-* Integrated file upload component
+* Integrated file upload component (Supports 1162 file types)
 * Search for form entries
 * Overview of your own submitted forms
 * Changes to forms doesn't affect past form entries
