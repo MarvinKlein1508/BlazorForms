@@ -6,32 +6,32 @@ namespace FormPortal.Core.Services
 {
     public class PermissionService : IModelService<Permission, int>
     {
-        public Task CreateAsync(Permission input, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
+        public Task CreateAsync(Permission input, IDbController dbController) => throw new NotImplementedException();
+        public Task DeleteAsync(Permission input, IDbController dbController) => throw new NotImplementedException();
+        public Task UpdateAsync(Permission input, IDbController dbController) => throw new NotImplementedException();
 
-        public Task DeleteAsync(Permission input, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Permission?> GetAsync(int permissionId, IDbController dbController)
+        public async Task<Permission?> GetAsync(int permissionId, IDbController dbController)
         {
             string sql = "SELECT * FROM permissions WHERE permission_id = @PERMISSION_ID";
 
-            var item = dbController.GetFirstAsync<Permission>(sql, new
+            var item = await dbController.GetFirstAsync<Permission>(sql, new
             {
                 PERMISSION_ID = permissionId
             });
 
+            if (item is not null)
+            {
+                sql = "SELECT * FROM permission_description WHERE permission_id = @PERMISSION_ID";
+
+                item.Description = await dbController.SelectDataAsync<PermissionDescription>(sql, new
+                {
+                    PERMISSION_ID = permissionId
+                });
+            }
+
             return item;
         }
 
-        public Task UpdateAsync(Permission input, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<Permission>> GetUserPermissionsAsync(int userId, IDbController dbController)
         {
@@ -44,6 +44,8 @@ namespace FormPortal.Core.Services
             {
                 USER_ID = userId
             });
+
+            await LoadPermissionDescriptionsAsync(list, dbController);
 
             return list;
         }
@@ -84,13 +86,25 @@ namespace FormPortal.Core.Services
             string sql = "SELECT * FROM permissions";
 
             var list = await dbController.SelectDataAsync<Permission>(sql);
-
+            await LoadPermissionDescriptionsAsync(list, dbController);
             return list;
         }
 
-        public Task UpdateAsync(Permission input, Permission oldInputToCompare, IDbController dbController)
+        private static async Task LoadPermissionDescriptionsAsync(List<Permission> list, IDbController dbController)
         {
-            throw new NotImplementedException();
+            if (list.Any())
+            {
+                IEnumerable<int> permissionIds = list.Select(x => x.Id);
+                string sql = $"SELECT * FROM permission_description WHERE permission_id IN ({string.Join(",", permissionIds)})";
+                List<PermissionDescription> descriptions = await dbController.SelectDataAsync<PermissionDescription>(sql);
+
+                foreach (var permission in list)
+                {
+                    permission.Description = descriptions.Where(x => x.PermissionId == permission.Id).ToList();
+                }
+            }
         }
+
+        public Task UpdateAsync(Permission input, Permission oldInputToCompare, IDbController dbController) => throw new NotImplementedException();
     }
 }

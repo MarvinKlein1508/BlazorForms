@@ -370,19 +370,19 @@ INSERT INTO permissions (permission_id, identifier) VALUES
 (4, 'DELETE_FORMS'),
 (5, 'DELETE_ENTRIES');
 ");
-            
+
             _data.Add(@"
-INSERT INTO permission_description (permission_id, code, name, descrtiption) VALUES
-(1, 'en-gb', 'Form management','Allows the user the create, edit and delete new form templates.'),
-(2, 'en-gb', 'Submitted forms management','Allows the user the edit submitted form entries.'),
-(3, 'en-gb', 'User management','Allows the user to manage the users.'),
-(4, 'en-gb', 'Delete forms','Allows the user to entire forms.'),
-(5, 'en-gb', 'Delete Entries','Allows the user to delete submitted form entries.'),
-(1, 'de-de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
-(2, 'de-de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
-(3, 'de-de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
-(4, 'de-de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
-(5, 'de-de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.');")
+INSERT INTO permission_description (permission_id, code, name, description) VALUES
+(1, 'en', 'Form management','Allows the user the create, edit and delete new form templates.'),
+(2, 'en', 'Submitted forms management','Allows the user the edit submitted form entries.'),
+(3, 'en', 'User management','Allows the user to manage the users.'),
+(4, 'en', 'Delete forms','Allows the user to entire forms.'),
+(5, 'en', 'Delete Entries','Allows the user to delete submitted form entries.'),
+(1, 'de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
+(2, 'de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
+(3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
+(4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
+(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.');");
         }
 
         public static async Task InstallAsync(IDbController dbController)
