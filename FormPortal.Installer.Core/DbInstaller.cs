@@ -43,7 +43,8 @@ CREATE TABLE permission_description
 	code VARCHAR(5) NOT NULL DEFAULT '',
 	name VARCHAR(50) NOT NULL,
 	description text NOT NULL,
-	PRIMARY KEY(permission_id, code)
+	PRIMARY KEY(permission_id, code),
+    FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
             _tables.Add(new SqlTable("user_permissions", @"
