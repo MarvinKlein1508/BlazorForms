@@ -76,9 +76,10 @@
                                     {
                                         @if (_user?.IsInRole(permission.Identifier) == true)
                                         {
+                                            var description = permission.GetLocalization(CultureInfo.CurrentCulture);
                                             <tr>
-                                                <td class="text-bold-500">@permission.Name</td>
-                                                <td>@permission.Description</td>
+                                                <td class="text-bold-500">@description?.Name</td>
+                                                <td>@description?.Description</td>
                                             </tr>
                                         }
                                     }

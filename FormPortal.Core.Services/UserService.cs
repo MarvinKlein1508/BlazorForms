@@ -114,8 +114,7 @@ namespace FormPortal.Core.Services
             List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter));
 
             // Berechtigungen müssen noch geladen werden
-            sql = @"SELECT * FROM permissions";
-            List<Permission> permissions = await dbController.SelectDataAsync<Permission>(sql);
+            List<Permission> permissions = await PermissionService.GetAllAsync(dbController);
 
             sql = "SELECT * FROM user_permissions";
             List<UserPermission> user_permissions = await dbController.SelectDataAsync<UserPermission>(sql);

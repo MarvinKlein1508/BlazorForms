@@ -1,6 +1,7 @@
 ﻿using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Identity;
+using Mysqlx.Resultset;
 
 namespace FormPortal.Installer.Core
 {
@@ -33,6 +34,16 @@ CREATE TABLE permissions
 	identifier VARCHAR(50) NOT NULL,
 	description text NOT NULL,
 	PRIMARY KEY (permission_id)
+);"));
+
+            _tables.Add(new SqlTable("permission_description", @"
+CREATE TABLE permission_description
+(
+	permission_id INTEGER NOT NULL,
+	code VARCHAR(5) NOT NULL DEFAULT '',
+	name VARCHAR(50) NOT NULL,
+	description text NOT NULL,
+	PRIMARY KEY(permission_id, code)
 );"));
 
             _tables.Add(new SqlTable("user_permissions", @"
@@ -351,13 +362,27 @@ CREATE TABLE form_entries_files
 );
 "));
 
-            _data.Add(@"INSERT INTO permissions (name, identifier, description) 
-VALUES 
-('Form management','EDIT_FORMS','Allows the user the create, edit and delete new form templates.'),
-('Submitted forms management','EDIT_ENTRIES','Allows the user the edit submitted form entries.'),
-('User management','EDIT_USERS','Allows the user to manage the users.'),
-('Delete forms','DELETE_FORMS','Allows the user to entire forms.'),
-('Delete Entries','DELETE_ENTRIES','Allows the user to delete submitted form entries.');");
+            _data.Add(@"
+INSERT INTO permissions (permission_id, identifier) VALUES 
+(1, 'EDIT_FORMS'),
+(2, 'EDIT_ENTRIES'),
+(3, 'EDIT_USERS'),
+(4, 'DELETE_FORMS'),
+(5, 'DELETE_ENTRIES');
+");
+
+            _data.Add(@"
+INSERT INTO permission_description (permission_id, code, name, description) VALUES
+(1, 'en', 'Form management','Allows the user the create, edit and delete new form templates.'),
+(2, 'en', 'Submitted forms management','Allows the user the edit submitted form entries.'),
+(3, 'en', 'User management','Allows the user to manage the users.'),
+(4, 'en', 'Delete forms','Allows the user to entire forms.'),
+(5, 'en', 'Delete Entries','Allows the user to delete submitted form entries.'),
+(1, 'de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
+(2, 'de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
+(3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
+(4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
+(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.');");
         }
 
         public static async Task InstallAsync(IDbController dbController)

@@ -146,9 +146,10 @@
                                 <tbody>
                                     @foreach (var permission in Input.Permissions)
                                     {
+                                        var description = permission.GetLocalization(CultureInfo.CurrentCulture);
                                         <tr>
-                                            <td class="text-bold-500">@permission.Name</td>
-                                            <td>@permission.Description</td>
+                                            <td class="text-bold-500">@description?.Name</td>
+                                            <td>@description?.Description</td>
                                             <td>
                                                 <button type="button" class="btn btn-danger" @onclick="() => Input.Permissions.Remove(permission)">
                                                     <i class="fa-solid fa-trash"></i>
@@ -175,9 +176,10 @@
                                                         @foreach (var permission in AppdatenService.Permissions)
                                                         {
                                                             var userberechtigung = Input.Permissions.FirstOrDefault(x => x.PermissionId == permission.PermissionId);
+                                                            var description = permission.GetLocalization(CultureInfo.CurrentCulture);
                                                             @if (userberechtigung is null)
                                                             {
-                                                                <option value="@permission.PermissionId">@permission.Name</option>
+                                                                <option value="@permission.PermissionId">@description?.Name</option>
                                                             }
                                                         }
                                                     </select>
