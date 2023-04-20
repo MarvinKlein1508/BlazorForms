@@ -50,11 +50,16 @@ namespace FormPortal.Pages.Admin
             {
                 Page = 1;
             }
+
+            await LoadAsync();
         }
 
-        public Task LoadAsync(bool navigateToPage1 = false)
+        public async Task LoadAsync(bool navigateToPage1 = false)
         {
-            throw new NotImplementedException();
+            Filter.PageNumber = navigateToPage1 ? 1 : Page;
+            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
+            TotalItems = await Service.GetTotalAsync(Filter, dbController);
+            Data = await Service.GetAsync(Filter, dbController);
         }
     }
 }
