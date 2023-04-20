@@ -47,10 +47,5 @@ calc_rule_id = @CALC_RULE_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
         }
-
-        public Task UpdateAsync(CalcRule input, CalcRule oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

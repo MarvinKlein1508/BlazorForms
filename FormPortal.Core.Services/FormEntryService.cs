@@ -196,12 +196,6 @@ entry_id = @ENTRY_ID";
 
             await CreateElementsAsync(input, dbController);
         }
-
-        public Task UpdateAsync(FormEntry input, FormEntry oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController)
         {
             StringBuilder sqlBuilder = new StringBuilder();

@@ -104,7 +104,5 @@ namespace FormPortal.Core.Services
                 }
             }
         }
-
-        public Task UpdateAsync(Permission input, Permission oldInputToCompare, IDbController dbController) => throw new NotImplementedException();
     }
 }

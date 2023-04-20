@@ -178,6 +178,13 @@ VALUES
 
         }
         public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
+        /// <summary>
+        /// Compares two instances of the same object and updates it in the database when the two objects are different from each other.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="oldInputToCompare"
+        /// <param name="dbController"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
         {
 

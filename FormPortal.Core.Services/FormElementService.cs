@@ -385,11 +385,5 @@ VALUES
             }
 
         }
-
-
-        public Task UpdateAsync(FormElement input, FormElement oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
