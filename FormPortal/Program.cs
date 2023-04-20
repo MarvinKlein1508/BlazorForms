@@ -43,6 +43,7 @@ namespace FormPortal
             builder.Services.AddScoped<RuleService>();
             builder.Services.AddScoped<CalcRuleService>();
             builder.Services.AddScoped<FormEntryService>();
+            builder.Services.AddScoped<FormStatusService>();
             builder.Services.AddHotKeys2();
             builder.Services.AddLocalization(options =>
             {
