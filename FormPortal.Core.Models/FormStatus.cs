@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FormPortal.Core.Models
 {
-    public class FormStatus : ILocalizedDbModel<FormStatusDescription>
+    public class FormStatus : LocalizationModelBase<FormStatusDescription>, ILocalizedDbModel
     {
         [CompareField("status_id")]
         public int Id { get; set; }
@@ -17,8 +17,7 @@ namespace FormPortal.Core.Models
         public bool RequiresApproval { get; set; }
         [CompareField("is_completed")]
         public bool IsCompleted { get; set; }
-        public List<FormStatusDescription> Description { get; set; } = new();
-
+        
         public IEnumerable<Dictionary<string, object?>> GetLocalizedParameters()
         {
             foreach (var item in Description)
