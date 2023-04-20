@@ -46,7 +46,7 @@ namespace FormPortal.Core.Models
         }
     }
 
-    public class PermissionDescription
+    public class PermissionDescription : ILocalizationHelper
     {
         [CompareField("permission_id")]
         public int PermissionId { get; set; }

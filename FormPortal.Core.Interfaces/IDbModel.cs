@@ -18,7 +18,7 @@ namespace FormPortal.Core.Interfaces
     /// Defines a database model which supports one or more localizable properties.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ILocalizedDbModel<T> : IDbModel
+    public interface ILocalizedDbModel<T> : IDbModel where T : ILocalizationHelper
     {
         List<T> Description { get; }
         /// <summary>
@@ -26,7 +26,11 @@ namespace FormPortal.Core.Interfaces
         /// </summary>
         /// <param name="culture"></param>
         /// <returns>When found an instance of <see cref="T"/>, otherwise null.</returns>
-        T? GetLocalization(CultureInfo culture);
+        T? GetLocalization(CultureInfo culture)
+        {
+            var description = Description.FirstOrDefault(x => x.Code.Equals(culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase));
+            return description;
+        }
         /// <summary>
         /// Returns an <see cref="Dictionary{TKey, TValue}"/> of parameters for each available localization.
         /// </summary>
