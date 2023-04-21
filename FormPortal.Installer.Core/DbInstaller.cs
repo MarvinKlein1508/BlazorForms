@@ -30,11 +30,10 @@ CREATE TABLE users
 CREATE TABLE permissions
 (
 	permission_id INTEGER NOT NULL AUTO_INCREMENT,
-	name VARCHAR(50) NOT NULL,
 	identifier VARCHAR(50) NOT NULL,
-	description text NOT NULL,
 	PRIMARY KEY (permission_id)
-);"));
+);
+"));
 
             _tables.Add(new SqlTable("permission_description", @"
 CREATE TABLE permission_description
@@ -88,7 +87,9 @@ CREATE TABLE forms
 	image LONGBLOB NOT NULL,
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
-	PRIMARY KEY (form_id)
+	default_status_id INTEGER NOT NULL,
+	PRIMARY KEY (form_id),
+	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id)
 );"));
 
             _tables.Add(new SqlTable("form_to_user", @"
@@ -328,10 +329,12 @@ CREATE TABLE form_entries
 	creation_user_id INTEGER DEFAULT NULL,
 	last_change DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_change_user_id INTEGER DEFAULT NULL,
+	status_id INTEGER NOT NULL,
 	PRIMARY KEY (entry_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (creation_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-	FOREIGN KEY (last_change_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE
+	FOREIGN KEY (last_change_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (status_id) REFERENCES form_status(status_id)
 );
 "));
 

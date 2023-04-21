@@ -65,7 +65,9 @@ CREATE TABLE forms
 	image LONGBLOB NOT NULL,
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
-	PRIMARY KEY (form_id)
+	default_status_id INTEGER NOT NULL,
+	PRIMARY KEY (form_id),
+	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id)
 );
 
 CREATE TABLE form_to_user
@@ -279,10 +281,12 @@ CREATE TABLE form_entries
 	creation_user_id INTEGER DEFAULT NULL,
 	last_change DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_change_user_id INTEGER DEFAULT NULL,
+	status_id INTEGER NOT NULL,
 	PRIMARY KEY (entry_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (creation_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
-	FOREIGN KEY (last_change_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE
+	FOREIGN KEY (last_change_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (status_id) REFERENCES form_status(status_id)
 );
 
 CREATE TABLE form_entries_elements
