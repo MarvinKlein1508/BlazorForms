@@ -94,7 +94,8 @@ namespace FormPortal.Pages
 
                     Input = new FormEntry(form)
                     {
-                        FormId = FormId
+                        FormId = FormId,
+                        StatusId = form.DefaultStatusId
                     };
                 }
                 else
