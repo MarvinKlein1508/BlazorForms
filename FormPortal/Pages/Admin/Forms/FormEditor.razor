@@ -545,22 +545,21 @@ else
                                     <div class="autocomplete-search">
                                         @foreach (var item in Input.ManagerUsers)
                                         {
-                                            <p>
+                                            <div class="autocomplete-item-wrapper">
                                                 <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="fa-solid fa-minus-circle me-1"></i>
+                                                <span>@item.DisplayName</span>
+                                                <div class="manager-optionen">
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" @bind="item.EmailEnabled" class="form-check-input" id="@($"manager-email-{item.GetHashCode()}")">
+                                                        <label class="form-check-label" for="@($"manager-email-{item.GetHashCode()}")">E-Mail Benachrichtigungen</label>
+                                                    </div>
 
-                                                @if (emailConfig.Value.Enabled)
-                                                {
-                                                    @if (item.EmailEnabled)
-                                                    {
-                                                        <i class="fa-solid fa-envelope-circle-check me-1" @onclick="() => item.EmailEnabled = false"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="fa-solid fa-envelope me-1" @onclick="() => item.EmailEnabled = true"></i>
-                                                    }
-                                                }
-                                                @item.DisplayName
-                                            </p>
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" @bind="item.CanApprove" class="form-check-input" id="@($"manager-approve-{item.GetHashCode()}")">
+                                                        <label class="form-check-label" for="@($"manager-approve-{item.GetHashCode()}")">Kann freigeben</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         }
                                     </div>
                                 </div>
