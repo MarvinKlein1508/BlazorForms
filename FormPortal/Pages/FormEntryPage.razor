@@ -24,6 +24,18 @@
                     <label for="form-name">Name des Dokuments</label>
                     <ValidationMessage For="() => Input.Name" />
                 </div>
+
+                <div class="form-floating mb-3">
+                    <InputSelect @bind-Value="Input.StatusId" class="form-select" id="form-status" placeholder="Status" disabled="@(!_canChangeStatus)">
+                        @foreach (var status in Statuses)
+                        {
+                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+                            <option value="@status.Id">@description?.Name</option>
+                        }
+                    </InputSelect>
+                    <label for="form-status">Status</label>
+                    <ValidationMessage For="() => Input.StatusId" />
+                </div>
             </div>
         </div>
         @foreach (var row in Input.Form.Rows)
