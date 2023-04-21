@@ -694,19 +694,22 @@ VALUES
 (
 form_id,
 user_id,
-receive_email
+receive_email,
+can_approve
 )
 VALUES
 (
 @FORM_ID,
 @USER_ID,
-@RECEIVE_EMAIL
+@RECEIVE_EMAIL,
+@CAN_APPROVE
 )";
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
                     USER_ID = user.Id,
-                    RECEIVE_EMAIL = user.EmailEnabled
+                    RECEIVE_EMAIL = user.EmailEnabled,
+                    CAN_APPROVE = user.CanApprove
                 });
             }
         }
