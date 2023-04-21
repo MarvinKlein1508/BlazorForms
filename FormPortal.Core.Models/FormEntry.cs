@@ -20,6 +20,8 @@ namespace FormPortal.Core.Models
         public DateTime LastChange { get; set; } = DateTime.Now;
         [CompareField("last_change_user_id")]
         public int? LastChangeUserId { get; set; }
+        [CompareField("status_id")]
+        public int StatusId { get; set; }
         public Form Form { get; set; }
         public int Id => EntryId;
         public Dictionary<string, object?> GetParameters()
@@ -32,7 +34,8 @@ namespace FormPortal.Core.Models
                 { "CREATION_DATE",  CreationDate },
                 { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
                 { "LAST_CHANGE",  LastChange },
-                { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId }
+                { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId },
+                { "STATUS_ID", StatusId }
             };
         }
 
@@ -61,11 +64,5 @@ namespace FormPortal.Core.Models
                 }
             }
         }
-
-
-
-
-
-
     }
 }
