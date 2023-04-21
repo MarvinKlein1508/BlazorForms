@@ -17,7 +17,9 @@ namespace FormPortal.Core.Models
         public bool RequiresApproval { get; set; }
         [CompareField("is_completed")]
         public bool IsCompleted { get; set; }
-        
+        [CompareField("sort_order")]
+        public int SortOrder { get; set; }
+
         public IEnumerable<Dictionary<string, object?>> GetLocalizedParameters()
         {
             foreach (var item in Description)
@@ -38,7 +40,8 @@ namespace FormPortal.Core.Models
             {
                 { "STATUS_ID", Id },
                 { "REQUIRES_APPROVAL", RequiresApproval },
-                { "IS_COMPLETED", IsCompleted }
+                { "IS_COMPLETED", IsCompleted },
+                { "SORT_ORDER", SortOrder }
             };
         }
     }

@@ -13,12 +13,14 @@ namespace FormPortal.Core.Services
             string sql = $@"INSERT INTO form_status
 (
     requires_approval,
-    is_completed
+    is_completed,
+    sort_order
 )
 VALUES
 (
     @REQUIRES_APPROVAL,
-    @IS_COMPLETED
+    @IS_COMPLETED,
+    @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
             input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
@@ -130,7 +132,8 @@ VALUES
         {
             string sql = @"UPDATE form_status SET
 requires_approval = @REQUIRES_APPROVAL,
-is_completed = @IS_COMPLETED
+is_completed = @IS_COMPLETED,
+sort_order = @SORT_ORDER
 WHERE status_id = @STATUS_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());

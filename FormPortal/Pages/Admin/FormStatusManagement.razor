@@ -106,6 +106,12 @@
                         }
                     </TabControl>
 
+                    <div class="form-floating mb-3">
+                        <InputNumber @bind-Value="Input.SortOrder" class="form-control" id="status-order" placeholder="Sortierung" />
+                        <label for="status-order">Sortierung</label>
+                        <ValidationMessage For="() => Input.SortOrder" />
+                    </div>
+
                     <div class="form-check">
                         <div class="checkbox">
                             <InputCheckbox @bind-Value="Input.RequiresApproval" id="status-approval" class="form-check-input" />

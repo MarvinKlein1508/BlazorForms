@@ -63,6 +63,7 @@ CREATE TABLE form_status
 	status_id INTEGER NOT NULL AUTO_INCREMENT,
 	requires_approval TINYINT NOT NULL DEFAULT 0,
 	is_completed TINYINT NOT NULL DEFAULT 0,
+    sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(status_id)
 );"));
 
@@ -406,11 +407,11 @@ INSERT INTO permission_description (permission_id, code, name, description) VALU
 (5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.');");
 
             _data.Add(@"
-INSERT INTO form_status (status_id, requires_approval, is_completed) VALUES
-(1, 0, 0),
-(2, 1, 0),
-(3, 0, 0),
-(4, 0, 1);");
+INSERT INTO form_status (status_id, requires_approval, is_completed, sort_order) VALUES
+(1, 0, 0, 1),
+(2, 1, 0, 2),
+(3, 0, 0, 3),
+(4, 0, 1, 4);");
 
             _data.Add(@"
 INSERT INTO form_status_description (status_id, code, name, description) VALUES
