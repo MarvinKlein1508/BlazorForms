@@ -7,5 +7,7 @@
         public const string EDIT_USERS = "EDIT_USERS";
         public const string DELETE_FORMS = "DELETE_FORMS";
         public const string DELETE_ENTRIES = "DELETE_ENTRIES";
+        public const string APPROVE_FORM_ENTRIES = "APPROVE_FORM_ENTRIES";
+        public const string EDIT_STATUS = "EDIT_STATUS";
     }
 }

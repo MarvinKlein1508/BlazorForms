@@ -340,7 +340,9 @@ INSERT INTO permissions (permission_id, identifier) VALUES
 (2, 'EDIT_ENTRIES'),
 (3, 'EDIT_USERS'),
 (4, 'DELETE_FORMS'),
-(5, 'DELETE_ENTRIES');
+(5, 'DELETE_ENTRIES'),
+(6, 'APPROVE_FORM_ENTRIES')
+(7, 'EDIT_STATUS');
 
 INSERT INTO permission_description (permission_id, code, name, description) VALUES
 (1, 'en', 'Form management','Allows the user the create, edit and delete new form templates.'),
@@ -348,11 +350,15 @@ INSERT INTO permission_description (permission_id, code, name, description) VALU
 (3, 'en', 'User management','Allows the user to manage the users.'),
 (4, 'en', 'Delete forms','Allows the user to entire forms.'),
 (5, 'en', 'Delete Entries','Allows the user to delete submitted form entries.'),
+(6, 'en', 'Approve forms','Allows the user to approve all form entries.'),
+(7, 'en', 'Status management','Edit and create new statuses.'),
 (1, 'de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
 (2, 'de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
 (3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
 (4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
-(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.');
+(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.'),
+(6, 'de', 'Formulareinträge freigeben','Freigabe von allen Formulareinträgen.'),
+(7, 'de', 'Status management','Erstellen und Bearbeiten von Stati.');
 
 /* Generate some default statuses */
 INSERT INTO form_status (status_id, requires_approval, is_completed, sort_order) VALUES

@@ -1,4 +1,5 @@
 ﻿@page "/Admin/FormStatus"
+@attribute [Authorize(Roles = Roles.EDIT_STATUS)]
 @inherits ManagementBasePage<FormStatus, FormStatusService>
 @inject IStringLocalizer<App> appLocalizer
 
