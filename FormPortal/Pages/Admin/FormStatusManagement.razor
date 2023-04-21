@@ -46,25 +46,24 @@
                     </thead>
                     <tbody>
                         <Virtualize Items="Data" Context="item">
-                            @if (true)
-                            {
+                            @{
                                 var description = item.GetLocalization(CultureInfo.CurrentCulture);
-
-                                <tr>
-                                    <td>@item.Id</td>
-                                    <td>@description?.Name</td>
-                                    <td>@description?.Description</td>
-                                    <td class="text-right">
-                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </span>
-
-                                        <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </span>
-                                    </td>
-                                </tr>
                             }
+
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@description?.Name</td>
+                                <td>@description?.Description</td>
+                                <td class="text-right">
+                                    <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </span>
+
+                                    <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </span>
+                                </td>
+                            </tr>
                         </Virtualize>
                     </tbody>
                 </table>

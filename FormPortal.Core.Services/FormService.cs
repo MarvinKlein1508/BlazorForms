@@ -421,7 +421,7 @@ WHERE fu.form_id = @FORM_ID";
 
         private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
         {
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email FROM form_managers fm
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve FROM form_managers fm
 INNER JOIN users u ON (u.user_id = fm.user_id)
 WHERE fm.form_id = @FORM_ID";
 
