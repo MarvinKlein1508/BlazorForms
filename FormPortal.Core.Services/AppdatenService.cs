@@ -1,7 +1,9 @@
 ﻿using DatabaseControllerProvider;
+using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace FormPortal.Core.Services
 {
@@ -47,5 +49,21 @@ namespace FormPortal.Core.Services
 
         public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? new Dictionary<string, string>();
         public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
+
+
+        public static CultureInfo ToCulture(this ILocalizationHelper helper)
+        {
+
+            var cultureCode = SupportedCultures.FirstOrDefault(x => x.StartsWith(helper.Code, StringComparison.OrdinalIgnoreCase));
+
+            if (cultureCode is null)
+            {
+                return new CultureInfo(SupportedCultures[0]);
+            }
+            else
+            {
+                return new CultureInfo(cultureCode);
+            }
+        }
     }
 }
