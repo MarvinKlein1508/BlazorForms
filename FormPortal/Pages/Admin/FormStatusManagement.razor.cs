@@ -67,5 +67,22 @@ namespace FormPortal.Pages.Admin
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
         }
+
+        private Task NewAsync()
+        {
+            var newStatus = new FormStatus();
+
+            foreach (var culture in AppdatenService.SupportedCultures)
+            {
+                newStatus.Description.Add(new FormStatusDescription
+                {
+                    Code = culture.TwoLetterISOLanguageName
+                });
+            }
+
+            Input = newStatus;
+
+            return Task.CompletedTask;
+        }
     }
 }
