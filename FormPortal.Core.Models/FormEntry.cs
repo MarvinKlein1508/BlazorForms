@@ -22,6 +22,8 @@ namespace FormPortal.Core.Models
         public int? LastChangeUserId { get; set; }
         [CompareField("status_id")]
         public int StatusId { get; set; }
+        [CompareField("approved")]
+        public bool IsApproved { get; set; }
         public Form Form { get; set; }
         public int Id => EntryId;
         public Dictionary<string, object?> GetParameters()
@@ -35,7 +37,8 @@ namespace FormPortal.Core.Models
                 { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
                 { "LAST_CHANGE",  LastChange },
                 { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId },
-                { "STATUS_ID", StatusId }
+                { "STATUS_ID", StatusId },
+                { "APPROVED", IsApproved }
             };
         }
 
