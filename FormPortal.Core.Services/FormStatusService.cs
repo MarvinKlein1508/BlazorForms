@@ -130,7 +130,7 @@ VALUES
         {
             string sql = @"UPDATE form_status SET
 requires_approval = @REQUIRES_APPROVAL,
-is_completed = @IS_COMPLETED,
+is_completed = @IS_COMPLETED
 WHERE status_id = @STATUS_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
