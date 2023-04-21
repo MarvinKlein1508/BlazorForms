@@ -54,6 +54,12 @@ namespace FormPortal.Pages.Admin
             await LoadAsync();
         }
 
+        protected override async Task SaveAsync()
+        {
+            await base.SaveAsync();
+            await LoadAsync();
+        }
+
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
             Filter.PageNumber = navigateToPage1 ? 1 : Page;
