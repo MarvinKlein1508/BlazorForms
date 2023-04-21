@@ -24,8 +24,13 @@ namespace FormPortal.Pages
         private User? _user;
         private bool _isSaving;
 
+        public bool IsAdmin { get; set; }
+        public bool IsCompleted { get; set; }
+        public bool IsAllowedToApprove { get; set; }
+        public bool RequiresApproval { get; set; }
+
         private List<FormStatus> Statuses = new();
-        private bool _canChangeStatus;
+        
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
@@ -40,14 +45,15 @@ namespace FormPortal.Pages
                     Input = form;
                     FormId = Input?.FormId ?? 0;
 
-                    bool canEdit = await CanEditEntryAsync(Input);
-                    _canChangeStatus = await CanChangeStatus();
-                    if (!canEdit)
+                    await CheckPermissionsAsync();
+                    bool canSeeEntry = _user is not null && (form.CreationUserId == _user.UserId || form.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId)) || IsAdmin;
+                    if (!canSeeEntry)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
                         navigationManager.NavigateTo("/");
                         return;
                     }
+
                 }
             }
             else if (FormId > 0)
@@ -90,68 +96,18 @@ namespace FormPortal.Pages
                 }
             }
         }
-
-        private async Task<bool> CanChangeStatus()
+        private async Task CheckPermissionsAsync()
         {
-            if (Input is null)
+            if (Input is null || _user is null)
             {
-                return false;
-            }
-            if (_user is null)
-            {
-                return false;
+                return;
             }
 
-            bool isAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
-
-            // Admins can always change everything regarding the form entry.
-            if (isAdmin)
-            {
-                return true;
-            }
-
-            // Check Status
+            IsAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
+            IsAllowedToApprove = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id)?.CanApprove ?? false;
             var searchStatus = Statuses.FirstOrDefault(x => x.Id == Input.StatusId);
-
-            if (searchStatus is null)
-            {
-                return false;
-            }
-
-            if (searchStatus.RequiresApproval)
-            {
-                var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id);
-
-                if(user is null)
-                {
-                    return false;
-                }
-
-                return user.CanApprove;
-            }
-
-            return true;
-        }
-        private async Task<bool> CanEditEntryAsync(FormEntry? entry)
-        {
-            if (entry is null)
-            {
-                return false;
-            }
-
-            bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
-
-            if (hasEditRole)
-            {
-                return true;
-            }
-
-            if (_user is null)
-            {
-                return false;
-            }
-
-            return entry.CreationUserId == _user.UserId || entry.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId);
+            IsCompleted = searchStatus?.IsCompleted ?? false;
+            RequiresApproval = searchStatus?.RequiresApproval ?? false;
         }
         private async Task SubmitAsync()
         {
