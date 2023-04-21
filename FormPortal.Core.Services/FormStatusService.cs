@@ -63,7 +63,7 @@ VALUES
             sqlBuilder.AppendLine("LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)");
             sqlBuilder.AppendLine("WHERE 1 = 1");
             sqlBuilder.AppendLine(GetFilterWhere(filter));
-            sqlBuilder.AppendLine(@$"  ORDER BY name ASC");
+            sqlBuilder.AppendLine(@$"  ORDER BY sort_order ASC");
             sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
 
             // Zum Debuggen schreiben wir den Wert einmal als Variabel
