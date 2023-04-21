@@ -55,6 +55,10 @@
                                     <td>@description?.Name</td>
                                     <td>@description?.Description</td>
                                     <td class="text-right">
+                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </span>
+
                                         <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </span>
@@ -137,4 +141,13 @@
             <button type="button" class="btn btn-success" @onclick="SaveAsync">@appLocalizer["BUTTON_TEXT_SAVE"]</button>
         </div>
     </Modal>
+}
+
+@if (SelectedForDeletion is not null)
+{
+    <ConfirmModal Title="Status löschen?"
+                  OnClosed="() => SelectedForDeletion = null"
+                  OnConfirmed="DeleteAsync">
+        <p>Möchten Sie den Status wirklich löschen?</p>
+    </ConfirmModal>
 }

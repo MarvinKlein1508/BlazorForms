@@ -63,10 +63,17 @@ namespace FormPortal.Pages.Admin
                 await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["DELETE_MESSAGE"]);
                 SelectedForDeletion = null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await dbController.RollbackChangesAsync();
-                throw;
+                if (ex.HResult == -2147467259)
+                {
+                    await JSRuntime.ShowToastAsync(ToastType.error, AppLocalizer["DELETE_ERROR_REFERENCE"]);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
