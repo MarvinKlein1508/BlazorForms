@@ -27,9 +27,13 @@ namespace FormPortal.Components
         public bool UserCanDeleteEntries { get; set; }
         public User? User { get; set; }
         public EntryListItem? SelectedForDeletion { get; set; }
+
+        private List<FormStatus> Statuses { get; set; } = new();
+        
         protected override async Task OnParametersSetAsync()
         {
             await LoadAsync();
+            
             UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
             User = await authService.GetUserAsync();
         }
@@ -42,6 +46,7 @@ namespace FormPortal.Components
             }
 
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            Statuses = await FormStatusService.GetAllAsync(dbController);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
             Data = await formEntryService.GetAsync(Filter, dbController);
         }

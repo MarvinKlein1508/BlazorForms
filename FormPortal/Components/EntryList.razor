@@ -16,6 +16,19 @@
                     <label for="form-filter-searchphrase">Suchbegriff</label>
                 </div>
 
+                <div class="form-floating mb-3">
+                    <InputSelect @bind-Value="Filter.StatusId" class="form-select" id="form-filter-status" aria-placeholder="Status">
+                        <option value="0">Alle</option>
+                        @foreach (var status in Statuses)
+                        {
+                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+                            <option value="@status.Id">@description?.Name</option>
+                        }
+                    </InputSelect>
+                    <label for="form-filter-status">Status</label>
+                    <ValidationMessage For="() => Filter.StatusId" />
+                </div>
+
                 <div class="toolbar">
                     <button type="submit" class="btn btn-primary">Suchen</button>
                 </div>
