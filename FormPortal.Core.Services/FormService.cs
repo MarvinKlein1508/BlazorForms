@@ -25,7 +25,8 @@ description,
 logo,
 image,
 login_required,
-is_active
+is_active,
+default_status_id
 )
 VALUES
 (
@@ -34,7 +35,8 @@ VALUES
 @LOGO,
 @IMAGE,
 @LOGIN_REQUIRED,
-@IS_ACTIVE
+@IS_ACTIVE,
+@DEFAULT_STATUS_ID
 ); {dbController.GetLastIdSql()}";
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
@@ -195,7 +197,8 @@ description = @DESCRIPTION,
 logo = @LOGO,
 image = @IMAGE,
 login_required = @LOGIN_REQUIRED,
-is_active = @IS_ACTIVE
+is_active = @IS_ACTIVE,
+default_status_id = @DEFAULT_STATUS_ID
 WHERE
 form_id = @FORM_ID";
 

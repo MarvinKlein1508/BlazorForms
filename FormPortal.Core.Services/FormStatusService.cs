@@ -166,5 +166,23 @@ VALUES
                 await dbController.QueryAsync(sql, parameters);
             }
         }
+
+        public static async Task<List<FormStatus>> GetAllAsync(IDbController dbController)
+        {
+            string sql = "SELECT * FROM form_status";
+
+            var statuses = await dbController.SelectDataAsync<FormStatus>(sql);
+
+            sql = "SELECT * FROM form_status_description";
+
+            var descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql);
+
+            foreach (var status in statuses)
+            {
+                status.Description = descriptions.Where(x => x.StatusId == status.Id).ToList();
+            }
+
+            return statuses;
+        }
     }
 }

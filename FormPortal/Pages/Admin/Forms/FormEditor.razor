@@ -470,6 +470,19 @@ else
                                     <ValidationMessage For="() => Input.Description" />
                                 </div>
 
+                                <div class="form-floating mb-3">
+                                    <InputSelect @bind-Value="Input.DefaultStatusId" class="form-select" id="form-default-status" aria-placeholder="Status für neue Formulareinträge">
+                                        @foreach (var status in Statuses)
+                                        {
+                                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+
+                                            <option value="@status.Id">@description?.Name</option>
+                                        }
+                                    </InputSelect>
+                                    <label for="form-default-status">Status für neue Formulareinträge</label>
+                                    <ValidationMessage For="() => Input.DefaultStatusId" />
+                                </div>
+
                                 <div class="form-check">
                                     <div class="checkbox">
                                         <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
