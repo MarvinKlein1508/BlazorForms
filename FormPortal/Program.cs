@@ -83,9 +83,9 @@ namespace FormPortal
             }
 
             var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0])
-    .AddSupportedCultures(AppdatenService.SupportedCultures)
-    .AddSupportedUICultures(AppdatenService.SupportedCultures);
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
+    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
+    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
 
             app.UseRequestLocalization(localizationOptions);
 

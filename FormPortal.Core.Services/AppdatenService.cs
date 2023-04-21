@@ -9,11 +9,15 @@ namespace FormPortal.Core.Services
 {
     public static class AppdatenService
     {
-        public static string[] SupportedCultures => new string[]
+        public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
+
+        public static CultureInfo[] SupportedCultures => new CultureInfo[]
         {
-            "de-de",
-            "en-us"
+            new CultureInfo("de-de"),
+            new CultureInfo("en-US")
         };
+
+
         public static bool FirstUserExists { get; set; } = false;
         public static List<FormElement> Elements { get; } = new List<FormElement>
         {
@@ -54,15 +58,15 @@ namespace FormPortal.Core.Services
         public static CultureInfo ToCulture(this ILocalizationHelper helper)
         {
 
-            var cultureCode = SupportedCultures.FirstOrDefault(x => x.StartsWith(helper.Code, StringComparison.OrdinalIgnoreCase));
+            var culture = SupportedCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName.Equals(helper.Code, StringComparison.OrdinalIgnoreCase));
 
-            if (cultureCode is null)
+            if (culture is null)
             {
-                return new CultureInfo(SupportedCultures[0]);
+                return SupportedCultures[0];
             }
             else
             {
-                return new CultureInfo(cultureCode);
+                return culture;
             }
         }
     }
