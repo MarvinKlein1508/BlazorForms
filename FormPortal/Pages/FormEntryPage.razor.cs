@@ -27,6 +27,7 @@ namespace FormPortal.Pages
         public bool IsAdmin { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAllowedToApprove { get; set; }
+        public bool IsManager { get; set; }
         public bool RequiresApproval { get; set; }
 
         private List<FormStatus> Statuses = new();
@@ -104,7 +105,9 @@ namespace FormPortal.Pages
             }
 
             IsAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
-            IsAllowedToApprove = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id)?.CanApprove ?? false;
+            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id);
+            IsManager = user is not null;
+            IsAllowedToApprove = user?.CanApprove ?? false;
             var searchStatus = Statuses.FirstOrDefault(x => x.Id == Input.StatusId);
             IsCompleted = searchStatus?.IsCompleted ?? false;
             RequiresApproval = searchStatus?.RequiresApproval ?? false;
