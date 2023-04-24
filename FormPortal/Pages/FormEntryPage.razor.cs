@@ -19,10 +19,12 @@ namespace FormPortal.Pages
         [Parameter]
         public int EntryId { get; set; }
         public FormEntry? Input { get; set; }
+        public FormEntryStatusChange? InputStatus { get; set; }
         private EditForm? _form;
 
         private User? _user;
         private bool _isSaving;
+
 
         public bool IsAdmin { get; set; }
         public bool IsCompleted { get; set; }
@@ -31,7 +33,7 @@ namespace FormPortal.Pages
         public bool RequiresApproval { get; set; }
 
         private List<FormStatus> Statuses = new();
-        
+
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
@@ -223,7 +225,25 @@ namespace FormPortal.Pages
             }
             _isSaving = false;
         }
+        private async Task OpenStatusModalAsync()
+        {
+            if (_user is null || Input is null)
+            {
+                return;
+            }
 
+            if (RequiresApproval && !IsAllowedToApprove && !IsAdmin)
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt den Status zu ändern, da dieser Formulareintrag eine Freigabe erfordert.");
+                return;
+            }
+
+            InputStatus = new()
+            {
+                EntryId = Input.EntryId,
+                UserId = _user.Id
+            };
+        }
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {
             if (e.FileCount > 10)

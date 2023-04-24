@@ -13,7 +13,14 @@
 
     <PageTitle>@Input.Form.Name ausfüllen</PageTitle>
 
+
     <h2>@Input.Form.Name</h2>
+
+
+    <div class="toolbar">
+        <button type="button" class="btn btn-info" @onclick="OpenStatusModalAsync">Status ändern</button>
+    </div>
+
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <ValidationSummary />
@@ -23,18 +30,6 @@
                     <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name des Dokuments" />
                     <label for="form-name">Name des Dokuments</label>
                     <ValidationMessage For="() => Input.Name" />
-                </div>
-
-                <div class="form-floating mb-3">
-                    <InputSelect @bind-Value="Input.StatusId" class="form-select" id="form-status" placeholder="Status">
-                        @foreach (var status in Statuses)
-                        {
-                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                            <option value="@status.Id">@description?.Name</option>
-                        }
-                    </InputSelect>
-                    <label for="form-status">Status</label>
-                    <ValidationMessage For="() => Input.StatusId" />
                 </div>
             </div>
         </div>
@@ -251,17 +246,33 @@
             }
         }
 
-        <div class="toolbar">
-            @if (_isSaving)
-            {
-                <LoadingButton ButtonClass="btn btn-success" />
-            }
-            else
-            {
-                <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
-            }
-        </div>
+        @if (IsAdmin || (!IsCompleted && (!RequiresApproval || IsAllowedToApprove)))
+        {
+            <div class="toolbar">
+                @if (_isSaving)
+                {
+                    <LoadingButton ButtonClass="btn btn-success" />
+                }
+                else
+                {
+                    <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
+                }
+            </div>
+        }
     </EditForm>
 }
 
+@if (InputStatus is not null)
+{
+    <Modal Title="Status ändern"
+           OnClosed="() => InputStatus = null"
+           HideFooter="true">
+
+        <StatusChangeEditor Input="InputStatus"
+                            Statuses="Statuses"
+                            OnSaved="() => InputStatus = null"
+                            OnCancel="() => InputStatus = null" />
+
+    </Modal>
+}
 

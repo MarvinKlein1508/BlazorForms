@@ -334,6 +334,20 @@ CREATE TABLE form_entries_files
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE form_entry_history
+(
+	history_id INTEGER NOT NULL AUTO_INCREMENT,
+	entry_id INTEGER NOT NULL,
+	status_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	comment TEXT NOT NULL DEFAULT '',
+	date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (history_id),
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (status_id) REFERENCES form_status(status_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 /* DATA */
 /* Permissions */
 INSERT INTO permissions (permission_id, identifier) VALUES 
