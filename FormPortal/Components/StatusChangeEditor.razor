@@ -1,5 +1,6 @@
 ﻿@inject FormEntryStatusChangeService formEntryStatusChangeService
 @inject IDbProviderService dbProviderService
+@inject IJSRuntime jsRuntime
 @if (Input is not null)
 {
     <EditForm Model="Input" @ref="_form">

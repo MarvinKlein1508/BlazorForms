@@ -3,6 +3,7 @@ using FormPortal.Core.Services;
 using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace FormPortal.Components
 {
@@ -37,6 +38,10 @@ namespace FormPortal.Components
                 {
                     await formEntryStatusChangeService.UpdateAsync(Input, dbController);
                 }
+
+                await jsRuntime.ShowToastAsync(ToastType.success, "Datensatz erfolgreich gespeichert");
+
+                await OnSaved.InvokeAsync();
             }
         }
     }
