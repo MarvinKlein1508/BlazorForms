@@ -32,12 +32,9 @@ namespace FormPortal.Pages
         public bool IsManager { get; set; }
         public bool RequiresApproval { get; set; }
 
-        private List<FormStatus> Statuses = new();
-
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
-            Statuses = await FormStatusService.GetAllAsync(dbController);
             _user = await authService.GetUserAsync(dbController);
 
             if (EntryId > 0)
@@ -110,7 +107,7 @@ namespace FormPortal.Pages
             var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id);
             IsManager = user is not null;
             IsAllowedToApprove = user?.CanApprove ?? false;
-            var searchStatus = Statuses.FirstOrDefault(x => x.Id == Input.StatusId);
+            var searchStatus = AppdatenService.Get<FormStatus>(Input.StatusId);
             IsCompleted = searchStatus?.IsCompleted ?? false;
             RequiresApproval = searchStatus?.RequiresApproval ?? false;
         }

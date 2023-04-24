@@ -27,6 +27,7 @@ namespace FormPortal.Pages.Admin
 
         protected override Task OnInitializedAsync()
         {
+            Data = AppdatenService.GetList<T>();
             return base.OnInitializedAsync();
         }
         protected virtual Task NewAsync()
@@ -60,6 +61,7 @@ namespace FormPortal.Pages.Admin
             {
                 await Service.DeleteAsync(SelectedForDeletion, dbController);
                 await dbController.CommitChangesAsync();
+                AppdatenService.DeleteRecord(SelectedForDeletion);
                 await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["DELETE_MESSAGE"]);
                 SelectedForDeletion = null;
             }
@@ -100,6 +102,7 @@ namespace FormPortal.Pages.Admin
                     }
 
                     await dbController.CommitChangesAsync();
+                    AppdatenService.UpdateRecord(Input);
                 }
                 catch (Exception)
                 {

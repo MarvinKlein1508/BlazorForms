@@ -7,7 +7,7 @@
         <div class="form-floating mb-3">
             <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="Status">
                 <option value="0">--- Auswählen ---</option>
-                @foreach (var status in Statuses)
+                @foreach (var status in AppdatenService.Statuses)
                 {
                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
                     <option value="@status.Id">@description?.Name</option>
