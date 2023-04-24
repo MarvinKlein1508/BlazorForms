@@ -264,15 +264,16 @@
     </EditForm>
 }
 
-@if (InputStatus is not null)
+@if (_showStatusModal)
 {
     <Modal Title="Status ändern"
-           OnClosed="() => InputStatus = null"
+           OnClosed="() => _showStatusModal = false"
            HideFooter="true">
 
-        <StatusChangeEditor Input="InputStatus"
-                            OnSaved="() => InputStatus = null"
-                            OnCancel="() => InputStatus = null" />
+        <StatusChangeEditor Entry="Input"
+                            User="_user"
+                            OnSaved="OnEntryStatusSavedAsync"
+                            OnCancel="() => _showStatusModal = false" />
 
     </Modal>
 }

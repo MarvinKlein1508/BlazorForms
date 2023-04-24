@@ -19,11 +19,11 @@ namespace FormPortal.Pages
         [Parameter]
         public int EntryId { get; set; }
         public FormEntry? Input { get; set; }
-        public FormEntryStatusChange? InputStatus { get; set; }
         private EditForm? _form;
 
         private User? _user;
         private bool _isSaving;
+        private bool _showStatusModal;
 
 
         public bool IsAdmin { get; set; }
@@ -235,11 +235,11 @@ namespace FormPortal.Pages
                 return;
             }
 
-            InputStatus = new()
-            {
-                EntryId = Input.EntryId,
-                UserId = _user.Id
-            };
+            _showStatusModal = true;
+        }
+        private async Task OnEntryStatusSavedAsync(FormEntryStatusChange newStatus)
+        {
+            _showStatusModal = false;
         }
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {

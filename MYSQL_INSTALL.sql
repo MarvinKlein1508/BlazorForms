@@ -348,6 +348,18 @@ CREATE TABLE form_entry_history
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+/* Triggers */
+DELIMITER $$
+
+CREATE TRIGGER update_status_id
+    AFTER INSERT
+    ON form_entry_history FOR EACH ROW
+BEGIN
+    UPDATE form_entries SET status_id = new.status_id WHERE entry_id = new.entry_id;
+END$$    
+
+DELIMITER ;
+
 /* DATA */
 /* Permissions */
 INSERT INTO permissions (permission_id, identifier) VALUES 
