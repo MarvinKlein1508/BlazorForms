@@ -43,7 +43,7 @@ CREATE TABLE permission_description
 	name VARCHAR(50) NOT NULL,
 	description text NOT NULL,
 	PRIMARY KEY(permission_id, code),
-    FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
             _tables.Add(new SqlTable("user_permissions", @"
@@ -62,7 +62,7 @@ CREATE TABLE form_status
 	status_id INTEGER NOT NULL AUTO_INCREMENT,
 	requires_approval TINYINT NOT NULL DEFAULT 0,
 	is_completed TINYINT NOT NULL DEFAULT 0,
-    sort_order INTEGER NOT NULL DEFAULT 0,
+	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(status_id)
 );"));
 
@@ -107,8 +107,8 @@ CREATE TABLE form_managers
 (
 	form_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
-    receive_email TINYINT NOT NULL DEFAULT 0,
-    can_approve TINYINT NOT NULL DEFAULT 0,
+	receive_email TINYINT NOT NULL DEFAULT 0,
+	can_approve TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(form_id, user_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -331,7 +331,7 @@ CREATE TABLE form_entries
 	last_change DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_change_user_id INTEGER DEFAULT NULL,
 	status_id INTEGER NOT NULL,
-    approved TINYINT NOT NULL DEFAULT 0,
+	approved TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY (entry_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (creation_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -389,6 +389,21 @@ CREATE TABLE form_entries_files
 );
 "));
 
+            _tables.Add(new SqlTable("form_entry_history", @"
+CREATE TABLE form_entry_history
+(
+	history_id INTEGER NOT NULL AUTO_INCREMENT,
+	entry_id INTEGER NOT NULL,
+	status_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	comment TEXT NOT NULL DEFAULT '',
+	date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (history_id),
+	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (status_id) REFERENCES form_status(status_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);"));
+
             _data.Add(@"
 INSERT INTO permissions (permission_id, identifier) VALUES 
 (1, 'EDIT_FORMS'),
@@ -396,8 +411,7 @@ INSERT INTO permissions (permission_id, identifier) VALUES
 (3, 'EDIT_USERS'),
 (4, 'DELETE_FORMS'),
 (5, 'DELETE_ENTRIES'),
-(6, 'APPROVE_FORM_ENTRIES'),
-(7, 'EDIT_STATUS');");
+(6, 'EDIT_STATUS');");
 
             _data.Add(@"
 INSERT INTO permission_description (permission_id, code, name, description) VALUES
@@ -413,8 +427,7 @@ INSERT INTO permission_description (permission_id, code, name, description) VALU
 (3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
 (4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
 (5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.'),
-(6, 'de', 'Formulareinträge freigeben','Freigabe von allen Formulareinträgen.'),
-(7, 'de', 'Status management','Erstellen und Bearbeiten von Stati.');");
+(6, 'de', 'Statusverwaltung','Erstellen und Bearbeiten von Stati.');");
 
             _data.Add(@"
 INSERT INTO form_status (status_id, requires_approval, is_completed, sort_order) VALUES
@@ -433,6 +446,18 @@ INSERT INTO form_status_description (status_id, code, name, description) VALUES
 (2, 'de', 'Warten auf Freigabe', 'Formulareinträge die derzeit noch freigegeben werden müssen.'),
 (3, 'de', 'In Bearbeitung', 'Wird zurzeit durch einen Formularmanager bearbeitet.'),
 (4, 'de', 'Erledigt', 'Vollständig bearbeitete und abgeschlossene Formulareinträge.');");
+
+            _data.Add(@"
+DELIMITER $$
+
+CREATE TRIGGER update_status_id
+    AFTER INSERT
+    ON form_entry_history FOR EACH ROW
+BEGIN
+    UPDATE form_entries SET status_id = new.status_id WHERE entry_id = new.entry_id;
+END$$    
+
+DELIMITER ;");
         }
 
         public static async Task InstallAsync(IDbController dbController)
