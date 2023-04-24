@@ -47,5 +47,10 @@ date_added = @DATE_ADDED; {dbController.GetLastIdSql()}";
         {
             throw new NotImplementedException();
         }
+
+        public async Task ApproveAsync(int entryId, IDbController dbController)
+        {
+
+        }
     }
 }

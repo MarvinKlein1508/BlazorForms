@@ -24,9 +24,7 @@ name,
 creation_date,
 creation_user_id,
 last_change,
-last_change_user_id,
-status_id,
-approved
+last_change_user_id
 )
 VALUES
 (
@@ -35,9 +33,7 @@ VALUES
 @CREATION_DATE,
 @CREATION_USER_ID,
 @LAST_CHANGE,
-@LAST_CHANGE_USER_ID,
-@STATUS_ID,
-@APPROVED
+@LAST_CHANGE_USER_ID
 ); {dbController.GetLastIdSql()}";
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());

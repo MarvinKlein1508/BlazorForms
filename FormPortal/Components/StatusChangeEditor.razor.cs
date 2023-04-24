@@ -47,18 +47,37 @@ namespace FormPortal.Components
 
             if (_form.EditContext.Validate())
             {
-                if (Input.Id is 0)
+                try
                 {
-                    await statusChangeService.CreateAsync(Input, dbController);
+                    if (Input.Id is 0)
+                    {
+                        await statusChangeService.CreateAsync(Input, dbController);
+                    }
+                    else
+                    {
+                        await statusChangeService.UpdateAsync(Input, dbController);
+                    }
+
+                    // Update the status of the entry
+                    // Check if old status needed approve
+                    var status = AppdatenService.Get<FormStatus>(Entry.StatusId);
+                    if (status is not null && status.RequiresApproval)
+                    {
+                        // We only approve once, even when the second status requires another approval
+                        await statusChangeService.ApproveAsync(Entry.Id, dbController);
+                        Entry.IsApproved = true;
+
+                    }
+                    Entry.StatusId = Input.StatusId;
+                    await dbController.CommitChangesAsync();
                 }
-                else
+                catch (Exception)
                 {
-                    await statusChangeService.UpdateAsync(Input, dbController);
+                    await dbController.RollbackChangesAsync();
+                    throw;
                 }
 
-                // Update the status of the entry
-                Entry.StatusId = Input.StatusId;
-                
+
 
 
 
