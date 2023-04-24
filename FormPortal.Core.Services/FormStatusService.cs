@@ -184,5 +184,14 @@ VALUES
 
             return statuses;
         }
+
+        public async Task<int> GetTotalStatusAmount(IDbController dbController)
+        {
+            string sql = "SELECT COUNT(*) FROM form_status";
+
+            int result = await dbController.GetFirstAsync<int>(sql);
+
+            return result;
+        }
     }
 }
