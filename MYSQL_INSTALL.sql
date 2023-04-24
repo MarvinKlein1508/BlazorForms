@@ -368,8 +368,7 @@ INSERT INTO permissions (permission_id, identifier) VALUES
 (3, 'EDIT_USERS'),
 (4, 'DELETE_FORMS'),
 (5, 'DELETE_ENTRIES'),
-(6, 'APPROVE_FORM_ENTRIES'),
-(7, 'EDIT_STATUS');
+(6, 'EDIT_STATUS');
 
 INSERT INTO permission_description (permission_id, code, name, description) VALUES
 (1, 'en', 'Form management','Allows the user the create, edit and delete new form templates.'),
@@ -384,8 +383,7 @@ INSERT INTO permission_description (permission_id, code, name, description) VALU
 (3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
 (4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
 (5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.'),
-(6, 'de', 'Formulareinträge freigeben','Freigabe von allen Formulareinträgen.'),
-(7, 'de', 'Status management','Erstellen und Bearbeiten von Stati.');
+(6, 'de', 'Statusverwaltung','Erstellen und Bearbeiten von Stati.');
 
 /* Generate some default statuses */
 INSERT INTO form_status (status_id, requires_approval, is_completed, sort_order) VALUES
