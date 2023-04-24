@@ -3,13 +3,14 @@ using DatabaseControllerProvider;
 using Blazor.Pagination;
 using FormPortal.Core.Models;
 using FormPortal.Core.Filters;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace FormPortal.Pages.Admin
 {
     public partial class FormStatusManagement
     {
         public FormStatusFilter Filter { get; set; } = new();
-     
+
         protected override Task NewAsync()
         {
             var newStatus = new FormStatus();

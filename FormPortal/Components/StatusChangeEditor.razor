@@ -2,7 +2,7 @@
 @inject IDbProviderService dbProviderService
 @if (Input is not null)
 {
-    <EditForm Model="Input">
+    <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <div class="form-floating mb-3">
             <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="Status">

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using FormPortal.Core.Services;
 using DatabaseControllerProvider;
 using FormPortal.Core.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace FormPortal.Components
 {
@@ -14,9 +15,11 @@ namespace FormPortal.Components
         [Parameter, EditorRequired]
         public EventCallback OnSaved { get; set; }
 
+        private EditForm? _form;
+
         private async Task SaveAsync()
         {
-            if(Input is null)
+            if(Input is null || _form is null || _form.EditContext is null)
             {
                 return;
             }
@@ -24,13 +27,16 @@ namespace FormPortal.Components
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
             Input.DateAdded = DateTime.Now;
 
-            if (Input.Id is 0)
+            if (_form.EditContext.Validate())
             {
-                await formEntryStatusChangeService.CreateAsync(Input, dbController);
-            }
-            else
-            {
-                await formEntryStatusChangeService.UpdateAsync(Input, dbController);
+                if (Input.Id is 0)
+                {
+                    await formEntryStatusChangeService.CreateAsync(Input, dbController);
+                }
+                else
+                {
+                    await formEntryStatusChangeService.UpdateAsync(Input, dbController);
+                }
             }
         }
     }
