@@ -1,0 +1,10 @@
+﻿.page-title {
+    flex: 1;
+}
+
+.status {
+    font-size: 1rem;
+    background-color: #eee;
+    padding: 1em;
+    border-radius: 1.15rem;
+}

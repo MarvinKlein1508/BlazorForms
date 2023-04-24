@@ -14,14 +14,23 @@
     <PageTitle>@Input.Form.Name ausfüllen</PageTitle>
 
 
-    <h2>@Input.Form.Name</h2>
-
-    @if (IsAdmin || IsManager)
-    {
-        <div class="toolbar">
-            <button type="button" class="btn btn-info" @onclick="OpenStatusModalAsync">Status ändern</button>
-        </div>
-    }
+    <h2 class="d-flex">
+        <span class="page-title">@Input.Form.Name</span>
+        @if (Input.EntryId > 0)
+        {
+            @if (IsAdmin || IsManager)
+            {
+                <button type="button" class="btn btn-primary me-1" @onclick="() => _showHistory = true">Verlauf</button>
+            }
+            <button type="button" class="btn btn-outline-secondary" @onclick="OpenStatusModalAsync">
+                @GetStatus()
+                @if (IsAdmin || IsManager)
+                {
+                    <span class="ms-1"><i class="fa-solid fa-edit"></i></span>
+                }
+            </button>
+        }
+    </h2>
 
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
@@ -248,7 +257,7 @@
             }
         }
 
-        @if (IsAdmin || (!IsCompleted && (!RequiresApproval || IsAllowedToApprove)))
+        @if (IsAdmin || (!IsCompleted && !Input.IsApproved && (!RequiresApproval || IsAllowedToApprove)))
         {
             <div class="toolbar">
                 @if (_isSaving)
@@ -262,6 +271,15 @@
             </div>
         }
     </EditForm>
+
+    @if (_showHistory)
+    {
+        <Modal Title="Verlauf"
+               ModalSize="ModalSize.XL"
+               OnClosed="() => _showHistory = false">
+            <EntryHistory EntryId="Input.Id" />
+        </Modal>
+    }
 }
 
 @if (_showStatusModal)

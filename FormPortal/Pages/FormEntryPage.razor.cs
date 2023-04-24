@@ -8,6 +8,7 @@ using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
+using System.Globalization;
 using static iText.IO.Util.IntHashtable;
 
 namespace FormPortal.Pages
@@ -24,6 +25,7 @@ namespace FormPortal.Pages
         private User? _user;
         private bool _isSaving;
         private bool _showStatusModal;
+        private bool _showHistory;
 
 
         public bool IsAdmin { get; set; }
@@ -229,6 +231,12 @@ namespace FormPortal.Pages
                 return;
             }
 
+            // Only admins and managers are able to change the status
+            if (!IsAdmin && !IsManager)
+            {
+                return;
+            }
+
             if (RequiresApproval && !IsAllowedToApprove && !IsAdmin)
             {
                 await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt den Status zu ändern, da dieser Formulareintrag eine Freigabe erfordert.");
@@ -240,6 +248,7 @@ namespace FormPortal.Pages
         private async Task OnEntryStatusSavedAsync(FormEntryStatusChange newStatus)
         {
             _showStatusModal = false;
+            await OnParametersSetAsync();
         }
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {
@@ -318,6 +327,24 @@ namespace FormPortal.Pages
                 }
 
             }
+        }
+
+        private string GetStatus()
+        {
+            if (Input is null)
+            {
+                return string.Empty;
+            }
+            var status = AppdatenService.Get<FormStatus>(Input.StatusId);
+
+            if (status is null)
+            {
+                return string.Empty;
+            }
+
+            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+
+            return description?.Name ?? string.Empty;
         }
     }
 }

@@ -50,7 +50,24 @@ date_added = @DATE_ADDED; {dbController.GetLastIdSql()}";
 
         public async Task ApproveAsync(int entryId, IDbController dbController)
         {
+            string sql = "UPDATE form_entries SET approved = 1 WHERE entry_id = @ENTRY_ID";
 
+            await dbController.QueryAsync(sql, new
+            {
+                ENTRY_ID = entryId
+            });
+        }
+
+        public async Task<List<FormEntryStatusChange>> GetHistoryAsync(int entryId, IDbController dbController)
+        {
+            string sql = "SELECT * FROM form_entry_history WHERE entry_id = @ENTRY_ID ORDER BY history_id DESC";
+
+            var list = await dbController.SelectDataAsync<FormEntryStatusChange>(sql, new
+            {
+                ENTRY_ID = entryId
+            });
+
+            return list;
         }
     }
 }
