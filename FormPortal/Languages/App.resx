@@ -125,6 +125,10 @@
     <value>Speichern</value>
     <comment>Text for save buttons</comment>
   </data>
+  <data name="DELETE_ERROR_REFERENCE" xml:space="preserve">
+    <value>Der Datensatz konnte nicht gelöscht werden, da dieser über aktive Verweise verfügt</value>
+    <comment>Error message when deleting from the database fails due to a FOREIGN key check. Error code -2147467259</comment>
+  </data>
   <data name="DELETE_MESSAGE" xml:space="preserve">
     <value>Datensatz wurde erfolgreich gelöscht!</value>
     <comment>ManagementPageBase</comment>

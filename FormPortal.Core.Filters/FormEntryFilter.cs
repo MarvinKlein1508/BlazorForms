@@ -6,5 +6,6 @@ namespace FormPortal.Core.Filters
     {
         public int UserId { get; set; }
         public bool SearchAssigned { get; set; }
+        public int StatusId { get; set; }
     }
 }

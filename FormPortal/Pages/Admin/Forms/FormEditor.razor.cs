@@ -44,6 +44,8 @@ namespace FormPortal.Pages.Admin.Forms
             InputPlaceholder = "Enter extension, add with Enter"
         };
 
+        public List<FormStatus> Statuses { get; set; } = new();
+
         private async Task<bool> ValidateFileTypeAsync(string fileType)
         {
             if (fileType.Contains('.'))
@@ -76,6 +78,8 @@ namespace FormPortal.Pages.Admin.Forms
         }
         protected override async Task OnParametersSetAsync()
         {
+            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            Statuses = await FormStatusService.GetAllAsync(dbController);
 
             if (FormId > 0)
             {
@@ -91,8 +95,15 @@ namespace FormPortal.Pages.Admin.Forms
                 EditFormProperties = true;
             }
 
+            
+
             if (Input is not null)
             {
+                if (Input.DefaultStatusId is 0)
+                {
+                    Input.DefaultStatusId = Statuses.First().Id;
+                }
+
                 StartCopy = Input.DeepCopyByExpressionTree();
             }
         }

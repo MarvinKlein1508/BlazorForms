@@ -19,6 +19,8 @@ namespace FormPortal.Core.Models
         public bool IsOnlyAvailableForLoggedInUsers { get => _isOnlyAvailableForLoggedInUsers || AllowedUsersForNewEntries.Any(); set => _isOnlyAvailableForLoggedInUsers = value; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
+        [CompareField("default_status_id")]
+        public int DefaultStatusId { get; set; }
         [CompareField("logo")]
         public byte[] Logo { get; set; } = Array.Empty<byte>();
 
@@ -47,7 +49,8 @@ namespace FormPortal.Core.Models
                 { "LOGO", Logo },
                 { "IMAGE", Image },
                 { "LOGIN_REQUIRED", IsOnlyAvailableForLoggedInUsers },
-                { "IS_ACTIVE", IsActive }
+                { "IS_ACTIVE", IsActive },
+                { "DEFAULT_STATUS_ID", DefaultStatusId }
             };
         }
 

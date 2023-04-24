@@ -43,6 +43,8 @@ namespace FormPortal
             builder.Services.AddScoped<RuleService>();
             builder.Services.AddScoped<CalcRuleService>();
             builder.Services.AddScoped<FormEntryService>();
+            builder.Services.AddScoped<FormStatusService>();
+            builder.Services.AddScoped<FormEntryStatusChangeService>();
             builder.Services.AddHotKeys2();
             builder.Services.AddLocalization(options =>
             {
@@ -82,9 +84,9 @@ namespace FormPortal
             }
 
             var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0])
-    .AddSupportedCultures(AppdatenService.SupportedCultures)
-    .AddSupportedUICultures(AppdatenService.SupportedCultures);
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
+    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
+    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
 
             app.UseRequestLocalization(localizationOptions);
 

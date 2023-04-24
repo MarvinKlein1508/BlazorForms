@@ -24,15 +24,6 @@ namespace FormPortal.Core.Interfaces
         Task UpdateAsync(T input, IDbController dbController);
 
         /// <summary>
-        /// Compares two instances of the same object and updates it in the database when the two objects are different from each other.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="oldInputToCompare"
-        /// <param name="dbController"></param>
-        /// <returns></returns>
-        Task UpdateAsync(T input, T oldInputToCompare, IDbController dbController);
-
-        /// <summary>
         /// Deletes the object from the database.
         /// </summary>
         /// <param name="input"></param>

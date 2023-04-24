@@ -189,12 +189,6 @@ WHERE user_id = @USER_ID";
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController);
         }
-
-        public Task UpdateAsync(User input, User oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
-
         public static async Task<bool> FirstUserExistsAsync(IDbController dbController)
         {
             string sql = "SELECT * FROM users";

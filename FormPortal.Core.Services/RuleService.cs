@@ -73,11 +73,5 @@ rule_id = @RULE_ID";
 
             await dbController.QueryAsync(sql, input.GetParameters());
         }
-
-        public Task UpdateAsync(Rule input, Rule oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

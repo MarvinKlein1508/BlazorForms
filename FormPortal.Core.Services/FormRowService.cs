@@ -109,9 +109,5 @@ row_id = @ROW_ID";
                 }
             }
         }
-        public Task UpdateAsync(FormRow input, FormRow oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

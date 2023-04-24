@@ -5,23 +5,16 @@ using System.Globalization;
 
 namespace FormPortal.Core.Models
 {
-    public class Permission : ILocalizedDbModel<PermissionDescription>
+    public class Permission : LocalizationModelBase<PermissionDescription>
     {
         [CompareField("permission_id")]
         public int PermissionId { get; set; }
         
         [CompareField("identifier")]
         public string Identifier { get; set; } = string.Empty;
-        public List<PermissionDescription> Description { get; set; } = new();
         public int Id => PermissionId;
 
         
-        public PermissionDescription? GetLocalization(CultureInfo culture)
-        {
-            var searchDescription =  Description.FirstOrDefault(x => x.Code.Equals(culture.TwoLetterISOLanguageName, StringComparison.InvariantCultureIgnoreCase));
-
-            return searchDescription;
-        }
 
         public IEnumerable<Dictionary<string, object?>> GetLocalizedParameters()
         {
@@ -46,7 +39,7 @@ namespace FormPortal.Core.Models
         }
     }
 
-    public class PermissionDescription
+    public class PermissionDescription : ILocalizationHelper
     {
         [CompareField("permission_id")]
         public int PermissionId { get; set; }

@@ -29,6 +29,11 @@ namespace FormPortal.Core.Models
         /// </summary>
         [CompareField("receive_email")]
         public bool EmailEnabled { get; set; }
+        /// <summary>
+        /// Used to identify form managers which are able to approve forms with approval <see cref="FormStatus"/>
+        /// </summary>
+        [CompareField("can_approve")]
+        public bool CanApprove { get; set; }
 
         public Dictionary<string, object?> GetParameters()
         {

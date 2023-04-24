@@ -25,7 +25,8 @@ description,
 logo,
 image,
 login_required,
-is_active
+is_active,
+default_status_id
 )
 VALUES
 (
@@ -34,7 +35,8 @@ VALUES
 @LOGO,
 @IMAGE,
 @LOGIN_REQUIRED,
-@IS_ACTIVE
+@IS_ACTIVE,
+@DEFAULT_STATUS_ID
 ); {dbController.GetLastIdSql()}";
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
@@ -178,6 +180,13 @@ VALUES
 
         }
         public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
+        /// <summary>
+        /// Compares two instances of the same object and updates it in the database when the two objects are different from each other.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="oldInputToCompare"
+        /// <param name="dbController"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
         {
 
@@ -188,7 +197,8 @@ description = @DESCRIPTION,
 logo = @LOGO,
 image = @IMAGE,
 login_required = @LOGIN_REQUIRED,
-is_active = @IS_ACTIVE
+is_active = @IS_ACTIVE,
+default_status_id = @DEFAULT_STATUS_ID
 WHERE
 form_id = @FORM_ID";
 
@@ -411,7 +421,7 @@ WHERE fu.form_id = @FORM_ID";
 
         private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
         {
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email FROM form_managers fm
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve FROM form_managers fm
 INNER JOIN users u ON (u.user_id = fm.user_id)
 WHERE fm.form_id = @FORM_ID";
 
@@ -684,19 +694,22 @@ VALUES
 (
 form_id,
 user_id,
-receive_email
+receive_email,
+can_approve
 )
 VALUES
 (
 @FORM_ID,
 @USER_ID,
-@RECEIVE_EMAIL
+@RECEIVE_EMAIL,
+@CAN_APPROVE
 )";
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
                     USER_ID = user.Id,
-                    RECEIVE_EMAIL = user.EmailEnabled
+                    RECEIVE_EMAIL = user.EmailEnabled,
+                    CAN_APPROVE = user.CanApprove
                 });
             }
         }

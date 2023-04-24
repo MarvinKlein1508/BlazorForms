@@ -24,7 +24,9 @@ name,
 creation_date,
 creation_user_id,
 last_change,
-last_change_user_id
+last_change_user_id,
+status_id,
+approved
 )
 VALUES
 (
@@ -33,7 +35,9 @@ VALUES
 @CREATION_DATE,
 @CREATION_USER_ID,
 @LAST_CHANGE,
-@LAST_CHANGE_USER_ID    
+@LAST_CHANGE_USER_ID,
+@STATUS_ID,
+@APPROVED
 ); {dbController.GetLastIdSql()}";
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
@@ -196,12 +200,6 @@ entry_id = @ENTRY_ID";
 
             await CreateElementsAsync(input, dbController);
         }
-
-        public Task UpdateAsync(FormEntry input, FormEntry oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController)
         {
             StringBuilder sqlBuilder = new StringBuilder();
@@ -292,6 +290,11 @@ OR u2.display_name LIKE @SEARCHPHRASE
 )");
             }
 
+            if(filter.StatusId > 0)
+            {
+                sqlBuilder.AppendLine(" AND status_id = @STATUS_ID");
+            }
+
             if (filter.UserId > 0 && !filter.SearchAssigned)
             {
                 sqlBuilder.AppendLine(@" AND creation_user_id = @USERID");
@@ -311,7 +314,8 @@ OR u2.display_name LIKE @SEARCHPHRASE
             return new Dictionary<string, object?>
             {
                 { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" },
-                { "USERID", filter.UserId }
+                { "USERID", filter.UserId },
+                { "STATUS_ID", filter.StatusId }
             };
         }
     }

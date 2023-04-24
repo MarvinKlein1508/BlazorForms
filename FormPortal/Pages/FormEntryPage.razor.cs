@@ -8,6 +8,8 @@ using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
+using System.Globalization;
+using static iText.IO.Util.IntHashtable;
 
 namespace FormPortal.Pages
 {
@@ -22,28 +24,16 @@ namespace FormPortal.Pages
 
         private User? _user;
         private bool _isSaving;
+        private bool _showStatusModal;
+        private bool _showHistory;
 
-        private async Task<bool> CanEditEntryAsync(FormEntry? entry)
-        {
-            if (entry is null)
-            {
-                return false;
-            }
 
-            bool hasEditRole = await authService.HasRole(Roles.EDIT_ENTRIES);
+        public bool IsAdmin { get; set; }
+        public bool IsCompleted { get; set; }
+        public bool IsAllowedToApprove { get; set; }
+        public bool IsManager { get; set; }
+        public bool RequiresApproval { get; set; }
 
-            if (hasEditRole)
-            {
-                return true;
-            }
-
-            if (_user is null)
-            {
-                return false;
-            }
-
-            return entry.CreationUserId == _user.UserId || entry.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId);
-        }
         protected override async Task OnParametersSetAsync()
         {
             using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
@@ -57,13 +47,15 @@ namespace FormPortal.Pages
                     Input = form;
                     FormId = Input?.FormId ?? 0;
 
-                    bool canEdit = await CanEditEntryAsync(Input);
-                    if (!canEdit)
+                    await CheckPermissionsAsync();
+                    bool canSeeEntry = _user is not null && (form.CreationUserId == _user.UserId || form.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId)) || IsAdmin;
+                    if (!canSeeEntry)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
                         navigationManager.NavigateTo("/");
                         return;
                     }
+
                 }
             }
             else if (FormId > 0)
@@ -94,7 +86,8 @@ namespace FormPortal.Pages
 
                     Input = new FormEntry(form)
                     {
-                        FormId = FormId
+                        FormId = FormId,
+                        StatusId = form.DefaultStatusId
                     };
                 }
                 else
@@ -105,7 +98,21 @@ namespace FormPortal.Pages
                 }
             }
         }
+        private async Task CheckPermissionsAsync()
+        {
+            if (Input is null || _user is null)
+            {
+                return;
+            }
 
+            IsAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
+            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id);
+            IsManager = user is not null;
+            IsAllowedToApprove = user?.CanApprove ?? false;
+            var searchStatus = AppdatenService.Get<FormStatus>(Input.StatusId);
+            IsCompleted = searchStatus?.IsCompleted ?? false;
+            RequiresApproval = searchStatus?.RequiresApproval ?? false;
+        }
         private async Task SubmitAsync()
         {
             if (_form is null || _form.EditContext is null || Input is null)
@@ -217,7 +224,32 @@ namespace FormPortal.Pages
             }
             _isSaving = false;
         }
+        private async Task OpenStatusModalAsync()
+        {
+            if (_user is null || Input is null)
+            {
+                return;
+            }
 
+            // Only admins and managers are able to change the status
+            if (!IsAdmin && !IsManager)
+            {
+                return;
+            }
+
+            if (RequiresApproval && !IsAllowedToApprove && !IsAdmin)
+            {
+                await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt den Status zu ändern, da dieser Formulareintrag eine Freigabe erfordert.");
+                return;
+            }
+
+            _showStatusModal = true;
+        }
+        private async Task OnEntryStatusSavedAsync(FormEntryStatusChange newStatus)
+        {
+            _showStatusModal = false;
+            await OnParametersSetAsync();
+        }
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
         {
             if (e.FileCount > 10)
@@ -295,6 +327,24 @@ namespace FormPortal.Pages
                 }
 
             }
+        }
+
+        private string GetStatus()
+        {
+            if (Input is null)
+            {
+                return string.Empty;
+            }
+            var status = AppdatenService.Get<FormStatus>(Input.StatusId);
+
+            if (status is null)
+            {
+                return string.Empty;
+            }
+
+            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+
+            return description?.Name ?? string.Empty;
         }
     }
 }

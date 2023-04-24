@@ -1,0 +1,34 @@
+﻿@inject FormEntryStatusChangeService statusChangeService
+@inject IDbProviderService dbProviderService
+@inject FormEntryService formEntryService
+@inject IJSRuntime jsRuntime
+@if (Input is not null)
+{
+    <EditForm Model="Input" @ref="_form">
+        <FluentValidationValidator />
+        <div class="form-floating mb-3">
+            <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="Status">
+                <option value="0">--- Auswählen ---</option>
+                @foreach (var status in AppdatenService.Statuses)
+                {
+                    var description = status.GetLocalization(CultureInfo.CurrentCulture);
+                    <option value="@status.Id">@description?.Name</option>
+                }
+            </InputSelect>
+            <label for="status-id">Status</label>
+            <ValidationMessage For="() => Input.StatusId" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputTextArea @bind-Value="Input.Comment" class="form-control" id="status-comment" placeholder="Kommentar" />
+            <label for="status-comment">Kommentar</label>
+            <ValidationMessage For="() => Input.Comment" />
+        </div>
+    </EditForm>
+
+    <div class="toolbar">
+        <button type="button" class="btn btn-danger" @onclick="async () => await OnCancel.InvokeAsync()">Abbrechen</button>
+        <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+    </div>
+}
+
+

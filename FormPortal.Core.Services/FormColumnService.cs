@@ -122,11 +122,5 @@ column_id = @COLUMN_ID";
                 }
             }
         }
-
-
-        public Task UpdateAsync(FormColumn input, FormColumn oldInputToCompare, IDbController dbController)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

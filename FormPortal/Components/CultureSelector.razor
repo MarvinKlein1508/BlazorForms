@@ -3,19 +3,15 @@
 
 <div class="culture-select">
     <select @bind="Culture" class="form-select w-auto">
-        @foreach (var culture in supportedCultures)
+        @foreach (var culture in AppdatenService.SupportedCultures)
         {
-            <option value="@culture">@culture.DisplayName</option>
+            <option value="@culture">@culture.NativeName</option>
         }
     </select>
 </div>
 @code
 {
-    private CultureInfo[] supportedCultures = new[]
-    {
-        new CultureInfo("de-de"),
-        new CultureInfo("en-us"),
-    };
+    
 
     protected override void OnInitialized()
     {
