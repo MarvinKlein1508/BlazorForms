@@ -16,10 +16,12 @@
 
     <h2>@Input.Form.Name</h2>
 
-
-    <div class="toolbar">
-        <button type="button" class="btn btn-info" @onclick="OpenStatusModalAsync">Status ändern</button>
-    </div>
+    @if (IsAdmin || IsManager)
+    {
+        <div class="toolbar">
+            <button type="button" class="btn btn-info" @onclick="OpenStatusModalAsync">Status ändern</button>
+        </div>
+    }
 
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
