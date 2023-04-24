@@ -13,7 +13,7 @@ namespace FormPortal.Core.Services
 
         public static CultureInfo[] SupportedCultures => new CultureInfo[]
         {
-            new CultureInfo("de-de"),
+            new CultureInfo("de"),
             new CultureInfo("en-US")
         };
 
