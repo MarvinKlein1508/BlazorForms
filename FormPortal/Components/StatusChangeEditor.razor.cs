@@ -3,7 +3,6 @@ using FormPortal.Core.Services;
 using DatabaseControllerProvider;
 using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 
 namespace FormPortal.Components
 {
@@ -14,13 +13,13 @@ namespace FormPortal.Components
         [Parameter, EditorRequired]
         public EventCallback OnCancel { get; set; }
         [Parameter, EditorRequired]
-        public EventCallback OnSaved { get; set; }
+        public EventCallback<FormEntryStatusChange> OnSaved { get; set; }
 
         private EditForm? _form;
 
         private async Task SaveAsync()
         {
-            if(Input is null || _form is null || _form.EditContext is null)
+            if (Input is null || _form is null || _form.EditContext is null)
             {
                 return;
             }
@@ -41,7 +40,7 @@ namespace FormPortal.Components
 
                 await jsRuntime.ShowToastAsync(ToastType.success, "Datensatz erfolgreich gespeichert");
 
-                await OnSaved.InvokeAsync();
+                await OnSaved.InvokeAsync(Input);
             }
         }
     }
