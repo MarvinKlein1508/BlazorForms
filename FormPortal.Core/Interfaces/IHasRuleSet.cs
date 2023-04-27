@@ -1,6 +1,7 @@
 ﻿using FormPortal.Core.Constants;
+using FormPortal.Core.Models;
 
-namespace FormPortal.Core.Models
+namespace FormPortal.Core.Interfaces
 {
     public interface IHasRuleSet
     {
