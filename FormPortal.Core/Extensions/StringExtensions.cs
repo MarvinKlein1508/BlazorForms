@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace FormPortal.Core
+namespace FormPortal.Core.Extensions
 {
     public static class StringExtensions
     {

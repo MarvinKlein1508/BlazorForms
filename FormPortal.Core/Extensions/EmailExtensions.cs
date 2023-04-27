@@ -2,7 +2,7 @@
 using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace FormPortal.Core
+namespace FormPortal.Core.Extensions
 {
     public static class EmailExtensions
     {

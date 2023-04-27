@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 
-namespace FormPortal.Core
+namespace FormPortal.Core.Extensions
 {
     public static class ObjectExtensions
     {
@@ -104,7 +104,7 @@ namespace FormPortal.Core
 
                     if (originalValue is string)
                     {
-                        if (String.IsNullOrWhiteSpace(originalValue as string) && String.IsNullOrWhiteSpace(vergleichValue as string))
+                        if (string.IsNullOrWhiteSpace(originalValue as string) && string.IsNullOrWhiteSpace(vergleichValue as string))
                         {
                             continue;
                         }
@@ -140,7 +140,7 @@ namespace FormPortal.Core
                     }
                     else if (originalValue.GetType().IsEnum && vergleichValue.GetType().IsEnum)
                     {
-                        if (!Enum.Equals(originalValue, vergleichValue))
+                        if (!Equals(originalValue, vergleichValue))
                         {
                             return true;
                         }
@@ -168,7 +168,7 @@ namespace FormPortal.Core
                         {
                             DateTime? originalDT = originalValue as DateTime?;
                             DateTime? vergleichDT = vergleichValue as DateTime?;
-                            if (!DateTime.Equals(originalDT, vergleichDT))
+                            if (!Equals(originalDT, vergleichDT))
                             {
                                 return true;
                             }

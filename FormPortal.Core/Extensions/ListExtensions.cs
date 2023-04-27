@@ -3,7 +3,7 @@ using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 
-namespace System.Collections.Generic
+namespace FormPortal.Core.Extensions
 {
     public static class ListExtensions
     {
