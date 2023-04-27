@@ -18,7 +18,7 @@ namespace FormPortal.Core.Pdf
         /// This value should not be changed!
         /// </para>
         /// </summary>
-        public const string LAYOUT_PATH = "Templates";
+        public const string LAYOUT_PATH = "Pdf\\Templates";
 
         /// <summary>
         /// Gets the filename of the selected layout.
