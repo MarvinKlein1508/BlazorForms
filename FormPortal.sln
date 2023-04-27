@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKEditor", "CKEditor\CKEdit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Tester", "FormPortal.Tester\FormPortal.Tester.csproj", "{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Pdf", "FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj", "{A5F51390-8967-4E84-9D74-3F74ABD1B516}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Installer", "FormPortal.Installer\FormPortal.Installer.csproj", "{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Installer.Core", "FormPortal.Installer.Core\FormPortal.Installer.Core.csproj", "{EE59B2E2-1CB1-419E-9B8A-C3EADD462A29}"
@@ -67,12 +65,6 @@ Global
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5F51390-8967-4E84-9D74-3F74ABD1B516}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU

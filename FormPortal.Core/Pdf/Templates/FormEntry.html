@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <title>{{ TITLE }}</title>
+    <!--<base href="Templates/" />-->
+
+    <link rel="stylesheet" href="CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/General.css" />
+    <link rel="stylesheet" href="CSS/FormEntry.css" />
+    {{ DISPLAY_CSS }}
+</head>
+<body>
+    <div id="footer"></div>
+    <div id="header">
+        <div class="scholz-header">
+            <div class="h-logo">
+                {{ LOGO }}
+            </div>
+
+            <div class="h-description">
+                {{ TITLE }}
+            </div>
+        </div>
+        
+        <div class="pages">
+            Seite <span class="page-number"></span>/<span class="page-count"></span>
+        </div>
+    </div>
+
+    <div class="content">
+        <section class="content">
+            {{ CONTENT }}
+        </section>
+    </div>
+</body>
+</html>

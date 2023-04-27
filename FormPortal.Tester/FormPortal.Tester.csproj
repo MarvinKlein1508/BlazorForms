@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj" />
-  </ItemGroup>
-
 </Project>
