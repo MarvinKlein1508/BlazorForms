@@ -1,4 +1,6 @@
 using BlazorDownloadFile;
+using Dapper;
+using DbController.TypeHandler;
 using FluentValidation;
 using FormPortal.Core.Services;
 using FormPortal.Core.Settings;
@@ -14,6 +16,11 @@ namespace FormPortal
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
+
             var config = builder.Configuration;
             // Add services to the container.
             builder.Services.AddRazorPages();
