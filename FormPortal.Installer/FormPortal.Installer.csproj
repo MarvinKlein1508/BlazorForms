@@ -14,7 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
+	  <ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
 	</ItemGroup>
 
 </Project>

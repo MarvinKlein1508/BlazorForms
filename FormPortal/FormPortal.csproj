@@ -35,7 +35,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\CKEditor\CKEditor.csproj" />
 		<ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
-		<ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
 		<ProjectReference Include="..\FormPortal.Installer\FormPortal.Installer.csproj" />
 		<ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
 	</ItemGroup>
