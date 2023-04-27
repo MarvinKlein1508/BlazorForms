@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Components;
-using FormPortal.Core.Services;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Models;
+using FormPortal.Core.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace FormPortal.Components
 {
@@ -9,7 +10,7 @@ namespace FormPortal.Components
     {
         [Parameter, EditorRequired]
         public int EntryId { get; set; }
-        [Parameter] 
+        [Parameter]
         public string TableClass { get; set; } = "table table-bordered bg-white table-responsive-md";
         public List<FormEntryStatusChange> History { get; set; } = new();
 
@@ -23,7 +24,7 @@ namespace FormPortal.Components
         {
             _isLoading = true;
             await Task.Yield();
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             History = await entryStatusService.GetHistoryAsync(EntryId, dbController);
             _isLoading = false;
         }

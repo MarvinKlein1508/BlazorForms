@@ -1,4 +1,5 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
+using DbController.MySql;
 using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
@@ -38,10 +39,10 @@ namespace FormPortal.Core.Services
 
         private static IConfiguration? _configuration;
 
-        public static async Task InitAsync(IConfiguration configuration, IDbProviderService dbProviderService)
+        public static async Task InitAsync(IConfiguration configuration)
         {
             _configuration = configuration;
-            using IDbController dbController = dbProviderService.GetDbController(ConnectionString);
+            using IDbController dbController = new MySqlController(ConnectionString);
             Permissions = await PermissionService.GetAllAsync(dbController);
             Statuses = await FormStatusService.GetAllAsync(dbController);
             FirstUserExists = await UserService.FirstUserExistsAsync(dbController);

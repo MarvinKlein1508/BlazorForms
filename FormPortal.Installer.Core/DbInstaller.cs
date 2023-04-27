@@ -1,7 +1,6 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
 using FormPortal.Core.Models;
 using Microsoft.AspNetCore.Identity;
-using Mysqlx.Resultset;
 
 namespace FormPortal.Installer.Core
 {

@@ -1,4 +1,5 @@
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Models;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
 using System.Globalization;
-using static iText.IO.Util.IntHashtable;
 
 namespace FormPortal.Pages
 {
@@ -36,7 +36,7 @@ namespace FormPortal.Pages
 
         protected override async Task OnParametersSetAsync()
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
 
             if (EntryId > 0)
@@ -123,7 +123,7 @@ namespace FormPortal.Pages
             _isSaving = true;
             if (_form.EditContext.Validate())
             {
-                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
                 if (Input.EntryId is 0)
                 {

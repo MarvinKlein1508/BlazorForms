@@ -1,7 +1,5 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
 using FormPortal.Core.Interfaces;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 namespace FormPortal.Core.Models
 {
@@ -9,12 +7,12 @@ namespace FormPortal.Core.Models
     {
         [CompareField("permission_id")]
         public int PermissionId { get; set; }
-        
+
         [CompareField("identifier")]
         public string Identifier { get; set; } = string.Empty;
         public int Id => PermissionId;
 
-        
+
 
         public IEnumerable<Dictionary<string, object?>> GetLocalizedParameters()
         {

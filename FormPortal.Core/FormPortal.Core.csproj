@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DbController.TypeHandler" Version="2.0.0" />
     <PackageReference Include="MailKit" Version="3.6.0" />
   </ItemGroup>
 

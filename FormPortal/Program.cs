@@ -1,5 +1,6 @@
 using BlazorDownloadFile;
-using DatabaseControllerProvider;
+using Dapper;
+using DbController.TypeHandler;
 using FluentValidation;
 using FormPortal.Core.Services;
 using FormPortal.Core.Settings;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace FormPortal
 {
@@ -16,6 +16,11 @@ namespace FormPortal
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
+
             var config = builder.Configuration;
             // Add services to the container.
             builder.Services.AddRazorPages();
@@ -32,7 +37,6 @@ namespace FormPortal
 
             builder.Services.AddBlazorDragDrop();
             builder.Services.AddBlazorDownloadFile();
-            builder.Services.AddScoped<IDbProviderService, MySqlProviderService>();
             builder.Services.AddScoped<PermissionService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<FormService>();
@@ -71,9 +75,9 @@ namespace FormPortal
             using var serviceScope = app.Services.CreateScope();
 
             var services = serviceScope.ServiceProvider;
-            var dbProviderService = services.GetRequiredService<IDbProviderService>()!;
+            
 
-            await AppdatenService.InitAsync(builder.Configuration, dbProviderService);
+            await AppdatenService.InitAsync(builder.Configuration);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

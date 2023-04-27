@@ -1,5 +1,6 @@
 using Blazor.Pagination;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
@@ -42,7 +43,7 @@ namespace FormPortal.Pages.Admin
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
             Filter.PageNumber = navigateToPage1 ? 1 : Page;
-            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
         }

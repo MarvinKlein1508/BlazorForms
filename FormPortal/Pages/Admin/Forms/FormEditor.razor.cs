@@ -1,5 +1,6 @@
 using BlazorInputTags;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FluentValidation.Results;
 using FormPortal.Core;
 using FormPortal.Core.Filters;
@@ -78,7 +79,7 @@ namespace FormPortal.Pages.Admin.Forms
         }
         protected override async Task OnParametersSetAsync()
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             Statuses = await FormStatusService.GetAllAsync(dbController);
 
             if (FormId > 0)
@@ -95,7 +96,7 @@ namespace FormPortal.Pages.Admin.Forms
                 EditFormProperties = true;
             }
 
-            
+
 
             if (Input is not null)
             {
@@ -109,7 +110,7 @@ namespace FormPortal.Pages.Admin.Forms
         }
         public async Task LoadEditModeAsync()
         {
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
             Form? form = await formService.GetAsync(FormId, dbController);
 
@@ -244,7 +245,7 @@ namespace FormPortal.Pages.Admin.Forms
 
 
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
             await dbController.StartTransactionAsync();
 
@@ -418,7 +419,7 @@ namespace FormPortal.Pages.Admin.Forms
         {
             if (Input is not null)
             {
-                using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
                 if (searchManagers)
                 {
                     FilterUser.BlockedIds = Input.ManagerUsers.Select(x => x.Id).ToList();

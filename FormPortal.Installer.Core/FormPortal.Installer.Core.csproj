@@ -11,7 +11,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DatabaseControllerProvider\DatabaseControllerProvider.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
 	</ItemGroup>
 
