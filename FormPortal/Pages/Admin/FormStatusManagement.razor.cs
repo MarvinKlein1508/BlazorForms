@@ -1,9 +1,8 @@
-using FormPortal.Core.Services;
-using DatabaseControllerProvider;
-using Blazor.Pagination;
-using FormPortal.Core.Models;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Filters;
-using Microsoft.AspNetCore.Components.Forms;
+using FormPortal.Core.Models;
+using FormPortal.Core.Services;
 
 namespace FormPortal.Pages.Admin
 {
@@ -32,7 +31,7 @@ namespace FormPortal.Pages.Admin
         protected override async Task DeleteAsync()
         {
             // Check if more than one status exist
-            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             int amount_of_statuses = await Service.GetTotalStatusAmount(dbController);
             if (amount_of_statuses > 1)
             {

@@ -1,5 +1,6 @@
 using Blazor.Pagination;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
 using FormPortal.Core.Services;
@@ -27,7 +28,7 @@ namespace FormPortal.Pages
                 Page = 1;
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
             Filter.UserId = _user?.UserId ?? 0;
             await LoadAsync();
@@ -42,7 +43,7 @@ namespace FormPortal.Pages
             Filter.HideLoginRequired = _user is null;
 
             Filter.PageNumber = Page;
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
         }

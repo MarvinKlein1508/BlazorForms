@@ -1,6 +1,6 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
+using DbController.MySql;
 using FormPortal.Core;
-using FormPortal.Core.Interfaces;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -17,10 +17,8 @@ namespace FormPortal.Pages.Admin
 #nullable disable
         [Inject] public TService Service { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
-        [Inject] public IDbProviderService DbProviderService { get; set; }
 
-        [Inject]
-        private IStringLocalizer<App> AppLocalizer { get; set; }
+        [Inject] protected IStringLocalizer<App> AppLocalizer { get; set; }
 #nullable enable
 
         protected List<T> Data { get; set; } = new();
@@ -54,7 +52,7 @@ namespace FormPortal.Pages.Admin
             {
                 return;
             }
-            using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             await dbController.StartTransactionAsync();
 
             try
@@ -88,7 +86,7 @@ namespace FormPortal.Pages.Admin
 
             if (_form.EditContext.Validate())
             {
-                using IDbController dbController = DbProviderService.GetDbController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
                 await dbController.StartTransactionAsync();
                 try
                 {

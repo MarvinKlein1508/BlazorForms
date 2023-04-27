@@ -7,7 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DatabaseControllerProvider\DatabaseControllerProvider.csproj" />
+	  <PackageReference Include="DbController" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
 		<ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />

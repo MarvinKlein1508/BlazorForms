@@ -1,6 +1,5 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
 using FormPortal.Core.Filters;
-using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using System.Text;
@@ -290,7 +289,7 @@ OR u2.display_name LIKE @SEARCHPHRASE
 )");
             }
 
-            if(filter.StatusId > 0)
+            if (filter.StatusId > 0)
             {
                 sqlBuilder.AppendLine(" AND status_id = @STATUS_ID");
             }

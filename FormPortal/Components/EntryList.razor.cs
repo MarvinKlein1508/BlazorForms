@@ -1,4 +1,5 @@
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
@@ -29,11 +30,11 @@ namespace FormPortal.Components
         public EntryListItem? SelectedForDeletion { get; set; }
 
         private List<FormStatus> Statuses { get; set; } = new();
-        
+
         protected override async Task OnParametersSetAsync()
         {
             await LoadAsync();
-            
+
             UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
             User = await authService.GetUserAsync();
         }
@@ -45,7 +46,7 @@ namespace FormPortal.Components
                 navigationManager.NavigateTo(BaseUrl);
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             Statuses = await FormStatusService.GetAllAsync(dbController);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
             Data = await formEntryService.GetAsync(Filter, dbController);
@@ -54,7 +55,7 @@ namespace FormPortal.Components
         private async Task DownloadAsync(EntryListItem item)
         {
             DownloadingList.Add(item);
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             var entry = await formEntryService.GetAsync(item.EntryId, dbController);
             if (entry is not null)
             {
@@ -81,7 +82,7 @@ namespace FormPortal.Components
                 return;
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
             await dbController.StartTransactionAsync();
 
@@ -110,8 +111,8 @@ namespace FormPortal.Components
             {
                 return true;
             }
-            
-            if(User is null)
+
+            if (User is null)
             {
                 return false;
             }

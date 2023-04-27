@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Components;
-using FormPortal.Core.Services;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Models;
+using FormPortal.Core.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace FormPortal.Components
@@ -41,7 +42,7 @@ namespace FormPortal.Components
                 return;
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             await dbController.StartTransactionAsync();
             Input.DateAdded = DateTime.Now;
 

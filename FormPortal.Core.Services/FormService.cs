@@ -1,7 +1,6 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Filters;
-using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using FormPortal.Core.Models.FormElements;
 using System.Text;
@@ -417,7 +416,7 @@ WHERE fu.form_id = @FORM_ID";
             return results;
         }
 
-        
+
 
         private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
         {

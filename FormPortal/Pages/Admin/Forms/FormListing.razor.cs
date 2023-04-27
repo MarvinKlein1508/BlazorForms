@@ -1,5 +1,6 @@
 using Blazor.Pagination;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Constants;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
@@ -38,7 +39,7 @@ namespace FormPortal.Pages.Admin.Forms
             }
 
             Filter.PageNumber = Page;
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
 
@@ -51,7 +52,7 @@ namespace FormPortal.Pages.Admin.Forms
                 return;
             }
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
             await dbController.StartTransactionAsync();
 

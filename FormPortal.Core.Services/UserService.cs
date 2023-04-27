@@ -1,6 +1,5 @@
-﻿using DatabaseControllerProvider;
+﻿using DbController;
 using FormPortal.Core.Filters;
-using FormPortal.Core.Interfaces;
 using FormPortal.Core.Models;
 using System.Text;
 
@@ -154,7 +153,7 @@ namespace FormPortal.Core.Services
 )");
             }
 
-            if(filter.BlockedIds.Any())
+            if (filter.BlockedIds.Any())
             {
                 sb.AppendLine($" AND user_id NOT IN ({string.Join(",", filter.BlockedIds)})");
             }

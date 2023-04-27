@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Components;
-using FormPortal.Core.Services;
-using DatabaseControllerProvider;
+using DbController;
+using DbController.MySql;
 using FormPortal.Core.Filters;
+using FormPortal.Core.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace FormPortal.Pages.Account
 {
@@ -25,7 +26,7 @@ namespace FormPortal.Pages.Account
 
             Filter.PageNumber = Page;
 
-            using IDbController dbController = dbProviderService.GetDbController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             var user = await authService.GetUserAsync(dbController);
             Filter.UserId = user?.UserId ?? 0;
         }

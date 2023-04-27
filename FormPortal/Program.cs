@@ -1,5 +1,4 @@
 using BlazorDownloadFile;
-using DatabaseControllerProvider;
 using FluentValidation;
 using FormPortal.Core.Services;
 using FormPortal.Core.Settings;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Plk.Blazor.DragDrop;
 using System.Reflection;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace FormPortal
 {
@@ -32,7 +30,6 @@ namespace FormPortal
 
             builder.Services.AddBlazorDragDrop();
             builder.Services.AddBlazorDownloadFile();
-            builder.Services.AddScoped<IDbProviderService, MySqlProviderService>();
             builder.Services.AddScoped<PermissionService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<FormService>();
@@ -71,9 +68,9 @@ namespace FormPortal
             using var serviceScope = app.Services.CreateScope();
 
             var services = serviceScope.ServiceProvider;
-            var dbProviderService = services.GetRequiredService<IDbProviderService>()!;
+            
 
-            await AppdatenService.InitAsync(builder.Configuration, dbProviderService);
+            await AppdatenService.InitAsync(builder.Configuration);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -34,7 +34,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CKEditor\CKEditor.csproj" />
-		<ProjectReference Include="..\DatabaseControllerProvider\DatabaseControllerProvider.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Filters\FormPortal.Core.Filters.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />

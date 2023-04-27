@@ -20,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseControllerProvider", "DatabaseControllerProvider\DatabaseControllerProvider.csproj", "{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Constants", "FormPortal.Core.Constants\FormPortal.Core.Constants.csproj", "{A4CBCA02-3E55-4B37-BAD4-E73C3D7C8454}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormPortal.Core.Interfaces", "FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj", "{8DA3E803-E671-4A1F-A1D5-CB7C4FC1E14F}"
@@ -71,12 +69,6 @@ Global
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D55BD27-2CA5-4794-A9EB-DC213906F16E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B86A930-FFEE-4F5E-BFA8-DBD329EF596C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4CBCA02-3E55-4B37-BAD4-E73C3D7C8454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4CBCA02-3E55-4B37-BAD4-E73C3D7C8454}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4CBCA02-3E55-4B37-BAD4-E73C3D7C8454}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
