@@ -70,7 +70,7 @@ namespace FormPortal
 
 
             // FluentValidation
-            builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormPortal.Core.Validators.dll")));
+            builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormPortal.Core.dll")));
             var app = builder.Build();
             using var serviceScope = app.Services.CreateScope();
 

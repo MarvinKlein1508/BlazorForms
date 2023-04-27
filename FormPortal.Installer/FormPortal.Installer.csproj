@@ -8,15 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MailKit" Version="3.6.0" />
+		<PackageReference Include="MailKit" Version="4.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
-	  <ProjectReference Include="..\FormPortal.Core.Settings\FormPortal.Core.Settings.csproj" />
-	  <ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
+	  <ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
 	</ItemGroup>
 
 </Project>

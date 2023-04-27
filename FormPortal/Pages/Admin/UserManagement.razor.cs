@@ -1,7 +1,7 @@
 using Blazor.Pagination;
 using DbController;
 using DbController.MySql;
-using FormPortal.Core;
+using FormPortal.Core.Extensions;
 using FormPortal.Core.Filters;
 using FormPortal.Core.Models;
 using FormPortal.Core.Services;
