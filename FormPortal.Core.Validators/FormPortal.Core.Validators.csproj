@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,10 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
   </ItemGroup>
 
 </Project>

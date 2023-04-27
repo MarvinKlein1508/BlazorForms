@@ -34,13 +34,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CKEditor\CKEditor.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Constants\FormPortal.Core.Constants.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Filters\FormPortal.Core.Filters.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
 		<ProjectReference Include="..\FormPortal.Core.Pdf\FormPortal.Core.Pdf.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
-		<ProjectReference Include="..\FormPortal.Core.Validators\FormPortal.Core.Validators.csproj" />
 		<ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
 		<ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
 		<ProjectReference Include="..\FormPortal.Installer\FormPortal.Installer.csproj" />

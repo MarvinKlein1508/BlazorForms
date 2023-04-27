@@ -14,8 +14,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\FormPortal.Core.Services\FormPortal.Core.Services.csproj" />
-	  <ProjectReference Include="..\FormPortal.Core.Settings\FormPortal.Core.Settings.csproj" />
 	  <ProjectReference Include="..\FormPortal.Installer.Core\FormPortal.Installer.Core.csproj" />
 	</ItemGroup>
 

@@ -19,7 +19,6 @@ namespace FormPortal.Tester
            })
            .ConfigureServices(builder =>
            {
-               builder.AddScoped<IDbProviderService>();
                builder.AddScoped<PermissionService>();
                builder.AddScoped<UserService>();
                builder.AddScoped<FormService>();

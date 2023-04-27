@@ -11,7 +11,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\FormPortal.Core.Models\FormPortal.Core.Models.csproj" />
+	  <ProjectReference Include="..\FormPortal.Core\FormPortal.Core.csproj" />
 	</ItemGroup>
+
 
 </Project>

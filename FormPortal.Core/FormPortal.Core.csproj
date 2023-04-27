@@ -9,13 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DbController" Version="2.1.0" />
+    <PackageReference Include="DbController.MySql" Version="2.1.0" />
     <PackageReference Include="DbController.TypeHandler" Version="2.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="MailKit" Version="3.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FormPortal.Core.Interfaces\FormPortal.Core.Interfaces.csproj" />
-    <ProjectReference Include="..\FormPortal.Core.Settings\FormPortal.Core.Settings.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
