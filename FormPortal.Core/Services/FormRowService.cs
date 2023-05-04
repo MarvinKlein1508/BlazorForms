@@ -14,8 +14,9 @@ namespace FormPortal.Core.Services
             _formColumnService = formColumnService;
             _ruleService = ruleService;
         }
-        public async Task CreateAsync(FormRow input, IDbController dbController)
+        public async Task CreateAsync(FormRow input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             input.Columns.SetSortOrder();
             string sql = @$"INSERT INTO form_rows
 (
@@ -32,13 +33,13 @@ VALUES
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
-            input.RowId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.RowId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             foreach (var column in input.Columns)
             {
                 column.FormId = input.FormId;
                 column.RowId = input.RowId;
-                await _formColumnService.CreateAsync(column, dbController);
+                await _formColumnService.CreateAsync(column, dbController, cancellationToken);
             }
 
             foreach (var rule in input.Rules)
@@ -47,29 +48,31 @@ VALUES
                 rule.RowId = input.RowId;
                 if (rule.RuleId is 0)
                 {
-                    await _ruleService.CreateAsync(rule, dbController);
+                    await _ruleService.CreateAsync(rule, dbController, cancellationToken);
                 }
                 else
                 {
-                    await _ruleService.UpdateAsync(rule, dbController);
+                    await _ruleService.UpdateAsync(rule, dbController, cancellationToken);
                 }
             }
         }
 
-        public async Task DeleteAsync(FormRow input, IDbController dbController)
+        public async Task DeleteAsync(FormRow input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM form_rows WHERE row_id = @ROW_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
 
-        public Task<FormRow?> GetAsync(int rowId, IDbController dbController)
+        public Task<FormRow?> GetAsync(int rowId, IDbController dbController, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(FormRow input, IDbController dbController)
+        public async Task UpdateAsync(FormRow input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             input.Columns.SetSortOrder();
             string sql = @"UPDATE form_rows SET
 form_id = @FORM_ID,
@@ -79,7 +82,7 @@ SORT_ORDER = @SORT_ORDER
 WHERE
 row_id = @ROW_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             foreach (var column in input.Columns)
             {
@@ -87,11 +90,11 @@ row_id = @ROW_ID";
                 column.RowId = input.RowId;
                 if (column.ColumnId is 0)
                 {
-                    await _formColumnService.CreateAsync(column, dbController);
+                    await _formColumnService.CreateAsync(column, dbController, cancellationToken);
                 }
                 else
                 {
-                    await _formColumnService.UpdateAsync(column, dbController);
+                    await _formColumnService.UpdateAsync(column, dbController, cancellationToken);
                 }
             }
 
@@ -101,11 +104,11 @@ row_id = @ROW_ID";
                 rule.RowId = input.RowId;
                 if (rule.RuleId is 0)
                 {
-                    await _ruleService.CreateAsync(rule, dbController);
+                    await _ruleService.CreateAsync(rule, dbController, cancellationToken);
                 }
                 else
                 {
-                    await _ruleService.UpdateAsync(rule, dbController);
+                    await _ruleService.UpdateAsync(rule, dbController, cancellationToken);
                 }
             }
         }

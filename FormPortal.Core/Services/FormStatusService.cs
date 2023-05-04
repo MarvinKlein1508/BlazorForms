@@ -7,8 +7,9 @@ namespace FormPortal.Core.Services
 {
     public class FormStatusService : IModelService<FormStatus, int, FormStatusFilter>
     {
-        public async Task CreateAsync(FormStatus input, IDbController dbController)
+        public async Task CreateAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = $@"INSERT INTO form_status
 (
     requires_approval,
@@ -22,26 +23,28 @@ VALUES
     @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
-            input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
-            await CreateOrUpdateDescriptionsAsync(input, dbController);
+            await CreateOrUpdateDescriptionsAsync(input, dbController, cancellationToken);
         }
 
-        public async Task DeleteAsync(FormStatus input, IDbController dbController)
+        public async Task DeleteAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM form_status WHERE status_id = @STATUS_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
 
-        public async Task<FormStatus?> GetAsync(int statusId, IDbController dbController)
+        public async Task<FormStatus?> GetAsync(int statusId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM form_status WHERE status_id = @STATUS_ID";
 
             var result = await dbController.GetFirstAsync<FormStatus>(sql, new
             {
                 STATUS_ID = statusId
-            });
+            }, cancellationToken);
 
             if (result is not null)
             {
@@ -49,14 +52,15 @@ VALUES
                 result.Description = await dbController.SelectDataAsync<FormStatusDescription>(sql, new
                 {
                     STATUS_ID = statusId
-                });
+                }, cancellationToken);
             }
 
             return result;
         }
 
-        public async Task<List<FormStatus>> GetAsync(FormStatusFilter filter, IDbController dbController)
+        public async Task<List<FormStatus>> GetAsync(FormStatusFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new();
             sqlBuilder.AppendLine("SELECT fs.* FROM form_status fs");
             sqlBuilder.AppendLine("LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)");
@@ -68,14 +72,14 @@ VALUES
             // Zum Debuggen schreiben wir den Wert einmal als Variabel
             string sql = sqlBuilder.ToString();
 
-            List<FormStatus> list = await dbController.SelectDataAsync<FormStatus>(sql, GetFilterParameter(filter));
+            List<FormStatus> list = await dbController.SelectDataAsync<FormStatus>(sql, GetFilterParameter(filter), cancellationToken);
 
 
             if (list.Any())
             {
                 IEnumerable<int> statusIds = list.Select(x => x.Id);
                 sql = $"SELECT * FROM form_status_description WHERE status_id IN ({string.Join(",", statusIds)})";
-                List<FormStatusDescription> descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql);
+                List<FormStatusDescription> descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql,null, cancellationToken);
 
                 foreach (var status in list)
                 {
@@ -112,8 +116,9 @@ VALUES
             return sql;
         }
 
-        public async Task<int> GetTotalAsync(FormStatusFilter filter, IDbController dbController)
+        public async Task<int> GetTotalAsync(FormStatusFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new();
             sqlBuilder.AppendLine("SELECT COUNT(*) FROM form_status fs");
             sqlBuilder.AppendLine("LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)");
@@ -122,29 +127,31 @@ VALUES
 
             string sql = sqlBuilder.ToString();
 
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
 
             return result;
         }
 
-        public async Task UpdateAsync(FormStatus input, IDbController dbController)
+        public async Task UpdateAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"UPDATE form_status SET
 requires_approval = @REQUIRES_APPROVAL,
 is_completed = @IS_COMPLETED,
 sort_order = @SORT_ORDER
 WHERE status_id = @STATUS_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
-            await CreateOrUpdateDescriptionsAsync(input, dbController);
+            await CreateOrUpdateDescriptionsAsync(input, dbController, cancellationToken);
         }
 
-        private async Task CreateOrUpdateDescriptionsAsync(FormStatus input, IDbController dbController)
+        private async Task CreateOrUpdateDescriptionsAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             // Delete all entries for this status id first
             string sql = "DELETE FROM form_status_description WHERE status_id = @STATUS_ID";
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             foreach (var parameters in input.GetLocalizedParameters())
             {
@@ -162,7 +169,7 @@ VALUES
     @NAME,
     @DESCRIPTION
 )";
-                await dbController.QueryAsync(sql, parameters);
+                await dbController.QueryAsync(sql, parameters, cancellationToken);
             }
         }
 

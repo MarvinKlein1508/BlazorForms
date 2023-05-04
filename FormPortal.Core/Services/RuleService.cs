@@ -6,8 +6,9 @@ namespace FormPortal.Core.Services
     public class RuleService : IModelService<Rule, int>
     {
 
-        public async Task CreateAsync(Rule input, IDbController dbController)
+        public async Task CreateAsync(Rule input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @$"INSERT INTO form_rules
 (
 form_id,
@@ -39,21 +40,22 @@ VALUES
 @SORT_ORDER
 ); {dbController.GetLastIdSql()}";
 
-            input.RuleId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.RuleId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
         }
 
-        public Task DeleteAsync(Rule input, IDbController dbController)
+        public Task DeleteAsync(Rule input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Rule?> GetAsync(int identifier, IDbController dbController)
+        public Task<Rule?> GetAsync(int identifier, IDbController dbController, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(Rule input, IDbController dbController)
+        public async Task UpdateAsync(Rule input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"UPDATE form_rules SET
 form_id = @FORM_ID,
 row_id = @ROW_ID,
@@ -70,7 +72,7 @@ sort_order = @SORT_ORDER
 WHERE
 rule_id = @RULE_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
     }
 }

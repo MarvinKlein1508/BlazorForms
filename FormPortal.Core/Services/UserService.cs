@@ -13,8 +13,9 @@ namespace FormPortal.Core.Services
         {
             _permissionService = permissionService;
         }
-        public async Task CreateAsync(User input, IDbController dbController)
+        public async Task CreateAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = $@"INSERT INTO users
     (
     username,
@@ -36,71 +37,76 @@ namespace FormPortal.Core.Services
     @ORIGIN
     ); {dbController.GetLastIdSql()}";
 
-            input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
-            await _permissionService.UpdateUserPermissionsAsync(input, dbController);
+            await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);
         }
 
-        public async Task DeleteAsync(User input, IDbController dbController)
+        public async Task DeleteAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM users WHERE user_id = @USER_ID";
 
             await dbController.QueryAsync(sql, new
             {
                 USER_ID = input.UserId,
-            });
+            }, cancellationToken);
         }
 
-        public async Task<User?> GetAsync(int userId, IDbController dbController)
+        public async Task<User?> GetAsync(int userId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT * FROM users WHERE user_id = @USER_ID";
 
             var user = await dbController.GetFirstAsync<User>(sql, new
             {
                 USER_ID = userId
-            });
+            }, cancellationToken);
 
             if (user is not null)
             {
-                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController);
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController, cancellationToken);
             }
 
             return user;
         }
-        public async Task<User?> GetAsync(Guid guid, IDbController dbController)
+        public async Task<User?> GetAsync(Guid guid, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT * FROM users WHERE active_directory_guid = @ACTIVE_DIRECTORY_GUID AND origin = 'ad'";
 
             var user = await dbController.GetFirstAsync<User>(sql, new
             {
                 ACTIVE_DIRECTORY_GUID = guid
-            });
+            }, cancellationToken);
 
             if (user is not null)
             {
-                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController);
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController, cancellationToken);
             }
             return user;
         }
-        public async Task<User?> GetAsync(string username, IDbController dbController)
+        public async Task<User?> GetAsync(string username, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT * FROM users WHERE UPPER(username) = UPPER(@USERNAME) AND origin = 'local'";
 
             var user = await dbController.GetFirstAsync<User>(sql, new
             {
                 USERNAME = username
-            });
+            }, cancellationToken);
 
             if (user is not null)
             {
-                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController);
+                user.Permissions = await _permissionService.GetUserPermissionsAsync(user.UserId, dbController, cancellationToken);
             }
 
             return user;
         }
 
-        public async Task<List<User>> GetAsync(UserFilter filter, IDbController dbController)
+        public async Task<List<User>> GetAsync(UserFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new();
             sqlBuilder.Append("SELECT * FROM users WHERE 1 = 1");
             sqlBuilder.AppendLine(GetFilterWhere(filter));
@@ -110,13 +116,13 @@ namespace FormPortal.Core.Services
             // Zum Debuggen schreiben wir den Wert einmal als Variabel
             string sql = sqlBuilder.ToString();
 
-            List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter));
+            List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter), cancellationToken);
 
             // Berechtigungen müssen noch geladen werden
             List<Permission> permissions = await PermissionService.GetAllAsync(dbController);
 
             sql = "SELECT * FROM user_permissions";
-            List<UserPermission> user_permissions = await dbController.SelectDataAsync<UserPermission>(sql);
+            List<UserPermission> user_permissions = await dbController.SelectDataAsync<UserPermission>(sql, null, cancellationToken);
 
             foreach (var user in list)
             {
@@ -163,30 +169,32 @@ namespace FormPortal.Core.Services
             return sql;
         }
 
-        public async Task<int> GetTotalAsync(UserFilter filter, IDbController dbController)
+        public async Task<int> GetTotalAsync(UserFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new();
             sqlBuilder.AppendLine("SELECT COUNT(*) FROM users WHERE 1 = 1");
             sqlBuilder.AppendLine(GetFilterWhere(filter));
 
             string sql = sqlBuilder.ToString();
 
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
 
             return result;
         }
 
-        public async Task UpdateAsync(User input, IDbController dbController)
+        public async Task UpdateAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"UPDATE users SET
 username = @USERNAME,
 display_name = @DISPLAY_NAME,
 email = @EMAIL
 WHERE user_id = @USER_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
-            await _permissionService.UpdateUserPermissionsAsync(input, dbController);
+            await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);
         }
         public static async Task<bool> FirstUserExistsAsync(IDbController dbController)
         {

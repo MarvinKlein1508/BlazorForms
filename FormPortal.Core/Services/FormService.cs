@@ -15,8 +15,9 @@ namespace FormPortal.Core.Services
         {
             _formRowService = formRowService;
         }
-        public async Task CreateAsync(Form input, IDbController dbController)
+        public async Task CreateAsync(Form input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             input.Rows.SetSortOrder();
             string sql = $@"INSERT INTO forms
 (
@@ -39,67 +40,70 @@ VALUES
 @DEFAULT_STATUS_ID
 ); {dbController.GetLastIdSql()}";
 
-            input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             foreach (var row in input.Rows)
             {
                 row.FormId = input.FormId;
-                await _formRowService.CreateAsync(row, dbController);
+                await _formRowService.CreateAsync(row, dbController, cancellationToken);
             }
 
-            await CreateOrUpdateFormPermissionsAsync(input, dbController);
-            await CreateOrUpdateFormManagersAsync(input, dbController);
+            await CreateOrUpdateFormPermissionsAsync(input, dbController, cancellationToken);
+            await CreateOrUpdateFormManagersAsync(input, dbController, cancellationToken);
         }
-        public async Task DeleteAsync(Form input, IDbController dbController)
+        public async Task DeleteAsync(Form input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM forms WHERE form_id = @FORM_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
-        public async Task<Form?> GetAsync(int formId, IDbController dbController)
+        public async Task<Form?> GetAsync(int formId, IDbController dbController, CancellationToken cancellationToken = default)
         {
-
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
 
             Form? form = await dbController.GetFirstAsync<Form>(sql, new
             {
                 FORM_ID = formId,
-            });
+            }, cancellationToken);
 
             if (form is not null)
             {
-                await LoadFormContentAsync(form, 0, dbController);
+                await LoadFormContentAsync(form, 0, dbController, cancellationToken);
             }
 
             return form;
         }
 
-        public async Task<Form?> GetEntryForm(int formId, int entryId, IDbController dbController)
+        public async Task<Form?> GetEntryForm(int formId, int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM forms WHERE form_id = @FORM_ID";
 
             Form? form = await dbController.GetFirstAsync<Form>(sql, new
             {
                 FORM_ID = formId,
-            });
+            }, cancellationToken);
 
             if (form is not null)
             {
-                await LoadFormContentAsync(form, entryId, dbController);
+                await LoadFormContentAsync(form, entryId, dbController, cancellationToken);
             }
 
             return form;
         }
 
-        private async Task LoadFormContentAsync(Form form, int entryId, IDbController dbController)
+        private async Task LoadFormContentAsync(Form form, int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             // Load all required data here
-            form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController);
-            form.ManagerUsers = await GetManagersForFormAsync(form, dbController);
-            List<FormRow> rows = await GetRowsAsync(form, dbController);
-            List<FormColumn> columns = await GetColumnsAsync(form, dbController);
-            List<FormElement> elements = await GetElementsAsync(form, entryId, dbController);
-            List<Rule> rules = await GetRulesAsync(form, dbController);
+            form.AllowedUsersForNewEntries = await GetAllowedUsersForNewFormEntries(form, dbController, cancellationToken);
+            form.ManagerUsers = await GetManagersForFormAsync(form, dbController, cancellationToken);
+            List<FormRow> rows = await GetRowsAsync(form, dbController, cancellationToken);
+            List<FormColumn> columns = await GetColumnsAsync(form, dbController, cancellationToken);
+            List<FormElement> elements = await GetElementsAsync(form, entryId, dbController, cancellationToken);
+            List<Rule> rules = await GetRulesAsync(form, dbController, cancellationToken);
 
 
             List<FormTableElement> tableElements = new();
@@ -145,7 +149,7 @@ VALUES
 
             if (entryId is > 0)
             {
-                List<FormEntryTableElement> tableEntries = await GetTableEntriesAsync(entryId, dbController);
+                List<FormEntryTableElement> tableEntries = await GetTableEntriesAsync(entryId, dbController, cancellationToken);
 
                 // Generate the List of values for this FormTableElement
                 foreach (var element in tableElements)
@@ -179,7 +183,7 @@ VALUES
 
 
         }
-        public Task UpdateAsync(Form input, IDbController dbController) => throw new NotImplementedException();
+        public Task UpdateAsync(Form input, IDbController dbController, CancellationToken cancellationToken = default) => throw new NotImplementedException();
         /// <summary>
         /// Compares two instances of the same object and updates it in the database when the two objects are different from each other.
         /// </summary>
@@ -187,9 +191,9 @@ VALUES
         /// <param name="oldInputToCompare"
         /// <param name="dbController"></param>
         /// <returns></returns>
-        public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController)
+        public async Task UpdateAsync(Form input, Form oldInputToCompare, IDbController dbController, CancellationToken cancellationToken = default)
         {
-
+            cancellationToken.ThrowIfCancellationRequested();
             input.Rows.SetSortOrder();
             string sql = @"UPDATE forms SET
 name = @NAME,
@@ -204,7 +208,7 @@ form_id = @FORM_ID";
 
 
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
 
 
@@ -213,11 +217,11 @@ form_id = @FORM_ID";
                 row.FormId = input.FormId;
                 if (row.RowId is 0)
                 {
-                    await _formRowService.CreateAsync(row, dbController);
+                    await _formRowService.CreateAsync(row, dbController, cancellationToken);
                 }
                 else
                 {
-                    await _formRowService.UpdateAsync(row, dbController);
+                    await _formRowService.UpdateAsync(row, dbController, cancellationToken);
                 }
             }
 
@@ -230,18 +234,19 @@ form_id = @FORM_ID";
             oldRuleIds.ExceptWith(newRuleIds);
             oldCalcRuleIds.ExceptWith(newCalcRuleIds);
 
-            await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController);
-            await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController);
-            await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController);
-            await CleanTableAsync(oldRuleIds, "form_rules", "rule_id", dbController);
-            await CleanTableAsync(oldCalcRuleIds, "form_elements_number_calc_rules", "calc_rule_id", dbController);
+            await CleanTableAsync(oldRowIds, "form_rows", "row_id", dbController, cancellationToken);
+            await CleanTableAsync(oldColumnIds, "form_columns", "column_id", dbController, cancellationToken);
+            await CleanTableAsync(oldElementIds, "form_elements", "element_id", dbController, cancellationToken);
+            await CleanTableAsync(oldRuleIds, "form_rules", "rule_id", dbController, cancellationToken);
+            await CleanTableAsync(oldCalcRuleIds, "form_elements_number_calc_rules", "calc_rule_id", dbController, cancellationToken);
 
 
-            await CreateOrUpdateFormPermissionsAsync(input, dbController);
-            await CreateOrUpdateFormManagersAsync(input, dbController);
+            await CreateOrUpdateFormPermissionsAsync(input, dbController, cancellationToken);
+            await CreateOrUpdateFormManagersAsync(input, dbController, cancellationToken);
         }
-        public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController)
+        public async Task<List<Form>> GetAsync(FormFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sb = new();
             sb.AppendLine("SELECT f.* FROM forms f");
             if (filter.UserId > 0)
@@ -255,7 +260,7 @@ form_id = @FORM_ID";
 
             string sql = sb.ToString();
 
-            List<Form> list = await dbController.SelectDataAsync<Form>(sql, GetFilterParameter(filter));
+            List<Form> list = await dbController.SelectDataAsync<Form>(sql, GetFilterParameter(filter), cancellationToken);
 
             return list;
         }
@@ -300,8 +305,9 @@ form_id = @FORM_ID";
             string sql = sb.ToString();
             return sql;
         }
-        public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController)
+        public async Task<int> GetTotalAsync(FormFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sb = new();
             sb.AppendLine("SELECT COUNT(*) FROM forms f");
             if (filter.UserId > 0)
@@ -313,7 +319,7 @@ form_id = @FORM_ID";
 
             string sql = sb.ToString();
 
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
 
             return result;
         }
@@ -380,13 +386,14 @@ form_id = @FORM_ID";
         /// <param name="identifierColumnName"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController)
+        private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = string.Empty;
             if (identifiersToDelete.Any())
             {
                 sql = $"DELETE FROM {tableName} WHERE {identifierColumnName} IN ({string.Join(",", identifiersToDelete)})";
-                await dbController.QueryAsync(sql);
+                await dbController.QueryAsync(sql, null, cancellationToken);
             }
         }
         /// <summary>
@@ -395,37 +402,40 @@ form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormRow>> GetRowsAsync(Form form, IDbController dbController)
+        private async Task<List<FormRow>> GetRowsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID ORDER BY sort_order";
 
             List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
             {
                 FORM_ID = form.FormId,
-            });
+            }, cancellationToken);
 
             return rows;
         }
-        private async Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController)
+        private async Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_to_user fu
 INNER JOIN users u ON (u.user_id = fu.user_id)
 WHERE fu.form_id = @FORM_ID";
 
-            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
+            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
 
             return results;
         }
 
 
 
-        private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController)
+        private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve FROM form_managers fm
 INNER JOIN users u ON (u.user_id = fm.user_id)
 WHERE fm.form_id = @FORM_ID";
 
-            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters());
+            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
 
             return results;
         }
@@ -435,13 +445,14 @@ WHERE fm.form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormColumn>> GetColumnsAsync(Form form, IDbController dbController)
+        private async Task<List<FormColumn>> GetColumnsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = $"SELECT * FROM form_columns WHERE form_id = @FORM_ID ORDER BY sort_order";
             List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql, new
             {
                 FORM_ID = form.FormId,
-            });
+            }, cancellationToken);
 
             return columns;
         }
@@ -451,8 +462,9 @@ WHERE fm.form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormElement>> GetElementsAsync(Form form, int entryId, IDbController dbController)
+        private async Task<List<FormElement>> GetElementsAsync(Form form, int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             List<FormElement> elements = new();
             foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
             {
@@ -501,16 +513,16 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
                     IEnumerable<FormElement> castedElements = elementType switch
                     {
-                        ElementType.Checkbox => await dbController.SelectDataAsync<FormCheckboxElement>(sql, parameters),
-                        ElementType.Date => await dbController.SelectDataAsync<FormDateElement>(sql, parameters),
-                        ElementType.File => await dbController.SelectDataAsync<FormFileElement>(sql, parameters),
-                        ElementType.Label => await dbController.SelectDataAsync<FormLabelElement>(sql, parameters),
-                        ElementType.Number => await dbController.SelectDataAsync<FormNumberElement>(sql, parameters),
-                        ElementType.Radio => await dbController.SelectDataAsync<FormRadioElement>(sql, parameters),
-                        ElementType.Select => await dbController.SelectDataAsync<FormSelectElement>(sql, parameters),
-                        ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters),
-                        ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters),
-                        ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters),
+                        ElementType.Checkbox => await dbController.SelectDataAsync<FormCheckboxElement>(sql, parameters, cancellationToken),
+                        ElementType.Date => await dbController.SelectDataAsync<FormDateElement>(sql, parameters, cancellationToken),
+                        ElementType.File => await dbController.SelectDataAsync<FormFileElement>(sql, parameters, cancellationToken),
+                        ElementType.Label => await dbController.SelectDataAsync<FormLabelElement>(sql, parameters, cancellationToken),
+                        ElementType.Number => await dbController.SelectDataAsync<FormNumberElement>(sql, parameters, cancellationToken),
+                        ElementType.Radio => await dbController.SelectDataAsync<FormRadioElement>(sql, parameters, cancellationToken),
+                        ElementType.Select => await dbController.SelectDataAsync<FormSelectElement>(sql, parameters, cancellationToken),
+                        ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters, cancellationToken),
+                        ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters, cancellationToken),
+                        ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters, cancellationToken),
                         _ => Array.Empty<FormElement>(),
                     };
 
@@ -525,7 +537,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
                             sql = $"SELECT * FROM form_elements_options WHERE element_id IN ({string.Join(",", elementIds)})";
 
-                            List<FormElementOption> options = await dbController.SelectDataAsync<FormElementOption>(sql);
+                            List<FormElementOption> options = await dbController.SelectDataAsync<FormElementOption>(sql, null, cancellationToken);
 
                             foreach (var item in optionElements)
                             {
@@ -548,12 +560,12 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                             files = await dbController.SelectDataAsync<FormFileElementFile>(sql, new
                             {
                                 ENTRY_ID = entryId
-                            });
+                            }, cancellationToken);
                         }
 
                         sql = $"SELECT * FROM form_elements_file_types WHERE element_id IN ({string.Join(",", elementIds)})";
 
-                        var acceptedFileTypes = await dbController.SelectDataAsync<(int elementId, string contentType)>(sql);
+                        var acceptedFileTypes = await dbController.SelectDataAsync<(int elementId, string contentType)>(sql, null, cancellationToken);
 
                         foreach (var item in fileElements)
                         {
@@ -573,7 +585,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
                             sql = $"SELECT * FROM form_elements_number_calc_rules WHERE element_id IN ({string.Join(",", elementIds)})";
 
-                            List<CalcRule> rules = await dbController.SelectDataAsync<CalcRule>(sql);
+                            List<CalcRule> rules = await dbController.SelectDataAsync<CalcRule>(sql, null, cancellationToken);
 
                             foreach (var item in numberElements)
                             {
@@ -599,8 +611,9 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormEntryTableElement>> GetTableEntriesAsync(int entryId, IDbController dbController)
+        private async Task<List<FormEntryTableElement>> GetTableEntriesAsync(int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (entryId <= 0)
             {
                 return new();
@@ -611,7 +624,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             List<FormEntryTableElement> entries = await dbController.SelectDataAsync<FormEntryTableElement>(sql, new
             {
                 ENTRY_ID = entryId
-            });
+            }, cancellationToken);
 
             return entries;
         }
@@ -622,14 +635,15 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<Rule>> GetRulesAsync(Form form, IDbController dbController)
+        private async Task<List<Rule>> GetRulesAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM form_rules WHERE form_id = @FORM_ID order by sort_order";
 
             List<Rule> rules = await dbController.SelectDataAsync<Rule>(sql, new
             {
                 FORM_ID = form.FormId
-            });
+            }, cancellationToken);
 
             return rules;
         }
@@ -653,13 +667,13 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             _ => string.Empty,
         };
 
-        private async Task CreateOrUpdateFormPermissionsAsync(Form input, IDbController dbController)
+        private async Task CreateOrUpdateFormPermissionsAsync(Form input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             string sql = "DELETE FROM form_to_user WHERE form_id = @FORM_ID";
             await dbController.QueryAsync(sql, new
             {
                 FORM_ID = input.FormId
-            });
+            }, cancellationToken);
 
             foreach (var user in input.AllowedUsersForNewEntries)
             {
@@ -677,16 +691,17 @@ VALUES
                 {
                     FORM_ID = input.Id,
                     USER_ID = user.Id
-                });
+                }, cancellationToken);
             }
         }
-        private async Task CreateOrUpdateFormManagersAsync(Form input, IDbController dbController)
+        private async Task CreateOrUpdateFormManagersAsync(Form input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM form_managers WHERE form_id = @FORM_ID";
             await dbController.QueryAsync(sql, new
             {
                 FORM_ID = input.FormId
-            });
+            }, cancellationToken);
 
             foreach (var user in input.ManagerUsers)
             {
@@ -710,7 +725,7 @@ VALUES
                     USER_ID = user.Id,
                     RECEIVE_EMAIL = user.EmailEnabled,
                     CAN_APPROVE = user.CanApprove
-                });
+                }, cancellationToken);
             }
         }
     }

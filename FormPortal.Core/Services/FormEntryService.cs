@@ -14,8 +14,9 @@ namespace FormPortal.Core.Services
         {
             _formService = formService;
         }
-        public async Task CreateAsync(FormEntry input, IDbController dbController)
+        public async Task CreateAsync(FormEntry input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = $@"INSERT INTO form_entries
 (
 form_id,
@@ -39,12 +40,13 @@ VALUES
 @APPROVED
 ); {dbController.GetLastIdSql()}";
 
-            input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters());
+            input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
-            await CreateElementsAsync(input, dbController);
+            await CreateElementsAsync(input, dbController, cancellationToken);
         }
-        private async Task CreateElementsAsync(FormEntry input, IDbController dbController)
+        private async Task CreateElementsAsync(FormEntry input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = string.Empty;
             foreach (var element in input.Form.GetElements())
             {
@@ -69,7 +71,7 @@ VALUES
 @VALUE_NUMBER,
 @VALUE_DATE
 )";
-                await dbController.QueryAsync(sql, element.GetParameters());
+                await dbController.QueryAsync(sql, element.GetParameters(), cancellationToken);
 
                 if (element is FormTableElement tableElement)
                 {
@@ -105,7 +107,7 @@ VALUES
                             var parameters = row_element.GetParameters();
                             parameters.Add("TABLE_ROW_NUMBER", rowNumber);
 
-                            await dbController.GetFirstAsync<int>(sql, parameters);
+                            await dbController.GetFirstAsync<int>(sql, parameters, cancellationToken);
                         }
 
                         rowNumber++;
@@ -135,36 +137,38 @@ VALUES
 @FILENAME
 ); {dbController.GetLastIdSql()}";
 
-                        file.FileId = await dbController.GetFirstAsync<int>(sql, file.GetParameters());
+                        file.FileId = await dbController.GetFirstAsync<int>(sql, file.GetParameters(), cancellationToken);
                     }
                 }
             }
         }
 
-        public Task DeleteAsync(FormEntry input, IDbController dbController)
+        public Task DeleteAsync(FormEntry input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
-        public async Task DeleteAsync(EntryListItem input, IDbController dbController)
+        public async Task DeleteAsync(EntryListItem input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM form_entries WHERE entry_id = @ENTRY_ID";
             await dbController.QueryAsync(sql, new
             {
                 ENTRY_ID = input.EntryId
-            });
+            }, cancellationToken);
         }
-        public async Task<FormEntry?> GetAsync(int entryId, IDbController dbController)
+        public async Task<FormEntry?> GetAsync(int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"SELECT * FROM form_entries WHERE entry_id = @ENTRY_ID";
 
             FormEntry? entry = await dbController.GetFirstAsync<FormEntry>(sql, new
             {
                 ENTRY_ID = entryId
-            });
+            }, cancellationToken);
 
             if (entry is not null)
             {
-                entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController) ?? new();
+                entry.Form = await _formService.GetEntryForm(entry.FormId, entryId, dbController, cancellationToken) ?? new();
                 entry.Form.EntryMode = true;
 
             }
@@ -172,8 +176,9 @@ VALUES
             return entry;
         }
 
-        public async Task UpdateAsync(FormEntry input, IDbController dbController)
+        public async Task UpdateAsync(FormEntry input, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string sql = @"UPDATE form_entries SET
 name = @NAME,
 last_change = @LAST_CHANGE,
@@ -181,7 +186,7 @@ last_change_user_id = @LAST_CHANGE_USER_ID
 WHERE
 entry_id = @ENTRY_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             // Remove all entry_elements and insert everything again
             // Removing in the base table results in all other being deleted automatically
@@ -194,13 +199,14 @@ entry_id = @ENTRY_ID";
 
             foreach (var deleteSql in deleteSqls)
             {
-                await dbController.QueryAsync(deleteSql, input.GetParameters());
+                await dbController.QueryAsync(deleteSql, input.GetParameters(), cancellationToken);
             }
 
-            await CreateElementsAsync(input, dbController);
+            await CreateElementsAsync(input, dbController, cancellationToken);
         }
-        public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController)
+        public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.AppendLine($@"SELECT DISTINCT fe.*, 
 COALESCE(u1.display_name, '') AS username_creator, 
@@ -223,7 +229,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
             string sql = sqlBuilder.ToString();
 
-            List<EntryListItem> entries = await dbController.SelectDataAsync<EntryListItem>(sql, GetFilterParameter(filter));
+            List<EntryListItem> entries = await dbController.SelectDataAsync<EntryListItem>(sql, GetFilterParameter(filter), cancellationToken);
 
             // We need the managers to be able to check for delete permissions
             if (entries.Any())
@@ -232,7 +238,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
                 sql = $@"SELECT * FROM form_managers WHERE form_id IN ({string.Join(",", formIds)})";
 
-                List<FormManagerMapping> mappings = await dbController.SelectDataAsync<FormManagerMapping>(sql);
+                List<FormManagerMapping> mappings = await dbController.SelectDataAsync<FormManagerMapping>(sql, null, cancellationToken);
 
                 if (mappings.Any())
                 {
@@ -247,8 +253,9 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
             return entries;
         }
 
-        public async Task<int> GetTotalAsync(FormEntryFilter filter, IDbController dbController)
+        public async Task<int> GetTotalAsync(FormEntryFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             StringBuilder sqlBuilder = new StringBuilder();
 
             sqlBuilder.AppendLine(@$"SELECT COUNT(DISTINCT(fe.entry_id))
@@ -269,7 +276,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
             string sql = sqlBuilder.ToString();
 
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter));
+            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
 
             return result;
         }
