@@ -108,7 +108,7 @@ namespace FormPortal.Components
                     if (Input.NotifyApprovers)
                     {
                         // Don't send emails to yourself
-                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove && (User is null || x.UserId != User.Id)).Select(x => x.Email)).Select(x => x.Email));
+                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove && (User is null || x.UserId != User.Id)).Select(x => x.Email));
                     }
 
                     if (email_addresses.Any())
