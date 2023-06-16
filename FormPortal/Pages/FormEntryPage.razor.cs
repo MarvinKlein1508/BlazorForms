@@ -140,71 +140,6 @@ namespace FormPortal.Pages
                     if (Input.EntryId is 0)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
-
-                        if (emailConfig.Value.Enabled && Input.Form.ManagerUsers.Any())
-                        {
-                            MimeMessage email = new MimeMessage();
-                            email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
-                            foreach (var manager in Input.Form.ManagerUsers)
-                            {
-                                if (manager.EmailEnabled && StringExtensions.IsEmail(manager.Email))
-                                {
-                                    email.To.Add(new MailboxAddress(manager.Email, manager.Email));
-
-                                }
-                            }
-
-                            if (email.To.Any())
-                            {
-                                email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
-
-                                ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
-                                var bytes = entry.GetBytes();
-
-                                var body = new TextPart("html")
-                                {
-                                    Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
-                                };
-
-                                string filename = Input.Name;
-
-                                if (string.IsNullOrWhiteSpace(filename))
-                                {
-                                    filename = $"{Input.Form.Name}_{Input.EntryId}";
-                                }
-
-                                using MemoryStream memoryStream = new MemoryStream(bytes);
-                                // create an image attachment for the file located at path
-                                var attachment = new MimePart("application", "pdf")
-                                {
-                                    Content = new MimeContent(memoryStream),
-                                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                                    ContentTransferEncoding = ContentEncoding.Base64,
-                                    FileName = $"{filename}.pdf"
-                                };
-
-                                // now create the multipart/mixed container to hold the message text and the
-                                // image attachment
-                                var multipart = new Multipart("mixed")
-                                {
-                                    body,
-                                    attachment
-                                };
-
-                                // now set the multipart/mixed as the message body
-                                email.Body = multipart;
-
-                                try
-                                {
-                                    EmailExtensions.SendMail(email, emailConfig.Value);
-
-                                }
-                                catch (Exception ex)
-                                {
-                                    await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
-                                }
-                            }
-                        }
                     }
                     else
                     {
@@ -212,7 +147,7 @@ namespace FormPortal.Pages
                     }
 
                     await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich gespeichert");
+                    
 
                 }
                 catch (Exception)
@@ -220,6 +155,81 @@ namespace FormPortal.Pages
                     await dbController.RollbackChangesAsync();
                     throw;
                 }
+
+                // E-Mail support
+                if (emailConfig.Value.Enabled && Input.Form.ManagerUsers.Any())
+                {
+                    MimeMessage email = new MimeMessage();
+                    email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
+
+                    var status = AppdatenService.Get<FormStatus>(Input.Form.DefaultStatusId) ?? throw new NullReferenceException($"Status cannot be null");
+
+                    foreach (var manager in Input.Form.ManagerUsers)
+                    {
+                        // When the default status requires someone with approval permissions we'll should only notify people with this permission
+                        if (!status.RequiresApproval || (status.RequiresApproval && manager.CanApprove))
+                        {
+                            if (manager.EmailEnabled && StringExtensions.IsEmail(manager.Email))
+                            {
+                                email.To.Add(new MailboxAddress(manager.Email, manager.Email));
+
+                            }
+                        }
+                    }
+
+                    if (email.To.Any())
+                    {
+                        email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
+
+                        ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
+                        var bytes = entry.GetBytes();
+
+                        var body = new TextPart("html")
+                        {
+                            Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
+                        };
+
+                        string filename = Input.Name;
+
+                        if (string.IsNullOrWhiteSpace(filename))
+                        {
+                            filename = $"{Input.Form.Name}_{Input.EntryId}";
+                        }
+
+                        using MemoryStream memoryStream = new MemoryStream(bytes);
+                        // create an image attachment for the file located at path
+                        var attachment = new MimePart("application", "pdf")
+                        {
+                            Content = new MimeContent(memoryStream),
+                            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                            ContentTransferEncoding = ContentEncoding.Base64,
+                            FileName = $"{filename}.pdf"
+                        };
+
+                        // now create the multipart/mixed container to hold the message text and the
+                        // image attachment
+                        var multipart = new Multipart("mixed")
+                                {
+                                    body,
+                                    attachment
+                                };
+
+                        // now set the multipart/mixed as the message body
+                        email.Body = multipart;
+
+                        try
+                        {
+                            EmailExtensions.SendMail(email, emailConfig.Value);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
+                        }
+                    }
+                }
+
+                await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich gespeichert");
                 navigationManager.NavigateTo("/");
             }
             _isSaving = false;
