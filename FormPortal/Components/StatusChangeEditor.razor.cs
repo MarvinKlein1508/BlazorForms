@@ -93,7 +93,7 @@ namespace FormPortal.Components
 
                             if (user is not null)
                             {
-                                await Input.SendFormEntryToCreatorAsync(user.Email, Entry, navigationManager.BaseUri, emailSettings.Value);
+                                await Input.SendMailForEntryStatusChangeAsync(new() { user.Email }, Entry, navigationManager.BaseUri, emailSettings.Value);
                             }
                         }
                     }
@@ -104,7 +104,7 @@ namespace FormPortal.Components
 
                         if (email_addresses.Any())
                         {
-                            await Input.SendFormEntryToManagersAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
+                            await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
                         }
                     }
 
@@ -114,7 +114,7 @@ namespace FormPortal.Components
 
                         if (email_addresses.Any())
                         {
-                            await Input.SendFormEntryToApproversAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
+                            await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
                         }
                     }
                 }
