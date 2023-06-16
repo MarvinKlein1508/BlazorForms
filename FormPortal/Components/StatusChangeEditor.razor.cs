@@ -1,9 +1,12 @@
 using DbController;
 using DbController.MySql;
+using FormPortal.Core.Extensions;
 using FormPortal.Core.Models;
+using FormPortal.Core.Pdf;
 using FormPortal.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MimeKit;
 
 namespace FormPortal.Components
 {
@@ -79,13 +82,44 @@ namespace FormPortal.Components
                 }
 
 
+                // Send E-Mails
+                if (emailSettings.Value.Enabled && (Input.NotifyCreator || Input.NotifyManagers || Input.NotifyApprovers))
+                {
+                    if (Input.NotifyCreator)
+                    {
+                        if (Entry.CreationUserId != null)
+                        {
+                            User? user = await userService.GetAsync((int)Entry.CreationUserId, dbController);
 
+                            if (user is not null)
+                            {
+                                await Input.SendFormEntryToCreatorAsync(user.Email, Entry, navigationManager.BaseUri, emailSettings.Value);
+                            }
+                        }
+                    }
 
+                    if (Input.NotifyManagers)
+                    {
+                        var email_addresses = Entry.Form.ManagerUsers.Where(x => x.EmailEnabled).Select(x => x.Email).ToList();
 
+                        if (email_addresses.Any())
+                        {
+                            await Input.SendFormEntryToManagersAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
+                        }
+                    }
 
+                    if (Input.NotifyApprovers)
+                    {
+                        var email_addresses = Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove).Select(x => x.Email).ToList();
+
+                        if (email_addresses.Any())
+                        {
+                            await Input.SendFormEntryToApproversAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
+                        }
+                    }
+                }
 
                 await jsRuntime.ShowToastAsync(ToastType.success, "Datensatz erfolgreich gespeichert");
-
                 await OnSaved.InvokeAsync(Input);
             }
         }

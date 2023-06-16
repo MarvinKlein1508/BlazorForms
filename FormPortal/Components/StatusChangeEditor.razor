@@ -1,6 +1,9 @@
 ﻿@inject FormEntryStatusChangeService statusChangeService
 @inject FormEntryService formEntryService
+@inject UserService userService
+@inject NavigationManager navigationManager
 @inject IJSRuntime jsRuntime
+@inject IOptions<EmailSettings> emailSettings
 @if (Input is not null)
 {
     <EditForm Model="Input" @ref="_form">
@@ -21,6 +24,28 @@
             <InputTextArea @bind-Value="Input.Comment" class="form-control" id="status-comment" placeholder="Kommentar" />
             <label for="status-comment">Kommentar</label>
             <ValidationMessage For="() => Input.Comment" />
+        </div>
+
+        <div class="form-check">
+            <div class="checkbox">
+                <InputCheckbox @bind-Value="Input.NotifyCreator" id="status-notify-creator" class="form-check-input" />
+                <label for="status-notify-creator">Ersteller benachrichtigen</label>
+                <ValidationMessage For="() => Input.NotifyCreator" />
+            </div>
+        </div>
+        <div class="form-check">
+            <div class="checkbox">
+                <InputCheckbox @bind-Value="Input.NotifyManagers" id="status-notify-managers" class="form-check-input" />
+                <label for="status-notify-managers">Bearbeiter benachrichtigen</label>
+                <ValidationMessage For="() => Input.NotifyManagers" />
+            </div>
+        </div>
+        <div class="form-check">
+            <div class="checkbox">
+                <InputCheckbox @bind-Value="Input.NotifyApprovers" id="status-notify-approvers" class="form-check-input" />
+                <label for="status-notify-approvers">Freigeber benachrichtigen</label>
+                <ValidationMessage For="() => Input.NotifyApprovers" />
+            </div>
         </div>
     </EditForm>
 
