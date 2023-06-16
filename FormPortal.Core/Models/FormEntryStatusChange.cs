@@ -16,6 +16,14 @@ namespace FormPortal.Core.Models
         public string Comment { get; set; } = string.Empty;
         [CompareField("date_added")]
         public DateTime DateAdded { get; set; }
+        [CompareField("notify_creator")]
+        public bool NotifyCreator { get; set; }
+        [CompareField("notify_managers")]
+        public bool NotifyManagers { get; set; }
+        [CompareField("notify_approvers")]
+        public bool NotifyApprovers { get; set; }
+
+
 
         [CompareField("display_name")]
         public string Username { get; set; } = string.Empty;
@@ -29,7 +37,10 @@ namespace FormPortal.Core.Models
                 { "STATUS_ID", StatusId },
                 { "USER_ID", UserId },
                 { "COMMENT", Comment },
-                { "DATE_ADDED", DateAdded }
+                { "DATE_ADDED", DateAdded },
+                { "NOTIFY_CREATOR", NotifyCreator },
+                { "NOTIFY_MANAGERS", NotifyManagers },
+                { "NOTIFY_APPROVERS", NotifyApprovers }
             };
         }
     }

@@ -13,7 +13,10 @@ entry_id = @ENTRY_ID,
 status_id = @STATUS_ID,
 user_id = @USER_ID,
 comment = @COMMENT,
-date_added = @DATE_ADDED; {dbController.GetLastIdSql()}";
+date_added = @DATE_ADDED,
+notify_creator = @NOTIFY_CREATOR,
+notify_managers = @NOTIFY_MANAGERS,
+notify_approvers = @NOTIFY_APPROVERS; {dbController.GetLastIdSql()}";
 
             input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
         }
