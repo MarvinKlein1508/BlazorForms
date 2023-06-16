@@ -56,7 +56,16 @@ date_added = @DATE_ADDED; {dbController.GetLastIdSql()}";
 
         public async Task<List<FormEntryStatusChange>> GetHistoryAsync(int entryId, IDbController dbController)
         {
-            string sql = "SELECT * FROM form_entry_history WHERE entry_id = @ENTRY_ID ORDER BY history_id DESC";
+            string sql =
+"""
+SELECT 
+    feh.*,
+    u.display_name
+FROM form_entry_history feh 
+LEFT JOIN users u ON (u.user_id = feh.user_id)
+WHERE entry_id = @ENTRY_ID 
+ORDER BY history_id DESC
+""";
 
             var list = await dbController.SelectDataAsync<FormEntryStatusChange>(sql, new
             {

@@ -17,6 +17,9 @@ namespace FormPortal.Core.Models
         [CompareField("date_added")]
         public DateTime DateAdded { get; set; }
 
+        [CompareField("display_name")]
+        public string Username { get; set; } = string.Empty;
+
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

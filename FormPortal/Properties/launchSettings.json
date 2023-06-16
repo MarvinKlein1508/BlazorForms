@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://mkw10:7186;http://mkw10:5226"
+      "applicationUrl": "https://mkw11:7186;http://mkw11:5226"
     }
   },
   "iisSettings": {

@@ -1,3 +1,6 @@
+#if DEBUG
+#define DEBUGKLEIN
+#endif
 using BlazorDownloadFile;
 using Dapper;
 using DbController.TypeHandler;
