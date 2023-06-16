@@ -41,13 +41,14 @@ namespace FormPortal.Core.Extensions
             email.From.Add(new MailboxAddress(settings.SenderName, settings.SenderEmail));
             foreach (var emailAdress in emailAdresses)
             {
-                if (StringExtensions.IsEmail(emailAdress))
+                bool hasBeenAddedAlready = email.Bcc.Cast<MailboxAddress>().Any(x => x.Address == emailAdress);
+                if (!hasBeenAddedAlready && StringExtensions.IsEmail(emailAdress))
                 {
-                    email.To.Add(new MailboxAddress(emailAdress, emailAdress));
+                    email.Bcc.Add(new MailboxAddress(emailAdress, emailAdress));
                 }
             }
 
-            if (email.To.Any())
+            if (email.Bcc.Any())
             {
                 email.Subject = $"Statusänderung des Formulareintrags {entry.Name} ({entry.Id})";
 

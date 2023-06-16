@@ -85,6 +85,7 @@ namespace FormPortal.Components
                 // Send E-Mails
                 if (emailSettings.Value.Enabled && (Input.NotifyCreator || Input.NotifyManagers || Input.NotifyApprovers))
                 {
+                    List<string> email_addresses = new();
                     if (Input.NotifyCreator)
                     {
                         if (Entry.CreationUserId != null)
@@ -93,29 +94,26 @@ namespace FormPortal.Components
 
                             if (user is not null)
                             {
-                                await Input.SendMailForEntryStatusChangeAsync(new() { user.Email }, Entry, navigationManager.BaseUri, emailSettings.Value);
+                                email_addresses.Add(user.Email);    
                             }
                         }
                     }
 
                     if (Input.NotifyManagers)
                     {
-                        var email_addresses = Entry.Form.ManagerUsers.Where(x => x.EmailEnabled).Select(x => x.Email).ToList();
-
-                        if (email_addresses.Any())
-                        {
-                            await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
-                        }
+                        // Don't send emails to yourself
+                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && (User is null || x.UserId != User.Id)).Select(x => x.Email));
                     }
 
                     if (Input.NotifyApprovers)
                     {
-                        var email_addresses = Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove).Select(x => x.Email).ToList();
+                        // Don't send emails to yourself
+                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove && (User is null || x.UserId != User.Id)).Select(x => x.Email)).Select(x => x.Email));
+                    }
 
-                        if (email_addresses.Any())
-                        {
-                            await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
-                        }
+                    if (email_addresses.Any())
+                    {
+                        await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
                     }
                 }
 
