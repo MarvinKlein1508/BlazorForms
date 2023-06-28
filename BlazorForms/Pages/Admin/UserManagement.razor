@@ -81,7 +81,15 @@
 }
 else
 {
-    <h3>@String.Format(localizer["MODAL_EDIT_TITLE"], Input.DisplayName)</h3>
+    @if(Input.Id > 0)
+    {
+        <h3>@String.Format(localizer["EDIT_USER_TITLE"], Input.DisplayName)</h3>
+    }
+    else
+    {
+        <h3>@localizer["NEW_USER_TITLE"]</h3>        
+    }
+
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <ValidationSummary />

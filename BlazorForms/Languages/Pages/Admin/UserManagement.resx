@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EDIT_USER_TITLE" xml:space="preserve">
+    <value>{0} bearbeiten</value>
+  </data>
   <data name="HEADING_PERMISSIONS" xml:space="preserve">
     <value>Berechtigungen</value>
   </data>
@@ -138,8 +141,8 @@
   <data name="MODAL_DELETE_TITLE" xml:space="preserve">
     <value>Benutzer löschen?</value>
   </data>
-  <data name="MODAL_EDIT_TITLE" xml:space="preserve">
-    <value>{0} bearbeiten</value>
+  <data name="NEW_USER_TITLE" xml:space="preserve">
+    <value>Benutzer hinzufügen</value>
   </data>
   <data name="PAGETITLE" xml:space="preserve">
     <value>Benutzerverwaltung</value>
