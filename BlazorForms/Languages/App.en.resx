@@ -153,6 +153,9 @@
     <value>New record</value>
     <comment>ManagementPageBase</comment>
   </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="SAVE_MESSAGE" xml:space="preserve">
     <value>Record was saved successfully!</value>
     <comment>ManagementPageBase</comment>
@@ -160,5 +163,8 @@
   <data name="SELECT_CHOOSE" xml:space="preserve">
     <value>--- Select ---</value>
     <comment>Default text for blank option of select elements</comment>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

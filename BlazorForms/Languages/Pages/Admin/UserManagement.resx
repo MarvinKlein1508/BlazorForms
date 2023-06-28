@@ -135,6 +135,9 @@
   <data name="INPUT_USERNAME" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="MODAL_DELETE_SUCCESS" xml:space="preserve">
+    <value>Der Benutzer wurde erfolgreich gelöscht</value>
+  </data>
   <data name="MODAL_DELETE_TEXT" xml:space="preserve">
     <value>Möchten Sie den Benutzer "{0}" wirklich löschen?</value>
   </data>

@@ -37,7 +37,7 @@
                                     <td>@description?.Name</td>
                                     <td>@description?.Description</td>
                                     <td class="text-right">
-                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
+                                        <span class="aktion-icon" role="button" @onclick="() => {}">
                                             <i class="fa-solid fa-trash"></i>
                                         </span>
 
@@ -124,11 +124,11 @@
     </Modal>
 }
 
-@if (SelectedForDeletion is not null)
+@*@if (SelectedForDeletion is not null)
 {
     <ConfirmModal Title="Status löschen?"
                   OnClosed="() => SelectedForDeletion = null"
                   OnConfirmed="DeleteAsync">
         <p>Möchten Sie den Status wirklich löschen?</p>
     </ConfirmModal>
-}
+}*@
