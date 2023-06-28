@@ -1,90 +1,52 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
+@inject AuthService authService
 @using System.Runtime.InteropServices
 
-<PageTitle>Formularportal</PageTitle>
+<PageTitle>BlazorForms</PageTitle>
 
 
+<div class="bb-page">
 
-<div id="app">
-    <div id="sidebar" class="@(ShowMenu ? "active" : string.Empty)">
-        <div class="sidebar-wrapper active">
-            <div class="sidebar-header position-relative">
-                <div class="d-flex justify-content-between align-items-center">
-                    
-                    <div role="button" class="sidebar-toggler  x">
-                        <span class="sidebar-hide d-xl-none d-block" @onclick="TriggerMenuAsync"><i class="fa-solid fa-xmark"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar-menu">
-                <NavMenu />
-            </div>
-        </div>
-    </div>
-    <div id="main">
+    <Sidebar @ref="_sidebar"
+             Title="BlazorForms"
+             BadgeText="@($"v{Program.GetVersion()}")"
+             DataProvider="SidebarDataProvider" />
 
-        <header class="mb-3 d-block d-xl-none">
-            <span role="button" @onclick="TriggerMenuAsync" class="burger-btn d-block d-xl-none menu-button">
-                <i class="fa-solid fa-bars"></i>
-            </span>
-        </header>
 
-        <div class="page-content">
-            <section class="row">
+    <main>
+        <article class="content px-4">
+            <div class="py-2">
                 @Body
-            </section>
-        </div>
-
-        <footer>
-            <div class="culture-wrapper mb-3">
-                <CultureSelector />
             </div>
-            <div class="footer clearfix mb-0 text-muted">
+        </article>
 
-                <p>
-                    Entwickelt mit <span class="text-danger"><i class="fa-solid fa-heart"></i></span> by Marvin Klein
-                </p>
+        <footer class="px-4 text-muted">
 
-                <p class="text-center">
-                    Ver. @Program.GetVersion()
-                    <div>@RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture</div>
-                </p>
 
-                <p class="text-right">
-                    @DateTime.Now.Year &copy; Marvin Klein
-                </p>
-            </div>
+            <p>
+                Entwickelt mit <span class="text-danger"><Icon Name="IconName.HeartFill" /></span> by Marvin Klein
+            </p>
+
+            <p class="text-center">
+                Ver. @Program.GetVersion()
+                <div>@RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture</div>
+            </p>
+
+            <p class="text-right">
+                @DateTime.Now.Year &copy; Marvin Klein
+            </p>
+
+
         </footer>
-    </div>
+    </main>
 </div>
 
 
 
 
 
-@code {
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync("blazorHelpers.startUp");
-            ShowMenu = await JSRuntime.InvokeAsync<bool>("blazorHelpers.isDesktop");
-            StateHasChanged();
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    private async Task TriggerMenuAsync()
-    {
-        bool isDesktop = await JSRuntime.InvokeAsync<bool>("blazorHelpers.isDesktop");
-        ShowMenu = !ShowMenu;
-    }
-
-    public bool ShowMenu { get; set; }
-}
 
 
 
