@@ -3,107 +3,109 @@
 @inject IBlazorDownloadFileService downloadService
 @inject IJSRuntime jsRuntime
 @inject AuthService authService
-<div class="col-lg-3 col-sm-12 order-lg-3">
-    <div class="card">
-        <div class="card-header">
-            <h4>Filter</h4>
-        </div>
-        <div class="card-content" style="padding: 0 1.3rem;">
-            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
-                    <label for="form-filter-searchphrase">Suchbegriff</label>
-                </div>
 
-                <div class="form-floating mb-3">
-                    <InputSelect @bind-Value="Filter.StatusId" class="form-select" id="form-filter-status" aria-placeholder="Status">
-                        <option value="0">Alle</option>
-                        @foreach (var status in Statuses)
-                        {
-                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                            <option value="@status.Id">@description?.Name</option>
-                        }
-                    </InputSelect>
-                    <label for="form-filter-status">Status</label>
-                    <ValidationMessage For="() => Filter.StatusId" />
-                </div>
+<div class="row">
+    <div class="col-lg-3 col-sm-12 order-lg-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>Filter</h4>
+            </div>
+            <div class="card-content" style="padding: 0 1.3rem;">
+                <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
+                        <label for="form-filter-searchphrase">Suchbegriff</label>
+                    </div>
 
-                <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">Suchen</button>
-                </div>
+                    <div class="form-floating mb-3">
+                        <InputSelect @bind-Value="Filter.StatusId" class="form-select" id="form-filter-status" aria-placeholder="Status">
+                            <option value="0">Alle</option>
+                            @foreach (var status in Statuses)
+                            {
+                                var description = status.GetLocalization(CultureInfo.CurrentCulture);
+                                <option value="@status.Id">@description?.Name</option>
+                            }
+                        </InputSelect>
+                        <label for="form-filter-status">Status</label>
+                        <ValidationMessage For="() => Filter.StatusId" />
+                    </div>
 
-            </EditForm>
+                    <div class="toolbar">
+                        <button type="submit" class="btn btn-primary">Suchen</button>
+                    </div>
+
+                </EditForm>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-lg-9 col-sm-12">
+    <div class="col-lg-9 col-sm-12">
 
-    <div class="card">
-        <div class="card-content">
-            <!-- Table with no outer spacing -->
-            <div class="table-responsive">
-                <table class="table mb-0 table-lg">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Formular</th>
-                            <th>Dokumentenname</th>
-                            <th>Anlagedatum</th>
-                            <th>Anlageuser</th>
-                            <th>Letzte Änderung</th>
-                            <th>Letzter Bearbeiter</th>
-                            <th class="text-right">AKTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Virtualize Items="Data" Context="item">
+        <div class="card">
+            <div class="card-content">
+                <!-- Table with no outer spacing -->
+                <div class="table-responsive">
+                    <table class="table mb-0 table-lg">
+                        <thead>
                             <tr>
-                                <td>@item.EntryId</td>
-                                <td>@item.FormName</td>
-                                <td>@item.Name</td>
-                                <td>@item.CreationDate.ToShortDateString()</td>
-                                <td>@item.UsernameCreator</td>
-                                <td>@item.LastChange.ToString()</td>
-                                <td>@item.UsernameLastChange</td>
-                                <td class="text-right text-nowrap">
-                                    @if (CanDeleteEntry(item))
-                                    {
-                                        <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
-                                    }
-
-                                    @if (DownloadingList.Contains(item))
-                                    {
-                                        <LoadingButton ButtonClass="btn btn-info me-1" />
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
-                                    }
-                                    <a class="btn btn-primary" href="/Entry/@item.EntryId"><i class="fa-solid fa-edit"></i></a>
-                                </td>
+                                <th>ID</th>
+                                <th>Formular</th>
+                                <th>Dokumentenname</th>
+                                <th>Anlagedatum</th>
+                                <th>Anlageuser</th>
+                                <th>Letzte Änderung</th>
+                                <th>Letzter Bearbeiter</th>
+                                <th class="text-right">AKTION</th>
                             </tr>
-                        </Virtualize>
+                        </thead>
+                        <tbody>
+                            <Virtualize Items="Data" Context="item">
+                                <tr>
+                                    <td>@item.EntryId</td>
+                                    <td>@item.FormName</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.CreationDate.ToShortDateString()</td>
+                                    <td>@item.UsernameCreator</td>
+                                    <td>@item.LastChange.ToString()</td>
+                                    <td>@item.UsernameLastChange</td>
+                                    <td class="text-right text-nowrap">
+                                        @if (CanDeleteEntry(item))
+                                        {
+                                            <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
+                                        }
 
-                        @if (!Data.Any())
-                        {
-                            <tr>
-                                <td colspan="7" class="text-center">Es wurden keine Formulare gefunden.</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                        @if (DownloadingList.Contains(item))
+                                        {
+                                            <LoadingButton ButtonClass="btn btn-info me-1" />
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
+                                        }
+                                        <a class="btn btn-primary" href="/Entry/@item.EntryId"><i class="fa-solid fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            </Virtualize>
+
+                            @if (!Data.Any())
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center">Es wurden keine Formulare gefunden.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
         </div>
 
+        <Pagination CurrentPageNumber="Filter.PageNumber"
+                    ItemsPerPage="Filter.Limit"
+                    TotalItems="TotalItems"
+                    NavUrl="@NavUrl" />
     </div>
-
-    <Pagination CurrentPageNumber="Filter.PageNumber"
-                ItemsPerPage="Filter.Limit"
-                TotalItems="TotalItems"
-                NavUrl="@NavUrl" />
 </div>
-
 @if (SelectedForDeletion is not null)
 {
     <ConfirmModal Title="Formulareintrag löschen?"

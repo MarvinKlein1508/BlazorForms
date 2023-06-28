@@ -14,71 +14,70 @@
 </div>
 
 
+<div class="row">
+    <div class="col-lg-3 col-sm-12 order-lg-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>@appLocalizer["FILTER_TITLE"]</h4>
+            </div>
+            <div class="card-content" style="padding: 0 1.3rem;">
+                <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="usermanagement-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                        <label for="usermanagement-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
+                    </div>
 
-<div class="col-lg-3 col-sm-12 order-lg-3">
-    <div class="card">
-        <div class="card-header">
-            <h4>@appLocalizer["FILTER_TITLE"]</h4>
-        </div>
-        <div class="card-content" style="padding: 0 1.3rem;">
-            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="usermanagement-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
-                    <label for="usermanagement-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
-                </div>
+                    <div class="toolbar">
+                        <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
+                    </div>
 
-                <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
-                </div>
-
-            </EditForm>
-        </div>
-    </div>
-</div>
-<div class="col-lg-9 col-sm-12">
-
-    <div class="card">
-        <div class="card-content">
-            <!-- Table with no outer spacing -->
-            <div class="table-responsive">
-                <table class="table mb-0 table-lg">
-                    <thead>
-                        <tr>
-                            <th>@localizer["TH_USERS_NAME"]</th>
-                            <th>@localizer["TH_USERS_USERNAME"]</th>
-                            <th>@localizer["TH_USERS_EMAIL"]</th>
-                            <th class="text-right">@localizer["TH_USERS_ACTION"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Virtualize Items="Data" Context="user">
-                            <tr>
-                                <td>@user.DisplayName</td>
-                                <td>@user.Username</td>
-                                <td>@user.Email</td>
-                                <td class="text-right">
-                                    @if (user.Origin is "local" && _loggedInUser?.Id != user.Id)
-                                    {
-                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = user">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </span>
-                                    }
-                                    <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(user)">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </span>
-                                </td>
-                            </tr>
-                        </Virtualize>
-                    </tbody>
-                </table>
+                </EditForm>
             </div>
         </div>
+    </div>
+    <div class="col-lg-9 col-sm-12">
+
+        <div class="card">
+            <div class="card-content">
+                <!-- Table with no outer spacing -->
+                <div class="table-responsive">
+                    <table class="table mb-0 table-lg">
+                        <thead>
+                            <tr>
+                                <th>@localizer["TH_USERS_NAME"]</th>
+                                <th>@localizer["TH_USERS_USERNAME"]</th>
+                                <th>@localizer["TH_USERS_EMAIL"]</th>
+                                <th class="text-right">@localizer["TH_USERS_ACTION"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <Virtualize Items="Data" Context="user">
+                                <tr>
+                                    <td>@user.DisplayName</td>
+                                    <td>@user.Username</td>
+                                    <td>@user.Email</td>
+                                    <td class="text-right">
+                                        @if (user.Origin is "local" && _loggedInUser?.Id != user.Id)
+                                        {
+                                            <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = user">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </span>
+                                        }
+                                        <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(user)">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </Virtualize>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
 
     </div>
-
 </div>
-
-
 
 
 

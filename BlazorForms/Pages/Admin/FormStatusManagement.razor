@@ -10,52 +10,52 @@
     <button type="button" class="btn btn-success" @onclick="NewAsync"><i class="fa-solid fa-plus"></i></button>
 </div>
 
+<div class="row">
+    <div class="col-12">
 
-<div class="col-12">
-
-    <div class="card">
-        <div class="card-content">
-            <!-- Table with no outer spacing -->
-            <div class="table-responsive">
-                <table class="table mb-0 table-lg">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Beschreibung</th>
-                            <th class="text-right">Aktion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Virtualize Items="Data" Context="item">
-                            @{
-                                var description = item.GetLocalization(CultureInfo.CurrentCulture);
-                            }
-
+        <div class="card">
+            <div class="card-content">
+                <!-- Table with no outer spacing -->
+                <div class="table-responsive">
+                    <table class="table mb-0 table-lg">
+                        <thead>
                             <tr>
-                                <td>@item.Id</td>
-                                <td>@description?.Name</td>
-                                <td>@description?.Description</td>
-                                <td class="text-right">
-                                    <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </span>
-
-                                    <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </span>
-                                </td>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Beschreibung</th>
+                                <th class="text-right">Aktion</th>
                             </tr>
-                        </Virtualize>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <Virtualize Items="Data" Context="item">
+                                @{
+                                    var description = item.GetLocalization(CultureInfo.CurrentCulture);
+                                }
+
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@description?.Name</td>
+                                    <td>@description?.Description</td>
+                                    <td class="text-right">
+                                        <span class="aktion-icon" role="button" @onclick="() => SelectedForDeletion = item">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </span>
+
+                                        <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </Virtualize>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
 
     </div>
-
 </div>
-
 
 @if (Input is not null)
 {
