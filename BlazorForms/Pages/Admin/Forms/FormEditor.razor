@@ -1,0 +1,612 @@
+﻿@page "/Admin/FormEditor/"
+@page "/Admin/FormEditor/{FormId:int}"
+@attribute [Authorize(Roles = Roles.EDIT_FORMS)]
+@layout EmptyLayout
+@using BlazorForms.Components.Admin.Forms
+@inject IOptions<EmailSettings> emailConfig
+@inject FormService formService
+@inject UserService userService
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+@inject DragDropService<FormElement> dragDropServiceElements
+@inject DragDropService<FormRow> dragDropServiceRows
+@inject DragDropService<FormColumn> dragDropServiceColumns
+@inject HotKeys hotKeys
+@implements IDisposable
+<PageTitle>FormEditor - @FormId</PageTitle>
+<NavigationLock ConfirmExternalNavigation="true" OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+@if (Input is null)
+{
+    <div class="loading-wrapper">
+        <Spinner />
+    </div>
+}
+else
+{
+    <div class="toolbar-toggle">
+        <button type="button" class="btn-toolbar @(_showMobileToolbar ? "bg-danger" : "bg-success")" @onclick="() => _showMobileToolbar = !_showMobileToolbar">
+            @if (!_showMobileToolbar)
+            {
+                <i class="fa-solid fa-plus"></i>
+            }
+            else
+            {
+                <i class="fa-solid fa-xmark"></i>
+            }
+        </button>
+    </div>
+    <div class="form-editor-wrapper">
+        <div class="form-editor">
+            <div class="form-editor-header">
+                <div id="topbar">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseItemAsync"><i class="fa-solid fa-reply"></i></button>
+                    <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
+                    <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+
+                    <div class="delete-wrapper delete-wrapper-mobile @GetDeleteWrapperClass()">
+                        <div class="delete-zone"
+                             ondragover="event.preventDefault();"
+                             ondragstart="event.dataTransfer.setData('', event.target.id);"
+                        @ondrop="() => DropDelete()">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-editor-content">
+                @if (SelectedFormElement is not null)
+                {
+                    <div class="formular-element-editor">
+                        <EditForm Model="SelectedFormElement">
+                            <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.General))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.General">
+                                        Allgemein
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Rules">
+                                        Regeln
+                                    </button>
+                                </li>
+                                @if (SelectedFormElement is FormTableElement)
+                                {
+                                    <li class="nav-item">
+                                        <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Elements">
+                                            Elemente
+                                        </button>
+                                    </li>
+                                }
+                                @if (SelectedFormElement is FormNumberElement)
+                                {
+                                    <li class="nav-item">
+                                        <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.CalcSets">
+                                            Wertberechnung
+                                        </button>
+                                    </li>
+                                }
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Row))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Row">
+                                        Zeileneigenschaften
+                                    </button>
+                                </li>
+
+                                <li class="nav-item">
+                                    <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.ActiveTab is FormElementTabs.Column))" @onclick="() => SelectedFormElement.ActiveTab = FormElementTabs.Column">
+                                        Spalteneigenschaften
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.General))">
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" value="@SelectedFormElement.GetElementType()" class="form-control" id="formelement-type" placeholder="Elementtyp" disabled />
+                                            <label for="formelement-type">Elementtyp</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <InputText @bind-Value="SelectedFormElement.Name" class="form-control" id="formelement-name" placeholder="Name" required />
+                                            <label for="formelement-name">Name</label>
+                                            <ValidationMessage For="() => SelectedFormElement.Name" />
+                                        </div>
+
+                                        @if (SelectedFormElement is FormLabelElement labelElement)
+                                        {
+                                            <div class="mb-3">
+                                                <label for="labelElement-description">Beschreibung</label>
+                                                <InputCkEditor @bind-Value="labelElement.Description" />
+                                                <ValidationMessage For="() => labelElement.Description" />
+                                            </div>
+                                        }
+
+                                        @if (SelectedFormElement is FormNumberElement numberElement)
+                                        {
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="numberElement.DecimalPlaces" class="form-control" id="numberelement-decimalPlaces" placeholder="Nachkommastellen" />
+                                                <label for="numberelement-decimalPlaces">Nachkommastellen</label>
+                                                <ValidationMessage For="() => numberElement.DecimalPlaces" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="numberElement.MinValue" class="form-control" id="numberelement-minvalue" placeholder="Mindestwert" />
+                                                <label for="numberelement-minvalue">Mindestwert</label>
+                                                <ValidationMessage For="() => numberElement.MinValue" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="numberElement.MaxValue" class="form-control" id="numberelement-maxvalue" placeholder="Maximumwert" />
+                                                <label for="numberelement-maxvalue">Maximumwert</label>
+                                                <ValidationMessage For="() => numberElement.MaxValue" />
+                                            </div>
+
+                                            @if (numberElement.TableParentElementId != 0)
+                                            {
+                                                <div class="form-check">
+                                                    <div class="checkbox">
+                                                        <InputCheckbox @bind-Value="numberElement.IsSummable" id="numberelement-issummable" class="form-check-input" />
+                                                        <label for="numberelement-issummable">Summiere Wert</label>
+                                                        <ValidationMessage For="() => numberElement.IsSummable" />
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+
+                                        @if (SelectedFormElement is FormDateElement dateElement)
+                                        {
+
+                                            <div class="form-floating mb-3">
+                                                <InputDate @bind-Value="dateElement.MinDate" class="form-control" id="dateelement-minvalue" placeholder="Mindestwert" />
+                                                <label for="dateelement-minvalue">Mindestwert</label>
+                                                <ValidationMessage For="() => dateElement.MinDate" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputDate @bind-Value="dateElement.MaxDate" class="form-control" id="dateelement-maxvalue" placeholder="Maximumwert" />
+                                                <label for="dateelement-maxvalue">Maximumwert</label>
+                                                <ValidationMessage For="() => dateElement.MaxDate" />
+                                            </div>
+
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="dateElement.SetDefaultValueToCurrentDate" id="dateElement-setCurrentDate" class="form-check-input" />
+                                                    <label for="dateElement-setCurrentDate">Startwert ist aktuelles Datum</label>
+                                                    <ValidationMessage For="() => dateElement.SetDefaultValueToCurrentDate" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (SelectedFormElement is FormTableElement tableElement)
+                                        {
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="tableElement.AllowAddRows" id="tableElement-allow-add-rows" class="form-check-input" />
+                                                    <label for="tableElement-allow-add-rows">Erlaube neue Zeilen hinzuzufügen</label>
+                                                    <ValidationMessage For="() => tableElement.AllowAddRows" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (SelectedFormElement is not FormTableElement && SelectedFormElement is not FormLabelElement)
+                                        {
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="SelectedFormElement.IsRequired" id="formelement-required" class="form-check-input" />
+                                                    <label for="formelement-required">Pflichtfeld</label>
+                                                    <ValidationMessage For="() => SelectedFormElement.IsRequired" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <InputCheckbox @bind-Value="SelectedFormElement.IsActive" id="formelement-active" class="form-check-input" />
+                                                <label for="formelement-active">Aktiv</label>
+                                                <ValidationMessage For="() => SelectedFormElement.IsActive" />
+                                            </div>
+                                        </div>
+
+                                        @if (SelectedFormElement is FormTextElementBase textElement)
+                                        {
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="textElement.MinLength" class="form-control" id="textelement-minlength" placeholder="Minimumlänge" />
+                                                <label for="textelement-minlength">Minimumlänge</label>
+                                                <ValidationMessage For="() => textElement.MinLength" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="textElement.MaxLength" class="form-control" id="textelement-maxlength" placeholder="Maximumlänge" />
+                                                <label for="textelement-maxlength">Maximumlänge</label>
+                                                <ValidationMessage For="() => textElement.MaxLength" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputTextArea @bind-Value="textElement.RegexPattern" class="form-control" id="textelement-regex" placeholder="Regulärer Ausdruck" />
+                                                <label for="textelement-regex">Regulärer Ausdruck</label>
+                                                <ValidationMessage For="() => textElement.RegexPattern" />
+                                            </div>
+                                        }
+
+                                        @if (SelectedFormElement is FormFileElement fileElement)
+                                        {
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="fileElement.MinSize" class="form-control" id="fileelement-minsize" placeholder="Min. Dateigröße" />
+                                                <label for="fileelement-minsize">Min. Dateigröße</label>
+                                                <ValidationMessage For="() => fileElement.MinSize" />
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="fileElement.MaxSize" class="form-control" id="fileelement-maxsize" placeholder="Max. Dateigröße" />
+                                                <label for="fileelement-maxsize">Max. Dateigröße</label>
+                                                <ValidationMessage For="() => fileElement.MaxSize" />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <InputTags Value="fileElement.AcceptedFileTypes" Label="Erlaubte Dateitypen" Options="_fileTypeOptions" ValidateTag="ValidateFileTypeAsync" />
+                                                <ValidationMessage For="() => fileElement.AcceptedFileTypes" />
+                                            </div>
+
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="fileElement.AllowMultipleFiles" id="fileelement-multiple" class="form-check-input" />
+                                                    <label for="fileelement-multiple">Upload mehrerer Dateien erlauben</label>
+                                                    <ValidationMessage For="() => fileElement.AllowMultipleFiles" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (SelectedFormElement is FormElementWithOptions elementWithOptions)
+                                        {
+                                            <h4>Optionen</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-xs">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Aktion</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        @foreach (var option in elementWithOptions.Options)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <InputText @bind-Value="option.Name" class="form-control" />
+                                                                    <ValidationMessage For="() => option.Name" />
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger" @onclick="() => elementWithOptions.Options.Remove(option)">
+                                                                        <i class="fa-solid fa-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        }
+
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <button type="button" class="btn btn-success" @onclick="() => elementWithOptions.Options.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        }
+
+
+                                    </div>
+                                </div>
+
+                                <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Rules))">
+                                    <RuleEditor Input="SelectedFormElement" />
+                                </div>
+
+                                @if (SelectedFormElement is FormTableElement formTableElement)
+                                {
+                                    <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
+                                        <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormElement" Class="table-dropzone large-dropzone" OnItemDrop="(x) => x.TableParentElementId = -1" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
+                                            <div class="formular-element grid-item">
+                                                <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                            </div>
+                                        </Dropzone>
+                                    </div>
+                                }
+
+                                @if (SelectedFormElement is FormNumberElement formNumberElement)
+                                {
+                                    <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.CalcSets))">
+
+                                        <Dropzone Items="formNumberElement.CalcRules" Context="calc_rule">
+                                            <ElementCalcRule Input="Input"
+                                                             Rule="calc_rule"
+                                                             Element="SelectedFormElement"
+                                                             OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
+                                        </Dropzone>
+                                        <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+
+                                    </div>
+                                }
+
+                                <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Row))">
+                                    @if (SelectedFormElement.Row is not null)
+                                    {
+                                        <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.General">
+                                                    Allgemein
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))" @onclick="() => SelectedFormElement.Row.ActiveTab = FormRowTabs.Rules">
+                                                    Regeln
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.General))">
+                                                <div class="col-12">
+                                                    <div class="form-check">
+                                                        <div class="checkbox">
+                                                            <InputCheckbox @bind-Value="SelectedFormElement.Row.IsActive" id="formrow-active" class="form-check-input" />
+                                                            <label for="formrow-active">Aktiv</label>
+                                                            <ValidationMessage For="() => SelectedFormElement.Row.IsActive" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="@(GetTabClass(SelectedFormElement.Row.ActiveTab is FormRowTabs.Rules))">
+                                                <RuleEditor Input="SelectedFormElement.Row" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Column))">
+                                    @if (SelectedFormElement.Parent is not null)
+                                    {
+                                        <ul class="nav nav-pills mb-3 edit-page-nav-link" role="tablist">
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.General">
+                                                    Allgemein
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button type="button" role="tab" class="@(GetTabNavClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))" @onclick="() => SelectedFormElement.Parent.ActiveTab = FormColumnTabs.Rules">
+                                                    Regeln
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.General))">
+                                                <div class="col-12">
+                                                    <div class="form-check">
+                                                        <div class="checkbox">
+                                                            <InputCheckbox @bind-Value="SelectedFormElement.Parent.IsActive" id="formcolumn-active" class="form-check-input" />
+                                                            <label for="formcolumn-active">Aktiv</label>
+                                                            <ValidationMessage For="() => SelectedFormElement.Parent.IsActive" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="@(GetTabClass(SelectedFormElement.Parent.ActiveTab is FormColumnTabs.Rules))">
+                                                <RuleEditor Input="SelectedFormElement.Parent" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                }
+
+
+
+                <div class="form-grid-editor @GetFormGridEditorCssClass()">
+                    <div class="grid-container">
+                        <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormRow" Class="large-dropzone" Items="Input.Rows" Context="row">
+
+                            <div class="formular-row">
+                                <Dropzone DragStart="(item) => StateHasChanged()" OnItemDrop="(column) => OnColumnDroppedAsync(column, row)" TItem="FormColumn" Items="row.Columns" Context="column" ItemWrapperClass="@((x) => $"formular-column")" Accepts="(x, y) => (row.Columns.Count < 4 || row.Columns.Contains(x))">
+                                    <Dropzone DragStart="(item) => StateHasChanged()" OnItemDrop="(element) => OnElementDroppedAsync(element, column)" TItem="FormElement" Class="large-dropzone" Items="column.Elements" Context="element">
+                                        <div class="formular-element grid-item">
+                                            <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">
+                                                <span>(@element.GetElementType()) @element</span>
+                                                <div class="element-buttons">
+                                                    <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Dropzone>
+                                </Dropzone>
+                            </div>
+                        </Dropzone>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="toolbar-wrapper @GetToobalWrapperCss()">
+            <h4>Toolbar</h4>
+            <ul id="element-toolbar" ondragstart="event.dataTransfer.setData('text', event.target.id);">
+                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">Neue Zeile</li>
+                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">Neue Spalte</li>
+                @foreach (var item in AppdatenService.Elements)
+                {
+                    <li class="toolbar-element @GetToolbarDraggingCss()" draggable="true"
+                    @ondragend="CleanToolbarDrag"
+                    @ondragstart="() => OnToolbarElementDragStart(item)">@item</li>
+                }
+            </ul>
+        </div>
+    </div>
+    @if (EditFormProperties)
+    {
+        <ConfirmModal Title="Formular Eigenschaften"
+                      OnClosed="() => EditFormProperties = false"
+                      ModalSize="ModalSize.XL">
+            <EditForm Model="Input">
+                <div class="row">
+                    <div class="col-12">
+                        <TabControl>
+                            <TabPage Text="Allgemein">
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name" required />
+                                    <label for="form-name">Name</label>
+                                    <ValidationMessage For="() => Input.Name" />
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <InputTextArea @bind-Value="Input.Description" class="form-control" id="form-description" placeholder="Beschreibung" />
+                                    <label for="form-description">Beschreibung</label>
+                                    <ValidationMessage For="() => Input.Description" />
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <InputSelect @bind-Value="Input.DefaultStatusId" class="form-select" id="form-default-status" aria-placeholder="Status für neue Formulareinträge">
+                                        @foreach (var status in Statuses)
+                                        {
+                                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
+
+                                            <option value="@status.Id">@description?.Name</option>
+                                        }
+                                    </InputSelect>
+                                    <label for="form-default-status">Status für neue Formulareinträge</label>
+                                    <ValidationMessage For="() => Input.DefaultStatusId" />
+                                </div>
+
+                                <div class="form-check">
+                                    <div class="checkbox">
+                                        <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
+                                        <label for="form-active">Aktiv</label>
+                                        <ValidationMessage For="() => Input.IsActive" />
+                                    </div>
+                                </div>
+                            </TabPage>
+                            <TabPage Text="Berechtigungen">
+                                <div class="form-check">
+                                    <div class="checkbox">
+                                        <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" disabled="@Input.AllowedUsersForNewEntries.Any()" />
+                                        <label for="form-login-required">Login zum ausfüllen erforderlich</label>
+                                        <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
+                                    </div>
+                                </div>
+
+                                <h4>Berechtigte User</h4>
+                                <p>Allen ausgewählten User steht das Formular zum Ausfüllen zur Verfügung. Wenn Niemand ausgewählt wurde, dann steht das Formular allen eingeloggten Usern zur Verfügung.</p>
+
+                                <div class="col-12">
+                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch()" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                    @if (_searchUsers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                    {
+                                        <ul class="autocomplete-dropdown">
+                                            @foreach (var item in _searchUsers)
+                                            {
+                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.AllowedUsersForNewEntries)" type="button">@item.DisplayName</button></li>
+                                            }
+                                        </ul>
+                                    }
+
+
+                                    <div class="autocomplete-search">
+                                        @foreach (var item in Input.AllowedUsersForNewEntries)
+                                        {
+                                            <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
+                                        }
+                                    </div>
+                                </div>
+                            </TabPage>
+                            <TabPage Text="Bearbeiter">
+                                <p>Alle ausgewählten User können sämtliche Formulareinträge für dieses Formular verwalten.</p>
+
+                                <div class="col-12">
+                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch(true)" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                    @if (_searchManagers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                    {
+                                        <ul class="autocomplete-dropdown">
+                                            @foreach (var item in _searchManagers)
+                                            {
+                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.ManagerUsers)" type="button">@item.DisplayName</button></li>
+                                            }
+                                        </ul>
+                                    }
+
+
+                                    <div class="autocomplete-search">
+                                        @foreach (var item in Input.ManagerUsers)
+                                        {
+                                            <div class="autocomplete-item-wrapper">
+                                                <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="fa-solid fa-minus-circle me-1"></i>
+                                                <span>@item.DisplayName</span>
+                                                <div class="manager-optionen">
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" @bind="item.EmailEnabled" class="form-check-input" id="@($"manager-email-{item.GetHashCode()}")">
+                                                        <label class="form-check-label" for="@($"manager-email-{item.GetHashCode()}")">E-Mail Benachrichtigungen</label>
+                                                    </div>
+
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" @bind="item.CanApprove" class="form-check-input" id="@($"manager-approve-{item.GetHashCode()}")">
+                                                        <label class="form-check-label" for="@($"manager-approve-{item.GetHashCode()}")">Kann freigeben</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </TabPage>
+                            <TabPage Text="Logo">
+                                <p>Das Logo erscheint im Kopfbereich des aus dem Formular generierten PDFs.</p>
+                                <div class="mb-3">
+                                    <div class="toolbar">
+                                        <label class="btn btn-dark" for="form-logo">
+                                            Logo hochladen
+                                            <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadLogoAsync" id="form-logo" class="d-none" />
+                                        </label>
+                                    </div>
+
+                                    @if (Input.Logo.Length > 0)
+                                    {
+                                        <div class="uploaded-image">
+                                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Logo)}")" />
+                                            <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    }
+                                </div>
+
+                            </TabPage>
+                            <TabPage Text="Bild">
+                                <p>Das Bild wird im Dashboard als Vorschaubild verwendet.</p>
+                                <div class="mb-3">
+                                    <div class="toolbar">
+                                        <label class="btn btn-dark" for="form-image">
+                                            Bild hochladen
+                                            <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadImageAsync" id="form-image" class="d-none" />
+                                        </label>
+                                    </div>
+
+                                    @if (Input.Image.Length > 0)
+                                    {
+                                        <div class="uploaded-image">
+                                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Image)}")" />
+                                            <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    }
+                                </div>
+
+                            </TabPage>
+                        </TabControl>
+                    </div>
+                </div>
+            </EditForm>
+        </ConfirmModal>
+    }
+}

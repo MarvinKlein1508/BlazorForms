@@ -1,0 +1,52 @@
+﻿using FluentValidation;
+using BlazorForms.Core.Models.FormElements;
+
+namespace BlazorForms.Core.Validators.Admin
+{
+    public class FormTableElementValidator : FormElementValidator<FormTableElement>
+    {
+        public FormTableElementValidator() : base()
+        {
+            RuleForEach(x => x.Elements)
+                .SetInheritanceValidator(x =>
+                {
+                    x.Add(new FormCheckboxElementValidator());
+                    x.Add(new FormDateElementValidator());
+                    x.Add(new FormFileElementValidator());
+                    x.Add(new FormLabelElementValidator());
+                    x.Add(new FormNumberElementValidator());
+                    x.Add(new FormRadioElementValidator());
+                    x.Add(new FormSelectElementValidator());
+                    x.Add(new FormTextareaElementValidator());
+                    x.Add(new FormTextElementValidator());
+                })
+               .When(x => !IsEntryMode(x));
+
+            RuleForEach(x => x.ElementValues)
+                 .ForEach(x =>
+                 {
+                     x.SetInheritanceValidator(x =>
+                     {
+
+                         x.Add(new FormCheckboxElementValidator());
+                         x.Add(new FormDateElementValidator());
+                         x.Add(new FormFileElementValidator());
+                         x.Add(new FormLabelElementValidator());
+                         x.Add(new FormNumberElementValidator());
+                         x.Add(new FormRadioElementValidator());
+                         x.Add(new FormSelectElementValidator());
+                         x.Add(new FormTextareaElementValidator());
+                         x.Add(new FormTextElementValidator());
+                     });
+                 })
+                 .When(IsEntryMode);
+
+            RuleFor(x => x.Elements)
+                .Must(x => x.Any())
+                .WithMessage(x => $"Tabelle '{x.Name}' muss mindestens ein Element beinhalten");
+        }
+    }
+}
+
+
+
