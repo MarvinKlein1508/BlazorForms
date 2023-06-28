@@ -1,4 +1,3 @@
-using Blazor.Pagination;
 using DbController;
 using DbController.MySql;
 using BlazorForms.Core.Filters;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorForms.Pages
 {
-    public partial class Dashboard : IHasPagination
+    public partial class Dashboard
     {
         public FormFilter Filter { get; set; } = new()
         {

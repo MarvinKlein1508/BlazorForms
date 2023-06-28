@@ -1,4 +1,3 @@
-using Blazor.Pagination;
 using DbController;
 using DbController.MySql;
 using BlazorForms.Core.Extensions;
@@ -10,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BlazorForms.Pages.Admin
 {
-    public partial class UserManagement : IHasPagination
+    public partial class UserManagement
     {
         private int _page = 1;
         private User? _loggedInUser;
