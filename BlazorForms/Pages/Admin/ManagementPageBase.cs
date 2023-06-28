@@ -129,19 +129,5 @@ namespace BlazorForms.Pages.Admin
             return false;
 
         }
-        protected virtual string GetModalTitel()
-        {
-            if (Input is null)
-            {
-                return string.Empty;
-            }
-
-            if (Input.Id > 0)
-            {
-                return AppLocalizer["MODAL_EDIT_TITLE"];
-            }
-
-            return AppLocalizer["MODAL_NEW_TITLE"];
-        }
     }
 }
