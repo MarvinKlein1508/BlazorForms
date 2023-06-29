@@ -17,6 +17,7 @@ namespace BlazorForms.Pages
         [Parameter]
         public int Page { get; set; } = 1;
         public int TotalItems { get; set; }
+        public int TotalPages => TotalItems / Filter.Limit;
 
         public List<Form> Data { get; set; } = new();
         private User? _user;
@@ -30,6 +31,12 @@ namespace BlazorForms.Pages
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
             Filter.UserId = _user?.UserId ?? 0;
+            await LoadAsync();
+        }
+
+        private async Task OnPageChangedAsync(int pageNumber)
+        {
+            Page = pageNumber;
             await LoadAsync();
         }
         public async Task LoadAsync(bool navigateToPage1 = false)
