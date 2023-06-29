@@ -390,7 +390,7 @@ namespace BlazorForms.Pages.Admin.Forms
         }
         private Task CloseItemAsync()
         {
-            bool redirect = SelectedFormElement is null;
+            bool redirect = SelectedFormElement is null && !EditFormProperties;
 
             if (SelectedFormElement is not null)
             {
@@ -407,6 +407,11 @@ namespace BlazorForms.Pages.Admin.Forms
                     ScrollToGuid = tmp.Guid;
                     SelectedFormElement = null;
                 }
+            }
+
+            if (EditFormProperties)
+            {
+                EditFormProperties = false;
             }
 
             if (redirect)
