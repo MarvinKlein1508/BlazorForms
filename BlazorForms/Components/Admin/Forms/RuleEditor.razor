@@ -15,7 +15,7 @@
     @if (Input.Form.GetRuleElements().Any())
     {
         <div class="toolbar">
-            <button type="button" class="btn btn-success" @onclick="AddRuleAsync"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
+            <Button Color="ButtonColor.Success" @onclick="AddRuleAsync"><Icon Name="IconName.Plus" Size="IconSize.x5" /></Button>
         </div>
     }
     else

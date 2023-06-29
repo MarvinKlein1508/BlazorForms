@@ -25,6 +25,10 @@ article.content {
     border-top-left-radius: 0 !important;
 }
 
+/* Minimum height of textareas */
+textarea {
+    min-height: 10rem !important;
+}
 
 /* Override bootstrap */
 .card {

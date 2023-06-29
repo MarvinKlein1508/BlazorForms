@@ -325,7 +325,7 @@ else
                                                              Element="SelectedFormElement"
                                                              OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                         </Dropzone>
-                                        <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                                        <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
 
                                     </div>
                                 }
@@ -477,7 +477,7 @@ else
                                             <div class="autocomplete-search">
                                                 @foreach (var item in Input.AllowedUsersForNewEntries)
                                                 {
-                                                    <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
+                                                    <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="bi bi-dash-circle-fill"></i> @item.DisplayName</p>
                                                 }
                                             </div>
                                         </div>
@@ -505,7 +505,7 @@ else
                                                 @foreach (var item in Input.ManagerUsers)
                                                 {
                                                     <div class="autocomplete-item-wrapper">
-                                                        <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="fa-solid fa-minus-circle me-1"></i>
+                                                        <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="bi bi-dash-circle-fill me-1"></i>
                                                         <span>@item.DisplayName</span>
                                                         <div class="manager-optionen">
                                                             <div class="form-check form-switch">
@@ -539,7 +539,7 @@ else
                                             {
                                                 <div class="uploaded-image">
                                                     <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Logo)}")" />
-                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                 </div>
                                             }
                                         </div>
@@ -560,7 +560,7 @@ else
                                             {
                                                 <div class="uploaded-image">
                                                     <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Image)}")" />
-                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                 </div>
                                             }
                                         </div>
