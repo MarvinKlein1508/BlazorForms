@@ -6,17 +6,20 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core.Pdf;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
+using BlazorBootstrap;
 
 namespace BlazorForms.Components
 {
     public partial class EntryList
     {
+        private ConfirmDialog _deleteModal = default!;
         [Parameter]
         public FormEntryFilter Filter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
         };
         public int TotalItems { get; set; }
+        public int TotalPages => TotalItems / Filter.Limit;
         public List<EntryListItem> Data { get; set; } = new();
 
         [Parameter, EditorRequired]
@@ -27,16 +30,20 @@ namespace BlazorForms.Components
 
         public bool UserCanDeleteEntries { get; set; }
         public User? User { get; set; }
-        public EntryListItem? SelectedForDeletion { get; set; }
 
         private List<FormStatus> Statuses { get; set; } = new();
 
         protected override async Task OnParametersSetAsync()
         {
             await LoadAsync();
-
             UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
             User = await authService.GetUserAsync();
+        }
+
+        private Task OnPageChangedAsync(int pageNumber)
+        {
+            navigationManager.NavigateTo($"{NavUrl}{pageNumber}");
+            return Task.CompletedTask;
         }
 
         public async Task LoadAsync(bool navigateToPage1 = false)
@@ -75,34 +82,42 @@ namespace BlazorForms.Components
             DownloadingList.Remove(item);
         }
 
-        private async Task DeleteAsync()
+        private async Task ShowDeleteModalAsync(EntryListItem input)
         {
-            if (SelectedForDeletion is null)
+
+            var options = new ConfirmDialogOptions
             {
-                return;
-            }
+                YesButtonText = appLocalizer["YES"],
+                YesButtonColor = ButtonColor.Success,
+                NoButtonText = appLocalizer["NO"],
+                NoButtonColor = ButtonColor.Danger
+            };
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            var confirmation = await _deleteModal.ShowAsync(
+            title: localizer["MODAL_DELETE_TITLE"],
+            message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
+            confirmDialogOptions: options);
 
-            await dbController.StartTransactionAsync();
-
-            try
+            if (confirmation)
             {
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                await formEntryService.DeleteAsync(SelectedForDeletion, dbController);
-                await dbController.CommitChangesAsync();
-                await jsRuntime.ShowToastAsync(ToastType.success, "Formulareintrag wurde erfolgreich gelöscht.");
+                await dbController.StartTransactionAsync();
 
+                try
+                {
+                    await formEntryService.DeleteAsync(input, dbController);
+                    await dbController.CommitChangesAsync();
+                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
+                }
+                catch (Exception)
+                {
+                    await dbController.RollbackChangesAsync();
+                    throw;
+                }
 
-                SelectedForDeletion = null;
+                await LoadAsync();
             }
-            catch (Exception)
-            {
-                await dbController.RollbackChangesAsync();
-                throw;
-            }
-
-            await LoadAsync();
         }
 
         private bool CanDeleteEntry(EntryListItem entry)

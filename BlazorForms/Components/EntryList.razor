@@ -3,35 +3,37 @@
 @inject IBlazorDownloadFileService downloadService
 @inject IJSRuntime jsRuntime
 @inject AuthService authService
+@inject IStringLocalizer<App> appLocalizer
+@inject IStringLocalizer<EntryList> localizer
 
 <div class="row">
     <div class="col-lg-3 col-sm-12 order-lg-3">
         <div class="card">
             <div class="card-header">
-                <h4>Filter</h4>
+                <h4>@appLocalizer["FILTER_TITLE"]</h4>
             </div>
             <div class="card-content" style="padding: 0 1.3rem;">
                 <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                     <div class="form-floating mb-3">
-                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="Suchbegriff" />
-                        <label for="form-filter-searchphrase">Suchbegriff</label>
+                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                        <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <InputSelect @bind-Value="Filter.StatusId" class="form-select" id="form-filter-status" aria-placeholder="Status">
-                            <option value="0">Alle</option>
+                        <InputSelect @bind-Value="Filter.StatusId" class="form-select" id="form-filter-status" aria-placeholder="@localizer["FILTER_PLACHOLDER_STATUS"]">
+                            <option value="0">@appLocalizer["ALL"]</option>
                             @foreach (var status in Statuses)
                             {
                                 var description = status.GetLocalization(CultureInfo.CurrentCulture);
                                 <option value="@status.Id">@description?.Name</option>
                             }
                         </InputSelect>
-                        <label for="form-filter-status">Status</label>
+                        <label for="form-filter-status">@localizer["FILTER_PLACHOLDER_STATUS"]</label>
                         <ValidationMessage For="() => Filter.StatusId" />
                     </div>
 
                     <div class="toolbar">
-                        <button type="submit" class="btn btn-primary">Suchen</button>
+                        <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                     </div>
 
                 </EditForm>
@@ -47,14 +49,14 @@
                     <table class="table mb-0 align-middle">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Formular</th>
-                                <th>Dokumentenname</th>
-                                <th>Anlagedatum</th>
-                                <th>Anlageuser</th>
-                                <th>Letzte Änderung</th>
-                                <th>Letzter Bearbeiter</th>
-                                <th class="text-right">AKTION</th>
+                                <th>@localizer["TH_ID"]</th>
+                                <th>@localizer["TH_FORM"]</th>
+                                <th>@localizer["TH_DOCUMENT_NAME"]</th>
+                                <th>@localizer["TH_CREATION_DATE"]</th>
+                                <th>@localizer["TH_CREATION_USER"]</th>
+                                <th>@localizer["TH_LAST_CHANGE"]</th>
+                                <th>@localizer["TH_LAST_USER"]</th>
+                                <th class="text-right">@localizer["TH_ACTION"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +72,7 @@
                                     <td class="text-right text-nowrap">
                                         @if (CanDeleteEntry(item))
                                         {
-                                            <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
+                                            <button type="button" class="btn btn-danger me-1" @onclick="async () => await ShowDeleteModalAsync(item)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                         }
 
                                         @if (DownloadingList.Contains(item))
@@ -89,7 +91,7 @@
                             @if (!Data.Any())
                             {
                                 <tr>
-                                    <td colspan="7" class="text-center">Es wurden keine Formulare gefunden.</td>
+                                    <td colspan="7" class="text-center">@localizer["NO_RESULTS"]</td>
                                 </tr>
                             }
                         </tbody>
@@ -100,17 +102,17 @@
 
         </div>
 
-        <Pagination CurrentPageNumber="Filter.PageNumber"
-                    ItemsPerPage="Filter.Limit"
-                    TotalItems="TotalItems"
-                    NavUrl="@NavUrl" />
+        @if (TotalPages > 1)
+        {
+            <Pagination ActivePageNumber="Filter.PageNumber"
+                        TotalPages="TotalPages"
+                        PageChanged="OnPageChangedAsync"
+                        FirstLinkIcon="IconName.ChevronDoubleLeft"
+                        PreviousLinkIcon="IconName.ChevronLeft"
+                        NextLinkIcon="IconName.ChevronRight"
+                        LastLinkIcon="IconName.ChevronDoubleRight" />
+        }
     </div>
 </div>
-@if (SelectedForDeletion is not null)
-{
-    <ConfirmModal Title="Formulareintrag löschen?"
-                  OnClosed="() => SelectedForDeletion = null"
-                  OnConfirmed="DeleteAsync">
-        <p>Möchten Sie den Formulareintrag wirklich löschen?</p>
-    </ConfirmModal>
-}
+
+<ConfirmDialog @ref="_deleteModal" />
