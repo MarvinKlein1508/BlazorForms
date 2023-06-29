@@ -19,13 +19,13 @@
         {
             @if (IsAdmin || IsManager)
             {
-                <button type="button" class="btn btn-primary me-1" @onclick="() => _showHistory = true">Verlauf</button>
+                <button type="button" class="btn btn-primary me-1" @onclick="ShowHistoryModalAsync">Verlauf</button>
             }
             <button type="button" class="btn btn-outline-secondary" @onclick="OpenStatusModalAsync">
                 @GetStatus()
                 @if (IsAdmin || IsManager)
                 {
-                    <span class="ms-1"><i class="fa-solid fa-edit"></i></span>
+                    <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
                 }
             </button>
         }
@@ -138,7 +138,7 @@
                                     else if (element is FormTableElement formTableElement)
                                     {
                                         <div class="table-responsive">
-                                            <table class="table mb-3 table-xs">
+                                            <table class="table mb-3">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center" colspan="@(formTableElement.Elements.Count + 1)">@element.Name</th>
@@ -214,7 +214,7 @@
                                                             <td>
                                                                 @if (formTableElement.ElementValues.Count > 1)
                                                                 {
-                                                                    <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><i class="fa-solid fa-trash"></i></button>
+                                                                    <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                                 }
                                                             </td>
                                                         </tr>
@@ -224,7 +224,7 @@
                                                     {
                                                         <tr>
                                                             <td colspan="@formTableElement.Elements.Count">
-                                                                <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><i class="fa-solid fa-plus"></i></button>
+                                                                <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
                                                             </td>
                                                         </tr>
                                                     }
@@ -271,27 +271,20 @@
         }
     </EditForm>
 
-    @if (_showHistory)
-    {
-        <Modal Title="Verlauf"
-               ModalSize="ModalSize.XL"
-               OnClosed="() => _showHistory = false">
+
+    <Modal @ref="_historyModal" Title="Verlauf" Size="ModalSize.ExtraLarge">
+        <BodyTemplate>
             <EntryHistory EntryId="Input.Id" />
-        </Modal>
-    }
+        </BodyTemplate>
+    </Modal>
+
 }
 
-@if (_showStatusModal)
-{
-    <Modal Title="Status ändern"
-           OnClosed="() => _showStatusModal = false"
-           HideFooter="true">
-
+<Modal @ref="_statusModal" Title="Status ändern" UseStaticBackdrop="true">
+    <BodyTemplate>
         <StatusChangeEditor Entry="Input"
                             User="_user"
                             OnSaved="OnEntryStatusSavedAsync"
-                            OnCancel="() => _showStatusModal = false" />
-
-    </Modal>
-}
-
+                            OnCancel="_statusModal.HideAsync" />
+    </BodyTemplate>
+</Modal>

@@ -10,11 +10,14 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
 using System.Globalization;
+using BlazorBootstrap;
 
 namespace BlazorForms.Pages
 {
     public partial class FormEntryPage
     {
+        private Modal _historyModal = default!;
+        private Modal _statusModal = default!;
         [Parameter]
         public int FormId { get; set; }
         [Parameter]
@@ -24,8 +27,8 @@ namespace BlazorForms.Pages
 
         private User? _user;
         private bool _isSaving;
-        private bool _showStatusModal;
-        private bool _showHistory;
+        
+        
 
 
         public bool IsAdmin { get; set; }
@@ -253,11 +256,11 @@ namespace BlazorForms.Pages
                 return;
             }
 
-            _showStatusModal = true;
+            await _statusModal.ShowAsync();
         }
         private async Task OnEntryStatusSavedAsync(FormEntryStatusChange newStatus)
         {
-            _showStatusModal = false;
+            await _statusModal.HideAsync();
             await OnParametersSetAsync();
         }
         private async Task UploadFileAsync(FormFileElement fileElement, InputFileChangeEventArgs e)
@@ -338,7 +341,6 @@ namespace BlazorForms.Pages
 
             }
         }
-
         private string GetStatus()
         {
             if (Input is null)
@@ -355,6 +357,11 @@ namespace BlazorForms.Pages
             var description = status.GetLocalization(CultureInfo.CurrentCulture);
 
             return description?.Name ?? string.Empty;
+        }
+    
+        private async Task ShowHistoryModalAsync()
+        {
+            await _historyModal.ShowAsync();
         }
     }
 }

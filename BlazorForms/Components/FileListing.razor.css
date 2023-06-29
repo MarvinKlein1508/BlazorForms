@@ -25,3 +25,7 @@
     top: 0;
     right: 0;
 }
+
+.fs-5 {
+    font-size: 5em !important;
+}
