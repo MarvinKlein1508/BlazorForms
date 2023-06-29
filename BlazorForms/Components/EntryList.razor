@@ -44,7 +44,7 @@
             <div class="card-content">
                 <!-- Table with no outer spacing -->
                 <div class="table-responsive">
-                    <table class="table mb-0 table-lg">
+                    <table class="table mb-0 align-middle">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -70,7 +70,7 @@
                                     <td class="text-right text-nowrap">
                                         @if (CanDeleteEntry(item))
                                         {
-                                            <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
+                                            <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                         }
 
                                         @if (DownloadingList.Contains(item))
@@ -79,9 +79,9 @@
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><i class="fa-solid fa-download"></i></button>
+                                            <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><Icon Name="IconName.Download" Size="IconSize.x5" /></button>
                                         }
-                                        <a class="btn btn-primary" href="/Entry/@item.EntryId"><i class="fa-solid fa-edit"></i></a>
+                                        <a class="btn btn-primary" href="/Entry/@item.EntryId"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></a>
                                     </td>
                                 </tr>
                             </Virtualize>
