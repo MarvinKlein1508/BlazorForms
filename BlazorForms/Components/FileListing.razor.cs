@@ -34,16 +34,16 @@ namespace BlazorForms.Components
 
             return ext switch
             {
-                ".doc" or ".docx" => "fa-file-word",
-                ".ppt" or ".pptx" => "fa-file-powerpoint",
-                ".pdf" => "fa-file-pdf",
-                ".jpg" or ".jpeg" or ".png" or ".gif" => "fa-file-image",
-                ".xlsx" or ".xls" => "fa-file-excel",
-                ".csv" => "fa-file-csv",
-                ".zip" or ".7z" or ".rar" or ".tar" or ".gz" or ".tar.gz" => "fa-file-archive",
-                ".mp3" or ".wav" => "fa-file-audio",
-                ".mp4" => "fa-file-video",
-                _ => "fa-file",
+                ".doc" or ".docx" => "bi bi-file-earmark-word-fill",
+                ".ppt" or ".pptx" => "bi bi-file-earmark-ppt-fill",
+                ".pdf" => "bi bi-file-earmark-pdf-fill",
+                ".jpg" or ".jpeg" or ".png" or ".gif" => "bi bi-file-earmark-image-fill",
+                ".xlsx" or ".xls" => "bi bi-file-earmark-excel-fill",
+                ".csv" => "bi bi-filetype-csv",
+                ".zip" or ".7z" or ".rar" or ".tar" or ".gz" or ".tar.gz" => "bi bi-file-earmark-zip-fill",
+                ".mp3" or ".wav" => "bi bi-file-earmark-music-fill",
+                ".mp4" => "bi bi-file-earmark-play-fill",
+                _ => "bi bi-file-earmark-fill",
             };
         }
 

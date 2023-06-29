@@ -1,4 +1,3 @@
-using Blazor.Pagination;
 using DbController;
 using DbController.MySql;
 using BlazorForms.Core.Extensions;
@@ -7,10 +6,11 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
+using BlazorBootstrap;
 
 namespace BlazorForms.Pages.Admin
 {
-    public partial class UserManagement : IHasPagination
+    public partial class UserManagement
     {
         private int _page = 1;
         private User? _loggedInUser;
@@ -48,11 +48,6 @@ namespace BlazorForms.Pages.Admin
             Data = await Service.GetAsync(Filter, dbController);
         }
 
-        protected override async Task DeleteAsync()
-        {
-            await base.DeleteAsync();
-            await LoadAsync();
-        }
         protected override Task NewAsync()
         {
             Input = new User
@@ -82,6 +77,15 @@ namespace BlazorForms.Pages.Admin
             int permissionId = Convert.ToInt32(e.Value);
             SelectedPermission = AppdatenService.Permissions.FirstOrDefault(x => x.PermissionId == permissionId);
             return Task.CompletedTask;
+        }
+
+        private async Task ShowDeleteModalAsync(User input)
+        {
+            bool isDeleted = await base.ShowDeleteModalAsync(input, localizer["MODAL_DELETE_TITLE"], String.Format(localizer["MODAL_DELETE_TEXT"], input.DisplayName), localizer["MODAL_DELETE_SUCCESS"]);
+            if (isDeleted)
+            {
+                await LoadAsync();
+            }
         }
     }
 }

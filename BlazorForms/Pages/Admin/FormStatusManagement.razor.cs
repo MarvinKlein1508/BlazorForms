@@ -27,21 +27,21 @@ namespace BlazorForms.Pages.Admin
             return Task.CompletedTask;
         }
 
-
-        protected override async Task DeleteAsync()
+        protected async Task ShowDeleteModalAsync(FormStatus input)
         {
             // Check if more than one status exist
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             int amount_of_statuses = await Service.GetTotalStatusAmount(dbController);
             if (amount_of_statuses > 1)
             {
-                await base.DeleteAsync();
+                await base.ShowDeleteModalAsync(input, localizer["MODAL_DELETE_TITLE"], localizer["MODAL_DELETE_TEXT"], localizer["MODAL_DELETE_SUCCESS"]);
             }
             else
             {
                 await JSRuntime.ShowToastAsync(ToastType.error, "Status kann nicht gelöscht werden, da mindestens ein Status vorhanden sein muss.");
             }
         }
+
 
     }
 }

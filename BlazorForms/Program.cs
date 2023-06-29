@@ -2,6 +2,7 @@
 #define DEBUGKLEIN
 #endif
 using BlazorDownloadFile;
+using BlazorBootstrap;
 using Dapper;
 using DbController.TypeHandler;
 using FluentValidation;
@@ -53,6 +54,7 @@ namespace BlazorForms
             builder.Services.AddScoped<FormStatusService>();
             builder.Services.AddScoped<FormEntryStatusChangeService>();
             builder.Services.AddHotKeys2();
+            builder.Services.AddBlazorBootstrap();
             builder.Services.AddLocalization(options =>
             {
                 options.ResourcesPath = "Languages";

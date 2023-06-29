@@ -117,57 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ALL" xml:space="preserve">
-    <value>All</value>
+  <data name="EDIT_TITLE" xml:space="preserve">
+    <value>Edit Status</value>
   </data>
-  <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
-    <value>Cancel</value>
-    <comment>Text for cancel buttons</comment>
+  <data name="INPUT_APPROVAL" xml:space="preserve">
+    <value>Approval required</value>
+    <comment>Checkbox</comment>
   </data>
-  <data name="BUTTON_TEXT_SAVE" xml:space="preserve">
-    <value>Save</value>
-    <comment>Text for save buttons</comment>
+  <data name="INPUT_COMPLETED" xml:space="preserve">
+    <value>Process completed</value>
+    <comment>Checkbox</comment>
   </data>
-  <data name="DELETE_ERROR_REFERENCE" xml:space="preserve">
-    <value>The record could not be deleted because it has active references</value>
-    <comment>Error message when deleting from the database fails due to a FOREIGN key check. Error code -2147467259</comment>
+  <data name="INPUT_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>InputTextArea</comment>
   </data>
-  <data name="DELETE_MESSAGE" xml:space="preserve">
-    <value>Record was successfully deleted!</value>
-    <comment>ManagementPageBase</comment>
+  <data name="INPUT_NAME" xml:space="preserve">
+    <value>Name</value>
+    <comment>InputText</comment>
   </data>
-  <data name="FILTER_BUTTON_SEARCH" xml:space="preserve">
-    <value>Search</value>
-    <comment>The button text for the common filters on the right side</comment>
+  <data name="INPUT_SORT" xml:space="preserve">
+    <value>Sorting</value>
+    <comment>InputNumber</comment>
   </data>
-  <data name="FILTER_PLACEHOLDER_SEARCHTERM" xml:space="preserve">
-    <value>Search term</value>
-    <comment>The placeholder text for the common filters on the right side</comment>
+  <data name="MODAL_DELETE_SUCCESS" xml:space="preserve">
+    <value>Status was deleted successfully</value>
   </data>
-  <data name="FILTER_TITLE" xml:space="preserve">
-    <value>Filter</value>
-    <comment>Text for common filter card header</comment>
+  <data name="MODAL_DELETE_TEXT" xml:space="preserve">
+    <value>Do you really want to delete the status?</value>
   </data>
-  <data name="MODAL_EDIT_TITLE" xml:space="preserve">
-    <value>Edit record</value>
-    <comment>ManagementPageBase</comment>
+  <data name="MODAL_DELETE_TITLE" xml:space="preserve">
+    <value>Delete status?</value>
   </data>
-  <data name="MODAL_NEW_TITLE" xml:space="preserve">
-    <value>New record</value>
-    <comment>ManagementPageBase</comment>
+  <data name="NEW_TITLE" xml:space="preserve">
+    <value>New Status</value>
   </data>
-  <data name="NO" xml:space="preserve">
-    <value>No</value>
+  <data name="PAGETITLE" xml:space="preserve">
+    <value>Status management</value>
   </data>
-  <data name="SAVE_MESSAGE" xml:space="preserve">
-    <value>Record was saved successfully!</value>
-    <comment>ManagementPageBase</comment>
+  <data name="TH_ACTION" xml:space="preserve">
+    <value>Action</value>
   </data>
-  <data name="SELECT_CHOOSE" xml:space="preserve">
-    <value>--- Select ---</value>
-    <comment>Default text for blank option of select elements</comment>
+  <data name="TH_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="YES" xml:space="preserve">
-    <value>Yes</value>
+  <data name="TH_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="TH_NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="TOOLTIP_NEW" xml:space="preserve">
+    <value>New Status</value>
+    <comment>Tooltip for  toolbar</comment>
   </data>
 </root>

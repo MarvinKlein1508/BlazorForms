@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ALL" xml:space="preserve">
+    <value>Alle</value>
+  </data>
   <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
     <value>Abbrechen</value>
     <comment>Text for cancel buttons</comment>
@@ -153,6 +156,9 @@
     <value>Neuer Datensatz</value>
     <comment>ManagementPageBase</comment>
   </data>
+  <data name="NO" xml:space="preserve">
+    <value>Nein</value>
+  </data>
   <data name="SAVE_MESSAGE" xml:space="preserve">
     <value>Datensatz wurde erfolgreich gespeichert!</value>
     <comment>ManagementPageBase</comment>
@@ -160,5 +166,8 @@
   <data name="SELECT_CHOOSE" xml:space="preserve">
     <value>--- Auswählen ---</value>
     <comment>Default text for blank option of select elements</comment>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Ja</value>
   </data>
 </root>

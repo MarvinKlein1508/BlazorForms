@@ -14,7 +14,7 @@
 @inject HotKeys hotKeys
 @implements IDisposable
 <PageTitle>FormEditor - @FormId</PageTitle>
-<NavigationLock ConfirmExternalNavigation="true" OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 @if (Input is null)
 {
     <div class="loading-wrapper">
@@ -27,11 +27,11 @@ else
         <button type="button" class="btn-toolbar @(_showMobileToolbar ? "bg-danger" : "bg-success")" @onclick="() => _showMobileToolbar = !_showMobileToolbar">
             @if (!_showMobileToolbar)
             {
-                <i class="fa-solid fa-plus"></i>
+                <i class="bi bi-plus-lg " />
             }
             else
             {
-                <i class="fa-solid fa-xmark"></i>
+                <i class="bi bi-x-lg" />
             }
         </button>
     </div>
@@ -39,8 +39,8 @@ else
         <div class="form-editor">
             <div class="form-editor-header">
                 <div id="topbar">
-                    <button type="button" class="btn btn-secondary" @onclick="CloseItemAsync"><i class="fa-solid fa-reply"></i></button>
-                    <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><i class="fa-solid fa-edit"></i></button>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseItemAsync"><Icon Name="IconName.Reply" /></button>
+                    <button type="button" class="btn btn-primary" @onclick="() => EditFormProperties = true"><Icon Name="IconName.PencilSquare" /></button>
                     <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
 
                     <div class="delete-wrapper delete-wrapper-mobile @GetDeleteWrapperClass()">
@@ -48,14 +48,14 @@ else
                              ondragover="event.preventDefault();"
                              ondragstart="event.dataTransfer.setData('', event.target.id);"
                         @ondrop="() => DropDelete()">
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="bi bi-trash" />
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-editor-content">
-                @if (SelectedFormElement is not null)
+                @if (SelectedFormElement is not null && !EditFormProperties)
                 {
                     <div class="formular-element-editor">
                         <EditForm Model="SelectedFormElement">
@@ -279,7 +279,7 @@ else
                                                                 </td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-danger" @onclick="() => elementWithOptions.Options.Remove(option)">
-                                                                        <i class="fa-solid fa-trash"></i>
+                                                                        <Icon Name="IconName.Trash" Size="IconSize.x5" />
                                                                     </button>
                                                                 </td>
                                                             </tr>
@@ -287,7 +287,7 @@ else
 
                                                         <tr>
                                                             <td colspan="2">
-                                                                <button type="button" class="btn btn-success" @onclick="() => elementWithOptions.Options.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                                                                <button type="button" class="btn btn-success" @onclick="() => elementWithOptions.Options.Add(new())"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -309,7 +309,7 @@ else
                                     <div class="@(GetTabClass(SelectedFormElement.ActiveTab is FormElementTabs.Elements))">
                                         <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormElement" Class="table-dropzone large-dropzone" OnItemDrop="(x) => x.TableParentElementId = -1" Items="formTableElement.Elements" Context="element" Accepts="((x, y) => x is not FormTableElement)">
                                             <div class="formular-element grid-item">
-                                                <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button></div>
+                                                <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)">(@element.GetElementType()) @element <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></button></div>
                                             </div>
                                         </Dropzone>
                                     </div>
@@ -325,7 +325,7 @@ else
                                                              Element="SelectedFormElement"
                                                              OnDelete="(rule) => formNumberElement.CalcRules.Remove(rule)" />
                                         </Dropzone>
-                                        <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><i class="fa-solid fa-plus"></i></button>
+                                        <button type="button" class="btn btn-success" @onclick="() => formNumberElement.CalcRules.Add(new())"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
 
                                     </div>
                                 }
@@ -406,7 +406,170 @@ else
                     </div>
                 }
 
+                @if (EditFormProperties)
+                {
+                    <div class="formular-element-editor">
+                        <EditForm Model="Input">
+                            <Tabs class="mb-1">
+                                <Tab Title="Allgemein">
+                                    <Content>
+                                        <div class="form-floating mb-3">
+                                            <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name" required />
+                                            <label for="form-name">Name</label>
+                                            <ValidationMessage For="() => Input.Name" />
+                                        </div>
 
+                                        <div class="form-floating mb-3">
+                                            <InputTextArea @bind-Value="Input.Description" class="form-control" id="form-description" placeholder="Beschreibung" />
+                                            <label for="form-description">Beschreibung</label>
+                                            <ValidationMessage For="() => Input.Description" />
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <InputSelect @bind-Value="Input.DefaultStatusId" class="form-select" id="form-default-status" aria-placeholder="Status für neue Formulareinträge">
+                                                @foreach (var status in Statuses)
+                                                {
+                                                    var description = status.GetLocalization(CultureInfo.CurrentCulture);
+
+                                                    <option value="@status.Id">@description?.Name</option>
+                                                }
+                                            </InputSelect>
+                                            <label for="form-default-status">Status für neue Formulareinträge</label>
+                                            <ValidationMessage For="() => Input.DefaultStatusId" />
+                                        </div>
+
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
+                                                <label for="form-active">Aktiv</label>
+                                                <ValidationMessage For="() => Input.IsActive" />
+                                            </div>
+                                        </div>
+                                    </Content>
+                                </Tab>
+                                <Tab Title="Berechtigungen">
+                                    <Content>
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" disabled="@Input.AllowedUsersForNewEntries.Any()" />
+                                                <label for="form-login-required">Login zum ausfüllen erforderlich</label>
+                                                <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
+                                            </div>
+                                        </div>
+
+                                        <h4>Berechtigte User</h4>
+                                        <p>Allen ausgewählten User steht das Formular zum Ausfüllen zur Verfügung. Wenn Niemand ausgewählt wurde, dann steht das Formular allen eingeloggten Usern zur Verfügung.</p>
+
+                                        <div class="col-12">
+                                            <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch()" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                            @if (_searchUsers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                            {
+                                                <ul class="autocomplete-dropdown">
+                                                    @foreach (var item in _searchUsers)
+                                                    {
+                                                        <li><button @onclick="async () => await UserSelectedAsync(item, Input.AllowedUsersForNewEntries)" type="button">@item.DisplayName</button></li>
+                                                    }
+                                                </ul>
+                                            }
+
+
+                                            <div class="autocomplete-search">
+                                                @foreach (var item in Input.AllowedUsersForNewEntries)
+                                                {
+                                                    <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="bi bi-dash-circle-fill"></i> @item.DisplayName</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </Content>
+                                </Tab>
+                                <Tab Title="Bearbeiter">
+                                    <Content>
+                                        <p>Alle ausgewählten User können sämtliche Formulareinträge für dieses Formular verwalten.</p>
+
+                                        <div class="col-12">
+                                            <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch(true)" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
+
+                                            @if (_searchManagers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
+                                            {
+                                                <ul class="autocomplete-dropdown">
+                                                    @foreach (var item in _searchManagers)
+                                                    {
+                                                        <li><button @onclick="async () => await UserSelectedAsync(item, Input.ManagerUsers)" type="button">@item.DisplayName</button></li>
+                                                    }
+                                                </ul>
+                                            }
+
+
+                                            <div class="autocomplete-search">
+                                                @foreach (var item in Input.ManagerUsers)
+                                                {
+                                                    <div class="autocomplete-item-wrapper">
+                                                        <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="bi bi-dash-circle-fill me-1"></i>
+                                                        <span>@item.DisplayName</span>
+                                                        <div class="manager-optionen">
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox" @bind="item.EmailEnabled" class="form-check-input" id="@($"manager-email-{item.GetHashCode()}")">
+                                                                <label class="form-check-label" for="@($"manager-email-{item.GetHashCode()}")">E-Mail Benachrichtigungen</label>
+                                                            </div>
+
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox" @bind="item.CanApprove" class="form-check-input" id="@($"manager-approve-{item.GetHashCode()}")">
+                                                                <label class="form-check-label" for="@($"manager-approve-{item.GetHashCode()}")">Kann freigeben</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </Content>
+                                </Tab>
+                                <Tab Title="Logo">
+                                    <Content>
+                                        <p>Das Logo erscheint im Kopfbereich des aus dem Formular generierten PDFs.</p>
+                                        <div class="mb-3">
+                                            <div class="toolbar">
+                                                <label class="btn btn-dark" for="form-logo">
+                                                    Logo hochladen
+                                                    <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadLogoAsync" id="form-logo" class="d-none" />
+                                                </label>
+                                            </div>
+
+                                            @if (Input.Logo.Length > 0)
+                                            {
+                                                <div class="uploaded-image">
+                                                    <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Logo)}")" />
+                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </Content>
+                                </Tab>
+                                <Tab Title="Bild">
+                                    <Content>
+                                        <p>Das Bild wird im Dashboard als Vorschaubild verwendet.</p>
+                                        <div class="mb-3">
+                                            <div class="toolbar">
+                                                <label class="btn btn-dark" for="form-image">
+                                                    Bild hochladen
+                                                    <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadImageAsync" id="form-image" class="d-none" />
+                                                </label>
+                                            </div>
+
+                                            @if (Input.Image.Length > 0)
+                                            {
+                                                <div class="uploaded-image">
+                                                    <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Image)}")" />
+                                                    <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </Content>
+                                </Tab>
+                            </Tabs>
+                        </EditForm>
+                    </div>
+                }
 
                 <div class="form-grid-editor @GetFormGridEditorCssClass()">
                     <div class="grid-container">
@@ -419,7 +582,7 @@ else
                                             <div class="element-wrapper" @ondblclick="() => OpenFormElementAsync(element)" id="@element.Guid">
                                                 <span>(@element.GetElementType()) @element</span>
                                                 <div class="element-buttons">
-                                                    <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><i class="fa-solid fa-edit"></i></button>
+                                                    <button type="button" class="btn btn-primary" @onclick="() => OpenFormElementAsync(element)"><Icon Name="IconName.PencilSquare" /></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -447,166 +610,4 @@ else
             </ul>
         </div>
     </div>
-    @if (EditFormProperties)
-    {
-        <ConfirmModal Title="Formular Eigenschaften"
-                      OnClosed="() => EditFormProperties = false"
-                      ModalSize="ModalSize.XL">
-            <EditForm Model="Input">
-                <div class="row">
-                    <div class="col-12">
-                        <TabControl>
-                            <TabPage Text="Allgemein">
-                                <div class="form-floating mb-3">
-                                    <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name" required />
-                                    <label for="form-name">Name</label>
-                                    <ValidationMessage For="() => Input.Name" />
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <InputTextArea @bind-Value="Input.Description" class="form-control" id="form-description" placeholder="Beschreibung" />
-                                    <label for="form-description">Beschreibung</label>
-                                    <ValidationMessage For="() => Input.Description" />
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <InputSelect @bind-Value="Input.DefaultStatusId" class="form-select" id="form-default-status" aria-placeholder="Status für neue Formulareinträge">
-                                        @foreach (var status in Statuses)
-                                        {
-                                            var description = status.GetLocalization(CultureInfo.CurrentCulture);
-
-                                            <option value="@status.Id">@description?.Name</option>
-                                        }
-                                    </InputSelect>
-                                    <label for="form-default-status">Status für neue Formulareinträge</label>
-                                    <ValidationMessage For="() => Input.DefaultStatusId" />
-                                </div>
-
-                                <div class="form-check">
-                                    <div class="checkbox">
-                                        <InputCheckbox @bind-Value="Input.IsActive" id="form-active" class="form-check-input" />
-                                        <label for="form-active">Aktiv</label>
-                                        <ValidationMessage For="() => Input.IsActive" />
-                                    </div>
-                                </div>
-                            </TabPage>
-                            <TabPage Text="Berechtigungen">
-                                <div class="form-check">
-                                    <div class="checkbox">
-                                        <InputCheckbox @bind-Value="Input.IsOnlyAvailableForLoggedInUsers" id="form-login-required" class="form-check-input" disabled="@Input.AllowedUsersForNewEntries.Any()" />
-                                        <label for="form-login-required">Login zum ausfüllen erforderlich</label>
-                                        <ValidationMessage For="() => Input.IsOnlyAvailableForLoggedInUsers" />
-                                    </div>
-                                </div>
-
-                                <h4>Berechtigte User</h4>
-                                <p>Allen ausgewählten User steht das Formular zum Ausfüllen zur Verfügung. Wenn Niemand ausgewählt wurde, dann steht das Formular allen eingeloggten Usern zur Verfügung.</p>
-
-                                <div class="col-12">
-                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch()" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
-
-                                    @if (_searchUsers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
-                                    {
-                                        <ul class="autocomplete-dropdown">
-                                            @foreach (var item in _searchUsers)
-                                            {
-                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.AllowedUsersForNewEntries)" type="button">@item.DisplayName</button></li>
-                                            }
-                                        </ul>
-                                    }
-
-
-                                    <div class="autocomplete-search">
-                                        @foreach (var item in Input.AllowedUsersForNewEntries)
-                                        {
-                                            <p><i @onclick="async () => await UserRemovedAsync(item, Input.AllowedUsersForNewEntries)" class="fa-solid fa-minus-circle"></i> @item.DisplayName</p>
-                                        }
-                                    </div>
-                                </div>
-                            </TabPage>
-                            <TabPage Text="Bearbeiter">
-                                <p>Alle ausgewählten User können sämtliche Formulareinträge für dieses Formular verwalten.</p>
-
-                                <div class="col-12">
-                                    <input type="text" @bind="FilterUser.SearchPhrase" @bind:event="oninput" @bind:after="() => PerformSearch(true)" placeholder="Anzeigename, E-Mail, Username" class="form-control" autocomplete="off">
-
-                                    @if (_searchManagers.Any() && !string.IsNullOrWhiteSpace(FilterUser.SearchPhrase))
-                                    {
-                                        <ul class="autocomplete-dropdown">
-                                            @foreach (var item in _searchManagers)
-                                            {
-                                                <li><button @onclick="async () => await UserSelectedAsync(item, Input.ManagerUsers)" type="button">@item.DisplayName</button></li>
-                                            }
-                                        </ul>
-                                    }
-
-
-                                    <div class="autocomplete-search">
-                                        @foreach (var item in Input.ManagerUsers)
-                                        {
-                                            <div class="autocomplete-item-wrapper">
-                                                <i @onclick="async () => await UserRemovedAsync(item, Input.ManagerUsers)" class="fa-solid fa-minus-circle me-1"></i>
-                                                <span>@item.DisplayName</span>
-                                                <div class="manager-optionen">
-                                                    <div class="form-check form-switch">
-                                                        <input type="checkbox" @bind="item.EmailEnabled" class="form-check-input" id="@($"manager-email-{item.GetHashCode()}")">
-                                                        <label class="form-check-label" for="@($"manager-email-{item.GetHashCode()}")">E-Mail Benachrichtigungen</label>
-                                                    </div>
-
-                                                    <div class="form-check form-switch">
-                                                        <input type="checkbox" @bind="item.CanApprove" class="form-check-input" id="@($"manager-approve-{item.GetHashCode()}")">
-                                                        <label class="form-check-label" for="@($"manager-approve-{item.GetHashCode()}")">Kann freigeben</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </TabPage>
-                            <TabPage Text="Logo">
-                                <p>Das Logo erscheint im Kopfbereich des aus dem Formular generierten PDFs.</p>
-                                <div class="mb-3">
-                                    <div class="toolbar">
-                                        <label class="btn btn-dark" for="form-logo">
-                                            Logo hochladen
-                                            <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadLogoAsync" id="form-logo" class="d-none" />
-                                        </label>
-                                    </div>
-
-                                    @if (Input.Logo.Length > 0)
-                                    {
-                                        <div class="uploaded-image">
-                                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Logo)}")" />
-                                            <button type="button" class="btn btn-danger" @onclick="() => Input.Logo = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
-                                        </div>
-                                    }
-                                </div>
-
-                            </TabPage>
-                            <TabPage Text="Bild">
-                                <p>Das Bild wird im Dashboard als Vorschaubild verwendet.</p>
-                                <div class="mb-3">
-                                    <div class="toolbar">
-                                        <label class="btn btn-dark" for="form-image">
-                                            Bild hochladen
-                                            <InputFile accept="image/png, image/gif, image/jpeg, image/jpg;capture=camera" OnChange="UploadImageAsync" id="form-image" class="d-none" />
-                                        </label>
-                                    </div>
-
-                                    @if (Input.Image.Length > 0)
-                                    {
-                                        <div class="uploaded-image">
-                                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(Input.Image)}")" />
-                                            <button type="button" class="btn btn-danger" @onclick="() => Input.Image = Array.Empty<byte>()"><i class="fa-solid fa-trash"></i></button>
-                                        </div>
-                                    }
-                                </div>
-
-                            </TabPage>
-                        </TabControl>
-                    </div>
-                </div>
-            </EditForm>
-        </ConfirmModal>
-    }
 }

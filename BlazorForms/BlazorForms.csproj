@@ -21,13 +21,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazor.BootstrapTabs" Version="1.0.0" />
-		<PackageReference Include="Blazor.Pagination" Version="2.0.2" />
+		<PackageReference Include="Blazor.Bootstrap" Version="1.8.3" />
 		<PackageReference Include="BlazorDownloadFile" Version="2.4.0.2" />
 		<PackageReference Include="BlazorInputTags" Version="7.1.0" />
-		<PackageReference Include="BlazorTooltips" Version="7.0.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.1" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
 		<PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="1.0.0" />
 		<PackageReference Include="vNext.BlazorComponents.FluentValidation" Version="1.1.1" />
 	</ItemGroup>
@@ -40,7 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Languages\Components\" />
+	  <Folder Include="wwwroot\assets\images\logo\" />
 	</ItemGroup>
 
 </Project>

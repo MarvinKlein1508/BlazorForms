@@ -1,4 +1,3 @@
-using Blazor.Pagination;
 using DbController;
 using DbController.MySql;
 using BlazorForms.Core.Constants;
@@ -6,11 +5,13 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
+using BlazorBootstrap;
 
 namespace BlazorForms.Pages.Admin.Forms
 {
-    public partial class FormListing : IHasPagination
+    public partial class FormListing
     {
+        private ConfirmDialog _deleteModal = default!;
         public FormFilter Filter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
@@ -20,16 +21,21 @@ namespace BlazorForms.Pages.Admin.Forms
         [Parameter]
         public int Page { get; set; }
         public int TotalItems { get; set; }
+        public int TotalPages => TotalItems / Filter.Limit;
 
         public bool UserCanDeleteForms { get; set; }
 
-        public Form? SelectedForDeletion { get; set; }
+        private Task OnPageChangedAsync(int pageNumber)
+        {
+            navigationManager.NavigateTo($"/Admin/Forms/{pageNumber}");
+            return Task.CompletedTask;  
+        }
+
 
         protected override async Task OnParametersSetAsync()
         {
             await LoadAsync();
             UserCanDeleteForms = await authService.HasRole(Roles.DELETE_FORMS);
-
         }
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
@@ -45,31 +51,44 @@ namespace BlazorForms.Pages.Admin.Forms
 
         }
 
-        private async Task DeleteAsync()
+        private async Task ShowDeleteModalAsync(Form input)
         {
-            if (SelectedForDeletion is null)
+
+            var options = new ConfirmDialogOptions
             {
-                return;
+                YesButtonText = appLocalizer["YES"],
+                YesButtonColor = ButtonColor.Success,
+                NoButtonText = appLocalizer["NO"],
+                NoButtonColor = ButtonColor.Danger
+            };
+
+            var confirmation = await _deleteModal.ShowAsync(
+            title: localizer["MODAL_DELETE_TITLE"],
+            message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
+            confirmDialogOptions: options);
+
+            if (confirmation)
+            {
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+
+                await dbController.StartTransactionAsync();
+
+                try
+                {
+                    await formService.DeleteAsync(input, dbController);
+                    await dbController.CommitChangesAsync();
+                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
+                }
+                catch (Exception)
+                {
+                    await dbController.RollbackChangesAsync();
+                    throw;
+                }
+
+                await LoadAsync();
             }
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-            await dbController.StartTransactionAsync();
-
-            try
-            {
-                await formService.DeleteAsync(SelectedForDeletion, dbController);
-                await dbController.CommitChangesAsync();
-                await jsRuntime.ShowToastAsync(ToastType.success, localizer["DELETE_MESSAGE"]);
-                SelectedForDeletion = null;
-            }
-            catch (Exception)
-            {
-                await dbController.RollbackChangesAsync();
-                throw;
-            }
-
-            await LoadAsync();
 
         }
 

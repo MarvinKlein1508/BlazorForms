@@ -9,55 +9,62 @@
 
 <h3>@localizer["PAGETITLE"]</h3>
 
-<div class="col-lg-3 col-sm-12 order-lg-3">
-    <div class="card">
-        <div class="card-header">
-            <h4>@appLocalizer["FILTER_TITLE"]</h4>
-        </div>
-        <div class="card-content" style="padding: 0 1.3rem;">
-            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
-                    <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
-                </div>
+<div class="row">
+    <div class="col-lg-3 col-sm-12 order-lg-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>@appLocalizer["FILTER_TITLE"]</h4>
+            </div>
+            <div class="card-content" style="padding: 0 1.3rem;">
+                <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                        <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
+                    </div>
 
-                <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
-                </div>
+                    <div class="toolbar">
+                        <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
+                    </div>
 
-            </EditForm>
+                </EditForm>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-lg-9 col-sm-12">
+    <div class="col-lg-9 col-sm-12">
 
 
-    <div class="form-wrapper mb-3">
-        @foreach (var item in Data)
-        {
-            <div class="form">
-                <div class="card h-100">
-                    @if (item.Image.Length > 0)
-                    {
-                        <img src="@($"data:image/png;base64,{Convert.ToBase64String(item.Image)}")" class="card-img-top" alt="@item.Name">
-                    }
-                    else
-                    {
-                        <div class="shape bg-line blue w-100 h-18"></div>
-                    }
-                    <div class="card-body form-card">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                        <a href="/Forms/@item.FormId" class="btn btn-primary">@localizer["TEXT_BUTTON_FILL_OUT"]</a>
+        <div class="form-wrapper mb-3">
+            @foreach (var item in Data)
+            {
+                <div class="form">
+                    <div class="card h-100">
+                        @if (item.Image.Length > 0)
+                        {
+                            <img src="@($"data:image/png;base64,{Convert.ToBase64String(item.Image)}")" class="card-img-top" alt="@item.Name">
+                        }
+                        else
+                        {
+                            <div class="shape bg-line blue w-100 h-18"></div>
+                        }
+                        <div class="card-body form-card">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
+                            <a href="/Forms/@item.FormId" class="btn btn-primary">@localizer["TEXT_BUTTON_FILL_OUT"]</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+        </div>
+
+        @if (TotalPages > 1)
+        {
+            <Pagination ActivePageNumber="Page"
+                        TotalPages="TotalPages"
+                        PageChanged="OnPageChangedAsync"
+                        FirstLinkIcon="IconName.ChevronDoubleLeft"
+                        PreviousLinkIcon="IconName.ChevronLeft"
+                        NextLinkIcon="IconName.ChevronRight"
+                        LastLinkIcon="IconName.ChevronDoubleRight" />
         }
     </div>
-
-
-    <Pagination CurrentPageNumber="Page"
-                ItemsPerPage="Filter.Limit"
-                TotalItems="TotalItems"
-                NavUrl="/Admin/Forms/" />
 </div>

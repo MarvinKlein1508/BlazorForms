@@ -6,14 +6,17 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
+using BlazorBootstrap;
+using BlazorForms.Core.Models;
 
 namespace BlazorForms.Pages.Admin
 {
     public abstract class ManagementBasePage<T, TService> : ComponentBase where T : class, IDbModel, new() where TService : IModelService<T>
     {
         protected T? Input { get; set; }
-        protected T? SelectedForDeletion { get; set; }
+        
         protected EditForm? _form;
+        protected ConfirmDialog _deleteModal = default;
 #nullable disable
         [Inject] public TService Service { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
@@ -34,47 +37,12 @@ namespace BlazorForms.Pages.Admin
             return Task.CompletedTask;
         }
 
-        protected virtual Task SelectForDeletionAsync(T input)
-        {
-            SelectedForDeletion = input;
-            return Task.CompletedTask;
-        }
+       
 
         protected virtual Task EditAsync(T input)
         {
             Input = input.DeepCopyByExpressionTree();
             return Task.CompletedTask;
-        }
-
-        protected virtual async Task DeleteAsync()
-        {
-            if (SelectedForDeletion is null)
-            {
-                return;
-            }
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
-            await dbController.StartTransactionAsync();
-
-            try
-            {
-                await Service.DeleteAsync(SelectedForDeletion, dbController);
-                await dbController.CommitChangesAsync();
-                AppdatenService.DeleteRecord(SelectedForDeletion);
-                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["DELETE_MESSAGE"]);
-                SelectedForDeletion = null;
-            }
-            catch (Exception ex)
-            {
-                await dbController.RollbackChangesAsync();
-                if (ex.HResult == -2147467259)
-                {
-                    await JSRuntime.ShowToastAsync(ToastType.error, AppLocalizer["DELETE_ERROR_REFERENCE"]);
-                }
-                else
-                {
-                    throw;
-                }
-            }
         }
 
         protected virtual async Task SaveAsync()
@@ -115,19 +83,51 @@ namespace BlazorForms.Pages.Admin
             }
         }
 
-        protected virtual string GetModalTitel()
+        protected async Task<bool> ShowDeleteModalAsync(T input, string modalTitle, string modalMessage, string deleteSuccessMessage)
         {
-            if (Input is null)
+            var options = new ConfirmDialogOptions
             {
-                return string.Empty;
+                YesButtonText = AppLocalizer["YES"],
+                YesButtonColor = ButtonColor.Success,
+                NoButtonText = AppLocalizer["NO"],
+                NoButtonColor = ButtonColor.Danger
+            };
+
+            var confirmation = await _deleteModal.ShowAsync(
+            title: modalTitle,
+            message1: modalMessage,
+            confirmDialogOptions: options);
+
+            if (confirmation)
+            {
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                await dbController.StartTransactionAsync();
+
+                try
+                {
+                    await Service.DeleteAsync(input, dbController);
+                    await dbController.CommitChangesAsync();
+                    AppdatenService.DeleteRecord(input);
+                    await JSRuntime.ShowToastAsync(ToastType.success, deleteSuccessMessage);
+                }
+                catch (Exception ex)
+                {
+                    await dbController.RollbackChangesAsync();
+                    if (ex.HResult == -2147467259)
+                    {
+                        await JSRuntime.ShowToastAsync(ToastType.error, AppLocalizer["DELETE_ERROR_REFERENCE"]);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return true;
             }
 
-            if (Input.Id > 0)
-            {
-                return AppLocalizer["MODAL_EDIT_TITLE"];
-            }
+            return false;
 
-            return AppLocalizer["MODAL_NEW_TITLE"];
         }
     }
 }

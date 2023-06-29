@@ -1,1 +1,138 @@
-body{background-color:var(--bs-body-bg)}#auth{height:100vh;overflow-x:hidden}#auth #auth-right{height:100%;background:url(../static/images/bg/4853433.png),linear-gradient(90deg,#2d499d,#3f5491)}#auth #auth-left{padding:5rem 8rem}#auth #auth-left .auth-title{font-size:4rem;margin-bottom:1rem}#auth #auth-left .auth-subtitle{font-size:1.7rem;line-height:2.5rem;color:#a8aebb}#auth #auth-left .auth-logo{margin-bottom:7rem}#auth #auth-left .auth-logo img{height:2rem}@media screen and (max-width: 1399.9px){#auth #auth-left{padding:3rem}}@media screen and (max-width: 767px){#auth #auth-left{padding:5rem}}@media screen and (max-width: 576px){#auth #auth-left{padding:5rem 3rem}}html[data-bs-theme=dark] #auth-right{background:url(../../images/bg/4853433.png),linear-gradient(90deg,#2d499d,#3f5491)}
+body {
+    background-color: #fff;
+    background-image: url("/assets/images/bg/login-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#auth {
+    height: 100vh;
+    overflow-x: hidden
+}
+
+    #auth #auth-right {
+        background: url(../../../assets/images/4853433.png?45649b87e0b3f50bfa1372c6cdb4595f),linear-gradient(90deg,#2d499d,#3f5491);
+        height: 100%
+    }
+
+    #auth #auth-left {
+        padding: 5rem 8rem
+    }
+
+        #auth #auth-left .auth-title {
+            font-size: 3rem;
+            margin-bottom: 1rem
+        }
+
+        #auth #auth-left .auth-subtitle {
+            color: #a8aebb;
+            font-size: 1.7rem;
+            line-height: 2.5rem
+        }
+
+        #auth #auth-left .auth-logo {
+            margin-bottom: 2rem
+        }
+
+            #auth #auth-left .auth-logo img {
+                max-height: 3rem;
+            }
+
+@media screen and (max-width:767px) {
+    #auth #auth-left {
+        padding: 5rem
+    }
+}
+
+@media screen and (max-width:576px) {
+    #auth #auth-left {
+        padding: 5rem 3rem
+    }
+}
+
+body.theme-dark #auth-right {
+    background: url(../../../assets/images/4853433.png?45649b87e0b3f50bfa1372c6cdb4595f),linear-gradient(90deg,#2d499d,#3f5491)
+}
+
+
+.form-group[class*="has-icon-"] .form-control.form-control-xl {
+    padding-left: 3rem;
+}
+
+.form-group[class*="has-icon-"].has-icon-left .form-control {
+    padding-left: 2.5rem;
+}
+
+.form-control.form-control-xl {
+    font-size: 1.2rem;
+    padding: .85rem 1rem;
+    padding-left: 1rem;
+}
+
+.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid #dce7f1;
+    border-radius: .25rem;
+    color: #607080;
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: .375rem .75rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    width: 100%;
+}
+
+.form-group[class*="has-icon-"].has-icon-left .form-control-icon {
+    left: 0;
+}
+
+.form-control.form-control-xl ~ .form-control-icon {
+    top: .6rem;
+}
+
+.form-group[class*="has-icon-"] .form-control-icon {
+    padding: 0 .6rem;
+    position: absolute;
+}
+
+.form-control ~ .form-control-icon {
+    top: .28rem;
+}
+
+.form-group[class*="has-icon-"] .form-control.form-control-xl ~ .form-control-icon i {
+    font-size: 1.6rem;
+}
+
+.form-group[class*="has-icon-"] .form-control-icon i, .form-group[class*="has-icon-"] .form-control-icon svg {
+    color: #adb5bd;
+    font-size: 1.2rem;
+    width: 1.2rem;
+}
+
+.form-check.form-check-lg .form-check-input {
+    height: 1.5rem;
+    margin-top: .3em;
+    width: 1.5rem;
+}
+
+.form-check-input[type="checkbox"] {
+    border-radius: .3em;
+}
+
+.form-check .form-check-input {
+    float: left;
+    margin-left: -1.7em;
+}
+
+.form-check.form-check-lg label {
+    font-size: 1rem;
+}
+
+.text-gray-600 {
+    color: #6c757d !important;
+}

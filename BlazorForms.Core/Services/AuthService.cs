@@ -64,5 +64,21 @@ namespace BlazorForms.Core.Services
 
             return user.IsInRole(roleName);
         }
+
+        public async Task<Dictionary<string, bool>> CheckRoles(params string[] roleNames)
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            Dictionary<string, bool> results = new();
+
+            foreach (var roleName in roleNames)
+            {
+                results.Add(roleName, user.IsInRole(roleName));
+            }
+
+            return results;
+
+        }
     }
 }
