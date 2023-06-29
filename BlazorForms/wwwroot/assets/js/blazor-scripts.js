@@ -1,21 +1,5 @@
 ﻿window.blazorHelpers = {
     startUp: () => {
-        /**
-         * Create Sidebar Wrapper
-         */
-        let sidebarEl = document.getElementById("sidebar")
-
-
-        // Fix mobile Menu for blazor PWA behaviour
-        var elements = document.getElementsByClassName("blazor-link");
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', function () {
-                var w = window.innerWidth;
-                if (w <= 1024) {
-                    sidebarEl.classList.remove("active");
-                }
-            });
-        }
 
         // Disable tap zoom on mobile devices
         var lastTouchEnd = 0;
