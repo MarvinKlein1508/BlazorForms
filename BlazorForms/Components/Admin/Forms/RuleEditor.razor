@@ -15,7 +15,7 @@
     @if (Input.Form.GetRuleElements().Any())
     {
         <div class="toolbar">
-            <button type="button" class="btn btn-success" @onclick="AddRuleAsync"><i class="fa-solid fa-plus"></i></button>
+            <button type="button" class="btn btn-success" @onclick="AddRuleAsync"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
         </div>
     }
     else
@@ -92,7 +92,7 @@
 
                 </div>
             </div>
-            <button class="btn btn-danger btn-delete-rule" type="button" @onclick="() => Input.Rules.Remove(rule)"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-danger btn-delete-rule" type="button" @onclick="() => Input.Rules.Remove(rule)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
         </div>
     </Dropzone>
 
