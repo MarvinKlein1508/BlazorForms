@@ -66,6 +66,10 @@ textarea {
     position: relative;
 }
 
+.card-header {
+    border: none !important;
+}
+
 .card-header h1,
 .card-header h2,
 .card-header h3,
