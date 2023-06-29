@@ -55,7 +55,7 @@ else
             </div>
 
             <div class="form-editor-content">
-                @if (SelectedFormElement is not null)
+                @if (SelectedFormElement is not null && !EditFormProperties)
                 {
                     <div class="formular-element-editor">
                         <EditForm Model="SelectedFormElement">

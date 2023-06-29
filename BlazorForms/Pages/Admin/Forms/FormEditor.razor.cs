@@ -358,7 +358,7 @@ namespace BlazorForms.Pages.Admin.Forms
         }
         private string GetFormGridEditorCssClass()
         {
-            if (SelectedFormElement is not null)
+            if (SelectedFormElement is not null || EditFormProperties)
             {
                 return "d-none";
             }
