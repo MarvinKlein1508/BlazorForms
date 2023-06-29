@@ -1,134 +1,119 @@
 ﻿@page "/Admin/Status"
 @attribute [Authorize(Roles = Roles.EDIT_STATUS)]
 @inherits ManagementBasePage<FormStatus, FormStatusService>
-@inject IStringLocalizer<App> appLocalizer
+@inject IStringLocalizer<FormStatusManagement> localizer
 
-<PageTitle>FormStatusManagement</PageTitle>
-<h3>FormStatusManagement</h3>
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
-<div class="toolbar">
-    <button type="button" class="btn btn-success" @onclick="NewAsync"><i class="fa-solid fa-plus"></i></button>
-</div>
+@if (Input is null)
+{
+    <h3>@localizer["PAGETITLE"]</h3>
 
-<div class="row">
-    <div class="col-12">
+    <div class="toolbar">
+        <Tooltip Title="@localizer["tooltip_new"]">
+            <Button Color="ButtonColor.Success" @onclick="NewAsync"><Icon Name="IconName.Plus" Size="IconSize.x5" /></Button>
+        </Tooltip>
+    </div>
 
-        <div class="card">
-            <div class="card-content">
-                <!-- Table with no outer spacing -->
-                <div class="table-responsive">
-                    <table class="table mb-0 table-lg">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Beschreibung</th>
-                                <th class="text-right">Aktion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <Virtualize Items="Data" Context="item">
-                                @{
-                                    var description = item.GetLocalization(CultureInfo.CurrentCulture);
-                                }
+    <div class="row">
+        <div class="col-12">
 
+            <div class="card">
+                <div class="card-content">
+                    <!-- Table with no outer spacing -->
+                    <div class="table-responsive">
+                        <table class="table mb-0 align-middle">
+                            <thead>
                                 <tr>
-                                    <td>@item.Id</td>
-                                    <td>@description?.Name</td>
-                                    <td>@description?.Description</td>
-                                    <td class="text-right">
-                                        <span class="aktion-icon" role="button" @onclick="() => {}">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </span>
-
-                                        <span class="aktion-icon" role="button" @onclick="async () => await EditAsync(item)">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </span>
-                                    </td>
+                                    <th>@localizer["TH_ID"]</th>
+                                    <th>@localizer["TH_NAME"]</th>
+                                    <th>@localizer["TH_DESCRIPTION"]</th>
+                                    <th class="text-right">@localizer["TH_ACTION"]</th>
                                 </tr>
-                            </Virtualize>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <Virtualize Items="Data" Context="item">
+                                    @{
+                                        var description = item.GetLocalization(CultureInfo.CurrentCulture);
+                                    }
+
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@description?.Name</td>
+                                        <td>@description?.Description</td>
+                                        <td class="text-right">
+                                            <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(item)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></Button>
+                                            <Button Color="ButtonColor.Primary" @onclick="async () => await EditAsync(item)"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></Button>
+                                        </td>
+                                    </tr>
+                                </Virtualize>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
         </div>
-
     </div>
-</div>
-
-@if (Input is not null)
+}
+else
 {
-    <Modal Title="Status"
-           OnClosed="() => Input = null"
-           ModalSize="ModalSize.LG"
-           HideFooter="true">
-
-        <EditForm Model="Input" @ref="_form">
-            <FluentValidationValidator />
-            <ValidationSummary />
-            <div class="row">
-                <div class="col-12">
-
-                    <TabControl>
-
-                        @foreach (var item in Input.Description)
-                        {
-                            <TabPage Text="@(item.ToCulture().NativeName)">
+    <h3>@localizer["EDIT_TITLE"]</h3>
+    <EditForm Model="Input" @ref="_form">
+        <FluentValidationValidator />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col-12">
+                <Tabs EnableFadeEffect="false" NavStyle="NavStyle.Pills" class="mb-1">
+                    @foreach (var item in Input.Description)
+                    {
+                        <Tab Title="@(item.ToCulture().NativeName)">
+                            <Content>
                                 <div class="form-floating mb-3">
-                                    <InputText @bind-Value="item.Name" class="form-control" id="@($"status-name-{item.Code}")" placeholder="Name" />
-                                    <label for="status-name-@item.Code">Name</label>
+                                    <InputText @bind-Value="item.Name" class="form-control" id="@($"status-name-{item.Code}")" placeholder="@localizer["INPUT_NAME"]" />
+                                    <label for="status-name-@item.Code">@localizer["INPUT_NAME"]</label>
                                     <ValidationMessage For="() => item.Name" />
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <InputTextArea @bind-Value="item.Description" class="form-control" id="@($"status-beschreibung-{item.Code}")" placeholder="Beschreibung" />
-                                    <label for="status-beschreibung-@item.Code">Beschreibung</label>
+                                    <InputTextArea @bind-Value="item.Description" class="form-control" id="@($"status-beschreibung-{item.Code}")" placeholder="@localizer["INPUT_DESCRIPTION"]" />
+                                    <label for="status-beschreibung-@item.Code">@localizer["INPUT_DESCRIPTION"]</label>
                                     <ValidationMessage For="() => item.Description" />
                                 </div>
+                            </Content>
+                        </Tab>
+                    }
+                </Tabs>
 
-                            </TabPage>
-                        }
-                    </TabControl>
-
-                    <div class="form-floating mb-3">
-                        <InputNumber @bind-Value="Input.SortOrder" class="form-control" id="status-order" placeholder="Sortierung" />
-                        <label for="status-order">Sortierung</label>
-                        <ValidationMessage For="() => Input.SortOrder" />
-                    </div>
-
-                    <div class="form-check">
-                        <div class="checkbox">
-                            <InputCheckbox @bind-Value="Input.RequiresApproval" id="status-approval" class="form-check-input" />
-                            <label for="status-approval">Freigabe benötigt</label>
-                            <ValidationMessage For="() => Input.RequiresApproval" />
-                        </div>
-                    </div>
-
-                    <div class="form-check">
-                        <div class="checkbox">
-                            <InputCheckbox @bind-Value="Input.IsCompleted" id="status-completed" class="form-check-input" />
-                            <label for="status-completed">Vorgang abgeschlossen</label>
-                            <ValidationMessage For="() => Input.IsCompleted" />
-                        </div>
-                    </div>
-
+                <div class="form-floating mb-3">
+                    <InputNumber @bind-Value="Input.SortOrder" class="form-control" id="status-order" placeholder="@localizer["INPUT_SORT"]" />
+                    <label for="status-order">@localizer["INPUT_SORT"]</label>
+                    <ValidationMessage For="() => Input.SortOrder" />
                 </div>
+
+                <div class="form-check">
+                    <div class="checkbox">
+                        <InputCheckbox @bind-Value="Input.RequiresApproval" id="status-approval" class="form-check-input" />
+                        <label for="status-approval">@localizer["INPUT_APPROVAL"]</label>
+                        <ValidationMessage For="() => Input.RequiresApproval" />
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <div class="checkbox">
+                        <InputCheckbox @bind-Value="Input.IsCompleted" id="status-completed" class="form-check-input" />
+                        <label for="status-completed">@localizer["INPUT_COMPLETED"]</label>
+                        <ValidationMessage For="() => Input.IsCompleted" />
+                    </div>
+                </div>
+
             </div>
-        </EditForm>
-
-        <div class="toolbar">
-            <button type="button" class="btn btn-danger" @onclick="() => Input = null">@appLocalizer["BUTTON_TEXT_CANCEL"]</button>
-            <button type="button" class="btn btn-success" @onclick="SaveAsync">@appLocalizer["BUTTON_TEXT_SAVE"]</button>
         </div>
-    </Modal>
-}
+    </EditForm>
 
-@*@if (SelectedForDeletion is not null)
-{
-    <ConfirmModal Title="Status löschen?"
-                  OnClosed="() => SelectedForDeletion = null"
-                  OnConfirmed="DeleteAsync">
-        <p>Möchten Sie den Status wirklich löschen?</p>
-    </ConfirmModal>
-}*@
+    <div class="toolbar">
+        <Button Color="ButtonColor.Danger" @onclick="() => Input = null">@AppLocalizer["BUTTON_TEXT_CANCEL"]</Button>
+        <Button Color="ButtonColor.Success" @onclick="SaveAsync">@AppLocalizer["BUTTON_TEXT_SAVE"]</Button>
+    </div>
+}
