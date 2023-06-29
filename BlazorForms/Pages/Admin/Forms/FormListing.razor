@@ -12,7 +12,9 @@
 <h3>@localizer["PAGETITLE"]</h3>
 
 <div class="toolbar">
-    <a role="button" class="btn btn-success" href="/Admin/FormEditor"><i class="fa-solid fa-plus"></i></a>
+    <Tooltip Title="@localizer["TOOLTIP_NEW"]">
+        <a role="button" class="btn btn-success" href="/Admin/FormEditor"><Icon Name="IconName.Plus" Size="IconSize.x5" /></a>
+    </Tooltip>
 </div>
 
 <div class="row">
@@ -42,7 +44,7 @@
             <div class="card-content">
                 <!-- Table with no outer spacing -->
                 <div class="table-responsive">
-                    <table class="table mb-0 table-lg">
+                    <table class="table mb-0 align-middle">
                         <thead>
                             <tr>
                                 <th>@localizer["TH_ID"]</th>
@@ -62,9 +64,9 @@
                                     <td class="text-right text-nowrap">
                                         @if (UserCanDeleteForms)
                                         {
-                                            <button type="button" class="btn btn-danger me-1" @onclick="() => SelectedForDeletion = item"><i class="fa-solid fa-trash"></i></button>
+                                            <Button Color="ButtonColor.Danger" class="me-1" @onclick="async () => await ShowDeleteModalAsync(item)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></Button>
                                         }
-                                        <a class="btn btn-primary" href="/Admin/FormEditor/@item.FormId"><i class="fa-solid fa-edit"></i></a>
+                                        <a class="btn btn-primary" href="/Admin/FormEditor/@item.FormId"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></a>
                                     </td>
                                 </tr>
                             </Virtualize>
@@ -83,17 +85,18 @@
 
         </div>
 
-        <Pagination CurrentPageNumber="Page"
-                    ItemsPerPage="Filter.Limit"
-                    TotalItems="TotalItems"
-                    NavUrl="/Admin/Forms/" />
+
+        @if (TotalPages > 1)
+        {
+            <Pagination ActivePageNumber="Page"
+                        TotalPages="TotalPages"
+                        PageChanged="OnPageChangedAsync"
+                        FirstLinkIcon="IconName.ChevronDoubleLeft"
+                        PreviousLinkIcon="IconName.ChevronLeft"
+                        NextLinkIcon="IconName.ChevronRight"
+                        LastLinkIcon="IconName.ChevronDoubleRight" />
+        }
     </div>
 </div>
-@if (SelectedForDeletion is not null)
-{
-    <ConfirmModal Title="@localizer["MODAL_DELETE_TITLE"]"
-                  OnClosed="() => SelectedForDeletion = null"
-                  OnConfirmed="DeleteAsync">
-        <p>@String.Format(localizer["MODAL_DELETE_TEXT"], SelectedForDeletion.Name)</p>
-    </ConfirmModal>
-}
+
+<ConfirmDialog @ref="_deleteModal" />
