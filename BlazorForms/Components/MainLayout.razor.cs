@@ -88,54 +88,71 @@ namespace BlazorForms.Components
                 };
             }
 
-            
 
-            
 
-           
 
-            yield return new NavItem
-            {
-                Id = "14",
-                IconName = IconName.PersonCircle,
-                Text = "Account",
-                IconColor = IconColor.Success
-            };
 
-            yield return new NavItem
-            {
-                Id = "15",
-                Href = "/Account/Entries",
-                IconName = IconName.PencilFill,
-                Text = "Meine Formulare",
-                ParentId = "14"
-            };
 
-            yield return new NavItem
+
+            var user = await authService.GetUserAsync();
+
+
+            if (user is not null)
             {
-                Id = "16",
-                Href = "/Account/Assigned",
-                IconName = IconName.Send,
-                Text = "Mir zugeordnet",
-                ParentId = "14"
-            };
-            yield return new NavItem
+                yield return new NavItem
+                {
+                    Id = "14",
+                    IconName = IconName.PersonCircle,
+                    Text = "Account",
+                    IconColor = IconColor.Success
+                };
+
+                yield return new NavItem
+                {
+                    Id = "15",
+                    Href = "/Account/Entries",
+                    IconName = IconName.PencilFill,
+                    Text = "Meine Formulare",
+                    ParentId = "14"
+                };
+
+                yield return new NavItem
+                {
+                    Id = "16",
+                    Href = "/Account/Assigned",
+                    IconName = IconName.Send,
+                    Text = "Mir zugeordnet",
+                    ParentId = "14"
+                };
+                yield return new NavItem
+                {
+                    Id = "17",
+                    Href = "/Account/Details",
+                    IconName = IconName.PersonVCard,
+                    Text = "Accountdetails",
+                    ParentId = "14"
+                };
+                yield return new NavItem
+                {
+                    Id = "18",
+                    Href = "/Account/Logout",
+                    IconName = IconName.BoxArrowInRight,
+                    Text = "Logout",
+                    ParentId = "14",
+                    IconColor = IconColor.Danger
+                };
+            }
+            else
             {
-                Id = "17",
-                Href = "/Account/Details",
-                IconName = IconName.PersonVCard,
-                Text = "Accountdetails",
-                ParentId = "14"
-            };
-            yield return new NavItem
-            {
-                Id = "18",
-                Href = "/Account/Logout",
-                IconName = IconName.BoxArrowInRight,
-                Text = "Logout",
-                ParentId = "14",
-                IconColor = IconColor.Danger
-            };
+                yield return new NavItem
+                {
+                    Id = "18",
+                    Href = "/Account/Login",
+                    IconName = IconName.BoxArrowInRight,
+                    Text = "Login",
+                    IconColor = IconColor.Success
+                };
+            }
         }
     }
 }
