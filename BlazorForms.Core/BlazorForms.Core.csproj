@@ -16,9 +16,9 @@
     <PackageReference Include="itext7.pdfhtml" Version="5.0.0" />
     <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.8" />
   </ItemGroup>
 
   <ItemGroup>
