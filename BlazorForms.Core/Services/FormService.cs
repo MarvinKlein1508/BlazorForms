@@ -5,6 +5,7 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
 using System.Text;
+using MySqlX.XDevAPI.Relational;
 
 namespace BlazorForms.Core.Services
 {
@@ -371,6 +372,16 @@ form_id = @FORM_ID";
                             }
                         }
                     }
+
+                    foreach (var rule in column.Rules)
+                    {
+                        ruleIds.Add(rule.RuleId);
+                    }
+                }
+
+                foreach (var rule in row.Rules)
+                {
+                    ruleIds.Add(rule.RuleId);
                 }
             }
 
