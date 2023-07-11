@@ -64,6 +64,23 @@ namespace BlazorForms.Core.Validators.Admin
             {
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
+
+            if (element is FormTextElementBase textElement && !string.IsNullOrWhiteSpace(textElement.RegexPattern))
+            {
+                try
+                {
+                    var match = Regex.Match(text, textElement.RegexPattern);
+
+                    if(!match.Success)
+                    {
+                        context.AddFailure(new ValidationFailure(context.PropertyName, $"Die Eingabe hat ein falsches Format."));
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    context.AddFailure(new ValidationFailure(context.PropertyName, $"Ungültiger Regulärer Ausdruck in Element."));
+                }
+            }
         }
     }
 }
