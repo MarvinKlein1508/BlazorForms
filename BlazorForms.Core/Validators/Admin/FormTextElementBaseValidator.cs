@@ -65,7 +65,7 @@ namespace BlazorForms.Core.Validators.Admin
                 context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
 
-            if (element is FormTextElementBase textElement && !string.IsNullOrWhiteSpace(textElement.RegexPattern))
+            if (element is FormTextElementBase textElement && !string.IsNullOrWhiteSpace(textElement.RegexPattern) && !string.IsNullOrWhiteSpace(text))
             {
                 try
                 {
