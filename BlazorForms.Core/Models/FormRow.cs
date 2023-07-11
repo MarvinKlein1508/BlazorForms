@@ -110,7 +110,7 @@ namespace BlazorForms.Core.Models
                 return false;
             }
 
-            if (RuleType is not RuleType.Visible && RuleType is not RuleType.VisibleRequired)
+            if (RuleType is not RuleType.Visible and not RuleType.VisibleRequired)
             {
                 return true;
             }
