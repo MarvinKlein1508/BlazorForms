@@ -13,6 +13,7 @@
     <PackageReference Include="DbController.MySql" Version="2.3.0" />
     <PackageReference Include="DbController.TypeHandler" Version="2.3.0" />
     <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.0" />
     <PackageReference Include="itext7.pdfhtml" Version="5.0.0" />
     <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.8" />
