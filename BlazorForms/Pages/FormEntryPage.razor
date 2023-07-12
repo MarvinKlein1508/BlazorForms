@@ -56,15 +56,13 @@
                                 @foreach (var element in column.Elements)
                                 {
                                     <!-- The element needs to be used. Otherwise validation will be strange in some scenarios. Not sure why. LOL -->
-                                    <div data-guid="@element.Guid">
-
-
-                                        @if (!element.IsVisible())
-                                        {
-                                            continue;
-                                        }
-
-                                        @if (element is FormCheckboxElement formCheckboxElement)
+                                    @if (!element.IsVisible())
+                                    {
+                                        <div data-guid="@element.Guid"></div>
+                                    }
+                                    else
+                                    {
+                                        if (element is FormCheckboxElement formCheckboxElement)
                                         {
                                             <div class="form-check">
                                                 <div class="checkbox">
@@ -252,7 +250,7 @@
                                                 <ValidationMessage For="() => formTextElement.Value" />
                                             </div>
                                         }
-                                    </div>
+                                    }
                                 }
                             </div>
                         }
