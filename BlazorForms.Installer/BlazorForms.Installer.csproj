@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MailKit" Version="4.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
