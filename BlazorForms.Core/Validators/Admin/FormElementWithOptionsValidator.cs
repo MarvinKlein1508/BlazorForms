@@ -17,7 +17,7 @@ namespace BlazorForms.Core.Validators.Admin
                 .When(IsEntryMode);
         }
 
-        private void ValidateValue(string value, ValidationContext<T> context)
+        protected virtual void ValidateValue(string value, ValidationContext<T> context)
         {
             T element = context.InstanceToValidate;
             if (IsValueRequired(element) && value.Length is 0)
