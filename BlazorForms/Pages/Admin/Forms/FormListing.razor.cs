@@ -12,6 +12,7 @@ namespace BlazorForms.Pages.Admin.Forms
     public partial class FormListing
     {
         private ConfirmDialog _deleteModal = default!;
+        private ConfirmDialog _copyModal = default!;
         public FormFilter Filter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
@@ -28,7 +29,7 @@ namespace BlazorForms.Pages.Admin.Forms
         private Task OnPageChangedAsync(int pageNumber)
         {
             navigationManager.NavigateTo($"/Admin/Forms/{pageNumber}");
-            return Task.CompletedTask;  
+            return Task.CompletedTask;
         }
 
 
@@ -92,5 +93,53 @@ namespace BlazorForms.Pages.Admin.Forms
 
         }
 
+
+
+        private async Task ShowCopyModalAsync(Form input)
+        {
+
+            var options = new ConfirmDialogOptions
+            {
+                YesButtonText = appLocalizer["YES"],
+                YesButtonColor = ButtonColor.Success,
+                NoButtonText = appLocalizer["NO"],
+                NoButtonColor = ButtonColor.Danger
+            };
+
+            var confirmation = await _deleteModal.ShowAsync(
+            title: "Formular kopieren?",
+            message1: "Möchten Sie das Formular kopieren?",
+            confirmDialogOptions: options);
+
+            if (confirmation)
+            {
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+
+                await dbController.StartTransactionAsync();
+
+                try
+                {
+                    var form = await formService.GetAsync(input.Id, dbController);
+
+                    if (form is not null)
+                    {
+                        await formService.CreateAsync(form, dbController);
+                    }
+
+                    await dbController.CommitChangesAsync();
+                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular wurde erfolgreich kopiert");
+                }
+                catch (Exception)
+                {
+                    await dbController.RollbackChangesAsync();
+                    throw;
+                }
+
+                await LoadAsync();
+            }
+
+
+
+        }
     }
 }
