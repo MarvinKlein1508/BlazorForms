@@ -70,96 +70,17 @@ VALUES
 
             if (input is FormElementWithOptions elementWithOptions)
             {
-                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController, cancellationToken);
+                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, true, dbController, cancellationToken);
             }
 
-            await InsertOrUpdateElementRulesAsync(input, dbController, cancellationToken);
-            await InsertOrUpdateFormTableElementsAsync(input, dbController, cancellationToken);
-            await InsertOrUpdateCalcRuleSetsAsync(input, dbController, cancellationToken);
+            await InsertOrUpdateElementRulesAsync(input, true, dbController, cancellationToken);
+            await InsertOrUpdateFormTableElementsAsync(input, true, dbController, cancellationToken);
+            await InsertOrUpdateCalcRuleSetsAsync(input, true, dbController, cancellationToken);
             await InsertOrUpdateAcceptedFileTypesAsync(input, dbController, cancellationToken);
         }
 
-        private async Task InsertOrUpdateCalcRuleSetsAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (input is FormNumberElement formNumberElement)
-            {
-                formNumberElement.CalcRules.SetSortOrder();
-                foreach (var calcRule in formNumberElement.CalcRules)
-                {
-                    calcRule.ElementId = input.ElementId;
-                    if (calcRule.CalcRuleId is 0)
-                    {
-                        await _calcRuleService.CreateAsync(calcRule, dbController, cancellationToken);
-                    }
-                    else
-                    {
-                        await _calcRuleService.UpdateAsync(calcRule, dbController, cancellationToken);
-                    }
-                }
-            }
-        }
 
-        private async Task InsertOrUpdateFormTableElementsAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (input is FormTableElement tableElement)
-            {
-                tableElement.Elements.SetSortOrder();
-                foreach (var table_element in tableElement.Elements)
-                {
-                    table_element.FormId = input.FormId;
-                    table_element.RowId = input.RowId;
-                    table_element.ColumnId = input.ColumnId;
-                    table_element.TableParentElementId = input.ElementId;
-                    if (table_element.ElementId > 0)
-                    {
-                        await UpdateAsync(table_element, dbController, cancellationToken);
-                    }
-                    else
-                    {
-                        await CreateAsync(table_element, dbController, cancellationToken);
-                    }
-                }
-            }
-        }
 
-        private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, IDbController dbController, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            string sql = string.Empty;
-            foreach (var option in input.Options)
-            {
-                option.ElementId = input.ElementId;
-                if (option.ElementOptionId is 0)
-                {
-                    sql = $@"INSERT INTO form_elements_options
-(
-    element_id,
-    name
-)
-VALUES
-(
-    @ELEMENT_ID,
-    @NAME
-); {dbController.GetLastIdSql()}";
-
-                    option.ElementOptionId = await dbController.GetFirstAsync<int>(sql, option.GetParameters(), cancellationToken);
-
-                }
-                else
-                {
-                    sql = @"UPDATE form_elements_options SET
-element_id = @ELEMENT_ID,
-name = @NAME
-WHERE
-element_option_id = @ELEMENT_OPTION_ID";
-
-                    await dbController.QueryAsync(sql, option.GetParameters(), cancellationToken);
-                }
-            }
-
-        }
         private static (string tableName, List<string> fields) GetCustomAttributeSql(FormElement input)
         {
             string tableName = string.Empty;
@@ -312,7 +233,7 @@ VALUES
 
             if (input is FormElementWithOptions elementWithOptions)
             {
-                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, dbController, cancellationToken);
+                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions,false, dbController, cancellationToken);
 
                 // Delete options which are not part of the object anymore.
                 if (elementWithOptions.Options.Any())
@@ -336,9 +257,9 @@ VALUES
                 }
             }
 
-            await InsertOrUpdateElementRulesAsync(input, dbController, cancellationToken);
-            await InsertOrUpdateFormTableElementsAsync(input, dbController, cancellationToken);
-            await InsertOrUpdateCalcRuleSetsAsync(input, dbController, cancellationToken);
+            await InsertOrUpdateElementRulesAsync(input,false, dbController, cancellationToken);
+            await InsertOrUpdateFormTableElementsAsync(input, false, dbController, cancellationToken);
+            await InsertOrUpdateCalcRuleSetsAsync(input, false, dbController, cancellationToken);
             await InsertOrUpdateAcceptedFileTypesAsync(input, dbController, cancellationToken);
         }
         private async Task InsertOrUpdateAcceptedFileTypesAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
@@ -372,7 +293,7 @@ VALUES
                 }
             }
         }
-        private async Task InsertOrUpdateElementRulesAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
+        private async Task InsertOrUpdateElementRulesAsync(FormElement input, bool forceCreate, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             input.Rules.SetSortOrder();
@@ -382,7 +303,7 @@ VALUES
                 rule.RowId = input.RowId;
                 rule.ColumnId = input.ColumnId;
                 rule.ElementId = input.ElementId;
-                if (rule.RuleId is 0)
+                if (rule.RuleId is 0 || forceCreate)
                 {
                     await _ruleSetService.CreateAsync(rule, dbController, cancellationToken);
                 }
@@ -392,6 +313,85 @@ VALUES
                 }
             }
 
+        }
+        private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, bool forceCreate, IDbController dbController, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            string sql = string.Empty;
+            foreach (var option in input.Options)
+            {
+                option.ElementId = input.ElementId;
+                if (option.ElementOptionId is 0 || forceCreate)
+                {
+                    sql = $@"INSERT INTO form_elements_options
+(
+    element_id,
+    name
+)
+VALUES
+(
+    @ELEMENT_ID,
+    @NAME
+); {dbController.GetLastIdSql()}";
+
+                    option.ElementOptionId = await dbController.GetFirstAsync<int>(sql, option.GetParameters(), cancellationToken);
+
+                }
+                else
+                {
+                    sql = @"UPDATE form_elements_options SET
+element_id = @ELEMENT_ID,
+name = @NAME
+WHERE
+element_option_id = @ELEMENT_OPTION_ID";
+
+                    await dbController.QueryAsync(sql, option.GetParameters(), cancellationToken);
+                }
+            }
+
+        }
+        private async Task InsertOrUpdateFormTableElementsAsync(FormElement input, bool forceCreate, IDbController dbController, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (input is FormTableElement tableElement)
+            {
+                tableElement.Elements.SetSortOrder();
+                foreach (var table_element in tableElement.Elements)
+                {
+                    table_element.FormId = input.FormId;
+                    table_element.RowId = input.RowId;
+                    table_element.ColumnId = input.ColumnId;
+                    table_element.TableParentElementId = input.ElementId;
+                    if (table_element.ElementId > 0 || forceCreate)
+                    {
+                        await UpdateAsync(table_element, dbController, cancellationToken);
+                    }
+                    else
+                    {
+                        await CreateAsync(table_element, dbController, cancellationToken);
+                    }
+                }
+            }
+        }
+        private async Task InsertOrUpdateCalcRuleSetsAsync(FormElement input, bool forceCreate, IDbController dbController, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (input is FormNumberElement formNumberElement)
+            {
+                formNumberElement.CalcRules.SetSortOrder();
+                foreach (var calcRule in formNumberElement.CalcRules)
+                {
+                    calcRule.ElementId = input.ElementId;
+                    if (calcRule.CalcRuleId is 0 || forceCreate)
+                    {
+                        await _calcRuleService.CreateAsync(calcRule, dbController, cancellationToken);
+                    }
+                    else
+                    {
+                        await _calcRuleService.UpdateAsync(calcRule, dbController, cancellationToken);
+                    }
+                }
+            }
         }
     }
 }

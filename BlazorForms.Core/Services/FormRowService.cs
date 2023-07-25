@@ -46,14 +46,7 @@ VALUES
             {
                 rule.FormId = input.FormId;
                 rule.RowId = input.RowId;
-                if (rule.RuleId is 0)
-                {
-                    await _ruleService.CreateAsync(rule, dbController, cancellationToken);
-                }
-                else
-                {
-                    await _ruleService.UpdateAsync(rule, dbController, cancellationToken);
-                }
+                await _ruleService.CreateAsync(rule, dbController, cancellationToken);
             }
         }
 
