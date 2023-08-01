@@ -426,6 +426,17 @@ else
                                         </div>
 
                                         <div class="form-floating mb-3">
+                                            <InputSelect @bind-Value="Input.LanguageId" class="form-select" id="form-default-language" aria-placeholder="Sprache">
+                                                @foreach (var language in AppdatenService.Languages)
+                                                {
+                                                    <option value="@language.Id">@language.Name</option>
+                                                }
+                                            </InputSelect>
+                                            <label for="form-default-language">Sprache</label>
+                                            <ValidationMessage For="() => Input.LanguageId" />
+                                        </div>
+
+                                        <div class="form-floating mb-3">
                                             <InputSelect @bind-Value="Input.DefaultStatusId" class="form-select" id="form-default-status" aria-placeholder="Status für neue Formulareinträge">
                                                 @foreach (var status in Statuses)
                                                 {

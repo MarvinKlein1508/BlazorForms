@@ -151,6 +151,15 @@ namespace BlazorForms.Core.Services
 
         public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? new Dictionary<string, string>();
         public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
+        
+        public static Language GetActiveLanguage()
+        {
+            var currentCulture = CultureInfo.CurrentCulture;
+            var language = Languages.FirstOrDefault(x => x.Code == currentCulture.TwoLetterISOLanguageName);
+
+            return language is null ? Languages.First() : language;
+
+        }
         public static CultureInfo ToCulture(this ILocalizationHelper helper)
         {
 

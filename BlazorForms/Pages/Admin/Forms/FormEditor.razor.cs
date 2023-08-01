@@ -93,6 +93,7 @@ namespace BlazorForms.Pages.Admin.Forms
             else
             {
                 Input = new Form();
+                Input.LanguageId = AppdatenService.GetActiveLanguage().Id;
                 Input.Rows.Add(new FormRow(Input, 1));
                 EditFormProperties = true;
             }

@@ -77,8 +77,10 @@ CREATE TABLE forms
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	default_status_id INTEGER NOT NULL,
+	language_id INTEGER NOT NULL,
 	PRIMARY KEY (form_id),
-	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id)
+	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id),
+	FOREIGN KEY (language_id) REFERENCES languages(language_id) ON DELETE CASCADE ON UPDATE CASCASE
 );
 
 CREATE TABLE form_to_user

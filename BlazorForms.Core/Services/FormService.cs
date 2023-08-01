@@ -5,7 +5,6 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
 using System.Text;
-using MySqlX.XDevAPI.Relational;
 
 namespace BlazorForms.Core.Services
 {
@@ -28,7 +27,8 @@ logo,
 image,
 login_required,
 is_active,
-default_status_id
+default_status_id,
+language_id
 )
 VALUES
 (
@@ -38,7 +38,8 @@ VALUES
 @IMAGE,
 @LOGIN_REQUIRED,
 @IS_ACTIVE,
-@DEFAULT_STATUS_ID
+@DEFAULT_STATUS_ID,
+@LANGUAGE_ID
 ); {dbController.GetLastIdSql()}";
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
@@ -203,7 +204,8 @@ logo = @LOGO,
 image = @IMAGE,
 login_required = @LOGIN_REQUIRED,
 is_active = @IS_ACTIVE,
-default_status_id = @DEFAULT_STATUS_ID
+default_status_id = @DEFAULT_STATUS_ID,
+language_id = @LANGUAGE_ID
 WHERE
 form_id = @FORM_ID";
 

@@ -21,6 +21,8 @@ namespace BlazorForms.Core.Models
         public bool IsActive { get; set; }
         [CompareField("default_status_id")]
         public int DefaultStatusId { get; set; }
+        [CompareField("language_id")]
+        public int LanguageId { get; set; }
         [CompareField("logo")]
         public byte[] Logo { get; set; } = Array.Empty<byte>();
 
@@ -50,7 +52,8 @@ namespace BlazorForms.Core.Models
                 { "IMAGE", Image },
                 { "LOGIN_REQUIRED", IsOnlyAvailableForLoggedInUsers },
                 { "IS_ACTIVE", IsActive },
-                { "DEFAULT_STATUS_ID", DefaultStatusId }
+                { "DEFAULT_STATUS_ID", DefaultStatusId },
+                { "LANGUAGE_ID", LanguageId <= 0 ? null : LanguageId }
             };
         }
 
