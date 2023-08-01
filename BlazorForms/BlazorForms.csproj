@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazor.Bootstrap" Version="1.9.4" />
+		<PackageReference Include="Blazor.Bootstrap" Version="1.9.5" />
 		<PackageReference Include="BlazorDownloadFile" Version="2.4.0.2" />
 		<PackageReference Include="BlazorInputTags" Version="7.1.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
