@@ -148,6 +148,9 @@
     <value>Filter</value>
     <comment>Text for common filter card header</comment>
   </data>
+  <data name="LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="MODAL_EDIT_TITLE" xml:space="preserve">
     <value>Edit record</value>
     <comment>ManagementPageBase</comment>
@@ -162,6 +165,9 @@
   <data name="SAVE_MESSAGE" xml:space="preserve">
     <value>Record was saved successfully!</value>
     <comment>ManagementPageBase</comment>
+  </data>
+  <data name="SELECT_ALL" xml:space="preserve">
+    <value>All</value>
   </data>
   <data name="SELECT_CHOOSE" xml:space="preserve">
     <value>--- Select ---</value>

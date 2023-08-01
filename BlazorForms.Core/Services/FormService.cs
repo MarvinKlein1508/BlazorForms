@@ -272,7 +272,8 @@ form_id = @FORM_ID";
             return new Dictionary<string, object?>
             {
                 { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" },
-                { "USER_ID", filter.UserId }
+                { "USER_ID", filter.UserId },
+                { "LANGUAGE_ID", filter.LanguageId }
             };
         }
         public string GetFilterWhere(FormFilter filter)
@@ -304,6 +305,10 @@ form_id = @FORM_ID";
                 sb.AppendLine(" AND (user_id IS NULL OR user_id = @USER_ID)");
             }
 
+            if (filter.LanguageId > 0)
+            {
+                sb.AppendLine(" AND language_id = @LANGUAGE_ID");
+            }
 
             string sql = sb.ToString();
             return sql;

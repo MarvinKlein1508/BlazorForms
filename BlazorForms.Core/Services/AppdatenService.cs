@@ -138,6 +138,26 @@ namespace BlazorForms.Core.Services
             return item;
         }
 
+        /// <summary>
+        /// Gets the name for an instance of an <see cref="IDbModelWithName"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns>Wenn kein Name gefunden wird, dann gibt die Funktion "Unbekannt" zurück.</returns>
+        public static string GetName<T>(int? id) where T : class, IDbModelWithName, new()
+        {
+            if (id is 0 or null)
+            {
+                return string.Empty;
+            }
+
+            List<T> list = GetList<T>();
+
+            T? item = list.FirstOrDefault(x => x.Id == id);
+
+
+            return item is null ? "Unbekannt" : item.Name;
+        }
 
 
 

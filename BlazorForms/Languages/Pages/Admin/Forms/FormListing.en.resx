@@ -141,6 +141,9 @@
   <data name="TH_ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="TH_LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="TH_LOGIN_REQUIRED" xml:space="preserve">
     <value>Login required</value>
   </data>

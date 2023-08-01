@@ -22,6 +22,18 @@
                         <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <InputSelect @bind-Value="Filter.LanguageId" class="form-select" id="form-filter-language" aria-placeholder="@appLocalizer["LANGUAGE"]">
+                            <option value="0">@appLocalizer["SELECT_ALL"]</option>
+                            @foreach (var language in AppdatenService.Languages)
+                            {
+                                <option value="@language.Id">@language.Name</option>
+                            }
+                        </InputSelect>
+                        <label for="form-filter-language">@appLocalizer["LANGUAGE"]</label>
+                        <ValidationMessage For="() => Filter.LanguageId" />
+                    </div>
+
                     <div class="toolbar">
                         <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
                     </div>

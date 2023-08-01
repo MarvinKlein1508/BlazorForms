@@ -30,6 +30,18 @@
                         <label for="form-filter-searchphrase">@AppLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <InputSelect @bind-Value="Filter.LanguageId" class="form-select" id="form-filter-language" aria-placeholder="@AppLocalizer["LANGUAGE"]">
+                            <option value="0">@AppLocalizer["SELECT_ALL"]</option>
+                            @foreach (var language in AppdatenService.Languages)
+                            {
+                                <option value="@language.Id">@language.Name</option>
+                            }
+                        </InputSelect>
+                        <label for="form-filter-language">@AppLocalizer["LANGUAGE"]</label>
+                        <ValidationMessage For="() => Filter.LanguageId" />
+                    </div>
+
                     <div class="toolbar">
                         <button type="submit" class="btn btn-primary">@AppLocalizer["FILTER_BUTTON_SEARCH"]</button>
                     </div>
@@ -49,6 +61,7 @@
                             <tr>
                                 <th>@localizer["TH_ID"]</th>
                                 <th>@localizer["TH_NAME"]</th>
+                                <th>@localizer["TH_LANGUAGE"]</th>
                                 <th>@localizer["TH_ACTIVE"]</th>
                                 <th>@localizer["TH_LOGIN_REQUIRED"]</th>
                                 <th class="text-right">@localizer["TH_ACTION"]</th>
@@ -59,6 +72,7 @@
                                 <tr>
                                     <td>@item.FormId</td>
                                     <td>@item.Name</td>
+                                    <td>@(AppdatenService.GetName<Language>(item.LanguageId))</td>
                                     <td>@GetBooleanText(item.IsActive)</td>
                                     <td>@GetBooleanText(item.IsOnlyAvailableForLoggedInUsers)</td>
                                     <td class="text-right text-nowrap">
