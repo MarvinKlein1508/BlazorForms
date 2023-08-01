@@ -64,6 +64,10 @@
         var w = window.innerWidth;
         return w > 1024;
     },
+    isTablet: () => {
+        var w = window.innerWidth;
+        return w < 991 && w >= 576;
+    },
     scrollToFragment: (elementId, behavior) => {
         var element = document.getElementById(elementId);
 

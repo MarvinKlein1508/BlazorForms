@@ -1,4 +1,18 @@
-﻿footer {
+﻿:root {
+    --bb-sidebar-collapsed-width: -100px;
+    --bb-sidebar-top-row-background-color: #EAB700;
+    --bb-sidebar-top-row-border-color: #EAB700;
+    --bb-sidebar-title-badge-text-color: #EAB700;
+    --bb-sidebar-nav-item-background-hover-color: #eeeded;
+    --bb-sidebar-nav-item-text-active-color: #000;
+    --bb-sidebar-nav-item-text-hover-color: #000;
+}
+
+.bb-sidebar.collapsed {
+    display: none !important;
+}
+
+footer {
     display: flex;
     justify-content: space-between;
 }

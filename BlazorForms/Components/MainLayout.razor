@@ -9,6 +9,7 @@
 <div class="bb-page">
 
     <Sidebar @ref="_sidebar"
+             ImageSrc="/assets/images/logo/sidebar_logo.png"
              Title="BlazorForms"
              BadgeText="@($"v{Program.GetVersion()}")"
              DataProvider="SidebarDataProvider" />
@@ -17,6 +18,10 @@
     <main>
         <article class="content px-4">
             <div class="py-2">
+                <div class="d-none d-sm-block">
+                    <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
+                </div>
+
                 @Body
             </div>
         </article>

@@ -2,6 +2,7 @@ using BlazorBootstrap;
 using BlazorForms.Core.Constants;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
 
 namespace BlazorForms.Components
 {
@@ -153,6 +154,24 @@ namespace BlazorForms.Components
                     IconColor = IconColor.Success
                 };
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                bool isTablet = await JSRuntime.InvokeAsync<bool>("blazorHelpers.isTablet");
+
+                if (isTablet)
+                {
+                    ToggleSidebar();
+                }
+            }
+
+        }
+        private void ToggleSidebar()
+        {
+            _sidebar.ToggleSidebar();
         }
     }
 }

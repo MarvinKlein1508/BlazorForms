@@ -41,6 +41,7 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\assets\images\logo\" />
+	  <Folder Include="wwwroot\assets\images\logo\" />
 	</ItemGroup>
 
 </Project>
