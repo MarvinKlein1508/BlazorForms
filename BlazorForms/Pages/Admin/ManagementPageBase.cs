@@ -4,24 +4,18 @@ using BlazorForms.Core;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Localization;
-using Microsoft.JSInterop;
 using BlazorBootstrap;
-using BlazorForms.Core.Models;
 
 namespace BlazorForms.Pages.Admin
 {
-    public abstract class ManagementBasePage<T, TService> : ComponentBase where T : class, IDbModel, new() where TService : IModelService<T>
+    public abstract class ManagementBasePage<T, TService> : BlazorFormsComponentBase where T : class, IDbModel, new() where TService : IModelService<T>
     {
         protected T? Input { get; set; }
         
         protected EditForm? _form;
-        protected ConfirmDialog _deleteModal = default;
+        protected ConfirmDialog _deleteModal = default!;
 #nullable disable
         [Inject] public TService Service { get; set; }
-        [Inject] public IJSRuntime JSRuntime { get; set; }
-
-        [Inject] protected IStringLocalizer<App> AppLocalizer { get; set; }
 #nullable enable
 
         protected List<T> Data { get; set; } = new();

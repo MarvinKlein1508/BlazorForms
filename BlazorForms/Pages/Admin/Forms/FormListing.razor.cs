@@ -57,9 +57,9 @@ namespace BlazorForms.Pages.Admin.Forms
 
             var options = new ConfirmDialogOptions
             {
-                YesButtonText = appLocalizer["YES"],
+                YesButtonText = AppLocalizer["YES"],
                 YesButtonColor = ButtonColor.Success,
-                NoButtonText = appLocalizer["NO"],
+                NoButtonText = AppLocalizer["NO"],
                 NoButtonColor = ButtonColor.Danger
             };
 
@@ -100,9 +100,9 @@ namespace BlazorForms.Pages.Admin.Forms
 
             var options = new ConfirmDialogOptions
             {
-                YesButtonText = appLocalizer["YES"],
+                YesButtonText = AppLocalizer["YES"],
                 YesButtonColor = ButtonColor.Success,
-                NoButtonText = appLocalizer["NO"],
+                NoButtonText = AppLocalizer["NO"],
                 NoButtonColor = ButtonColor.Danger
             };
 

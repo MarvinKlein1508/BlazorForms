@@ -1,11 +1,11 @@
 ﻿@page "/Admin/Forms"
 @page "/Admin/Forms/{Page:int}"
 @attribute [Authorize(Roles = Roles.EDIT_FORMS)]
+@inherits BlazorFormsComponentBase
 @inject FormService formService
 @inject NavigationManager navigationManager
 @inject AuthService authService
 @inject IJSRuntime jsRuntime
-@inject IStringLocalizer<App> appLocalizer
 @inject IStringLocalizer<FormListing> localizer
 
 <PageTitle>@localizer["PAGETITLE"]</PageTitle>
@@ -21,17 +21,17 @@
     <div class="col-lg-3 col-sm-12 order-lg-3">
         <div class="card">
             <div class="card-header">
-                <h4>@appLocalizer["FILTER_TITLE"]</h4>
+                <h4>@AppLocalizer["FILTER_TITLE"]</h4>
             </div>
             <div class="card-content" style="padding: 0 1.3rem;">
                 <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                     <div class="form-floating mb-3">
-                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
-                        <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
+                        <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@AppLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+                        <label for="form-filter-searchphrase">@AppLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
                     </div>
 
                     <div class="toolbar">
-                        <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
+                        <button type="submit" class="btn btn-primary">@AppLocalizer["FILTER_BUTTON_SEARCH"]</button>
                     </div>
 
                 </EditForm>
@@ -59,8 +59,8 @@
                                 <tr>
                                     <td>@item.FormId</td>
                                     <td>@item.Name</td>
-                                    <td>@item.IsActive</td>
-                                    <td>@item.IsOnlyAvailableForLoggedInUsers</td>
+                                    <td>@GetBooleanText(item.IsActive)</td>
+                                    <td>@GetBooleanText(item.IsOnlyAvailableForLoggedInUsers)</td>
                                     <td class="text-right text-nowrap">
                                         @if (UserCanDeleteForms)
                                         {
