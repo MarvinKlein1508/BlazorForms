@@ -1,3 +1,14 @@
+CREATE TABLE languages
+(
+	language_id INTEGER NOT NULL AUTO_INCREMENT,
+	name varchar(32) NOT NULL,
+	code varchar(5) NOT NULL,
+	sort_order INTEGER NOT NULL DEFAULT 0,
+	status TINYINT NOT NULL DEFAULT 0,
+	PRIMARY KEY(language_id),
+	UNIQUE(code)
+);
+
 CREATE TABLE users
 (
 	user_id INTEGER NOT NULL AUTO_INCREMENT,
@@ -364,6 +375,11 @@ END$$
 DELIMITER ;
 
 /* DATA */
+/* Languages */
+INSERT INTO languages (name, code, sort_order, status) VALUES 
+('Deutsch', 'de', 0, 1),
+('English', 'en', 1, 1);
+
 /* Permissions */
 INSERT INTO permissions (permission_id, identifier) VALUES 
 (1, 'EDIT_FORMS'),

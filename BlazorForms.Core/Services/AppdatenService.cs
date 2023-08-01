@@ -12,11 +12,7 @@ namespace BlazorForms.Core.Services
     {
         public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
 
-        public static CultureInfo[] SupportedCultures => new CultureInfo[]
-        {
-            new CultureInfo("de"),
-            new CultureInfo("en-US")
-        };
+        public static List<CultureInfo> SupportedCultures { get; set; } = new();
 
 
         public static bool FirstUserExists { get; set; } = false;
@@ -36,6 +32,7 @@ namespace BlazorForms.Core.Services
 
         public static List<Permission> Permissions { get; set; } = new();
         public static List<FormStatus> Statuses { get; set; } = new();
+        public static List<Language> Languages { get; set; } = new();
 
         private static IConfiguration? _configuration;
 
@@ -43,9 +40,30 @@ namespace BlazorForms.Core.Services
         {
             _configuration = configuration;
             using IDbController dbController = new MySqlController(ConnectionString);
+            Languages = await LanguageService.GetAllAsync(dbController);
             Permissions = await PermissionService.GetAllAsync(dbController);
             Statuses = await FormStatusService.GetAllAsync(dbController);
             FirstUserExists = await UserService.FirstUserExistsAsync(dbController);
+
+            
+            foreach (var language in Languages)
+            {
+                try
+                {
+                    // Could crash here when there is an invalid language code within the database.
+                    SupportedCultures.Add(new CultureInfo(language.Code));
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
+            
+            if(SupportedCultures.Count == 0) 
+            {
+                throw new InvalidOperationException("No supported language could be found.");
+            }
         }
 
 
@@ -92,6 +110,7 @@ namespace BlazorForms.Core.Services
             {
                 Permission => Permissions,
                 FormStatus => Statuses,
+                Language => Languages,
                 _ => new List<T>()
             };
 
