@@ -2,7 +2,7 @@
 @inject IJSRuntime JSRuntime
 @inject AuthService authService
 @using System.Runtime.InteropServices
-
+@inject IStringLocalizer<MainLayout> localizer
 <PageTitle>BlazorForms</PageTitle>
 
 
@@ -28,19 +28,12 @@
 
         <footer class="px-4 text-muted">
 
-
-            <p>
-                Entwickelt mit <span class="text-danger"><Icon Name="IconName.HeartFill" /></span> by Marvin Klein
-            </p>
-
             <p class="text-center">
-                Ver. @Program.GetVersion()
-                <div>@RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture</div>
+                <div>2022 - @DateTime.Now.Year &copy; Marvin Klein</div>
             </p>
 
             <p class="text-right">
                 <CultureSelector />
-                @DateTime.Now.Year &copy; Marvin Klein
             </p>
 
 
