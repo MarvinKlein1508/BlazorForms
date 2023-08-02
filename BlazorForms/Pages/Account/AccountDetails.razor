@@ -1,8 +1,10 @@
 ﻿@page "/Account/Details"
 @attribute [Authorize]
 @inject AuthService authService
-<PageTitle>Accountdetails</PageTitle>
-<h3>Accountdetails</h3>
+@inherits BlazorFormsComponentBase
+@inject IStringLocalizer<AccountDetails> localizer
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
+<h3>@localizer["PAGETITLE"]</h3>
 
 
 @if (CurrentUser is not null)
@@ -11,36 +13,36 @@
         <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Informationen</h4>
+                    <h4 class="card-title">@localizer["INFORMATION"]</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
                         <p class="card-text">
-                            Die folgenden Information von Ihnen werden von der App verwendet.
+                            @localizer["INFORMATION_DESCRIPTION"]
                         </p>
                         <div class="table-responsive">
                             <table class="table table-lg">
                                 <tbody>
                                     <tr>
-                                        <td class="text-bold-500">Anzeigename</td>
+                                        <td class="text-bold-500">@localizer["INFORMATION_TD_DISPLAY_NAME"]</td>
                                         <td>@CurrentUser.DisplayName</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-bold-500">Username</td>
+                                        <td class="text-bold-500">@localizer["INFORMATION_TD_USERNAME"]</td>
                                         <td>@CurrentUser.Username</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-bold-500">UserId</td>
+                                        <td class="text-bold-500">@localizer["INFORMATION_TD_USERID"]</td>
                                         <td>@CurrentUser.UserId</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-bold-500">E-Mail</td>
+                                        <td class="text-bold-500">@localizer["INFORMATION_TD_EMAIL"]</td>
                                         <td>@CurrentUser.Email</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-bold-500">Kontotyp</td>
+                                        <td class="text-bold-500">@localizer["INFORMATION_TD_ACCOUNT_TYPE"]</td>
                                         <td>
-                                            <p>@(CurrentUser.ActiveDirectoryGuid != null ? "Active Directory" : "Lokal")</p>
+                                            <p>@(CurrentUser.ActiveDirectoryGuid != null ? localizer["INFORMATION_ACCOUNT_TYPE_AD"] : localizer["INFORMATION_ACCOUNT_TYPE_LOCAL"])</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -54,19 +56,19 @@
         <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Berechtigungen</h4>
+                    <h4 class="card-title">@localizer["PERMISSIONS"]</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
                         <p class="card-text">
-                            Nachfolgend erhalten Sie eine Übersicht Ihre Berechtigungen.
+                            @localizer["PERMISSIONS_DESCRIPTION"]
                         </p>
                         <div class="table-responsive">
                             <table class="table table-lg">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Beschreibung</th>
+                                        <th>@localizer["PERMISSIONS_TH_NAME"]</th>
+                                        <th>@localizer["PERMISSIONS_TH_DESCRIPTION"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,7 +89,7 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="2">Sie haben keine erweiterten Berechtigungen.</td>
+                                            <td colspan="2">@localizer["PERMISSIONS_NO_EXTRA"]</td>
                                         </tr>
                                     }
                                 </tbody>
