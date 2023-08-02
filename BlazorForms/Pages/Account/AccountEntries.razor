@@ -3,10 +3,12 @@
 @attribute [Authorize]
 @inject FormEntryService formEntryService
 @inject AuthService authService
+@inherits BlazorFormsComponentBase
+@inject IStringLocalizer<AccountEntries> localizer
 
-<PageTitle>Meine Formulare</PageTitle>
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
-<h3>Meine Formulare</h3>
+<h3>@localizer["PAGETITLE"]</h3>
 
 <EntryList Filter="Filter"
            NavUrl="/Account/Entries/Page/"
