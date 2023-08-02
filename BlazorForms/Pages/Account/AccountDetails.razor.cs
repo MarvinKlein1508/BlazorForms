@@ -7,10 +7,7 @@ namespace BlazorForms.Pages.Account
 {
     public partial class AccountDetails
     {
-#nullable disable
-        [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
-#nullable enable
-
+        [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; } = default!;
         public User? CurrentUser { get; set; }
         private ClaimsPrincipal? _user;
         protected override async Task OnParametersSetAsync()
