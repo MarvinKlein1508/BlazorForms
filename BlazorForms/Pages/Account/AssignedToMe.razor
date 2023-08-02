@@ -2,10 +2,12 @@
 @page "/Account/Assigned/{Page:int}"
 @attribute [Authorize]
 @inject AuthService authService
+@inherits BlazorFormsComponentBase
+@inject IStringLocalizer<AssignedToMe> localizer
 
-<PageTitle>Mir zugeordnet</PageTitle>
+<PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
-<h3>Mir zugeordnet</h3>
+<h3>@localizer["PAGETITLE"]</h3>
 
 <EntryList Filter="Filter"
            NavUrl="/Account/Assigned/"
