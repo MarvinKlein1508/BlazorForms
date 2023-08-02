@@ -107,8 +107,8 @@ namespace BlazorForms.Pages.Admin.Forms
             };
 
             var confirmation = await _deleteModal.ShowAsync(
-            title: "Formular kopieren?",
-            message1: "Möchten Sie das Formular kopieren?",
+            title: localizer["MODAL_COPY_TITLE"],
+            message1: localizer["MODAL_COPY_DESCRIPTION"],
             confirmDialogOptions: options);
 
             if (confirmation)
@@ -127,7 +127,7 @@ namespace BlazorForms.Pages.Admin.Forms
                     }
 
                     await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, "Formular wurde erfolgreich kopiert");
+                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_COPY_SUCCESS"]);
                 }
                 catch (Exception)
                 {
