@@ -120,6 +120,9 @@
   <data name="ALL" xml:space="preserve">
     <value>Alle</value>
   </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
   <data name="BUTTON_TEXT_CANCEL" xml:space="preserve">
     <value>Abbrechen</value>
     <comment>Text for cancel buttons</comment>
@@ -127,6 +130,9 @@
   <data name="BUTTON_TEXT_SAVE" xml:space="preserve">
     <value>Speichern</value>
     <comment>Text for save buttons</comment>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Abbrechen</value>
   </data>
   <data name="DELETE_ERROR_REFERENCE" xml:space="preserve">
     <value>Der Datensatz konnte nicht gelöscht werden, da dieser über aktive Verweise verfügt</value>
@@ -161,6 +167,9 @@
   </data>
   <data name="NO" xml:space="preserve">
     <value>Nein</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Speichern</value>
   </data>
   <data name="SAVE_MESSAGE" xml:space="preserve">
     <value>Datensatz wurde erfolgreich gespeichert!</value>

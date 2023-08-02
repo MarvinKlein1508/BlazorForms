@@ -41,10 +41,7 @@ namespace BlazorForms.Pages.Admin.Forms
         private HotKeysContext _hotKeysContext;
 #nullable enable
 
-        private InputTagOptions _fileTypeOptions = new InputTagOptions
-        {
-            InputPlaceholder = "Enter extension, add with Enter"
-        };
+        private InputTagOptions _fileTypeOptions = new();
 
         public List<FormStatus> Statuses { get; set; } = new();
 
@@ -55,9 +52,9 @@ namespace BlazorForms.Pages.Admin.Forms
                 return false;
             }
 
-            if (!AppdatenService.MimeTypes.TryGetValue(fileType, out var mimeType))
+            if (!AppdatenService.MimeTypes.TryGetValue(fileType, out var _))
             {
-                await jsRuntime.ShowToastAsync(ToastType.error, "Dateityp wird nicht unterstützt.");
+                await JSRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_INVALID_FILETYPE"]);
                 return false;
             }
 
@@ -65,17 +62,19 @@ namespace BlazorForms.Pages.Admin.Forms
         }
         protected override Task OnInitializedAsync()
         {
+            _fileTypeOptions.InputPlaceholder = localizer["PLACEHOLDER_EXTENSIONS"];
+
             _hotKeysContext = hotKeys.CreateContext()
                 .Add(ModCode.None, Code.Escape, async () =>
                 {
                     await CloseItemAsync();
                     await InvokeAsync(StateHasChanged);
-                }, "Zurück", Exclude.None)
+                }, AppLocalizer["BACK"], Exclude.None)
                 .Add(ModCode.Ctrl, Code.S, async () =>
                 {
                     await SaveAsync();
                     await InvokeAsync(StateHasChanged);
-                }, "Speichern", Exclude.None);
+                }, AppLocalizer["SAVE"], Exclude.None);
             return base.OnInitializedAsync();
         }
         protected override async Task OnParametersSetAsync()
@@ -230,7 +229,7 @@ namespace BlazorForms.Pages.Admin.Forms
             if (!validationResult.IsValid)
             {
                 StringBuilder errorBuilder = new StringBuilder();
-                errorBuilder.AppendLine("Speichern nicht möglich, da die Validierung des Formulars fehlgeschlagen ist.");
+                errorBuilder.AppendLine(localizer["ERROR_VALIDATION"]);
 
                 foreach (var item in validationResult.Errors)
                 {
@@ -240,7 +239,7 @@ namespace BlazorForms.Pages.Admin.Forms
 
                 string errorMessage = errorBuilder.ToString();
 
-                await jsRuntime.ShowToastAsync(ToastType.error, errorMessage);
+                await JSRuntime.ShowToastAsync(ToastType.error, errorMessage);
                 return;
             }
 
@@ -315,7 +314,7 @@ namespace BlazorForms.Pages.Admin.Forms
                 }
             }
 
-            await jsRuntime.ShowToastAsync(ToastType.success, "Form has been saved successfully.");
+            await JSRuntime.ShowToastAsync(ToastType.success, localizer["MESSAGE_SAVED_SUCCESSFULLY"]);
 
         }
         private Task OpenFormElementAsync(FormElement element)
@@ -383,7 +382,7 @@ namespace BlazorForms.Pages.Admin.Forms
             {
                 if (ScrollToGuid is not null)
                 {
-                    await jsRuntime.ScrollToFragment(ScrollToGuid!.ToString()!, ScrollBehavior.auto);
+                    await JSRuntime.ScrollToFragment(ScrollToGuid!.ToString()!, ScrollBehavior.auto);
                     ScrollToGuid = null;
                 }
             }
@@ -467,7 +466,7 @@ namespace BlazorForms.Pages.Admin.Forms
         {
             if (Input.HasBeenModified(StartCopy))
             {
-                var isConfirmed = await jsRuntime.InvokeAsync<bool>("confirm", "Sie haben noch nicht alle Änderungen gespeichert. Möchten Sie den Editor dennoch verlassen?");
+                var isConfirmed = await JSRuntime.InvokeAsync<bool>("confirm", localizer["MESSAGE_UNSAVED_CHANGES"]);
 
                 if (!isConfirmed)
                 {
