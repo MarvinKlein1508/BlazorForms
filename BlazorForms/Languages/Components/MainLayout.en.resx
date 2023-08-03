@@ -121,13 +121,13 @@
     <value>Account</value>
   </data>
   <data name="NAV_ACCOUNT_ASSIGNED" xml:space="preserve">
-    <value>Mir zugeordnet</value>
+    <value>Assigned to me</value>
   </data>
   <data name="NAV_ACCOUNT_DETAILS" xml:space="preserve">
     <value>Accountdetails</value>
   </data>
   <data name="NAV_ACCOUNT_ENTRIES" xml:space="preserve">
-    <value>Meine Formulare</value>
+    <value>My forms</value>
   </data>
   <data name="NAV_ACCOUNT_LOGIN" xml:space="preserve">
     <value>Login</value>
@@ -139,16 +139,16 @@
     <value>Administration</value>
   </data>
   <data name="NAV_ADMIN_FORMS" xml:space="preserve">
-    <value>Formulare</value>
+    <value>Forms</value>
   </data>
   <data name="NAV_ADMIN_FORM_ENTRIES" xml:space="preserve">
-    <value>Formulareinträge</value>
+    <value>Form entries</value>
   </data>
   <data name="NAV_ADMIN_STATUS" xml:space="preserve">
-    <value>Statusverwaltung</value>
+    <value>Status management</value>
   </data>
   <data name="NAV_ADMIN_USERS" xml:space="preserve">
-    <value>Benutzerverwaltung</value>
+    <value>Users</value>
   </data>
   <data name="NAV_DASHBOARD" xml:space="preserve">
     <value>Dashboard</value>
