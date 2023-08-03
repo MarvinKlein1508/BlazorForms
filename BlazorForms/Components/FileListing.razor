@@ -1,7 +1,9 @@
-﻿@inject IBlazorDownloadFileService downloadService
+﻿@inherits BlazorFormsComponentBase
+@inject IBlazorDownloadFileService downloadService
+@inject IStringLocalizer<FileListing> localizer
 @if (Files.Any())
 {
-    <h2>Dateien</h2>
+    <h2>@localizer["TITLE"]</h2>
     <div class="file-wrapper">
         @foreach (var file in Files)
         {
@@ -25,10 +27,10 @@
                 <button type="button" class="btn file-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="@file.GetHashCode()"><i class="bi bi-three-dots-vertical"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="@file.GetHashCode()">
 
-                    <li class="dropdown-item" role="button" @onclick="async () => await DeleteAsync(file)"><i class="bi bi-trash text-danger"></i> Löschen</li>
-                    <li class="dropdown-item" role="button" @onclick="async () => await DownloadAsync(file)"><i class="bi bi-download text-primary"></i> Herunterladen</li>
+                    <li class="dropdown-item" role="button" @onclick="async () => await DeleteAsync(file)"><i class="bi bi-trash text-danger"></i> @localizer["DELETE"]</li>
+                    <li class="dropdown-item" role="button" @onclick="async () => await DownloadAsync(file)"><i class="bi bi-download text-primary"></i> @localizer["DOWNLOAD"]</li>
                     <li class="dropdown-divider"></li>
-                    <li class="dropdown-item">Größe: @ToHumanReadableFileSize(file.Data)</li>
+                    <li class="dropdown-item">@localizer["SIZE"] @ToHumanReadableFileSize(file.Data)</li>
                 </ul>
             </div>
         }
