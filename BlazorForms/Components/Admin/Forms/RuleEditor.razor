@@ -1,5 +1,6 @@
-﻿@typeparam TItem where TItem : IHasRuleSet
-
+﻿@inherits BlazorFormsComponentBase
+@typeparam TItem where TItem : IHasRuleSet
+@inject IStringLocalizer<RuleEditor> localizer
 @if (Input is not null && Input.Form is not null)
 {
     <div class="form-floating mb-3">
@@ -9,7 +10,7 @@
                 <option value="@item">@item</option>
             }
         </InputSelect>
-        <label for="rule-type">Regeltyp</label>
+        <label for="rule-type">@localizer["LABEL_RULE_TYPE"]</label>
     </div>
 
     @if (Input.Form.GetRuleElements().Any())
@@ -20,74 +21,74 @@
     }
     else
     {
-        <div class="alert alert-warning">Dem Formular wurden noch keine Elemente hinzugefügt, die zum Aufbau eines Regelsatzes verwendet werden können.</div>
+        <div class="alert alert-warning">@localizer["ERROR_NO_RULE_ELEMENTS"]</div>
     }
 
     <Dropzone Items="Input.Rules" Context="rule">
         <div class="rule">
             <div class="ruleset-wrapper">
                 <div class="form-floating">
-                    <InputSelect @bind-Value="rule.LogicalOperator" id="@($"rule-logic-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Logik">
+                    <InputSelect @bind-Value="rule.LogicalOperator" id="@($"rule-logic-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_LOGIC"]">
                         @foreach (LogicalOperator item in Enum.GetValues(typeof(LogicalOperator)))
                         {
                             <option value="@item">@item</option>
                         }
                     </InputSelect>
-                    <label for="@($"rule-logic-{rule.GetHashCode()}")">Logik</label>
+                    <label for="@($"rule-logic-{rule.GetHashCode()}")">@localizer["LABEL_LOGIC"]</label>
                 </div>
                 <div class="form-floating">
                     <InputSelect Value="rule.ElementGuid"
                              ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(rule, guid)"
                              ValueExpression="() => rule.ElementGuid"
-                                 id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Element">
+                                 id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_ELEMENT"]">
                         @foreach (var item in Input.Form.GetRuleElements())
                         {
                             <option value="@item.Guid">@item</option>
                         }
                     </InputSelect>
-                    <label for="@($"rule-logic-{rule.GetHashCode()}")">Element</label>
+                    <label for="@($"rule-logic-{rule.GetHashCode()}")">@localizer["LABEL_ELEMENT"]</label>
                 </div>
                 <div class="form-floating">
                     @if (rule.Element is not null)
                     {
-                        <InputSelect @bind-Value="rule.ComparisonOperator" id="@($"rule-compare-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                        <InputSelect @bind-Value="rule.ComparisonOperator" id="@($"rule-compare-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_OPERATOR"]">
                             @foreach (ComparisonOperator item in GetAllowedOperators(rule.Element))
                         {
                             <option value="@item">@item</option>
                         }
                     </InputSelect>
-                        <label for="@($"rule-compare-{rule.GetHashCode()}")">Operator</label>
+                        <label for="@($"rule-compare-{rule.GetHashCode()}")">@localizer["LABEL_OPERATOR"]</label>
                     }
                 </div>
                 <div class="form-floating">
                     @if (rule.Element is FormDateElement formDateElement)
                     {
-                        <InputDate @bind-Value="rule.ValueDate" id="@($"rule-date-{rule.GetHashCode()}")" class="form-control" placeholder="Wert" />
-                        <label for="@($"rule-date-{rule.GetHashCode()}")">Wert</label>
+                        <InputDate @bind-Value="rule.ValueDate" id="@($"rule-date-{rule.GetHashCode()}")" class="form-control" placeholder="@localizer["LABEL_VALUE"]" />
+                        <label for="@($"rule-date-{rule.GetHashCode()}")">@localizer["LABEL_VALUE"]</label>
                     }
                     else if (rule.Element is FormNumberElement formNumberElement)
                     {
-                        <InputNumber @bind-Value="rule.ValueNumber" id="@($"rule-number-{rule.GetHashCode()}")" class="form-control" placeholder="Wert" />
-                        <label for="@($"rule-number-{rule.GetHashCode()}")">Wert</label>
+                        <InputNumber @bind-Value="rule.ValueNumber" id="@($"rule-number-{rule.GetHashCode()}")" class="form-control" placeholder="@localizer["LABEL_VALUE"]" />
+                        <label for="@($"rule-number-{rule.GetHashCode()}")">@localizer["LABEL_VALUE"]</label>
                     }
                     else if (rule.Element is FormElementWithOptions formElementWithOptions)
                     {
-                        <InputSelect @bind-Value="rule.ValueString" id="@($"rule-options-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Wert">
+                        <InputSelect @bind-Value="rule.ValueString" id="@($"rule-options-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_VALUE"]">
 
                             @foreach (var item in formElementWithOptions.Options)
                         {
                             <option value="@item.Name">@item.Name</option>
                         }
                     </InputSelect>
-                        <label for="@($"rule-options-{rule.GetHashCode()}")">Wert</label>
+                        <label for="@($"rule-options-{rule.GetHashCode()}")">@localizer["LABEL_VALUE"]</label>
                     }
                     else if (rule.Element is FormCheckboxElement formCheckboxElement)
                     {
-                        <InputSelect @bind-Value="rule.ValueBoolean" id="@($"rule-checkbox-{rule.GetHashCode()}")" class="form-select" aria-placeholder="Wert">
-                            <option value="false">Nein</option>
-                            <option value="true">Ja</option>
+                        <InputSelect @bind-Value="rule.ValueBoolean" id="@($"rule-checkbox-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_VALUE"]">
+                            <option value="false">@AppLocalizer["NO"]</option>
+                            <option value="true">@AppLocalizer["YES"]</option>
                         </InputSelect>
-                        <label for="@($"rule-checkbox-{rule.GetHashCode()}")">Wert</label>
+                        <label for="@($"rule-checkbox-{rule.GetHashCode()}")">@localizer["LABEL_VALUE"]</label>
                     }
 
                 </div>
