@@ -117,7 +117,7 @@ namespace BlazorForms.Components
                     }
                 }
 
-                await jsRuntime.ShowToastAsync(ToastType.success, "Datensatz erfolgreich gespeichert");
+                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
                 await OnSaved.InvokeAsync(Input);
             }
         }

@@ -1,58 +1,57 @@
-﻿@inject FormEntryStatusChangeService statusChangeService
+﻿@inherits BlazorFormsComponentBase
+@inject FormEntryStatusChangeService statusChangeService
 @inject FormEntryService formEntryService
 @inject UserService userService
 @inject NavigationManager navigationManager
-@inject IJSRuntime jsRuntime
 @inject IOptions<EmailSettings> emailSettings
+@inject IStringLocalizer<StatusChangeEditor> localizer
 @if (Input is not null)
 {
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <div class="form-floating mb-3">
-            <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="Status">
-                <option value="0">--- Auswählen ---</option>
+            <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="@localizer["LABEL_STATUS"]">
+                <option value="0">@AppLocalizer["SELECT_CHOOSE"]</option>
                 @foreach (var status in AppdatenService.Statuses)
                 {
                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
                     <option value="@status.Id">@description?.Name</option>
                 }
             </InputSelect>
-            <label for="status-id">Status</label>
+            <label for="status-id">@localizer["LABEL_STATUS"]</label>
             <ValidationMessage For="() => Input.StatusId" />
         </div>
         <div class="form-floating mb-3">
-            <InputTextArea @bind-Value="Input.Comment" class="form-control" id="status-comment" placeholder="Kommentar" />
-            <label for="status-comment">Kommentar</label>
+            <InputTextArea @bind-Value="Input.Comment" class="form-control" id="status-comment" placeholder="@localizer["LABEL_COMMENT"]" />
+            <label for="status-comment">@localizer["LABEL_COMMENT"]</label>
             <ValidationMessage For="() => Input.Comment" />
         </div>
 
         <div class="form-check">
             <div class="checkbox">
                 <InputCheckbox @bind-Value="Input.NotifyCreator" id="status-notify-creator" class="form-check-input" />
-                <label for="status-notify-creator">Ersteller benachrichtigen</label>
+                <label for="status-notify-creator">@localizer["LABEL_NOTIFY_CREATOR"]</label>
                 <ValidationMessage For="() => Input.NotifyCreator" />
             </div>
         </div>
         <div class="form-check">
             <div class="checkbox">
                 <InputCheckbox @bind-Value="Input.NotifyManagers" id="status-notify-managers" class="form-check-input" />
-                <label for="status-notify-managers">Bearbeiter benachrichtigen</label>
+                <label for="status-notify-managers">@localizer["LABEL_NOTIFY_MANAGER"]</label>
                 <ValidationMessage For="() => Input.NotifyManagers" />
             </div>
         </div>
         <div class="form-check">
             <div class="checkbox">
                 <InputCheckbox @bind-Value="Input.NotifyApprovers" id="status-notify-approvers" class="form-check-input" />
-                <label for="status-notify-approvers">Freigeber benachrichtigen</label>
+                <label for="status-notify-approvers">@localizer["LABEL_NOTIFY_APPROVER"]</label>
                 <ValidationMessage For="() => Input.NotifyApprovers" />
             </div>
         </div>
     </EditForm>
 
     <div class="toolbar">
-        <button type="button" class="btn btn-danger" @onclick="async () => await OnCancel.InvokeAsync()">Abbrechen</button>
-        <button type="button" class="btn btn-success" @onclick="SaveAsync">Speichern</button>
+        <Button Color="ButtonColor.Danger" @onclick="async () => await OnCancel.InvokeAsync()">@AppLocalizer["CANCEL"]</Button>
+        <Button Color="ButtonColor.Success" @onclick="SaveAsync">@AppLocalizer["SAVE"]</Button>
     </div>
 }
-
-
