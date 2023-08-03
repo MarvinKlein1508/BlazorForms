@@ -1,21 +1,22 @@
-﻿@if (Rule is not null && Input is not null && Element is not null)
+﻿@inject IStringLocalizer<ElementCalcRule> localizer
+@if (Rule is not null && Input is not null && Element is not null)
 {
     <div class="rule">
         <div class="ruleset-wrapper">
             <div class="form-floating">
-                <InputSelect @bind-Value="Rule.MathOperator" id="@($"calcrule-math-operator-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Operator">
+                <InputSelect @bind-Value="Rule.MathOperator" id="@($"calcrule-math-operator-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_OPERATOR"]">
                     @foreach (MathOperators item in Enum.GetValues(typeof(MathOperators)))
                     {
                         <option value="@item">@item</option>
                     }
                 </InputSelect>
-                <label for="@($"calcrule-math-operator-{Rule.GetHashCode()}")">Operator</label>
+                <label for="@($"calcrule-math-operator-{Rule.GetHashCode()}")">@localizer["LABEL_OPERATOR"]</label>
             </div>
             <div class="form-floating">
                 <InputSelect Value="Rule.GuidElement"
                          ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(Rule, guid)"
                          ValueExpression="() => Rule.GuidElement"
-                             id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="Element">
+                             id="@($"calcrule-guid-{Rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_ELEMENT"]">
                     @foreach (var item in Input.GetCalcRuleSetElements(Element.TableParentElementId != 0))
                     {
                         @if (item != Element)
@@ -24,7 +25,7 @@
                         }
                     }
                 </InputSelect>
-                <label for="@($"calcrule-guid-{Rule.GetHashCode()}")">Element</label>
+                <label for="@($"calcrule-guid-{Rule.GetHashCode()}")">@localizer["LABEL_ELEMENT"]</label>
             </div>
 
         </div>
