@@ -15,6 +15,7 @@ Create dynamic PDF forms completely in the web.
 * Login via LDAP or local account
 * Create unlimited amount of forms
 * Submitted forms can be edited afterwards
+* Supports both German & English
 * Forms can be limited to fill out by certain users or logged in users
 * Define managers for forms who can see all submitted entries
 * E-Mail notifications for form managers
