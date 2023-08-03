@@ -1,12 +1,14 @@
-﻿@inject FormEntryStatusChangeService entryStatusService
+﻿@inherits BlazorFormsComponentBase
+@inject FormEntryStatusChangeService entryStatusService
+@inject IStringLocalizer<EntryHistory> localizer
 <div class="table-responsive-md">
     <table class="@TableClass">
         <thead>
             <tr>
-                <th>Datum</th>
-                <th>Status</th>
-                <th>Benutzer</th>
-                <th>Kommentar</th>
+                <th>@localizer["TH_DATE"]</th>
+                <th>@localizer["TH_STATUS"]</th>
+                <th>@localizer["TH_USER"]</th>
+                <th>@localizer["TH_COMMENT"]</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +38,7 @@
             {
                 <tr>
                     <td colspan="4" class="text-center">
-                        Keine History gefunden.
+                        @localizer["NO_HISTORY"]
                     </td>
                 </tr>
             }
