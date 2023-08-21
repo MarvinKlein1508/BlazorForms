@@ -22,7 +22,7 @@ namespace BlazorForms.Core.Validators.Admin
             T element = context.InstanceToValidate;
             if (IsValueRequired(element) && value.Length is 0)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} erfordert eine ausgewählte Option."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} erfordert eine ausgewählte Option."));
             }
         }
     }

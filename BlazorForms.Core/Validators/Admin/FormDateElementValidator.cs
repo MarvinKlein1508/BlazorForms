@@ -23,15 +23,15 @@ namespace BlazorForms.Core.Validators.Admin
             FormDateElement element = context.InstanceToValidate;
             if (IsValueRequired(element) && date == default)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"Bitte geben Sie für {element.Name} ein Datum an."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"Bitte geben Sie für {element.Name} ein Datum an."));
             }
             else if (element.MinDate != default && date.Date < element.MinDate.Date)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss größer oder gleich {element.MinDate.ToShortDateString()} sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss größer oder gleich {element.MinDate.ToShortDateString()} sein."));
             }
             else if (element.MaxDate != default && date.Date > element.MaxDate.Date)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss kleiner oder gleich {element.MaxDate.ToShortDateString()} sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss kleiner oder gleich {element.MaxDate.ToShortDateString()} sein."));
             }
         }
     }

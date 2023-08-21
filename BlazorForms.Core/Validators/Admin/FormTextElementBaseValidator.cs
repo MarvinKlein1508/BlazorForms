@@ -54,15 +54,15 @@ namespace BlazorForms.Core.Validators.Admin
             T element = context.InstanceToValidate;
             if (IsValueRequired(element) && text.Length is 0)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} darf nicht leer sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} darf nicht leer sein."));
             }
             else if (element.MinLength > 0 && text.Length < element.MinLength)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss mindestens {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss mindestens {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
             else if (element.MaxLength > 0 && text.Length > element.MaxLength)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
             }
 
             if (element is FormTextElementBase textElement && !string.IsNullOrWhiteSpace(textElement.RegexPattern) && !string.IsNullOrWhiteSpace(text))
@@ -73,12 +73,12 @@ namespace BlazorForms.Core.Validators.Admin
 
                     if(!match.Success)
                     {
-                        context.AddFailure(new ValidationFailure(context.PropertyName, $"Die Eingabe hat ein falsches Format."));
+                        context.AddFailure(new ValidationFailure(context.PropertyPath, $"Die Eingabe hat ein falsches Format."));
                     }
                 }
                 catch (ArgumentException)
                 {
-                    context.AddFailure(new ValidationFailure(context.PropertyName, $"Ungültiger Regulärer Ausdruck in Element."));
+                    context.AddFailure(new ValidationFailure(context.PropertyPath, $"Ungültiger Regulärer Ausdruck in Element."));
                 }
             }
         }

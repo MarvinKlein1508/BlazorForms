@@ -18,7 +18,7 @@ namespace BlazorForms.Core.Validators.Admin
             FormCheckboxElement element = context.InstanceToValidate;
             if (IsValueRequired(element) && !value)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyName, $"{element.Name} muss ausgewählt sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss ausgewählt sein."));
             }
         }
 
