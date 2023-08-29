@@ -362,13 +362,13 @@ element_option_id = @ELEMENT_OPTION_ID";
                     table_element.RowId = input.RowId;
                     table_element.ColumnId = input.ColumnId;
                     table_element.TableParentElementId = input.ElementId;
-                    if (table_element.ElementId > 0 || forceCreate)
+                    if (table_element.ElementId is 0 || forceCreate)
                     {
-                        await UpdateAsync(table_element, dbController, cancellationToken);
+                        await CreateAsync(table_element, dbController, cancellationToken);
                     }
                     else
                     {
-                        await CreateAsync(table_element, dbController, cancellationToken);
+                        await UpdateAsync(table_element, dbController, cancellationToken);
                     }
                 }
             }
