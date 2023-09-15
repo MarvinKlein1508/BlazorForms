@@ -139,7 +139,7 @@ namespace BlazorForms.Pages
             {
                 using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                if (Input.EntryId is 0)
+                if (Input.EntryId is 0 || Copy)
                 {
                     Input.CreationDate = DateTime.Now;
                     Input.CreationUserId = _user?.UserId;
@@ -151,7 +151,7 @@ namespace BlazorForms.Pages
                 await dbController.StartTransactionAsync();
                 try
                 {
-                    if (Input.EntryId is 0)
+                    if (Input.EntryId is 0 || Copy)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
                     }
