@@ -119,7 +119,8 @@ VALUES
                 tableName = "form_elements_label_attributes";
                 fields.AddRange(new string[]
                 {
-                    "description"
+                    "description",
+                    "show_on_pdf"
                 });
             }
 

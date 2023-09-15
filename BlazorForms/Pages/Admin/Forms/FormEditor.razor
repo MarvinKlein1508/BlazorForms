@@ -121,6 +121,14 @@ else
                                                 <InputCkEditor @bind-Value="labelElement.Description" />
                                                 <ValidationMessage For="() => labelElement.Description" />
                                             </div>
+
+                                            <div class="form-check">
+                                                <div class="checkbox">
+                                                    <InputCheckbox @bind-Value="labelElement.ShowOnPdf" id="labelElement-show_on_pdf" class="form-check-input" />
+                                                    <label for="labelElement-show_on_pdf">@localizer["TAB_GENERAL_LABEL_SHOW_ON_PDF"]</label>
+                                                    <ValidationMessage For="() => labelElement.ShowOnPdf" />
+                                                </div>
+                                            </div>
                                         }
 
                                         @if (SelectedFormElement is FormNumberElement numberElement)

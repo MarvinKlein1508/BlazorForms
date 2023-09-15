@@ -78,6 +78,11 @@ namespace BlazorForms.Core.Pdf
                                 }
                                 else if (element is FormLabelElement labelElement)
                                 {
+                                    if (!labelElement.ShowOnPdf)
+                                    {
+                                        continue;
+                                    }
+
                                     string description = labelElement.Description
                                         .Replace("<b>", "<span class=\"fw-bold\">")
                                         .Replace("<strong>", "<span class=\"fw-bold\">")

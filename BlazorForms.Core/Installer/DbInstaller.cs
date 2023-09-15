@@ -231,6 +231,7 @@ CREATE TABLE form_elements_label_attributes
 (
 	element_id INTEGER NOT NULL,
 	description TEXT NOT NULL,
+    show_on_pdf TINYINT NOT NULL DEFAULT 1,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"
