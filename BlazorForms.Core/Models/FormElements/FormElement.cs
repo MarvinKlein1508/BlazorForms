@@ -101,10 +101,7 @@ namespace BlazorForms.Core.Models.FormElements
             return Rules.ValidateRules();
         }
 
-        public virtual void SetValue(FormEntryElement element)
-        {
-
-        }
-
+        public abstract void SetValue(FormEntryElement element);
+        public abstract void Reset();
     }
 }

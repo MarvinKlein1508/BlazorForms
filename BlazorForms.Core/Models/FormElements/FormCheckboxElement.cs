@@ -21,5 +21,10 @@ namespace BlazorForms.Core.Models.FormElements
         {
             Value = element.ValueBoolean;
         }
+
+        public override void Reset()
+        {
+            Value = false;
+        }
     }
 }

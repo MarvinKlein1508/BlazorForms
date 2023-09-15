@@ -29,8 +29,8 @@ namespace BlazorForms.Pages
 
         private User? _user;
         private bool _isSaving;
-        
-        
+
+
 
 
         public bool IsAdmin { get; set; }
@@ -62,7 +62,7 @@ namespace BlazorForms.Pages
 
                 }
             }
-            
+
             if ((FormId > 0 && EntryId is 0) || (EntryId > 0 && Copy))
             {
                 var form = await formService.GetAsync(FormId, dbController);
@@ -89,11 +89,22 @@ namespace BlazorForms.Pages
                         return;
                     }
 
-                    if(Input is not null && Copy)
+                    if (Input is not null && Copy)
                     {
                         // Reset form
                         Input.StatusId = form.DefaultStatusId;
                         Input.IsApproved = false;
+                        Input.Name = string.Empty;
+
+                        foreach (var element in Input.Form.GetAllElements())
+                        {
+                            if (!element.ResetOnCopy)
+                            {
+                                continue;
+                            }
+
+                            element.Reset();
+                        }
                     }
                     else
                     {
@@ -161,7 +172,7 @@ namespace BlazorForms.Pages
                     }
 
                     await dbController.CommitChangesAsync();
-                    
+
 
                 }
                 catch (Exception)
@@ -369,7 +380,7 @@ namespace BlazorForms.Pages
 
             return description?.Name ?? string.Empty;
         }
-    
+
         private async Task ShowHistoryModalAsync()
         {
             await _historyModal.ShowAsync();

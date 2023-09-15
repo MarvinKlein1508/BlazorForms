@@ -27,5 +27,10 @@ namespace BlazorForms.Core.Models.FormElements
         {
             Value = element.ValueString;
         }
+
+        public override void Reset()
+        {
+            Value = string.Empty;
+        }
     }
 }
