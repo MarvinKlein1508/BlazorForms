@@ -182,6 +182,9 @@
     <value>--- Auswählen ---</value>
     <comment>Default text for blank option of select elements</comment>
   </data>
+  <data name="UNKOWN" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
   <data name="YES" xml:space="preserve">
     <value>Ja</value>
   </data>

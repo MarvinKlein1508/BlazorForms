@@ -52,6 +52,7 @@
                                 <th>@localizer["TH_ID"]</th>
                                 <th>@localizer["TH_FORM"]</th>
                                 <th>@localizer["TH_DOCUMENT_NAME"]</th>
+                                <th>Status</th>
                                 <th>@localizer["TH_CREATION_DATE"]</th>
                                 <th>@localizer["TH_CREATION_USER"]</th>
                                 <th>@localizer["TH_LAST_CHANGE"]</th>
@@ -61,10 +62,16 @@
                         </thead>
                         <tbody>
                             <Virtualize Items="Data" Context="item">
+                                @{
+                                    var status = AppdatenService.Get<FormStatus>(item.StatusId);
+                                    string statusName = status?.GetLocalization(CultureInfo.CurrentCulture)?.Name ?? appLocalizer["UNKOWN"];
+                                }
+
                                 <tr>
                                     <td>@item.EntryId</td>
                                     <td>@item.FormName</td>
                                     <td>@item.Name</td>
+                                    <td>@statusName</td>
                                     <td>@item.CreationDate.ToShortDateString()</td>
                                     <td>@item.UsernameCreator</td>
                                     <td>@item.LastChange.ToString()</td>

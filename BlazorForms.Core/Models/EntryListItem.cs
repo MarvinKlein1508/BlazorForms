@@ -1,4 +1,6 @@
-﻿using DbController;
+﻿using BlazorForms.Core.Services;
+using DbController;
+using System.Globalization;
 
 namespace BlazorForms.Core.Models
 {
@@ -8,6 +10,8 @@ namespace BlazorForms.Core.Models
         public int EntryId { get; set; }
         [CompareField("form_id")]
         public int FormId { get; set; }
+        [CompareField("status_id")]
+        public int StatusId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("creation_date")]
@@ -26,5 +30,6 @@ namespace BlazorForms.Core.Models
         public string UsernameLastChange { get; set; } = string.Empty;
 
         public List<int> ManagerIds { get; set; } = new();
+
     }
 }
