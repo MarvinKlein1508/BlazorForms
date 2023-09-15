@@ -22,6 +22,8 @@ namespace BlazorForms.Pages
         public int FormId { get; set; }
         [Parameter]
         public int EntryId { get; set; }
+        [Parameter, SupplyParameterFromQuery]
+        public bool Copy { get; set; }
         public FormEntry? Input { get; set; }
         private EditForm? _form;
 
@@ -41,7 +43,6 @@ namespace BlazorForms.Pages
         {
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
-
             if (EntryId > 0)
             {
                 var form = await formEntryService.GetAsync(EntryId, dbController);
@@ -61,7 +62,8 @@ namespace BlazorForms.Pages
 
                 }
             }
-            else if (FormId > 0)
+            
+            if ((FormId > 0 && EntryId is 0) || (EntryId > 0 && Copy))
             {
                 var form = await formService.GetAsync(FormId, dbController);
                 if (form is not null)
@@ -87,11 +89,20 @@ namespace BlazorForms.Pages
                         return;
                     }
 
-                    Input = new FormEntry(form)
+                    if(Input is not null && Copy)
                     {
-                        FormId = FormId,
-                        StatusId = form.DefaultStatusId
-                    };
+                        // Reset form
+                        Input.StatusId = form.DefaultStatusId;
+                        Input.IsApproved = false;
+                    }
+                    else
+                    {
+                        Input = new FormEntry(form)
+                        {
+                            FormId = FormId,
+                            StatusId = form.DefaultStatusId
+                        };
+                    }
                 }
                 else
                 {

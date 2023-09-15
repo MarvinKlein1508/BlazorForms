@@ -15,7 +15,7 @@
 
     <h2 class="d-flex">
         <span class="page-title">@Input.Form.Name</span>
-        @if (Input.EntryId > 0)
+        @if (Input.EntryId > 0 && !Copy)
         {
             @if (IsAdmin || IsManager)
             {
