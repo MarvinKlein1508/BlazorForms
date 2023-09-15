@@ -34,6 +34,18 @@ namespace BlazorForms.Core.Models.FormElements
         public List<FormElement> NewRow()
         {
             var tmp = Elements.DeepCopyByExpressionTree();
+
+            foreach (var element in tmp)
+            {
+                if (element is FormDateElement dateElement)
+                {
+                    if (dateElement.SetDefaultValueToCurrentDate)
+                    {
+                        dateElement.Value = DateTime.Now;
+                    }
+                }
+            }
+
             ElementValues.Add(tmp);
             return tmp;
         }
