@@ -17,17 +17,24 @@
         <span class="page-title">@Input.Form.Name</span>
         @if (Input.EntryId > 0)
         {
-            @if (IsAdmin || IsManager)
+            @if (!Copy)
             {
-                <button type="button" class="btn btn-primary me-1" @onclick="ShowHistoryModalAsync">Verlauf</button>
-            }
-            <button type="button" class="btn btn-outline-secondary" @onclick="OpenStatusModalAsync">
-                @GetStatus()
+                <a href="@($"/Entry/{EntryId}?copy=true")" class="btn btn-info">
+                    <i class="bi bi-copy"></i>
+                </a>
+
                 @if (IsAdmin || IsManager)
                 {
-                    <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
+                    <button type="button" class="btn btn-primary ms-1" @onclick="ShowHistoryModalAsync">Verlauf</button>
                 }
-            </button>
+                <button type="button" class="btn btn-outline-secondary ms-1" @onclick="OpenStatusModalAsync">
+                    @GetStatus()
+                    @if (IsAdmin || IsManager)
+                    {
+                        <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
+                    }
+                </button>
+            }
         }
     </h2>
 

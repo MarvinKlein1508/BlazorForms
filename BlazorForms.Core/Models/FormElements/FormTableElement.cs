@@ -37,5 +37,14 @@ namespace BlazorForms.Core.Models.FormElements
             ElementValues.Add(tmp);
             return tmp;
         }
+
+        public override void SetValue(FormEntryElement element)
+        {
+            // No value to be set
+        }
+        public override void Reset()
+        {
+            // This element has nothing to be resetted
+        }
     }
 }

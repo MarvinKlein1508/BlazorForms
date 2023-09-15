@@ -110,5 +110,10 @@ namespace BlazorForms.Core.Models.FormElements
         {
             Value = element.ValueNumber;
         }
+
+        public override void Reset()
+        {
+            Value = 0;
+        }
     }
 }

@@ -53,6 +53,14 @@ namespace BlazorForms.Core.Models.FormElements
             return string.Join(", ", allowedMimeTypes.Distinct());
         }
 
+        public override void Reset()
+        {
+            Values.Clear();
+        }
 
+        public override void SetValue(FormEntryElement element)
+        {
+            // No value to be set
+        }
     }
 }

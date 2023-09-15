@@ -231,6 +231,9 @@
   <data name="TAB_GENERAL_LABEL_REQUIRED" xml:space="preserve">
     <value>Pflichtfeld</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_RESET_ON_COPY" xml:space="preserve">
+    <value>Beim kopieren des Formulareintrags zurücksetzen</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_SHOW_ON_PDF" xml:space="preserve">
     <value>Auf dem PDF anzeigen</value>
   </data>

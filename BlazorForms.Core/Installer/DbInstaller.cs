@@ -169,6 +169,7 @@ CREATE TABLE form_elements
 	type VARCHAR(20) NOT NULL,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	is_required TINYINT NOT NULL DEFAULT 0,
+    reset_on_copy TINYINT NOT NULL DEFAULT 0,
 	rule_type VARCHAR(20) NOT NULL,
 	sort_order INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),

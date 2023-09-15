@@ -36,5 +36,17 @@ namespace BlazorForms.Core.Models.FormElements
         {
             Value = element.ValueDate;
         }
+
+        public override void Reset()
+        {
+            if (SetDefaultValueToCurrentDate)
+            {
+                Value = DateTime.Now;
+            }
+            else
+            {
+                Value = default;
+            }
+        }
     }
 }

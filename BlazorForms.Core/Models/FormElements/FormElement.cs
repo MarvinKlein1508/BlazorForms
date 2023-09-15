@@ -25,6 +25,8 @@ namespace BlazorForms.Core.Models.FormElements
         public bool IsActive { get; set; } = true;
         [CompareField("is_required")]
         public bool IsRequired { get; set; }
+        [CompareField("reset_on_copy")]
+        public bool ResetOnCopy { get; set; }
         [CompareField("rule_type")]
         public RuleType RuleType { get; set; }
         [CompareField("sort_order")]
@@ -53,6 +55,7 @@ namespace BlazorForms.Core.Models.FormElements
                 { "NAME", Name },
                 { "IS_ACTIVE", IsActive },
                 { "IS_REQUIRED", IsRequired },
+                { "RESET_ON_COPY", ResetOnCopy },
                 { "SORT_ORDER", SortOrder },
                 { "TYPE", GetElementType().ToString() },
                 { "TABLE_PARENT_ELEMENT_ID", TableParentElementId },
@@ -98,10 +101,7 @@ namespace BlazorForms.Core.Models.FormElements
             return Rules.ValidateRules();
         }
 
-        public virtual void SetValue(FormEntryElement element)
-        {
-
-        }
-
+        public abstract void SetValue(FormEntryElement element);
+        public abstract void Reset();
     }
 }

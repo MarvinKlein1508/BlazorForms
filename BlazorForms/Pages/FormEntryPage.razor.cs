@@ -22,13 +22,15 @@ namespace BlazorForms.Pages
         public int FormId { get; set; }
         [Parameter]
         public int EntryId { get; set; }
+        [Parameter, SupplyParameterFromQuery]
+        public bool Copy { get; set; }
         public FormEntry? Input { get; set; }
         private EditForm? _form;
 
         private User? _user;
         private bool _isSaving;
-        
-        
+
+
 
 
         public bool IsAdmin { get; set; }
@@ -41,7 +43,6 @@ namespace BlazorForms.Pages
         {
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
-
             if (EntryId > 0)
             {
                 var form = await formEntryService.GetAsync(EntryId, dbController);
@@ -61,7 +62,8 @@ namespace BlazorForms.Pages
 
                 }
             }
-            else if (FormId > 0)
+
+            if ((FormId > 0 && EntryId is 0) || (EntryId > 0 && Copy))
             {
                 var form = await formService.GetAsync(FormId, dbController);
                 if (form is not null)
@@ -87,11 +89,31 @@ namespace BlazorForms.Pages
                         return;
                     }
 
-                    Input = new FormEntry(form)
+                    if (Input is not null && Copy)
                     {
-                        FormId = FormId,
-                        StatusId = form.DefaultStatusId
-                    };
+                        // Reset form
+                        Input.StatusId = form.DefaultStatusId;
+                        Input.IsApproved = false;
+                        Input.Name = string.Empty;
+
+                        foreach (var element in Input.Form.GetAllElements())
+                        {
+                            if (!element.ResetOnCopy)
+                            {
+                                continue;
+                            }
+
+                            element.Reset();
+                        }
+                    }
+                    else
+                    {
+                        Input = new FormEntry(form)
+                        {
+                            FormId = FormId,
+                            StatusId = form.DefaultStatusId
+                        };
+                    }
                 }
                 else
                 {
@@ -128,7 +150,7 @@ namespace BlazorForms.Pages
             {
                 using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                if (Input.EntryId is 0)
+                if (Input.EntryId is 0 || Copy)
                 {
                     Input.CreationDate = DateTime.Now;
                     Input.CreationUserId = _user?.UserId;
@@ -140,7 +162,7 @@ namespace BlazorForms.Pages
                 await dbController.StartTransactionAsync();
                 try
                 {
-                    if (Input.EntryId is 0)
+                    if (Input.EntryId is 0 || Copy)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
                     }
@@ -150,7 +172,7 @@ namespace BlazorForms.Pages
                     }
 
                     await dbController.CommitChangesAsync();
-                    
+
 
                 }
                 catch (Exception)
@@ -358,7 +380,7 @@ namespace BlazorForms.Pages
 
             return description?.Name ?? string.Empty;
         }
-    
+
         private async Task ShowHistoryModalAsync()
         {
             await _historyModal.ShowAsync();

@@ -21,5 +21,15 @@ namespace BlazorForms.Core.Models.FormElements
 
             return parameters;
         }
+
+        public override void Reset()
+        {
+            // This element has nothing to be resetted
+        }
+
+        public override void SetValue(FormEntryElement element)
+        {
+            // No value to be set
+        }
     }
 }
