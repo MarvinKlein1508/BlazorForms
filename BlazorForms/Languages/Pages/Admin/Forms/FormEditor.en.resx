@@ -228,6 +228,9 @@
   <data name="TAB_GENERAL_LABEL_REQUIRED" xml:space="preserve">
     <value>Required field</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_RESET_ON_COPY" xml:space="preserve">
+    <value>Reset when copying the form entry</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_SHOW_ON_PDF" xml:space="preserve">
     <value>Show on PDF</value>
   </data>
