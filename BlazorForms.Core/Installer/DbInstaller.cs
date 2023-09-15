@@ -10,6 +10,20 @@ namespace BlazorForms.Installer.Core
         private static List<string> _data = new();
         static DbInstaller()
         {
+
+            _tables.Add(new SqlTable("languages", @"
+CREATE TABLE languages
+(
+	language_id INTEGER NOT NULL AUTO_INCREMENT,
+	name varchar(32) NOT NULL,
+	code varchar(5) NOT NULL,
+	sort_order INTEGER NOT NULL DEFAULT 0,
+	status TINYINT NOT NULL DEFAULT 0,
+	PRIMARY KEY(language_id),
+	UNIQUE(code)
+);
+"));
+
             _tables.Add(new SqlTable("users", @"
 CREATE TABLE users
 (
@@ -87,8 +101,10 @@ CREATE TABLE forms
 	login_required TINYINT NOT NULL DEFAULT 0,
 	is_active TINYINT NOT NULL DEFAULT 0,
 	default_status_id INTEGER NOT NULL,
+	language_id INTEGER NOT NULL,
 	PRIMARY KEY (form_id),
-	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id)
+	FOREIGN KEY (default_status_id) REFERENCES form_status(status_id),
+	FOREIGN KEY (language_id) REFERENCES languages(language_id) ON DELETE CASCADE ON UPDATE CASCASE
 );"));
 
             _tables.Add(new SqlTable("form_to_user", @"
@@ -217,7 +233,8 @@ CREATE TABLE form_elements_label_attributes
 	description TEXT NOT NULL,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
-);"));
+);"
+));
 
             _tables.Add(new SqlTable("form_elements_number_attributes", @"
 CREATE TABLE form_elements_number_attributes
@@ -237,8 +254,8 @@ CREATE TABLE form_elements_radio_attributes
 	element_id INTEGER NOT NULL,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-"));
+);"
+));
 
             _tables.Add(new SqlTable("form_elements_select_attributes", @"
 CREATE TABLE form_elements_select_attributes
@@ -246,8 +263,7 @@ CREATE TABLE form_elements_select_attributes
 	element_id INTEGER NOT NULL,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-"));
+);"));
 
             _tables.Add(new SqlTable("form_elements_table_attributes", @"
 CREATE TABLE form_elements_table_attributes
@@ -256,8 +272,8 @@ CREATE TABLE form_elements_table_attributes
 	allow_add_rows TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-"));
+);"
+));
 
             _tables.Add(new SqlTable("form_elements_textarea_attributes", @"
 CREATE TABLE form_elements_textarea_attributes
@@ -407,6 +423,11 @@ CREATE TABLE form_entry_history
 );"));
 
             _data.Add(@"
+INSERT INTO languages (name, code, sort_order, status) VALUES 
+('Deutsch', 'de', 0, 1),
+('English', 'en', 1, 1);");
+
+            _data.Add(@"
 INSERT INTO permissions (permission_id, identifier) VALUES 
 (1, 'EDIT_FORMS'),
 (2, 'EDIT_ENTRIES'),
@@ -449,16 +470,12 @@ INSERT INTO form_status_description (status_id, code, name, description) VALUES
 (4, 'de', 'Erledigt', 'Vollständig bearbeitete und abgeschlossene Formulareinträge.');");
 
             _data.Add(@"
-DELIMITER $$
-
 CREATE TRIGGER update_status_id
     AFTER INSERT
     ON form_entry_history FOR EACH ROW
 BEGIN
     UPDATE form_entries SET status_id = new.status_id WHERE entry_id = new.entry_id;
-END$$    
-
-DELIMITER ;");
+END");
         }
 
         public static async Task InstallAsync(IDbController dbController)
