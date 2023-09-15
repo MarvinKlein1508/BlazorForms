@@ -7,6 +7,8 @@ namespace BlazorForms.Core.Models.FormElements
     {
         [CompareField("description")]
         public string Description { get; set; } = string.Empty;
+        [CompareField("show_on_pdf")]
+        public bool ShowOnPdf { get; set; } = true;
         public override ElementType GetElementType() => ElementType.Label;
         public override string GetDefaultName() => "Label";
 
@@ -15,6 +17,7 @@ namespace BlazorForms.Core.Models.FormElements
             var parameters = base.GetParameters();
 
             parameters.Add("DESCRIPTION", Description);
+            parameters.Add("SHOW_ON_PDF", ShowOnPdf);
 
             return parameters;
         }
