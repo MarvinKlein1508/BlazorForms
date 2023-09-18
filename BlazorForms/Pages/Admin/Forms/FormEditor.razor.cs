@@ -466,7 +466,7 @@ namespace BlazorForms.Pages.Admin.Forms
         {
             if (Input.HasBeenModified(StartCopy))
             {
-                var isConfirmed = await JSRuntime.InvokeAsync<bool>("confirm", localizer["MESSAGE_UNSAVED_CHANGES"]);
+                var isConfirmed = await JSRuntime.InvokeAsync<bool>("confirm", localizer["MESSAGE_UNSAVED_CHANGES"].Value);
 
                 if (!isConfirmed)
                 {
