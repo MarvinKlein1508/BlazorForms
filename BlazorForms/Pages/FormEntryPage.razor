@@ -19,9 +19,10 @@
         {
             @if (!Copy)
             {
-                <a href="@($"/Entry/{EntryId}?copy=true")" class="btn btn-info">
-                    <i class="bi bi-copy"></i>
-                </a>
+
+                <Button Color="ButtonColor.Info" Type="ButtonType.Link" To="@($"/Entry/{EntryId}?copy=true")" TooltipTitle="Kopieren" TooltipPlacement="TooltipPlacement.Top">
+                    <Icon Name="IconName.Copy" Size="IconSize.x5" />
+                </Button>
 
                 @if (IsAdmin || IsManager)
                 {
@@ -100,7 +101,7 @@
                                                                OnChange="(e) => UploadFileAsync(formFileElement, e)"
                                                                style="opacity: 0; width: 100%; cursor: pointer;" />
                                                 </div>
-                                            
+
                                                 <FileListing Files="formFileElement.Values" />
                                             </div>
                                             <ValidationMessage For="() => formFileElement.Values" />
