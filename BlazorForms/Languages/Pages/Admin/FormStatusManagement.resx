@@ -120,6 +120,9 @@
   <data name="EDIT_TITLE" xml:space="preserve">
     <value>Status bearbeiten</value>
   </data>
+  <data name="ERROR_ONE_STATUS_REQUIRED" xml:space="preserve">
+    <value>Status kann nicht gelöscht werden, da mindestens ein Status vorhanden sein muss.</value>
+  </data>
   <data name="INPUT_APPROVAL" xml:space="preserve">
     <value>Freigabe benötigt</value>
     <comment>Checkbox</comment>

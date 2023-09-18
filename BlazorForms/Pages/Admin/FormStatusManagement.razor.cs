@@ -38,7 +38,7 @@ namespace BlazorForms.Pages.Admin
             }
             else
             {
-                await JSRuntime.ShowToastAsync(ToastType.error, "Status kann nicht gelöscht werden, da mindestens ein Status vorhanden sein muss.");
+                await JSRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_ONE_STATUS_REQUIRED"]);
             }
         }
 
