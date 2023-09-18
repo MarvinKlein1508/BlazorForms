@@ -14,7 +14,8 @@ namespace BlazorForms.Core.Validators.Admin
                 .When(x => x.MaxValue != 0);
 
             RuleFor(x => x.DecimalPlaces)
-                .GreaterThanOrEqualTo(0);
+                .GreaterThanOrEqualTo(0)
+                .LessThanOrEqualTo(5);
 
             RuleFor(x => x.Value)
                 .Custom(ValidateValue)
