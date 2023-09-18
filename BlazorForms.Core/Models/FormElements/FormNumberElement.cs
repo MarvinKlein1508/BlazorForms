@@ -63,7 +63,10 @@ namespace BlazorForms.Core.Models.FormElements
 
                 return value;
             }
-            set => _value = value;
+            set
+            {
+                _value = Math.Round(value, decimalPlaces);
+            }
         }
 
         public List<CalcRule> CalcRules { get; set; } = new();

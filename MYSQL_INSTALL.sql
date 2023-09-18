@@ -323,7 +323,7 @@ CREATE TABLE form_entries_elements
 	element_id INTEGER NOT NULL,
 	value_boolean TINYINT NOT NULL DEFAULT 0,
 	value_string TEXT NOT NULL DEFAULT '',
-	value_number DECIMAL NOT NULL DEFAULT 0,
+	value_number DECIMAL(10,5) NOT NULL DEFAULT 0,
 	value_date DATE DEFAULT NULL,
 	PRIMARY KEY (entry_id, form_id, element_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
