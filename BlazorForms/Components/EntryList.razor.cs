@@ -7,6 +7,7 @@ using BlazorForms.Core.Pdf;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using BlazorBootstrap;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components
 {
@@ -14,12 +15,15 @@ namespace BlazorForms.Components
     {
         private ConfirmDialog _deleteModal = default!;
         [Parameter]
-        public FormEntryFilter Filter { get; set; } = new()
+        public FormEntryFilter DefaultFilter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
         };
+        public FormEntryFilter? Filter { get; set; }
+
+        public FormEntryFilter? SavedFilter { get; set; }
         public int TotalItems { get; set; }
-        public int TotalPages => TotalItems / Filter.Limit;
+        public int TotalPages => TotalItems / (Filter?.Limit ?? DefaultFilter.Limit);
         public List<EntryListItem> Data { get; set; } = new();
 
         [Parameter, EditorRequired]
@@ -35,9 +39,16 @@ namespace BlazorForms.Components
 
         protected override async Task OnParametersSetAsync()
         {
+            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            User = await authService.GetUserAsync(dbController);
+
+            if (User is not null)
+            {
+                Filter = await savedFilterService.GetAsync(DefaultFilter.DeepCopyByExpressionTree(), User.Id, BaseUrl, dbController);
+            }
             await LoadAsync();
             UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
-            User = await authService.GetUserAsync();
+
         }
 
         private Task OnPageChangedAsync(int pageNumber)
@@ -48,15 +59,26 @@ namespace BlazorForms.Components
 
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
+            if (Filter is null)
+            {
+                return;
+            }
+
             if (navigateToPage1)
             {
                 navigationManager.NavigateTo(BaseUrl);
             }
 
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+
             Statuses = await FormStatusService.GetAllAsync(dbController);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
             Data = await formEntryService.GetAsync(Filter, dbController);
+            if (User is not null)
+            {
+                var savedFilter = Filter.ToSavedFilter<FormEntryFilter>(User.Id, BaseUrl);
+                await savedFilterService.SaveAsync(savedFilter, dbController);
+            }
         }
 
         private async Task DownloadAsync(EntryListItem item)
@@ -133,6 +155,12 @@ namespace BlazorForms.Components
             }
 
             return entry.CreationUserId == User.UserId || entry.ManagerIds.Contains(User.UserId);
+        }
+
+        private async Task ResetFilterAsync()
+        {
+            Filter = DefaultFilter.DeepCopyByExpressionTree(); 
+            await LoadAsync(true);
         }
     }
 }

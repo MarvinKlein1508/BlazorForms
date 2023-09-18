@@ -3,8 +3,9 @@ using System.Globalization;
 
 namespace BlazorForms.Core.Filters
 {
-    public class FormStatusFilter : PageFilterBase
+    public record FormStatusFilter : PageFilterBase
     {
         public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        public override FilterTypes FilterType => FilterTypes.FormStatus;
     }
 }

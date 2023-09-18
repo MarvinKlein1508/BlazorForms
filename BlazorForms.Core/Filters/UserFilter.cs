@@ -2,8 +2,9 @@
 
 namespace BlazorForms.Core.Filters
 {
-    public class UserFilter : PageFilterBase
+    public record UserFilter : PageFilterBase
     {
         public List<int> BlockedIds { get; set; } = new();
+        public override FilterTypes FilterType => FilterTypes.User;
     }
 }

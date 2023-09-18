@@ -69,6 +69,17 @@ CREATE TABLE user_permissions
 	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
+            _tables.Add(new SqlTable("user_filter", @"
+CREATE TABLE user_filter
+(
+	user_id INTEGER NOT NULL,
+	filter_type VARCHAR(255) NOT NULL,
+	page VARCHAR(255) NOT NULL,
+	serialized longtext NOT NULL CHECK (json_valid(serialized)),
+	PRIMARY KEY (user_id, filter_type, page),
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);"));
+
             _tables.Add(new SqlTable("form_status", @"
 CREATE TABLE form_status
 (
