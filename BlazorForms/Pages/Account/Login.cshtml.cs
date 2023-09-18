@@ -13,21 +13,24 @@ using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Claims;
 using System.Web;
+using Microsoft.Extensions.Localization;
 
-namespace FormularPortal.Pages.Account
+namespace BlazorForms.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserService _userService;
+        private readonly IStringLocalizer<LoginModel> _localizer;
 
         [BindProperty]
         public LoginInput Input { get; set; } = new LoginInput();
         public string? ReturnUrl { get; set; }
 
-        public LoginModel(UserService userService)
+        public LoginModel(UserService userService, IStringLocalizer<LoginModel> localizer)
         {
             _userService = userService;
+            _localizer = localizer;
         }
 
         public async Task OnGetAsync(string? returnUrl = null)
@@ -200,11 +203,11 @@ namespace FormularPortal.Pages.Account
                 {
                     if (!AppdatenService.IsLdapLoginEnabled && !AppdatenService.IsLocalLoginEnabled)
                     {
-                        ModelState.AddModelError("login-error", "Es wurde kein Provider zum einloggen gefunden. Bitte wenden Sie sich an Ihren Administrator.");
+                        ModelState.AddModelError("login-error", _localizer["ERROR_NO_PROVIDER"]);
                     }
                     else
                     {
-                        ModelState.AddModelError("login-error", "Username oder Passwort ist falsch.");
+                        ModelState.AddModelError("login-error", _localizer["ERROR_WRONG_CREDENTIALS"]);
                     }
                 }
             }
@@ -240,7 +243,6 @@ namespace FormularPortal.Pages.Account
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = String.Empty;
-        [Display(Name = "Eingeloggt bleiben")]
         public bool RememberMe { get; set; }
     }
 }

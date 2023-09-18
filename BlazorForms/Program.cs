@@ -28,6 +28,7 @@ namespace BlazorForms
             var config = builder.Configuration;
             // Add services to the container.
             builder.Services.AddRazorPages();
+
             builder.Services.AddServerSideBlazor()
                 .AddCircuitOptions(options =>
                 {
