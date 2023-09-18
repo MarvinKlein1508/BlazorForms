@@ -4,7 +4,7 @@
 @if (Input is not null && Input.Form is not null)
 {
     <div class="form-floating mb-3">
-        <InputSelect @bind-Value="Input.RuleType" class="form-select" id="rule-type" aria-placeholder="Regeltyp">
+        <InputSelect @bind-Value="Input.RuleType" class="form-select" id="rule-type" aria-placeholder="@localizer["LABEL_RULE_TYPE"]">
             @foreach (RuleType item in Enum.GetValues(typeof(RuleType)))
             {
                 <option value="@item">@item</option>
@@ -38,8 +38,8 @@
                 </div>
                 <div class="form-floating">
                     <InputSelect Value="rule.ElementGuid"
-                             ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(rule, guid)"
-                             ValueExpression="() => rule.ElementGuid"
+                                 ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(rule, guid)"
+                                 ValueExpression="() => rule.ElementGuid"
                                  id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_ELEMENT"]">
                         @foreach (var item in Input.Form.GetRuleElements())
                         {
