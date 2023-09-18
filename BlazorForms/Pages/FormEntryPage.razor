@@ -90,11 +90,17 @@
                                         else if (element is FormFileElement formFileElement)
                                         {
                                             <div class="mb-3">
-                                                <label role="button" class="btn btn-dark" tabindex="0" for="@($"form-{element.Guid}")">
-                                                    @element.Name
-                                                    <InputFile accept="@formFileElement.GetAcceptTypesDefinition(AppdatenService.MimeTypes)" OnChange="(e) => UploadFileAsync(formFileElement, e)" id="@($"form-{element.Guid}")" class="d-none" multiple="@formFileElement.AllowMultipleFiles" />
-                                                </label>
 
+                                                <div class="bg-dark upload-wrapper">
+                                                    <label for="@($"form-{element.Guid}")" class="upload-label">@element.Name</label>
+                                                    @* Style wird über das Input gestezt, da es über razor.css nicht funktioniert *@
+                                                    <InputFile id="@($"form-{element.Guid}")"
+                                                               multiple="@formFileElement.AllowMultipleFiles"
+                                                               accept="@formFileElement.GetAcceptTypesDefinition(AppdatenService.MimeTypes)"
+                                                               OnChange="(e) => UploadFileAsync(formFileElement, e)"
+                                                               style="opacity: 0; width: 100%; cursor: pointer;" />
+                                                </div>
+                                            
                                                 <FileListing Files="formFileElement.Values" />
                                             </div>
                                             <ValidationMessage For="() => formFileElement.Values" />
