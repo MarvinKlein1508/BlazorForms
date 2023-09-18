@@ -272,7 +272,7 @@
             }
         }
 
-        @if (IsAdmin || (!IsCompleted && !Input.IsApproved && (!RequiresApproval || IsAllowedToApprove)))
+        @if (IsAdmin || (!IsCompleted && (!Input.IsApproved || IsAllowedToApprove)))
         {
             <div class="toolbar">
                 @if (_isSaving)
