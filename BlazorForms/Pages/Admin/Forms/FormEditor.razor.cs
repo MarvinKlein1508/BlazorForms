@@ -37,9 +37,8 @@ namespace BlazorForms.Pages.Admin.Forms
         private bool _isToolbarDrag;
         private List<User> _searchUsers = new();
         private List<User> _searchManagers = new();
-#nullable disable
-        private HotKeysContext _hotKeysContext;
-#nullable enable
+        private HotKeysContext _hotKeysContext = default!;
+
 
         private InputTagOptions _fileTypeOptions = new();
 
