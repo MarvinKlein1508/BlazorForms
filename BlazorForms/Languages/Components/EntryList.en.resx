@@ -156,4 +156,7 @@
   <data name="TH_LAST_USER" xml:space="preserve">
     <value>Last editor</value>
   </data>
+  <data name="TH_STATUS" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>
