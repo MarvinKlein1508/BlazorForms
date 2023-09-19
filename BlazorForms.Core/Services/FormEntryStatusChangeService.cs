@@ -16,6 +16,25 @@ comment = @COMMENT,
 date_added = @DATE_ADDED; {dbController.GetLastIdSql()}";
 
             input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
+
+            foreach (var item in input.Notifiers)
+            {
+                item.HistoryId = input.Id;
+                sql = @"INSERT INTO form_entry_history_notify
+(
+history_id,
+user_id,
+notify
+)
+VALUES
+(
+@HISTORY_ID,
+@USER_ID,
+@NOTIFY
+)";
+
+                await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
+            }
         }
 
         public async Task DeleteAsync(FormEntryStatusChange input, IDbController dbController, CancellationToken cancellationToken = default)

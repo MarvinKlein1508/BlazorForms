@@ -2,7 +2,7 @@
 
 namespace BlazorForms.Core.Models
 {
-    public class FormEntryHistoryNotify
+    public class FormEntryHistoryNotify : IDbParameterizable
     {
         [CompareField("history_id")]
         public int HistoryId { get; set; }
@@ -10,5 +10,15 @@ namespace BlazorForms.Core.Models
         public int UserId { get; set; }
         [CompareField("notify")]
         public bool Notify { get; set; }
+
+        public Dictionary<string, object?> GetParameters()
+        {
+            return new Dictionary<string, object?>
+            {
+                { "HISTORY_ID", HistoryId },
+                { "USER_ID", UserId },
+                { "NOTIFY", Notify }
+            };
+        }
     }
 }
