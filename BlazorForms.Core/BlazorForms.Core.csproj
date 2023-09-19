@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormLabelElement.en.Designer.cs">
+      <DependentUpon>FormLabelElement.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Models\FormElements\FormLabelElement.Designer.cs">
+      <DependentUpon>FormLabelElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormFileElement.en.Designer.cs">
       <DependentUpon>FormFileElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -79,6 +89,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.en.resx">
+      <LastGenOutput>FormLabelElement.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.resx">
+      <LastGenOutput>FormLabelElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormFileElement.en.resx">
       <LastGenOutput>FormFileElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
