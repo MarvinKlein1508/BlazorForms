@@ -310,7 +310,7 @@ namespace BlazorForms.Pages
                 long size_in_mib = size / 1024 / 1024;
                 string contentType = file.ContentType;
                 string filename = file.Name;
-                string extension = Path.GetExtension(filename).Replace(".", string.Empty);
+                string extension = Path.GetExtension(filename).Replace(".", string.Empty).ToLower();
 
 
                 // Check file extension in MimeType list
