@@ -132,7 +132,11 @@ namespace BlazorForms.Components
                 {
                     List<string> email_addresses = new();
                     
-                    // TODO: Select enabled notifiers
+                    foreach (var notify in Input.Notifiers.Where(x => x.Notify))
+                    {
+                        var user = _availableForNotification.First(x => x.Id == notify.UserId);
+                        email_addresses.Add(user.Email);
+                    }
 
                     if (email_addresses.Any())
                     {
