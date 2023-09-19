@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormRadioElement.en.Designer.cs">
+      <DependentUpon>FormRadioElement.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Models\FormElements\FormRadioElement.Designer.cs">
+      <DependentUpon>FormRadioElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormNumberElement.en.Designer.cs">
       <DependentUpon>FormNumberElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -99,6 +109,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.en.resx">
+      <LastGenOutput>FormRadioElement.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.resx">
+      <LastGenOutput>FormRadioElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.en.resx">
       <LastGenOutput>FormNumberElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
