@@ -70,6 +70,15 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie dem Feld einen Namen ähnelt.
+        /// </summary>
+        internal static string VALIDATION_NAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_NAME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0} muss größer oder gleich {1} sein. ähnelt.
         /// </summary>
         internal static string VALIDATION_NOT_MIN_DATE {

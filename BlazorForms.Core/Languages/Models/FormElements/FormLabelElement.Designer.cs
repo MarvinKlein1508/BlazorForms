@@ -59,5 +59,14 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie dem Feld einen Namen ähnelt.
+        /// </summary>
+        internal static string VALIDATION_NAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_NAME_REQUIRED", resourceCulture);
+            }
+        }
     }
 }

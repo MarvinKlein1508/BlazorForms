@@ -129,6 +129,9 @@
   <data name="VALIDATION_MIN_MAX" xml:space="preserve">
     <value>The minimum length can not be greater than the maximum length.</value>
   </data>
+  <data name="VALIDATION_NAME_REQUIRED" xml:space="preserve">
+    <value>Please assign a name to the field</value>
+  </data>
   <data name="VALIDATION_REGEX" xml:space="preserve">
     <value>The input has an incorrect format.</value>
   </data>

@@ -120,6 +120,9 @@
   <data name="VALIDATION_MIN_MAX" xml:space="preserve">
     <value>The minimum value cannot be greater than the maximum value.</value>
   </data>
+  <data name="VALIDATION_NAME_REQUIRED" xml:space="preserve">
+    <value>Please assign a name to the field</value>
+  </data>
   <data name="VALIDATION_NOT_MIN_DATE" xml:space="preserve">
     <value>{0} must be greater than or equal to {1}.</value>
   </data>
