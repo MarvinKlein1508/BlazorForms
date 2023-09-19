@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormTextareaElement.en.Designer.cs">
+      <DependentUpon>FormTextareaElement.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Models\FormElements\FormTextareaElement.Designer.cs">
+      <DependentUpon>FormTextareaElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormTableElement.en.Designer.cs">
       <DependentUpon>FormTableElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -129,6 +139,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.en.resx">
+      <LastGenOutput>FormTextareaElement.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.resx">
+      <LastGenOutput>FormTextareaElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormTableElement.en.resx">
       <LastGenOutput>FormTableElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
