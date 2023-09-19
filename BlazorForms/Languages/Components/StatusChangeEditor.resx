@@ -123,15 +123,6 @@
   <data name="LABEL_COMMENT" xml:space="preserve">
     <value>Kommentar</value>
   </data>
-  <data name="LABEL_NOTIFY_APPROVER" xml:space="preserve">
-    <value>Freigeber benachrichtigen</value>
-  </data>
-  <data name="LABEL_NOTIFY_CREATOR" xml:space="preserve">
-    <value>Ersteller benachrichtigen</value>
-  </data>
-  <data name="LABEL_NOTIFY_MANAGER" xml:space="preserve">
-    <value>Bearbeiter benachrichtigen</value>
-  </data>
   <data name="LABEL_STATUS" xml:space="preserve">
     <value>Status</value>
   </data>
