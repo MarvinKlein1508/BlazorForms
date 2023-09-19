@@ -20,7 +20,7 @@ namespace BlazorForms.Core.Validators.Admin
 
             if (IsValueRequired(element) && !value.Any())
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} erfordert eine Datei."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
         }
     }

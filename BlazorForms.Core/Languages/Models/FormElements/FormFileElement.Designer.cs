@@ -22,14 +22,14 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class FormElement {
+    internal class FormFileElement {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal FormElement() {
+        internal FormFileElement() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Core.Languages.Models.FormElements.FormElement", typeof(FormElement).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Core.Languages.Models.FormElements.FormFileElement", typeof(FormFileElement).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie dem Feld &apos;{0}&apos; einen Namen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} erfordert eine Datei. ähnelt.
         /// </summary>
-        internal static string VALIDATION_NAME_REQUIRED {
+        internal static string VALIDATION_REQUIRED {
             get {
-                return ResourceManager.GetString("VALIDATION_NAME_REQUIRED", resourceCulture);
+                return ResourceManager.GetString("VALIDATION_REQUIRED", resourceCulture);
             }
         }
     }
