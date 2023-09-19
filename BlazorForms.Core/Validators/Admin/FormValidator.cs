@@ -5,7 +5,7 @@ namespace BlazorForms.Core.Validators.Admin
 {
     public class FormValidator : AbstractValidator<Form>
     {
-        public FormValidator()
+        public FormValidator(IValidator<FormRow> rowValidator)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -16,7 +16,7 @@ namespace BlazorForms.Core.Validators.Admin
                 .WithMessage("Bitte wählen Sie einen Status aus.");
 
             RuleForEach(x => x.Rows)
-                .SetValidator(new FormRowValidator());
+                .SetValidator(rowValidator);
         }
     }
 }

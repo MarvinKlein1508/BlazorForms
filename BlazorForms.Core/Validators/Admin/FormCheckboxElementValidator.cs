@@ -1,13 +1,18 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public class FormCheckboxElementValidator : FormElementValidator<FormCheckboxElement>
     {
-        public FormCheckboxElementValidator() : base()
+        private readonly IStringLocalizer<FormCheckboxElement> _localizer;
+
+        public FormCheckboxElementValidator(IStringLocalizer<FormCheckboxElement> localizer) : base()
         {
+            _localizer = localizer;
+
             RuleFor(x => x.Value)
                 .Custom(ValidateValue)
                 .When(IsEntryMode);
@@ -18,7 +23,7 @@ namespace BlazorForms.Core.Validators.Admin
             FormCheckboxElement element = context.InstanceToValidate;
             if (IsValueRequired(element) && !value)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss ausgewählt sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
         }
 

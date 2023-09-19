@@ -1,16 +1,17 @@
 ﻿using FluentValidation;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public class FormTableElementValidator : FormElementValidator<FormTableElement>
     {
-        public FormTableElementValidator() : base()
+        public FormTableElementValidator(IStringLocalizer<FormCheckboxElement> checkboxLocalizer) : base()
         {
             RuleForEach(x => x.Elements)
                 .SetInheritanceValidator(x =>
                 {
-                    x.Add(new FormCheckboxElementValidator());
+                    x.Add(new FormCheckboxElementValidator(checkboxLocalizer));
                     x.Add(new FormDateElementValidator());
                     x.Add(new FormFileElementValidator());
                     x.Add(new FormLabelElementValidator());
@@ -28,7 +29,7 @@ namespace BlazorForms.Core.Validators.Admin
                      x.SetInheritanceValidator(x =>
                      {
 
-                         x.Add(new FormCheckboxElementValidator());
+                         x.Add(new FormCheckboxElementValidator(checkboxLocalizer));
                          x.Add(new FormDateElementValidator());
                          x.Add(new FormFileElementValidator());
                          x.Add(new FormLabelElementValidator());

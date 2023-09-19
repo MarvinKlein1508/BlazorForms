@@ -5,10 +5,10 @@ namespace BlazorForms.Core.Validators.Admin
 {
     public class FormRowValidator : AbstractValidator<FormRow>
     {
-        public FormRowValidator()
+        public FormRowValidator(IValidator<FormColumn> formColumnValidator)
         {
             RuleForEach(x => x.Columns)
-                .SetValidator(new FormColumnValidator());
+                .SetValidator(formColumnValidator);
         }
     }
 }

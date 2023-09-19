@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using System.Text;
 using Toolbelt.Blazor.HotKeys2;
+using FluentValidation;
 
 namespace BlazorForms.Pages.Admin.Forms
 {
@@ -30,7 +31,8 @@ namespace BlazorForms.Pages.Admin.Forms
         public bool EditFormProperties { get; set; }
         public Guid? ScrollToGuid { get; set; }
         public string ContextMenuHeaderName { get; set; } = string.Empty;
-        public FormValidator Validator { get; } = new FormValidator();
+        [Inject]
+        public IValidator<Form> Validator { get; set; } = default!;
         public UserFilter FilterUser { get; set; } = new();
 
         private bool _showMobileToolbar;

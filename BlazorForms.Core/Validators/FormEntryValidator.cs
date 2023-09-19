@@ -6,10 +6,10 @@ namespace BlazorForms.Core.Validators
 {
     public class FormEntryValidator : AbstractValidator<FormEntry>
     {
-        public FormEntryValidator()
+        public FormEntryValidator(IValidator<Form> formValidator)
         {
             RuleFor(x => x.Form)
-                .SetValidator(new FormValidator());
+                .SetValidator(formValidator);
 
             RuleFor(x => x.Name)
                 .MaximumLength(50)
