@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public abstract class FormElementWithOptionsValidator<T> : FormElementValidator<T> where T : FormElementWithOptions
     {
-        public FormElementWithOptionsValidator() : base()
+        public FormElementWithOptionsValidator(IStringLocalizer<T> localizer) : base(localizer)
         {
             RuleFor(x => x.Options)
                 .Must(x => x.Any())

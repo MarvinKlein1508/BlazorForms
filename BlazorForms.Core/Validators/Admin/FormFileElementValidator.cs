@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public class FormFileElementValidator : FormElementValidator<FormFileElement>
     {
-        public FormFileElementValidator() : base()
+        public FormFileElementValidator(IStringLocalizer<FormFileElement> localizer) : base(localizer)
         {
             RuleFor(x => x.Values)
                 .Custom(ValidateValue)

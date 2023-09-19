@@ -8,22 +8,30 @@ namespace BlazorForms.Core.Validators.Admin
     {
         public FormTableElementValidator
         (
+            IStringLocalizer<FormTableElement> localizer,
             IStringLocalizer<FormCheckboxElement> checkboxLocalizer,
-            IStringLocalizer<FormDateElement> dateLocalizer
-        ) : base()
+            IStringLocalizer<FormDateElement> dateLocalizer,
+            IStringLocalizer<FormFileElement> fileLocalizer,
+            IStringLocalizer<FormLabelElement> labelLocalizer,
+            IStringLocalizer<FormNumberElement> numberLocalizer,
+            IStringLocalizer<FormRadioElement> radioLocalizer,
+            IStringLocalizer<FormSelectElement> selectLocalizer,
+            IStringLocalizer<FormTextareaElement> textareaLocalizer,
+            IStringLocalizer<FormTextElement> textLocalizer
+        ) : base(localizer)
         {
             RuleForEach(x => x.Elements)
                 .SetInheritanceValidator(x =>
                 {
                     x.Add(new FormCheckboxElementValidator(checkboxLocalizer));
                     x.Add(new FormDateElementValidator(dateLocalizer));
-                    x.Add(new FormFileElementValidator());
-                    x.Add(new FormLabelElementValidator());
-                    x.Add(new FormNumberElementValidator());
-                    x.Add(new FormRadioElementValidator());
-                    x.Add(new FormSelectElementValidator());
-                    x.Add(new FormTextareaElementValidator());
-                    x.Add(new FormTextElementValidator());
+                    x.Add(new FormFileElementValidator(fileLocalizer));
+                    x.Add(new FormLabelElementValidator(labelLocalizer));
+                    x.Add(new FormNumberElementValidator(numberLocalizer));
+                    x.Add(new FormRadioElementValidator(radioLocalizer));
+                    x.Add(new FormSelectElementValidator(selectLocalizer));
+                    x.Add(new FormTextareaElementValidator(textareaLocalizer));
+                    x.Add(new FormTextElementValidator(textLocalizer));
                 })
                .When(x => !IsEntryMode(x));
 
@@ -35,13 +43,13 @@ namespace BlazorForms.Core.Validators.Admin
 
                          x.Add(new FormCheckboxElementValidator(checkboxLocalizer));
                          x.Add(new FormDateElementValidator(dateLocalizer));
-                         x.Add(new FormFileElementValidator());
-                         x.Add(new FormLabelElementValidator());
-                         x.Add(new FormNumberElementValidator());
-                         x.Add(new FormRadioElementValidator());
-                         x.Add(new FormSelectElementValidator());
-                         x.Add(new FormTextareaElementValidator());
-                         x.Add(new FormTextElementValidator());
+                         x.Add(new FormFileElementValidator(fileLocalizer));
+                         x.Add(new FormLabelElementValidator(labelLocalizer));
+                         x.Add(new FormNumberElementValidator(numberLocalizer));
+                         x.Add(new FormRadioElementValidator(radioLocalizer));
+                         x.Add(new FormSelectElementValidator(selectLocalizer));
+                         x.Add(new FormTextareaElementValidator(textareaLocalizer));
+                         x.Add(new FormTextElementValidator(textLocalizer));
                      });
                  })
                  .When(IsEntryMode);

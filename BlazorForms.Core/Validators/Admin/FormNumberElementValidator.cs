@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public class FormNumberElementValidator : FormElementValidator<FormNumberElement>
     {
-        public FormNumberElementValidator() : base()
+        public FormNumberElementValidator(IStringLocalizer<FormNumberElement> localizer) : base(localizer)
         {
             RuleFor(x => x.MinValue)
                 .Must((x, y) => x.MaxValue >= x.MinValue)

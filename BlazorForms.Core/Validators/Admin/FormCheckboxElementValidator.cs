@@ -7,12 +7,8 @@ namespace BlazorForms.Core.Validators.Admin
 {
     public class FormCheckboxElementValidator : FormElementValidator<FormCheckboxElement>
     {
-        private readonly IStringLocalizer<FormCheckboxElement> _localizer;
-
-        public FormCheckboxElementValidator(IStringLocalizer<FormCheckboxElement> localizer) : base()
+        public FormCheckboxElementValidator(IStringLocalizer<FormCheckboxElement> localizer) : base(localizer)
         {
-            _localizer = localizer;
-
             RuleFor(x => x.Value)
                 .Custom(ValidateValue)
                 .When(IsEntryMode);

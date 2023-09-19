@@ -2,12 +2,13 @@
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public abstract class FormTextElementBaseValidator<T> : FormElementValidator<T> where T : FormTextElementBase
     {
-        public FormTextElementBaseValidator() : base()
+        public FormTextElementBaseValidator(IStringLocalizer<T> localizer) : base(localizer)
         {
             RuleFor(x => x.Value)
                 .Custom(ValidateValue)

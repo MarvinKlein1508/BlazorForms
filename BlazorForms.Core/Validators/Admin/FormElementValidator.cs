@@ -2,17 +2,21 @@
 using BlazorForms.Core.Constants;
 using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public abstract class FormElementValidator<T> : AbstractValidator<T> where T : FormElement
     {
-        public FormElementValidator() : base()
+        protected readonly IStringLocalizer<T> _localizer;
+
+        public FormElementValidator(IStringLocalizer<T> localizer) : base()
         {
+            _localizer = localizer;
+
             RuleFor(x => x.Name)
                 .Must(IsNameSet)
-                .WithMessage(x => $"Bitte geben Sie dem Feld '{x.Name}' einen Namen");
-
+                .WithMessage(x => String.Format(_localizer["VALIDATION_NAME_REQUIRED"], x.Name));
         }
 
         private bool IsNameSet(FormElement element, string name)

@@ -7,12 +7,8 @@ namespace BlazorForms.Core.Validators.Admin
 {
     public class FormDateElementValidator : FormElementValidator<FormDateElement>
     {
-        private readonly IStringLocalizer<FormDateElement> _localizer;
-
-        public FormDateElementValidator(IStringLocalizer<FormDateElement> localizer) : base()
+        public FormDateElementValidator(IStringLocalizer<FormDateElement> localizer) : base(localizer)
         {
-            _localizer = localizer;
-
             RuleFor(x => x.MaxDate)
                 .Must((x, y) => x.MaxDate.Date >= x.MinDate.Date)
                 .WithMessage(_localizer["VALIDATION_MIN_MAX"])

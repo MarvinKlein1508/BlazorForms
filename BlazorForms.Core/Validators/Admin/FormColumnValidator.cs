@@ -9,7 +9,15 @@ namespace BlazorForms.Core.Validators.Admin
     {
         public FormColumnValidator(
             IStringLocalizer<FormCheckboxElement> checkboxLocalizer,
-            IStringLocalizer<FormDateElement> dateLocalizer
+            IStringLocalizer<FormDateElement> dateLocalizer,
+            IStringLocalizer<FormFileElement> fileLocalizer,
+            IStringLocalizer<FormLabelElement> labelLocalizer,
+            IStringLocalizer<FormNumberElement> numberLocalizer,
+            IStringLocalizer<FormRadioElement> radioLocalizer,
+            IStringLocalizer<FormSelectElement> selectLocalizer,
+            IStringLocalizer<FormTableElement> tableLocalizer,
+            IStringLocalizer<FormTextareaElement> textareaLocalizer,
+            IStringLocalizer<FormTextElement> textLocalizer
         )
         {
             RuleForEach(x => x.Elements)
@@ -17,14 +25,27 @@ namespace BlazorForms.Core.Validators.Admin
                 {
                     x.Add(new FormCheckboxElementValidator(checkboxLocalizer));
                     x.Add(new FormDateElementValidator(dateLocalizer));
-                    x.Add(new FormFileElementValidator());
-                    x.Add(new FormLabelElementValidator());
-                    x.Add(new FormNumberElementValidator());
-                    x.Add(new FormRadioElementValidator());
-                    x.Add(new FormSelectElementValidator());
-                    x.Add(new FormTableElementValidator(checkboxLocalizer, dateLocalizer));
-                    x.Add(new FormTextareaElementValidator());
-                    x.Add(new FormTextElementValidator());
+                    x.Add(new FormFileElementValidator(fileLocalizer));
+                    x.Add(new FormLabelElementValidator(labelLocalizer));
+                    x.Add(new FormNumberElementValidator(numberLocalizer));
+                    x.Add(new FormRadioElementValidator(radioLocalizer));
+                    x.Add(new FormSelectElementValidator(selectLocalizer));
+                    x.Add(new FormTableElementValidator
+                        (
+                            tableLocalizer, 
+                            checkboxLocalizer, 
+                            dateLocalizer, 
+                            fileLocalizer, 
+                            labelLocalizer, 
+                            numberLocalizer, 
+                            radioLocalizer,
+                            selectLocalizer,
+                            textareaLocalizer,
+                            textLocalizer
+                        )
+                    );
+                    x.Add(new FormTextareaElementValidator(textareaLocalizer));
+                    x.Add(new FormTextElementValidator(textLocalizer));
                 });
         }
     }
