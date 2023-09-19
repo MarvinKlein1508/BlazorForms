@@ -8,7 +8,7 @@ namespace BlazorForms.Core.Models
         public int HistoryId { get; set; }
         [CompareField("user_id")]
         public int UserId { get; set; }
-
+        [CompareField("notify")]
         public bool Notify { get; set; }
     }
 }

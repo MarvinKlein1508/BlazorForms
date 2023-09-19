@@ -128,33 +128,11 @@ namespace BlazorForms.Components
 
 
                 // Send E-Mails
-                if (emailSettings.Value.Enabled && (Input.NotifyCreator || Input.NotifyManagers || Input.NotifyApprovers))
+                if (emailSettings.Value.Enabled && Input.Notifiers.Any(x => x.Notify))
                 {
                     List<string> email_addresses = new();
-                    if (Input.NotifyCreator)
-                    {
-                        if (Entry.CreationUserId != null)
-                        {
-                            User? user = await userService.GetAsync((int)Entry.CreationUserId, dbController);
-
-                            if (user is not null)
-                            {
-                                email_addresses.Add(user.Email);
-                            }
-                        }
-                    }
-
-                    if (Input.NotifyManagers)
-                    {
-                        // Don't send emails to yourself
-                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && (User is null || x.UserId != User.Id)).Select(x => x.Email));
-                    }
-
-                    if (Input.NotifyApprovers)
-                    {
-                        // Don't send emails to yourself
-                        email_addresses.AddRange(Entry.Form.ManagerUsers.Where(x => x.EmailEnabled && x.CanApprove && (User is null || x.UserId != User.Id)).Select(x => x.Email));
-                    }
+                    
+                    // TODO: Select enabled notifiers
 
                     if (email_addresses.Any())
                     {
