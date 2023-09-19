@@ -117,4 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="VALIDATION_INVALID_REGEX" xml:space="preserve">
+    <value>The regular expression is invalid</value>
+  </data>
+  <data name="VALIDATION_MAX_LENGTH" xml:space="preserve">
+    <value>'{0}' can be a maximum of {1} characters long. You have entered {2} characters.</value>
+  </data>
+  <data name="VALIDATION_MIN_LENGTH" xml:space="preserve">
+    <value>'{0}' must be at least {1} characters long. You have entered {2} characters.</value>
+  </data>
+  <data name="VALIDATION_MIN_MAX" xml:space="preserve">
+    <value>The minimum length can not be greater than the maximum length.</value>
+  </data>
+  <data name="VALIDATION_REGEX" xml:space="preserve">
+    <value>The input has an incorrect format.</value>
+  </data>
+  <data name="VALIDATION_REQUIRED" xml:space="preserve">
+    <value>'{0}' cannot be empty.</value>
+  </data>
 </root>

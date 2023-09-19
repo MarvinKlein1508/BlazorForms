@@ -59,5 +59,59 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Reguläre Ausdruck ist ungültig ähnelt.
+        /// </summary>
+        internal static string VALIDATION_INVALID_REGEX {
+            get {
+                return ResourceManager.GetString("VALIDATION_INVALID_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; kann maximal {1} Zeichen lang sein. Sie haben {2} Zeichen eingegeben. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; muss mindestens {1} Zeichen lang sein. Sie haben {2} Zeichen eingegeben. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_MIN_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_MIN_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Mindestlänge kann nicht größer sein, als der Maximallänge. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_MIN_MAX {
+            get {
+                return ResourceManager.GetString("VALIDATION_MIN_MAX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Eingabe hat ein falsches Format. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_REGEX {
+            get {
+                return ResourceManager.GetString("VALIDATION_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; darf nicht leer sein. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_REQUIRED", resourceCulture);
+            }
+        }
     }
 }

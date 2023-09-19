@@ -16,11 +16,11 @@ namespace BlazorForms.Core.Validators.Admin
 
             RuleFor(x => x.MinLength)
                 .Must(ValidateMinLength)
-                .WithMessage("Die Mindestlänge kann nicht größer sein, als der Maximallänge");
+                .WithMessage(_localizer["VALIDATION_MIN_MAX"]);
 
             RuleFor(x => x.RegexPattern)
                 .Must(ValidateRegexPattern)
-                .WithMessage("Der Reguläre Ausdruck ist ungültig");
+                .WithMessage(_localizer["VALIDATION_INVALID_REGEX"]);
 
         }
 
@@ -55,15 +55,15 @@ namespace BlazorForms.Core.Validators.Admin
             T element = context.InstanceToValidate;
             if (IsValueRequired(element) && text.Length is 0)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} darf nicht leer sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
             else if (element.MinLength > 0 && text.Length < element.MinLength)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss mindestens {element.MinLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_MIN_LENGTH"], element.Name, element.MinLength, text.Length)));
             }
             else if (element.MaxLength > 0 && text.Length > element.MaxLength)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} kann maximal {element.MaxLength} Zeichen lang sein. Sie haben {text.Length} Zeichen eingegeben."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_MAX_LENGTH"], element.Name, element.MaxLength, text.Length)));
             }
 
             if (element is FormTextElementBase textElement && !string.IsNullOrWhiteSpace(textElement.RegexPattern) && !string.IsNullOrWhiteSpace(text))
@@ -74,12 +74,13 @@ namespace BlazorForms.Core.Validators.Admin
 
                     if(!match.Success)
                     {
-                        context.AddFailure(new ValidationFailure(context.PropertyPath, $"Die Eingabe hat ein falsches Format."));
+                        context.AddFailure(new ValidationFailure(context.PropertyPath, _localizer["VALIDATION_REGEX"]));
                     }
                 }
                 catch (ArgumentException)
                 {
-                    context.AddFailure(new ValidationFailure(context.PropertyPath, $"Ungültiger Regulärer Ausdruck in Element."));
+                    // Can happen when REGEX get changed within the database
+                    context.AddFailure(new ValidationFailure(context.PropertyPath, _localizer["VALIDATION_INVALID_REGEX"]));
                 }
             }
         }
