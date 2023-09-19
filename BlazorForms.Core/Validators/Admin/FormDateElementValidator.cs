@@ -1,16 +1,21 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using BlazorForms.Core.Models.FormElements;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
     public class FormDateElementValidator : FormElementValidator<FormDateElement>
     {
-        public FormDateElementValidator() : base()
+        private readonly IStringLocalizer<FormDateElement> _localizer;
+
+        public FormDateElementValidator(IStringLocalizer<FormDateElement> localizer) : base()
         {
+            _localizer = localizer;
+
             RuleFor(x => x.MaxDate)
                 .Must((x, y) => x.MaxDate.Date >= x.MinDate.Date)
-                .WithMessage("Der Mindestwert kann nicht größer sein, als der Maximalwert.")
+                .WithMessage(_localizer["VALIDATION_MIN_MAX"])
                 .When(x => x.MaxDate != default);
 
             RuleFor(x => x.Value)
@@ -23,15 +28,15 @@ namespace BlazorForms.Core.Validators.Admin
             FormDateElement element = context.InstanceToValidate;
             if (IsValueRequired(element) && date == default)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"Bitte geben Sie für {element.Name} ein Datum an."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
             else if (element.MinDate != default && date.Date < element.MinDate.Date)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss größer oder gleich {element.MinDate.ToShortDateString()} sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_NOT_MIN_DATE"], element.Name, element.MinDate.ToShortDateString())));
             }
             else if (element.MaxDate != default && date.Date > element.MaxDate.Date)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} muss kleiner oder gleich {element.MaxDate.ToShortDateString()} sein."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_OVER_MAX_DATE"], element.Name, element.MaxDate.ToShortDateString())));
             }
         }
     }

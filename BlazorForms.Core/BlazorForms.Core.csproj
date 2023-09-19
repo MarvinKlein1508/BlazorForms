@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormDateElement.en.Designer.cs">
+      <DependentUpon>FormDateElement.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Models\FormElements\FormDateElement.Designer.cs">
+      <DependentUpon>FormDateElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormCheckboxElement.en.Designer.cs">
       <DependentUpon>FormCheckboxElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -59,6 +69,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.en.resx">
+      <LastGenOutput>FormDateElement.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.resx">
+      <LastGenOutput>FormDateElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormCheckboxElement.en.resx">
       <LastGenOutput>FormCheckboxElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
