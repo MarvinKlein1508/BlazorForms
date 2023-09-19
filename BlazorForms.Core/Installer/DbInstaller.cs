@@ -440,7 +440,7 @@ CREATE TABLE form_entry_history_notify
 	notify TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY (history_id, user_id),
 	FOREIGN KEY (history_id) REFERENCES form_entry_history(history_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
             _data.Add(@"

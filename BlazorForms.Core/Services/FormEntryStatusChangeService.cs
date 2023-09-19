@@ -33,7 +33,7 @@ VALUES
 @NOTIFY
 )";
 
-                await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
+                await dbController.QueryAsync(sql, item.GetParameters(), cancellationToken);
             }
         }
 
