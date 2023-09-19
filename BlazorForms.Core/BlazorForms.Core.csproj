@@ -46,6 +46,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormNumberElement.Designer.cs">
+      <DependentUpon>FormNumberElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormLabelElement.en.Designer.cs">
       <DependentUpon>FormLabelElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -89,6 +94,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.resx">
+      <LastGenOutput>FormNumberElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.en.resx">
       <LastGenOutput>FormLabelElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
