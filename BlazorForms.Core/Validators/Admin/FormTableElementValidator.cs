@@ -56,7 +56,7 @@ namespace BlazorForms.Core.Validators.Admin
 
             RuleFor(x => x.Elements)
                 .Must(x => x.Any())
-                .WithMessage(x => $"Tabelle '{x.Name}' muss mindestens ein Element beinhalten");
+                .WithMessage(x => String.Format(_localizer["VALIDATION_NO_ELEMENTS"], x.Name));
         }
     }
 }
