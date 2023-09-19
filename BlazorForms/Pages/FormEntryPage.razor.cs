@@ -297,7 +297,7 @@ namespace BlazorForms.Pages
 
             foreach (var extension in fileElement.AcceptedFileTypes)
             {
-                string blank_extension = extension.Replace(".", string.Empty);
+                string blank_extension = extension.Replace(".", string.Empty).ToLower();
                 if (AppdatenService.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
                 {
                     allowedMimeTypes.Add(mimeType);
