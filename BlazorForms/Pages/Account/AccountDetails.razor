@@ -1,103 +1,108 @@
 ﻿@page "/Account/Details"
-@attribute [Authorize]
 @inject AuthService authService
 @inherits BlazorFormsComponentBase
 @inject IStringLocalizer<AccountDetails> localizer
 <PageTitle>@localizer["PAGETITLE"]</PageTitle>
 <h3>@localizer["PAGETITLE"]</h3>
 
-
-@if (CurrentUser is not null)
-{
-    <div class="row">
-        <div class="col-12 col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">@localizer["INFORMATION"]</h4>
-                </div>
-                <div class="card-content">
-                    <div class="card-body">
-                        <p class="card-text">
-                            @localizer["INFORMATION_DESCRIPTION"]
-                        </p>
-                        <div class="table-responsive">
-                            <table class="table table-lg">
-                                <tbody>
-                                    <tr>
-                                        <td class="text-bold-500">@localizer["INFORMATION_TD_DISPLAY_NAME"]</td>
-                                        <td>@CurrentUser.DisplayName</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-bold-500">@localizer["INFORMATION_TD_USERNAME"]</td>
-                                        <td>@CurrentUser.Username</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-bold-500">@localizer["INFORMATION_TD_USERID"]</td>
-                                        <td>@CurrentUser.UserId</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-bold-500">@localizer["INFORMATION_TD_EMAIL"]</td>
-                                        <td>@CurrentUser.Email</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-bold-500">@localizer["INFORMATION_TD_ACCOUNT_TYPE"]</td>
-                                        <td>
-                                            <p>@(CurrentUser.ActiveDirectoryGuid != null ? localizer["INFORMATION_ACCOUNT_TYPE_AD"] : localizer["INFORMATION_ACCOUNT_TYPE_LOCAL"])</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+<AuthorizeView>
+    <Authorized>
+        @if (CurrentUser is not null)
+        {
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">@localizer["INFORMATION"]</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @localizer["INFORMATION_DESCRIPTION"]
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-lg">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-bold-500">@localizer["INFORMATION_TD_DISPLAY_NAME"]</td>
+                                                <td>@CurrentUser.DisplayName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-bold-500">@localizer["INFORMATION_TD_USERNAME"]</td>
+                                                <td>@CurrentUser.Username</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-bold-500">@localizer["INFORMATION_TD_USERID"]</td>
+                                                <td>@CurrentUser.UserId</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-bold-500">@localizer["INFORMATION_TD_EMAIL"]</td>
+                                                <td>@CurrentUser.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-bold-500">@localizer["INFORMATION_TD_ACCOUNT_TYPE"]</td>
+                                                <td>
+                                                    <p>@(CurrentUser.ActiveDirectoryGuid != null ? localizer["INFORMATION_ACCOUNT_TYPE_AD"] : localizer["INFORMATION_ACCOUNT_TYPE_LOCAL"])</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-12 col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">@localizer["PERMISSIONS"]</h4>
-                </div>
-                <div class="card-content">
-                    <div class="card-body">
-                        <p class="card-text">
-                            @localizer["PERMISSIONS_DESCRIPTION"]
-                        </p>
-                        <div class="table-responsive">
-                            <table class="table table-lg">
-                                <thead>
-                                    <tr>
-                                        <th>@localizer["PERMISSIONS_TH_NAME"]</th>
-                                        <th>@localizer["PERMISSIONS_TH_DESCRIPTION"]</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (CurrentUser.Permissions.Any())
-                                    {
-                                        @foreach (var permission in CurrentUser.Permissions)
-                                        {
-                                            @if (_user?.IsInRole(permission.Identifier) == true)
+                <div class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">@localizer["PERMISSIONS"]</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @localizer["PERMISSIONS_DESCRIPTION"]
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-lg">
+                                        <thead>
+                                            <tr>
+                                                <th>@localizer["PERMISSIONS_TH_NAME"]</th>
+                                                <th>@localizer["PERMISSIONS_TH_DESCRIPTION"]</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (CurrentUser.Permissions.Any())
                                             {
-                                                var description = permission.GetLocalization(CultureInfo.CurrentCulture);
+                                                @foreach (var permission in CurrentUser.Permissions)
+                                                {
+                                                    @if (_user?.IsInRole(permission.Identifier) == true)
+                                                    {
+                                                        var description = permission.GetLocalization(CultureInfo.CurrentCulture);
+                                                        <tr>
+                                                            <td class="text-bold-500">@description?.Name</td>
+                                                            <td>@description?.Description</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
                                                 <tr>
-                                                    <td class="text-bold-500">@description?.Name</td>
-                                                    <td>@description?.Description</td>
+                                                    <td colspan="2">@localizer["PERMISSIONS_NO_EXTRA"]</td>
                                                 </tr>
                                             }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="2">@localizer["PERMISSIONS_NO_EXTRA"]</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-}
+        }
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>

@@ -55,8 +55,15 @@ namespace BlazorForms.Pages
                     bool canSeeEntry = _user is not null && (form.CreationUserId == _user.UserId || form.Form.ManagerUsers.Select(x => x.UserId).Contains(_user.UserId)) || IsAdmin;
                     if (!canSeeEntry)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
-                        navigationManager.NavigateTo("/");
+                        if (_user is null)
+                        {
+                            navigationManager.NavigateTo($"/Account/Login?returnUrl=Entry/{EntryId}", true);
+                        }
+                        else
+                        {
+                            await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
+                            navigationManager.NavigateTo("/");
+                        }
                         return;
                     }
 

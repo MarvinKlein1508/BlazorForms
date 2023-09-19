@@ -1,0 +1,11 @@
+﻿@inject NavigationManager Navigation
+@code {
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        string thisPage = Navigation.Uri.Replace(Navigation.BaseUri, "/");
+        Navigation.NavigateTo($"/Account/Login?returnUrl={thisPage}", true);
+
+        base.OnAfterRender(firstRender);
+    }
+}

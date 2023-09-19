@@ -1,16 +1,23 @@
 ﻿@page "/Account/Entries"
 @page "/Account/Entries/Page/{Page:int}"
-@attribute [Authorize]
 @inject FormEntryService formEntryService
 @inject AuthService authService
 @inherits BlazorFormsComponentBase
 @inject IStringLocalizer<AccountEntries> localizer
 
-<PageTitle>@localizer["PAGETITLE"]</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
-<h3>@localizer["PAGETITLE"]</h3>
+        <h3>@localizer["PAGETITLE"]</h3>
 
-<EntryList DefaultFilter="Filter"
-           NavUrl="/Account/Entries/Page/"
-           BaseUrl="Account/Entries/" />
+        <EntryList DefaultFilter="Filter"
+                   NavUrl="/Account/Entries/Page/"
+                   BaseUrl="Account/Entries/" />
+
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>
 
