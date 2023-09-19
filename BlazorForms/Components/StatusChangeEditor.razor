@@ -26,7 +26,7 @@
             <label for="status-comment">@localizer["LABEL_COMMENT"]</label>
             <ValidationMessage For="() => Input.Comment" />
         </div>
-        @if (!emailSettings.Value.Enabled)
+        @if (emailSettings.Value.Enabled)
         {
             @if (Entry?.CreationUserId is not null)
             {
