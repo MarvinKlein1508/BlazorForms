@@ -432,7 +432,7 @@ CREATE TABLE form_entry_history
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );"));
 
-            _tables.Add("form_entry_history_notify", @"
+            _tables.Add(new SqlTable("form_entry_history_notify", @"
 CREATE TABLE form_entry_history_notify 
 (
 	history_id INTEGER NOT NULL,
@@ -441,7 +441,7 @@ CREATE TABLE form_entry_history_notify
 	PRIMARY KEY (history_id, user_id),
 	FOREIGN KEY (history_id) REFERENCES form_entry_history(history_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-);");
+);"));
 
             _data.Add(@"
 INSERT INTO languages (name, code, sort_order, status) VALUES 
