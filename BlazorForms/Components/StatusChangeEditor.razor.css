@@ -1,0 +1,10 @@
+﻿.notify-container {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media(min-width: 992px) {
+    .notify-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}

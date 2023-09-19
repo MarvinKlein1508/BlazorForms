@@ -23,7 +23,7 @@ namespace BlazorForms.Core.Models
         [CompareField("notify_approvers")]
         public bool NotifyApprovers { get; set; }
 
-
+        public List<FormEntryHistoryNotify> Notifiers { get; set; } = new();
 
         [CompareField("display_name")]
         public string Username { get; set; } = string.Empty;

@@ -7,6 +7,7 @@ using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorForms.Components
 {
@@ -24,10 +25,14 @@ namespace BlazorForms.Components
         public FormEntryStatusChange? Input { get; set; }
         private EditForm? _form;
 
-        protected override Task OnParametersSetAsync()
+        private List<User> _availableForNotification = new();
+
+        protected override async Task OnInitializedAsync()
         {
             ArgumentNullException.ThrowIfNull(User, nameof(User));
             ArgumentNullException.ThrowIfNull(Entry, nameof(Entry));
+
+            _availableForNotification = await SetupNotifiersAsync(Entry, User);
 
             Input = new()
             {
@@ -35,7 +40,47 @@ namespace BlazorForms.Components
                 EntryId = Entry.Id
             };
 
-            return base.OnParametersSetAsync();
+            foreach (var user in _availableForNotification)
+            {
+                Input.Notifiers.Add(new FormEntryHistoryNotify
+                {
+                    UserId = user.Id
+                });
+            }
+        }
+  
+
+        private async Task<List<User>> SetupNotifiersAsync(FormEntry entry, User currentUser)
+        {
+            List<User> result = new();
+            List<int> userIds = new();
+
+            // Generate list of available notifiers
+            foreach (var user in entry.Form.ManagerUsers)
+            {
+                // We don't want to notify ourself
+                if (user.Id == currentUser.Id)
+                {
+                    continue;
+                }
+
+                result.Add(user);
+                userIds.Add(user.Id);
+            }
+
+            if (entry.CreationUserId is int creationUserId && currentUser.Id != creationUserId && !userIds.Contains(creationUserId))
+            {
+                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                User? creationUser = await userService.GetAsync((int)entry.CreationUserId, dbController);
+                if (creationUser is not null)
+                {
+                    result.Add(creationUser);
+                    userIds.Add(creationUserId);
+                }
+            }
+
+
+            return result;
         }
 
         private async Task SaveAsync()
@@ -94,7 +139,7 @@ namespace BlazorForms.Components
 
                             if (user is not null)
                             {
-                                email_addresses.Add(user.Email);    
+                                email_addresses.Add(user.Email);
                             }
                         }
                     }

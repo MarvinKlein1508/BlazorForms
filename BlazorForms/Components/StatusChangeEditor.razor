@@ -26,32 +26,14 @@
             <label for="status-comment">@localizer["LABEL_COMMENT"]</label>
             <ValidationMessage For="() => Input.Comment" />
         </div>
-        @if (emailSettings.Value.Enabled)
+        @if (emailSettings.Value.Enabled && Input.Notifiers.Any())
         {
-            @if (Entry?.CreationUserId is not null)
-            {
-                <div class="form-check">
-                    <div class="checkbox">
-                        <InputCheckbox @bind-Value="Input.NotifyCreator" id="status-notify-creator" class="form-check-input" />
-                        <label for="status-notify-creator">@localizer["LABEL_NOTIFY_CREATOR"]</label>
-                        <ValidationMessage For="() => Input.NotifyCreator" />
-                    </div>
-                </div>
-            }
-
-            <div class="form-check">
-                <div class="checkbox">
-                    <InputCheckbox @bind-Value="Input.NotifyManagers" id="status-notify-managers" class="form-check-input" />
-                    <label for="status-notify-managers">@localizer["LABEL_NOTIFY_MANAGER"]</label>
-                    <ValidationMessage For="() => Input.NotifyManagers" />
-                </div>
-            </div>
-            <div class="form-check">
-                <div class="checkbox">
-                    <InputCheckbox @bind-Value="Input.NotifyApprovers" id="status-notify-approvers" class="form-check-input" />
-                    <label for="status-notify-approvers">@localizer["LABEL_NOTIFY_APPROVER"]</label>
-                    <ValidationMessage For="() => Input.NotifyApprovers" />
-                </div>
+            <h4>@localizer["HEADING_NOTIFY"]</h4>
+            <div class="notify-container mb-3">
+                @foreach (var notify in Input.Notifiers)
+                {
+                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.Id == notify.UserId).DisplayName)" />
+                }
             </div>
         }
     </EditForm>
