@@ -59,5 +59,23 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie dem Element mindestens eine Option ähnelt.
+        /// </summary>
+        internal static string VALIDATION_NO_OPTIONS {
+            get {
+                return ResourceManager.GetString("VALIDATION_NO_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} erfordert eine ausgewählte Option. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_REQUIRED", resourceCulture);
+            }
+        }
     }
 }

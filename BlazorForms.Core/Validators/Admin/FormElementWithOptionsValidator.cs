@@ -11,7 +11,7 @@ namespace BlazorForms.Core.Validators.Admin
         {
             RuleFor(x => x.Options)
                 .Must(x => x.Any())
-                .WithMessage("Bitte geben Sie dem Element mindestens eine Option");
+                .WithMessage(_localizer["VALIDATION_NO_OPTIONS"]);
 
             RuleFor(x => x.Value)
                 .Custom(ValidateValue)
@@ -23,7 +23,7 @@ namespace BlazorForms.Core.Validators.Admin
             T element = context.InstanceToValidate;
             if (IsValueRequired(element) && value.Length is 0)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, $"{element.Name} erfordert eine ausgewählte Option."));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
         }
     }
