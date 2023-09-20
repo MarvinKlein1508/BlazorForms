@@ -78,7 +78,7 @@ namespace BlazorForms.Pages
                     if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausfüllen zu können, müssen Sie sich zunächst einloggen.");
-                        navigationManager.NavigateTo($"/");
+                        navigationManager.NavigateTo($"/Account/Login?returnUrl=Forms/{FormId}", true);
                         return;
                     }
 
