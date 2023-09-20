@@ -268,22 +268,7 @@ namespace BlazorForms.Pages
         }
         private async Task OpenStatusModalAsync()
         {
-            if (_user is null || Input is null)
-            {
-                return;
-            }
-
-            // Only admins and managers are able to change the status
-            if (!IsAdmin && !IsManager)
-            {
-                return;
-            }
-
-            if (RequiresApproval && !IsAllowedToApprove && !IsAdmin)
-            {
-                await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt den Status zu ändern, da dieser Formulareintrag eine Freigabe erfordert.");
-                return;
-            }
+                    
 
             await _statusModal.ShowAsync();
         }

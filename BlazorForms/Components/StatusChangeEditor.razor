@@ -2,6 +2,7 @@
 @inject FormEntryStatusChangeService statusChangeService
 @inject FormEntryService formEntryService
 @inject UserService userService
+@inject AuthService authService
 @inject NavigationManager navigationManager
 @inject IOptions<EmailSettings> emailSettings
 @inject IStringLocalizer<StatusChangeEditor> localizer
@@ -10,7 +11,7 @@
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <div class="form-floating mb-3">
-            <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="@localizer["LABEL_STATUS"]">
+            <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="@localizer["LABEL_STATUS"]" disabled="@(!_allowStatusChange)">
                 <option value="0">@AppLocalizer["SELECT_CHOOSE"]</option>
                 @foreach (var status in AppdatenService.Statuses)
                 {

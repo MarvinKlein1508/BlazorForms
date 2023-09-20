@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
 using Microsoft.AspNetCore.Mvc;
+using BlazorForms.Core.Constants;
 
 namespace BlazorForms.Components
 {
@@ -26,7 +27,7 @@ namespace BlazorForms.Components
         private EditForm? _form;
 
         private List<User> _availableForNotification = new();
-
+        private bool _allowStatusChange;
         protected override async Task OnInitializedAsync()
         {
             ArgumentNullException.ThrowIfNull(User, nameof(User));
@@ -37,7 +38,8 @@ namespace BlazorForms.Components
             Input = new()
             {
                 UserId = User.Id,
-                EntryId = Entry.Id
+                EntryId = Entry.Id,
+                StatusId = Entry.StatusId,
             };
 
             foreach (var user in _availableForNotification)
@@ -47,8 +49,42 @@ namespace BlazorForms.Components
                     UserId = user.Id
                 });
             }
+
+            // Check if current user is allowed to change status
+            _allowStatusChange = await CheckPermissionsAsync();
         }
-  
+
+        private async Task<bool> CheckPermissionsAsync()
+        {
+            if (Entry is null || User is null)
+            {
+                return false;
+            }
+
+            bool isAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
+
+            // Admins are always allowed to make changes
+            if (isAdmin)
+            {
+                return true;
+            }
+
+            var searchStatus = AppdatenService.Get<FormStatus>(Entry.StatusId);
+            bool isCompleted = searchStatus?.IsCompleted ?? false;
+
+            // Completed form entries can only be changed by admins
+            if (isCompleted)
+            {
+                return false;
+            }
+
+            var user = Entry.Form.ManagerUsers.FirstOrDefault(x => x.UserId == User.Id);
+            bool isManager = user is not null;
+            bool isAllowedToApprove = user?.CanApprove ?? false;
+            bool requiresApproval = searchStatus?.RequiresApproval ?? false;
+
+            return (requiresApproval && isAllowedToApprove) || (isManager && !requiresApproval);
+        }
 
         private async Task<List<User>> SetupNotifiersAsync(FormEntry entry, User currentUser)
         {
@@ -131,7 +167,7 @@ namespace BlazorForms.Components
                 if (emailSettings.Value.Enabled && Input.Notifiers.Any(x => x.Notify))
                 {
                     List<string> email_addresses = new();
-                    
+
                     foreach (var notify in Input.Notifiers.Where(x => x.Notify))
                     {
                         var user = _availableForNotification.First(x => x.Id == notify.UserId);

@@ -28,12 +28,9 @@
                 {
                     <button type="button" class="btn btn-primary ms-1" @onclick="ShowHistoryModalAsync">Verlauf</button>
                 }
-                <button type="button" class="btn btn-outline-secondary ms-1" @onclick="OpenStatusModalAsync">
+                <button type="button" class="btn btn-secondary ms-1" @onclick="OpenStatusModalAsync">
+                    <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
                     @GetStatus()
-                    @if (IsAdmin || IsManager)
-                    {
-                        <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
-                    }
                 </button>
             }
         }
