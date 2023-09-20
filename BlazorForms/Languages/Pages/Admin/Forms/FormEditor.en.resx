@@ -129,6 +129,9 @@
   <data name="MANAGER_OPTION_EMAIL_NOTIFY" xml:space="preserve">
     <value>E-mail notifications</value>
   </data>
+  <data name="MANAGER_OPTION_STATUS_CHANGE_DEFAULT" xml:space="preserve">
+    <value>Preselected for status changes</value>
+  </data>
   <data name="MESSAGE_SAVED_SUCCESSFULLY" xml:space="preserve">
     <value>Form was saved successfully</value>
   </data>

@@ -545,6 +545,11 @@ else
                                                                 <input type="checkbox" @bind="item.CanApprove" class="form-check-input" id="@($"manager-approve-{item.GetHashCode()}")">
                                                                 <label class="form-check-label" for="@($"manager-approve-{item.GetHashCode()}")">@localizer["MANAGER_OPTION_CAN_APPROVE"]</label>
                                                             </div>
+
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox" @bind="item.StatusChangeNotificationDefault" class="form-check-input" id="@($"manager-status_change_default-{item.GetHashCode()}")">
+                                                                <label class="form-check-label" for="@($"manager-status_change_default-{item.GetHashCode()}")">@localizer["MANAGER_OPTION_STATUS_CHANGE_DEFAULT"]</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 }

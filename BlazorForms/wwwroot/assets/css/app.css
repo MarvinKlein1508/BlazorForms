@@ -163,7 +163,7 @@ textarea {
 
 
 .autocomplete-search {
-    height: 150px;
+    height: 400px;
     overflow: auto;
     min-height: 20px;
     padding: .25em;

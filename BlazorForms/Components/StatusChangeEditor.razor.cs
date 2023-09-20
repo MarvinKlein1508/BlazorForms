@@ -46,7 +46,8 @@ namespace BlazorForms.Components
             {
                 Input.Notifiers.Add(new FormEntryHistoryNotify
                 {
-                    UserId = user.Id
+                    UserId = user.Id,
+                    Notify = user.StatusChangeNotificationDefault
                 });
             }
 

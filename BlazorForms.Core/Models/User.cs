@@ -33,6 +33,11 @@ namespace BlazorForms.Core.Models
         /// </summary>
         [CompareField("can_approve")]
         public bool CanApprove { get; set; }
+        /// <summary>
+        /// Used to identify form managers which getting pre-selected to receive notifications on status changes
+        /// </summary>
+        [CompareField("status_change_notification_default")]
+        public bool StatusChangeNotificationDefault { get; set; }
 
         public Dictionary<string, object?> GetParameters()
         {

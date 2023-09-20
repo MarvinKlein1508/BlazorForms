@@ -129,6 +129,9 @@
   <data name="MANAGER_OPTION_EMAIL_NOTIFY" xml:space="preserve">
     <value>E-Mail Benachrichtigungen</value>
   </data>
+  <data name="MANAGER_OPTION_STATUS_CHANGE_DEFAULT" xml:space="preserve">
+    <value>Vorausgewählt bei Statusänderungen</value>
+  </data>
   <data name="MESSAGE_SAVED_SUCCESSFULLY" xml:space="preserve">
     <value>Formular wurde erfolgreich gespeichert</value>
   </data>

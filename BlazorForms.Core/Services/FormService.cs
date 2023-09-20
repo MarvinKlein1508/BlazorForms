@@ -449,7 +449,7 @@ WHERE fu.form_id = @FORM_ID";
         private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve FROM form_managers fm
+            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve, fm.status_change_notification_default FROM form_managers fm
 INNER JOIN users u ON (u.user_id = fm.user_id)
 WHERE fm.form_id = @FORM_ID";
 
@@ -728,21 +728,24 @@ VALUES
 form_id,
 user_id,
 receive_email,
-can_approve
+can_approve,
+status_change_notification_default
 )
 VALUES
 (
 @FORM_ID,
 @USER_ID,
 @RECEIVE_EMAIL,
-@CAN_APPROVE
+@CAN_APPROVE,
+@STATUS_CHANGE_NOTIFICATION_DEFAULT
 )";
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
                     USER_ID = user.Id,
                     RECEIVE_EMAIL = user.EmailEnabled,
-                    CAN_APPROVE = user.CanApprove
+                    CAN_APPROVE = user.CanApprove,
+                    STATUS_CHANGE_NOTIFICATION_DEFAULT = user.StatusChangeNotificationDefault,
                 }, cancellationToken);
             }
         }
