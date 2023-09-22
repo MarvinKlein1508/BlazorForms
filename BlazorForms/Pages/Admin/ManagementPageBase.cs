@@ -14,9 +14,7 @@ namespace BlazorForms.Pages.Admin
         
         protected EditForm? _form;
         protected ConfirmDialog _deleteModal = default!;
-#nullable disable
-        [Inject] public TService Service { get; set; }
-#nullable enable
+        [Inject] public TService Service { get; set; } = default!;
 
         protected List<T> Data { get; set; } = new();
 
@@ -30,15 +28,11 @@ namespace BlazorForms.Pages.Admin
             Input = new T();
             return Task.CompletedTask;
         }
-
-       
-
         protected virtual Task EditAsync(T input)
         {
             Input = input.DeepCopyByExpressionTree();
             return Task.CompletedTask;
         }
-
         protected virtual async Task SaveAsync()
         {
             if (_form is null || _form.EditContext is null || Input is null)
@@ -76,7 +70,6 @@ namespace BlazorForms.Pages.Admin
                 Input = null;
             }
         }
-
         protected async Task<bool> ShowDeleteModalAsync(T input, string modalTitle, string modalMessage, string deleteSuccessMessage)
         {
             var options = new ConfirmDialogOptions
