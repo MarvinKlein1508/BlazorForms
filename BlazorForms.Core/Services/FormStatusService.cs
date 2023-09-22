@@ -84,8 +84,6 @@ VALUES
                 foreach (var status in list)
                 {
                     status.Description = descriptions.Where(x => x.StatusId == status.Id).ToList();
-
-                    // TODO: Add missing languages
                 }
 
             }
