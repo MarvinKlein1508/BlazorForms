@@ -296,6 +296,9 @@ namespace BlazorForms.Pages
                 }
             }
 
+            // Some files does not contain a ContentType. So we always aqccept empty ones.
+            allowedMimeTypes.Add(string.Empty);
+
             foreach (var file in e.GetMultipleFiles())
             {
                 long size = file.Size;
