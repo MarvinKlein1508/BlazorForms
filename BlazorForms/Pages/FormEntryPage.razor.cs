@@ -262,7 +262,7 @@ namespace BlazorForms.Pages
                 }
 
                 await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich gespeichert");
-                navigationManager.NavigateTo("/");
+                navigationManager.NavigateTo($"/Entry/{Input.EntryId}");
             }
             _isSaving = false;
         }
