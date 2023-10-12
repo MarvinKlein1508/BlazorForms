@@ -128,6 +128,17 @@
                                                             </label>
                                                         </div>
                                                     }
+
+                                                    @* When options get changed or deleted we need to fake this option for previous form entries *@
+                                                    @if (!formRadioElement.Options.Any(x => x.Name == formRadioElement.Value))
+                                                    {
+                                                        <div class="form-check">
+                                                            <InputRadio Value="@formRadioElement.Value" class="form-check-input" id="@($"radio-{formRadioElement.GetHashCode()}")" />
+                                                            <label class="form-check-label" for="@($"radio-{formRadioElement.GetHashCode()}")">
+                                                                @formRadioElement.Value
+                                                            </label>
+                                                        </div>
+                                                    }
                                                 </InputRadioGroup>
                                                 <ValidationMessage For="() => formRadioElement.Value" />
                                             </div>
@@ -141,6 +152,11 @@
                                                     @foreach (var item in formSelectElement.Options)
                                                     {
                                                         <option value="@item.Name">@item.Name</option>
+                                                    }
+                                                    @* When options get changed or deleted we need to fake this option for previous form entries *@
+                                                    @if (!formSelectElement.Options.Any(x => x.Name == formSelectElement.Value))
+                                                    {
+                                                        <option value="@formSelectElement.Value">@formSelectElement.Value</option>
                                                     }
                                                 </InputSelect>
                                                 <label for="@($"form-{element.Guid}")">@element.Name</label>
@@ -197,6 +213,11 @@
                                                                                     @foreach (var item in tableFormSelectElement.Options)
                                                                                     {
                                                                                         <option value="@item.Name">@item.Name</option>
+                                                                                    }
+                                                                                    @* When options get changed or deleted we need to fake this option for previous form entries *@
+                                                                                    @if (!tableFormSelectElement.Options.Any(x => x.Name == tableFormSelectElement.Value))
+                                                                                    {
+                                                                                        <option value="@tableFormSelectElement.Value">@tableFormSelectElement.Value</option>
                                                                                     }
                                                                                 </InputSelect>
                                                                                 <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
