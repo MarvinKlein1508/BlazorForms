@@ -9,27 +9,29 @@
     border-radius: 1.15rem;
 }
 
+
+
+
 .upload-wrapper {
-    display: inline-block;
     position: relative;
     padding: .5em;
     border-radius: .375rem;
     font-weight: bold;
-    cursor: pointer;
+    background-color: var(--bs-dark);
 }
 
 
 .upload-label {
     padding: 1em;
     position: absolute;
+    margin: 0 auto;
     text-align: center;
     display: block;
     color: #fff;
-    left: 0;
     top: calc(50% - 1rem - 1.5em / 2);
     width: 100%;
     font-size: 1rem;
-    cursor: pointer;
+    
 }
 
 
