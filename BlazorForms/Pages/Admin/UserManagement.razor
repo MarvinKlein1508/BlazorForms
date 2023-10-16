@@ -4,6 +4,7 @@
 @attribute [Authorize(Roles = Roles.EDIT_USERS)]
 @inject IStringLocalizer<App> appLocalizer
 @inject IStringLocalizer<UserManagement> localizer
+@inject NavigationManager navigationManager
 <PageTitle>@localizer["PAGETITLE"]</PageTitle>
 
 
@@ -76,6 +77,16 @@
 
             </div>
 
+            @if (Filter is not null && TotalPages > 1)
+            {
+                <Pagination ActivePageNumber="Filter.PageNumber"
+                            TotalPages="TotalPages"
+                            PageChanged="OnPageChangedAsync"
+                            FirstLinkIcon="IconName.ChevronDoubleLeft"
+                            PreviousLinkIcon="IconName.ChevronLeft"
+                            NextLinkIcon="IconName.ChevronRight"
+                            LastLinkIcon="IconName.ChevronDoubleRight" />
+            }
         </div>
     </div>
 }

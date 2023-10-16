@@ -12,17 +12,23 @@ namespace BlazorForms.Pages.Admin
 {
     public partial class UserManagement
     {
-        private int _page = 1;
         private User? _loggedInUser;
         public UserFilter Filter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
         };
         public Permission? SelectedPermission { get; set; }
-        public int Page { get => _page; set => _page = value < 1 ? 1 : value; }
+        [Parameter, SupplyParameterFromQuery]
+        public int Page { get; set; } = 1;
         public int TotalItems { get; set; }
+        public int TotalPages => (int)Math.Ceiling((double)TotalItems / (double)Filter.Limit);
         protected override async Task OnParametersSetAsync()
         {
+            if (Page <= 0)
+            {
+                Page = 1;
+            }
+
             _loggedInUser = await authService.GetUserAsync();
             await LoadAsync();
         }
@@ -42,10 +48,22 @@ namespace BlazorForms.Pages.Admin
         }
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
+            if (navigateToPage1)
+            {
+                Filter.PageNumber = 1;
+                navigationManager.NavigateTo("/Admin/Users");
+            }
+
             Filter.PageNumber = navigateToPage1 ? 1 : Page;
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
+        }
+
+        private Task OnPageChangedAsync(int pageNumber)
+        {
+            navigationManager.NavigateTo($"/Admin/Users?page={pageNumber}");
+            return Task.CompletedTask;
         }
 
         protected override Task NewAsync()
