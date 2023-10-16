@@ -23,7 +23,7 @@ namespace BlazorForms.Components
 
         public FormEntryFilter? SavedFilter { get; set; }
         public int TotalItems { get; set; }
-        public int TotalPages => TotalItems / (Filter?.Limit ?? DefaultFilter.Limit);
+        public int TotalPages => (int)Math.Ceiling((double)TotalItems / (double)(Filter?.Limit ?? DefaultFilter.Limit));
         public List<EntryListItem> Data { get; set; } = new();
 
         [Parameter, EditorRequired]
