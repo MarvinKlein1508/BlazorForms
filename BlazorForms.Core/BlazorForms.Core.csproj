@@ -12,7 +12,7 @@
     <PackageReference Include="DbController" Version="3.0.0" />
     <PackageReference Include="DbController.MySql" Version="3.0.0" />
     <PackageReference Include="DbController.TypeHandler" Version="3.0.0" />
-    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.1" />
     <PackageReference Include="itext7.pdfhtml" Version="5.0.1" />
     <PackageReference Include="MailKit" Version="4.2.0" />
