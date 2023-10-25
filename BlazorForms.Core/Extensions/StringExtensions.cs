@@ -25,5 +25,18 @@ namespace BlazorForms.Core.Extensions
         }
 
         public static bool IsEmail(string email) => Regex.IsMatch(email, @"^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$");
+    
+        /// <summary>
+        /// Converts Enters into HTML br tags
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Nl2br(this string text)
+        {
+            text = text.Replace("\n", "<br />").Replace("\r", "");
+
+            return text;
+
+        }
     }
 }

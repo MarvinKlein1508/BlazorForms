@@ -20,7 +20,7 @@
                     <td>@change.DateAdded</td>
                     <td>@status_description?.Name</td>
                     <td>@change.Username</td>
-                    <td>@change.Comment</td>
+                    <td>@((MarkupString)change.Comment.Nl2br())</td>
                 </tr>
             </Virtualize>
 
