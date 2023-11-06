@@ -101,6 +101,7 @@ namespace BlazorForms.Pages
                         // Reset form
                         Input.StatusId = form.DefaultStatusId;
                         Input.IsApproved = false;
+                        IsCompleted = false;
                         Input.Name = string.Empty;
 
                         foreach (var element in Input.Form.GetAllElements())
