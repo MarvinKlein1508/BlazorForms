@@ -30,6 +30,8 @@ namespace BlazorForms.Components
         public string NavUrl { get; set; } = string.Empty;
         [Parameter, EditorRequired]
         public string BaseUrl { get; set; } = string.Empty;
+        [Parameter, EditorRequired]
+        public int CurrentPage { get; set; }
         public List<EntryListItem> DownloadingList { get; set; } = new();
 
         public bool UserCanDeleteEntries { get; set; }
@@ -45,6 +47,11 @@ namespace BlazorForms.Components
             if (User is not null)
             {
                 Filter = await savedFilterService.GetAsync(DefaultFilter.DeepCopyByExpressionTree(), User.Id, BaseUrl, dbController);
+            }
+
+            if (Filter is not null)
+            {
+                Filter.PageNumber = CurrentPage;
             }
             await LoadAsync();
             UserCanDeleteEntries = await authService.HasRole(Roles.DELETE_ENTRIES);
@@ -159,7 +166,7 @@ namespace BlazorForms.Components
 
         private async Task ResetFilterAsync()
         {
-            Filter = DefaultFilter.DeepCopyByExpressionTree(); 
+            Filter = DefaultFilter.DeepCopyByExpressionTree();
             await LoadAsync(true);
         }
     }
