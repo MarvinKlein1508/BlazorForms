@@ -98,8 +98,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAntiforgery();
 
-app.UseAuthentication();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapRazorPages();
 
