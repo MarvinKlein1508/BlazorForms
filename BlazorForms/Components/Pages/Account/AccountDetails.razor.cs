@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
-namespace BlazorForms.Pages.Account
+namespace BlazorForms.Components.Pages.Account
 {
     public partial class AccountDetails
     {

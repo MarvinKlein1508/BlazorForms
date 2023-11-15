@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using BlazorBootstrap;
 
-namespace BlazorForms.Pages.Admin
+namespace BlazorForms.Components.Pages.Admin
 {
     public abstract class ManagementBasePage<T, TService> : BlazorFormsComponentBase where T : class, IDbModel, new() where TService : IModelService<T>
     {

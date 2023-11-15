@@ -1,14 +1,12 @@
 using BlazorBootstrap;
 using BlazorForms.Core.Constants;
-using BlazorForms.Core.Services;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 
-namespace BlazorForms.Components
+namespace BlazorForms.Components.Layout
 {
     public partial class MainLayout
     {
-        private Sidebar _sidebar = default !;
+        private Sidebar _sidebar = default!;
         IEnumerable<NavItem> navItems = default!;
         private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
         {
@@ -28,7 +26,7 @@ namespace BlazorForms.Components
             };
 
             var checkRoles = await authService.CheckRoles(Roles.EDIT_FORMS, Roles.EDIT_ENTRIES, Roles.EDIT_USERS, Roles.EDIT_STATUS);
-            
+
 
             if (checkRoles.Any(x => x.Value))
             {

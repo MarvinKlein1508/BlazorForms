@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Web;
 using Microsoft.Extensions.Localization;
 
-namespace BlazorForms.Pages.Account
+namespace BlazorForms.Components.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel

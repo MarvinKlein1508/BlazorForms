@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using BlazorBootstrap;
 
-namespace BlazorForms.Pages.Admin
+namespace BlazorForms.Components.Pages.Admin
 {
     public partial class UserManagement
     {

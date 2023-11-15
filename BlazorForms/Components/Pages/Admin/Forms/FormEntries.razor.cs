@@ -2,7 +2,7 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Pages.Admin.Forms
+namespace BlazorForms.Components.Pages.Admin.Forms
 {
     public partial class FormEntries
     {

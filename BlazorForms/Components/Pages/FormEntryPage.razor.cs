@@ -12,7 +12,7 @@ using MimeKit;
 using System.Globalization;
 using BlazorBootstrap;
 
-namespace BlazorForms.Pages
+namespace BlazorForms.Components.Pages
 {
     public partial class FormEntryPage
     {

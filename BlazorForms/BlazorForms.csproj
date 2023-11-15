@@ -4,22 +4,21 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Configurations>Debug;Release;DebugKlein</Configurations>
-		<UserSecretsId>9d5aebf7-0172-4a4d-b673-5037ac69e299</UserSecretsId>
+		<UserSecretsId>1ff8a963-20b8-4952-a7ad-d33f473f9970</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;</DefineConstants>
+	  <DefineConstants>$(DefineConstants);DEBUGKLEIN</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;</DefineConstants>
-		<Optimize>False</Optimize>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugKlein|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;</DefineConstants>
-	</PropertyGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Languages\Components\Pages\Admin\Forms\FormEditor.en.resx">
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Components\Pages\Admin\Forms\FormEditor.resx">
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Blazor.Bootstrap" Version="1.10.3" />
@@ -33,15 +32,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CKEditor\CKEditor.csproj" />
-		<ProjectReference Include="..\BlazorForms.Core\BlazorForms.Core.csproj" />
-		<ProjectReference Include="..\BlazorForms.Installer\BlazorForms.Installer.csproj" />
-		<ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\assets\images\logo\" />
-	  <Folder Include="wwwroot\assets\images\logo\" />
+	  <ProjectReference Include="..\BlazorForms.Core\BlazorForms.Core.csproj" />
+	  <ProjectReference Include="..\CKEditor\CKEditor.csproj" />
+	  <ProjectReference Include="..\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
 	</ItemGroup>
 
 </Project>

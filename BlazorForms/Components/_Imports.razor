@@ -1,13 +1,15 @@
 ﻿@using System.Net.Http
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
+@using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 @using BlazorForms
 @using BlazorForms.Components
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Plk.Blazor.DragDrop
 @using BlazorForms.Core.Services
 @using DbController
@@ -23,9 +25,10 @@
 @using CKEditor
 @using BlazorDownloadFile
 @using BlazorInputTags
-@using Toolbelt.Blazor.HotKeys2
 @using System.Globalization
 @using Microsoft.Extensions.Localization
 @using Microsoft.Extensions.Options
 @using BlazorForms.Core.Settings
 @using BlazorBootstrap
+@using BlazorForms.Components.Layout
+@using Toolbelt.Blazor.HotKeys2

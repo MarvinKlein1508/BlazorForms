@@ -17,7 +17,7 @@ using System.Text;
 using Toolbelt.Blazor.HotKeys2;
 using FluentValidation;
 
-namespace BlazorForms.Pages.Admin.Forms
+namespace BlazorForms.Components.Pages.Admin.Forms
 {
     public partial class FormEditor
     {

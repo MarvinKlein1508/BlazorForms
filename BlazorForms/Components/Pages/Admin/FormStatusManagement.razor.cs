@@ -4,7 +4,7 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 
-namespace BlazorForms.Pages.Admin
+namespace BlazorForms.Components.Pages.Admin
 {
     public partial class FormStatusManagement
     {

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms", "BlazorForms\BlazorForms.csproj", "{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Core", "BlazorForms.Core\BlazorForms.Core.csproj", "{5638E729-F748-4F49-B02D-362ECE3A8447}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plk.Blazor.DragDrop", "Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj", "{6D55BD27-2CA5-4794-A9EB-DC213906F16E}"
@@ -26,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Tester", "Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Installer", "BlazorForms.Installer\BlazorForms.Installer.csproj", "{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms", "BlazorForms\BlazorForms.csproj", "{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,12 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.DebugKlein|Any CPU.Build.0 = DebugKlein|Any CPU
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF55A1F9-55BD-4DBB-A2E8-DDC04484DE6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5638E729-F748-4F49-B02D-362ECE3A8447}.DebugKlein|Any CPU.ActiveCfg = DebugKlein|Any CPU
@@ -69,6 +63,12 @@ Global
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

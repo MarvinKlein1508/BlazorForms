@@ -5,7 +5,7 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Pages
+namespace BlazorForms.Components.Pages
 {
     public partial class Dashboard
     {

@@ -7,7 +7,7 @@ using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using BlazorBootstrap;
 
-namespace BlazorForms.Pages.Admin.Forms
+namespace BlazorForms.Components.Pages.Admin.Forms
 {
     public partial class FormListing
     {

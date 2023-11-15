@@ -4,7 +4,7 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Pages.Account
+namespace BlazorForms.Components.Pages.Account
 {
     public partial class AssignedToMe
     {
