@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<!--<RazorLangVersion>3.0</RazorLangVersion>-->
+		<TargetFramework>net8.0</TargetFramework>
 		<Version>2.5.0</Version>
 		<PackageId>blazor-dragdrop</PackageId>
 		<Authors>Postlagerkarte</Authors>
@@ -19,8 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
 		<!--<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />-->
 	</ItemGroup>
 
