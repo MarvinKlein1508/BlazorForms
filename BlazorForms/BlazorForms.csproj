@@ -21,13 +21,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazor.Bootstrap" Version="1.10.3" />
+		<PackageReference Include="Blazor.Bootstrap" Version="1.10.4" />
 		<PackageReference Include="BlazorDownloadFile" Version="2.4.0.2" />
 		<PackageReference Include="BlazorInputTags" Version="7.1.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
-		<PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.1.0" />
+		<PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.2.0" />
 		<PackageReference Include="vNext.BlazorComponents.FluentValidation" Version="1.1.1" />
 	</ItemGroup>
 
