@@ -33,6 +33,14 @@ article.content {
     padding-bottom: 0.5em;
 }
 
+.flex-toolbar {
+    display: flex;
+    justify-content: end;
+    align-items:center;
+    gap: .25rem;
+    padding-bottom: .5em;
+}
+
 
 /* Fixte floating input groups */
 .input-group-append > :first-child {

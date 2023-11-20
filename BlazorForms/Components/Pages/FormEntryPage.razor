@@ -13,28 +13,27 @@
     <PageTitle>@Input.Form.Name ausfüllen</PageTitle>
 
 
-    <h2 class="d-flex">
-        <span class="page-title">@Input.Form.Name</span>
+    <h2 class="page-title">@Input.Form.Name</h2>
+    <div class="flex-toolbar">
         @if (Input.EntryId > 0)
         {
             @if (!Copy)
             {
 
                 <Button Color="ButtonColor.Info" Type="ButtonType.Link" To="@($"/Entry/{EntryId}?copy=true")" TooltipTitle="Kopieren" TooltipPlacement="TooltipPlacement.Top">
-                    <Icon Name="IconName.Copy" Size="IconSize.x5" />
+                    <Icon Name="IconName.Copy" />
                 </Button>
 
 
-                <button type="button" class="btn btn-primary ms-1" @onclick="ShowHistoryModalAsync">Verlauf</button>
+                <button type="button" class="btn btn-primary" @onclick="ShowHistoryModalAsync">Verlauf</button>
 
-                <button type="button" class="btn btn-secondary ms-1" @onclick="OpenStatusModalAsync">
+                <button type="button" class="btn btn-secondary" @onclick="OpenStatusModalAsync">
                     <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
                     @GetStatus()
                 </button>
             }
         }
-    </h2>
-
+    </div>
     <EditForm Model="Input" @ref="_form">
         <FluentValidationValidator />
         <ValidationSummary />
