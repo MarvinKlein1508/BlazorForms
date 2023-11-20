@@ -130,7 +130,7 @@
                                                     }
 
                                                     @* When options get changed or deleted we need to fake this option for previous form entries *@
-                                                    @if (!formRadioElement.Options.Any(x => x.Name == formRadioElement.Value))
+                                                    @if (!string.IsNullOrWhiteSpace(formRadioElement.Value) && !formRadioElement.Options.Any(x => x.Name == formRadioElement.Value))
                                                     {
                                                         <div class="form-check">
                                                             <InputRadio Value="@formRadioElement.Value" class="form-check-input" id="@($"radio-{formRadioElement.GetHashCode()}")" />
@@ -154,7 +154,7 @@
                                                         <option value="@item.Name">@item.Name</option>
                                                     }
                                                     @* When options get changed or deleted we need to fake this option for previous form entries *@
-                                                    @if (!formSelectElement.Options.Any(x => x.Name == formSelectElement.Value))
+                                                    @if (!string.IsNullOrWhiteSpace(formSelectElement.Value) && !formSelectElement.Options.Any(x => x.Name == formSelectElement.Value))
                                                     {
                                                         <option value="@formSelectElement.Value">@formSelectElement.Value</option>
                                                     }
@@ -215,7 +215,7 @@
                                                                                         <option value="@item.Name">@item.Name</option>
                                                                                     }
                                                                                     @* When options get changed or deleted we need to fake this option for previous form entries *@
-                                                                                    @if (!tableFormSelectElement.Options.Any(x => x.Name == tableFormSelectElement.Value))
+                                                                                    @if (!string.IsNullOrWhiteSpace(tableFormSelectElement.Value) && !tableFormSelectElement.Options.Any(x => x.Name == tableFormSelectElement.Value))
                                                                                     {
                                                                                         <option value="@tableFormSelectElement.Value">@tableFormSelectElement.Value</option>
                                                                                     }
