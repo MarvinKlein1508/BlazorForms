@@ -1,10 +1,4 @@
-﻿@media(min-width: 1100px) {
-    .page-title {
-        position: absolute;
-    }
-}
-
-.status {
+﻿.status {
     font-size: 1rem;
     background-color: #eee;
     padding: 1em;
