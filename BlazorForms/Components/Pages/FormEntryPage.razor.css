@@ -17,12 +17,30 @@
     flex-wrap: wrap;
     gap: 1rem;
     margin: 1em 0;
+    justify-content: center;
 }
 
 .blazor-forms-table-item {
     background-color: #ffffff;
     padding: 1em;
     border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 1em;
+}
+
+@media(min-width: 1000px) {
+    .blazor-forms-table-item {
+        flex-direction: row;
+    }
+}
+
+@media(max-width: 1000px) {
+    .blazor-forms-table-item {
+        flex: 1;
+    }
 }
 
 .upload-wrapper {
@@ -44,8 +62,4 @@
     top: calc(50% - 1rem - 1.5em / 2);
     width: 100%;
     font-size: 1rem;
-    
 }
-
-
-

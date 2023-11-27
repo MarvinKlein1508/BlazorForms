@@ -166,16 +166,16 @@
                                         else if (element is FormTableElement formTableElement)
                                         {
                                             var totals = new Dictionary<int, TableSum>();
-                                            <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
+                                            <h4>@formTableElement.Name</h4>
+                                            <div class="toolbar">
+                                                <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
+                                            </div>
 
                                             <div class="blazorforms-table">
                                                 @foreach (var tableRow in formTableElement.ElementValues)
                                                 {
                                                     <div class="blazor-forms-table-item">
-                                                        @if (formTableElement.ElementValues.Count > 1)
-                                                        {
-                                                            <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
-                                                        }
+
                                                         @foreach (var table_element in tableRow)
                                                         {
 
@@ -260,30 +260,36 @@
 
 
                                                         }
-                                                    </div>
 
-                                                }
-
-                                                @if (totals.Any())
-                                                {
-                                                    <div class="blazor-forms-table-item">
-                                                        <h4>Summen</h4>
-
-                                                        @foreach (var kvp in totals)
+                                                        @if (formTableElement.ElementValues.Count > 1)
                                                         {
-                                                            var total = kvp.Value;
-
-                                                            <div class="form-floating mb-3">
-                                                                <InputNumber @bind-Value="total.Value" class="form-control" id="@($"form-{total.GetHashCode()}")" placeholder="@total.Name" disabled="true" />
-                                                                <label for="@($"form-{total.GetHashCode()}")">@total.Name</label>
-                                                            </div>
+                                                            <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                         }
-                     
                                                     </div>
+
                                                 }
+
+
 
 
                                             </div>
+
+                                            @if (totals.Any())
+                                            {
+                                                <h4>Summen</h4>
+
+                                                @foreach (var kvp in totals)
+                                                {
+                                                    var total = kvp.Value;
+                                                    <div class="col">
+                                                        <div class="form-floating mb-3">
+                                                            <InputNumber @bind-Value="total.Value" class="form-control" id="@($"form-{total.GetHashCode()}")" placeholder="@total.Name" disabled="true" />
+                                                            <label for="@($"form-{total.GetHashCode()}")">@total.Name</label>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
 
                                         }
                                         else if (element is FormTextareaElement formTextareaElement)
