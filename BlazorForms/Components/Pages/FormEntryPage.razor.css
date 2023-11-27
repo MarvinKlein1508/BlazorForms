@@ -12,7 +12,18 @@
 }
 
 
+.blazorforms-table {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1em 0;
+}
 
+.blazor-forms-table-item {
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: 1.5rem;
+}
 
 .upload-wrapper {
     position: relative;
