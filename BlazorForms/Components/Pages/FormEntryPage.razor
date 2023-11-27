@@ -175,7 +175,7 @@
                                                 @foreach (var tableRow in formTableElement.ElementValues)
                                                 {
                                                     <div class="blazor-forms-table-item">
-
+                                                      
                                                         @foreach (var table_element in tableRow)
                                                         {
 
@@ -265,6 +265,7 @@
                                                         {
                                                             <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                         }
+                                                        
                                                     </div>
 
                                                 }

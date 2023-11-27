@@ -21,45 +21,59 @@
 }
 
 .blazor-forms-table-item {
+    width: 100%;
     background-color: #ffffff;
     padding: 1em;
     border-radius: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
     gap: 1em;
 }
 
 @media(min-width: 1000px) {
     .blazor-forms-table-item {
-        flex-direction: row;
+        width: calc(50% - (2 * 1em));
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 1em;
     }
 }
 
-@media(max-width: 1000px) {
+@media(min-width: 2000px) {
     .blazor-forms-table-item {
-        flex: 1;
+        width: calc(25% - (2 * 1em));
     }
 }
 
-.upload-wrapper {
-    position: relative;
-    padding: .5em;
-    border-radius: .375rem;
-    font-weight: bold;
-    background-color: var(--bs-dark);
-}
+    @media(max-width: 1000px) {
+        .blazor-forms-table-item > * {
+            display: block;
+            width: 100%;
+        }
+
+        .blazor-forms-table-item {
+            grid-template-rows: 1fr;
+        }
+    }
+
+    .upload-wrapper {
+        position: relative;
+        padding: .5em;
+        border-radius: .375rem;
+        font-weight: bold;
+        background-color: var(--bs-dark);
+    }
 
 
-.upload-label {
-    padding: 1em;
-    position: absolute;
-    margin: 0 auto;
-    text-align: center;
-    display: block;
-    color: #fff;
-    top: calc(50% - 1rem - 1.5em / 2);
-    width: 100%;
-    font-size: 1rem;
-}
+    .upload-label {
+        padding: 1em;
+        position: absolute;
+        margin: 0 auto;
+        text-align: center;
+        display: block;
+        color: #fff;
+        top: calc(50% - 1rem - 1.5em / 2);
+        width: 100%;
+        font-size: 1rem;
+    }
