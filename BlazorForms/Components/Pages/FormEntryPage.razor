@@ -1,5 +1,6 @@
 ﻿@page "/Forms/{FormId:int}"
 @page "/Entry/{EntryId:int}"
+@using BlazorForms.Core.Pdf.Models
 @inject FormService formService
 @inject FormEntryService formEntryService
 @inject AuthService authService
@@ -164,6 +165,7 @@
                                         }
                                         else if (element is FormTableElement formTableElement)
                                         {
+                                            var totals = new Dictionary<int, TableSum>();
                                             <div class="table-responsive">
                                                 <table class="table mb-3">
                                                     <thead>
@@ -174,6 +176,7 @@
                                                     <tbody>
                                                         @foreach (var tableRow in formTableElement.ElementValues)
                                                         {
+
                                                             <tr>
                                                                 @foreach (var table_element in tableRow)
                                                                 {
@@ -198,6 +201,22 @@
                                                                         }
                                                                         else if (table_element is FormNumberElement tableFormNumberElement)
                                                                         {
+                                                                            string numberFormat = "0.";
+                                                                            for (int i = 0; i < tableFormNumberElement.DecimalPlaces; i++)
+                                                                            {
+                                                                                numberFormat += "0";
+                                                                            }
+                                                                            if (tableFormNumberElement.IsSummable)
+                                                                            {
+                                                                                if (totals.ContainsKey(tableFormNumberElement.SortOrder))
+                                                                                {
+                                                                                    totals[tableFormNumberElement.SortOrder].Value += tableFormNumberElement.Value;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    totals.Add(tableFormNumberElement.SortOrder, new TableSum(numberFormat, tableFormNumberElement.Value));
+                                                                                }
+                                                                            }
                                                                             <div class="form-floating mb-3">
                                                                                 <InputNumber @bind-Value="tableFormNumberElement.Value" class="form-control" id="@($"form-{table_element.Guid}")" placeholder="@table_element.Name" step="@tableFormNumberElement.GetStep()" disabled="@(tableFormNumberElement.IsValueCalculated)" />
                                                                                 <label for="@($"form-{table_element.Guid}")">@table_element.Name</label>
@@ -243,7 +262,7 @@
 
 
                                                                 }
-                                                                <td>
+                                                                <td class="text-right">
                                                                     @if (formTableElement.ElementValues.Count > 1)
                                                                     {
                                                                         <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
@@ -252,10 +271,33 @@
                                                             </tr>
                                                         }
 
+                                                        @if (totals.Any())
+                                                        {
+                                                            <tr>
+                                                                <th class="text-center" colspan="@(formTableElement.Elements.Count + 1)">Summen</th>
+                                                            </tr>
+                                                            <tr>
+                                                                @for (int i = 1; i <= formTableElement.Elements.Count; i++)
+                                                                {
+                                                                    if (totals.TryGetValue(i, out TableSum? total))
+                                                                    {
+                                                                        <td class="element">
+                                                                            @total.Value.ToString(total.NumberFormat)
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td></td>
+                                                                    }
+                                                                }
+                                                                <td></td>
+                                                            </tr>
+                                                        }
+
                                                         @if (formTableElement.AllowAddRows)
                                                         {
                                                             <tr>
-                                                                <td colspan="@formTableElement.Elements.Count">
+                                                                <td class="text-right" colspan="@(formTableElement.Elements.Count + 1)">
                                                                     <button type="button" class="btn btn-success" @onclick="() => formTableElement.NewRow()"><Icon Name="IconName.PlusLg" Size="IconSize.x5" /></button>
                                                                 </td>
                                                             </tr>

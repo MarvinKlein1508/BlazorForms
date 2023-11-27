@@ -1,6 +1,6 @@
 ﻿namespace BlazorForms.Core.Pdf.Models
 {
-    internal class TableSum
+    public class TableSum
     {
         public string NumberFormat { get; }
         public decimal Value { get; set; }
