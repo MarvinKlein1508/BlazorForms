@@ -168,9 +168,10 @@ namespace BlazorForms.Components.Pages
                 Input.LastChangeUserId = _user?.UserId;
 
                 await dbController.StartTransactionAsync();
+                bool createEntry = Input.EntryId is 0 || Copy;
                 try
                 {
-                    if (Input.EntryId is 0 || Copy)
+                    if (createEntry)
                     {
                         await formEntryService.CreateAsync(Input, dbController);
                     }
@@ -190,7 +191,7 @@ namespace BlazorForms.Components.Pages
                 }
 
                 // E-Mail support
-                if (emailConfig.Value.Enabled && Input.Form.ManagerUsers.Any())
+                if (emailConfig.Value.Enabled && createEntry && Input.Form.ManagerUsers.Count != 0)
                 {
                     MimeMessage email = new MimeMessage();
                     email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
