@@ -14,8 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		images\element_editor.png = images\element_editor.png
 		images\form_builder.png = images\form_builder.png
 		MYSQL_INSTALL.sql = MYSQL_INSTALL.sql
-		images\new_form_entry.png = images\new_form_entry.png
 		README.MD = README.MD
+		images\new_form_entry.png = images\new_form_entry.png
+		images\new_form_entry_table.png = images\new_form_entry_table.png
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKEditor", "CKEditor\CKEditor.csproj", "{E5204AC5-205F-41DB-9BCA-FF35C011389B}"

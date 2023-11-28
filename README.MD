@@ -6,6 +6,7 @@ Create dynamic PDF forms completely in the web.
 ![Element editor](images/element_editor.png)
 ![Calc editor](images/calc_editor.png)
 ![New form entry](images/new_form_entry.png)
+![New form entry tables](images/new_form_entry_table.png)
 
 ## Requirements
 * MariaDB Database
