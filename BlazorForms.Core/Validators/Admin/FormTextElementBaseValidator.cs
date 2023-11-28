@@ -22,6 +22,9 @@ namespace BlazorForms.Core.Validators.Admin
                 .Must(ValidateRegexPattern)
                 .WithMessage(_localizer["VALIDATION_INVALID_REGEX"]);
 
+            RuleFor(x => x.RegexValidationMessage)
+                .MaximumLength(150);
+
         }
 
         protected bool ValidateMinLength(FormTextElementBase element, int minLength)
@@ -72,9 +75,9 @@ namespace BlazorForms.Core.Validators.Admin
                 {
                     var match = Regex.Match(text, textElement.RegexPattern);
 
-                    if(!match.Success)
+                    if (!match.Success)
                     {
-                        context.AddFailure(new ValidationFailure(context.PropertyPath, _localizer["VALIDATION_REGEX"]));
+                        context.AddFailure(new ValidationFailure(context.PropertyPath, string.IsNullOrWhiteSpace(textElement.RegexValidationMessage) ? _localizer["VALIDATION_REGEX"] : textElement.RegexValidationMessage));
                     }
                 }
                 catch (ArgumentException)

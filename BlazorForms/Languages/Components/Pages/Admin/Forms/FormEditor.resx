@@ -231,6 +231,9 @@
   <data name="TAB_GENERAL_LABEL_REGEX" xml:space="preserve">
     <value>Regulärer Ausdruck</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_REGEX_VALIDATION_MESSAGE" xml:space="preserve">
+    <value>Regex-Fehlermeldung</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_REQUIRED" xml:space="preserve">
     <value>Pflichtfeld</value>
   </data>
