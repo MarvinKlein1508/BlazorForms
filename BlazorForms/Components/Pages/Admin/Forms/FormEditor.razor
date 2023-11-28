@@ -244,6 +244,12 @@ else
                                                 <label for="textelement-regex">@localizer["TAB_GENERAL_LABEL_REGEX"]</label>
                                                 <ValidationMessage For="() => textElement.RegexPattern" />
                                             </div>
+
+                                            <div class="form-floating mb-3">
+                                                <InputText @bind-Value="textElement.RegexValidationMessage" class="form-control" id="textelement-regex-validation-message" placeholder="@localizer["TAB_GENERAL_LABEL_REGEX_VALIDATION_MESSAGE"]" />
+                                                <label for="textelement-regex-validation-message">@localizer["TAB_GENERAL_LABEL_REGEX_VALIDATION_MESSAGE"]</label>
+                                                <ValidationMessage For="() => textElement.RegexValidationMessage" />
+                                            </div>
                                         }
 
                                         @if (SelectedFormElement is FormFileElement fileElement)

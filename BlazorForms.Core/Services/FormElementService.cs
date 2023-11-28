@@ -163,6 +163,7 @@ VALUES
                 fields.AddRange(new string[]
                 {
                     "regex_pattern",
+                    "regex_validation_message",
                     "min_length",
                     "max_length",
                 });
@@ -175,6 +176,7 @@ VALUES
                 fields.AddRange(new string[]
                 {
                     "regex_pattern",
+                    "regex_validation_message",
                     "min_length",
                     "max_length",
                 });
