@@ -49,7 +49,9 @@ namespace BlazorForms.Core.Models
             Form = form;
             for (int i = 0; i < columns; i++)
             {
-                Columns.Add(new FormColumn(form));
+                var column = new FormColumn(form);
+                column.Parent = this;
+                Columns.Add(column);
             }
         }
 
