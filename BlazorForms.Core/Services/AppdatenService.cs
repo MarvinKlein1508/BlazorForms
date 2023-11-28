@@ -21,13 +21,14 @@ namespace BlazorForms.Core.Services
             new FormTextElement { Name = "Text" },
             new FormDateElement { Name = "Date" },
             new FormSelectElement { Name = "Select" },
-            new FormCheckboxElement { Name = "Checkbox"},
+            new FormCheckboxElement { Name = "Checkbox" },
             new FormTextareaElement { Name = "Textarea" },
-            new FormFileElement { Name = "File"},
-            new FormRadioElement { Name = "Radio"},
-            new FormNumberElement { Name ="Number"},
-            new FormTableElement { Name = "Table"},
-            new FormLabelElement { Name = "Label"}
+            new FormFileElement { Name = "File" },
+            new FormRadioElement { Name = "Radio" },
+            new FormNumberElement { Name ="Number" },
+            new FormTableElement { Name = "Table" },
+            new FormLabelElement { Name = "Label" },
+            new FormSignaturePadElement { Name = "SignaturePad" }
         };
 
         public static List<Permission> Permissions { get; set; } = new();

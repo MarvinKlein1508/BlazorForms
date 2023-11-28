@@ -182,6 +182,11 @@ VALUES
                 });
             }
 
+            if(input is FormSignaturePadElement)
+            {
+                tableName = "form_elements_signaturepad_attributes";
+            }
+
             return (tableName, fields);
         }
 

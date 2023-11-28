@@ -18,5 +18,7 @@ namespace BlazorForms.Core.Models
         public decimal ValueNumber { get; set; }
         [CompareField("value_date")]
         public DateTime ValueDate { get; set; }
+        [CompareField("value_data")]
+        public byte[] ValueData { get; set; } = [];
     }
 }

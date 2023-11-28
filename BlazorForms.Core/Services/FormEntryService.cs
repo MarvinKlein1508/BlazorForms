@@ -59,7 +59,8 @@ element_id,
 value_boolean,
 value_string,
 value_number,
-value_date
+value_date,
+value_data
 )
 VALUES
 (
@@ -69,7 +70,8 @@ VALUES
 @VALUE_BOOLEAN,
 @VALUE_STRING,
 @VALUE_NUMBER,
-@VALUE_DATE
+@VALUE_DATE,
+@VALUE_DATA
 )";
                 await dbController.QueryAsync(sql, element.GetParameters(), cancellationToken);
 

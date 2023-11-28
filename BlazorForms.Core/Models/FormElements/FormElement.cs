@@ -65,6 +65,7 @@ namespace BlazorForms.Core.Models.FormElements
                 { "VALUE_BOOLEAN", false },
                 { "VALUE_NUMBER", 0 },
                 { "VALUE_DATE", null },
+                { "VALUE_DATA", Array.Empty<byte>() },
             };
         }
 

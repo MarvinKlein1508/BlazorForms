@@ -175,7 +175,7 @@
                                                 @foreach (var tableRow in formTableElement.ElementValues)
                                                 {
                                                     <div class="blazor-forms-table-item">
-                                                      
+
                                                         @foreach (var table_element in tableRow)
                                                         {
 
@@ -265,7 +265,7 @@
                                                         {
                                                             <button type="button" class="btn btn-danger" @onclick="() => formTableElement.ElementValues.Remove(tableRow)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
                                                         }
-                                                        
+
                                                     </div>
 
                                                 }
@@ -307,6 +307,14 @@
                                                 <InputText @bind-Value="formTextElement.Value" class="form-control" id="@($"form-{element.Guid}")" placeholder="@element.Name" />
                                                 <label for="@($"form-{element.Guid}")">@element.Name</label>
                                                 <ValidationMessage For="() => formTextElement.Value" />
+                                            </div>
+                                        }
+                                        else if (element is FormSignaturePadElement signatureElement)
+                                        {
+                                            <div class="signaturepad-instance mb-3">
+                                                <label>@signatureElement.Name</label>
+                                                <SignaturePad @bind-Value="signatureElement.Value" style="width: 100%; max-width: 500px;" />
+                                                <ValidationMessage For="() => signatureElement.Value" />
                                             </div>
                                         }
                                     }

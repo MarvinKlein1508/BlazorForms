@@ -267,6 +267,13 @@ CREATE TABLE form_elements_text_attributes
 	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE form_elements_signaturepad_attributes
+(
+	element_id INTEGER NOT NULL,	
+	PRIMARY KEY(element_id),
+	FOREIGN KEY (element_id) REFERENCES form_elements(element_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 
 CREATE TABLE form_rules
 (
@@ -328,6 +335,7 @@ CREATE TABLE form_entries_elements
 	value_string TEXT NOT NULL DEFAULT '',
 	value_number DECIMAL(10,5) NOT NULL DEFAULT 0,
 	value_date DATE DEFAULT NULL,
+	value_data LONGBLOB NULL,
 	PRIMARY KEY (entry_id, form_id, element_id),
 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,

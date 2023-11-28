@@ -495,7 +495,7 @@ WHERE fm.form_id = @FORM_ID";
                     sqlBuilder.Append("SELECT fe.*, fea.*");
                     if (entryId > 0)
                     {
-                        sqlBuilder.Append(",fee.value_boolean, fee.value_string, fee.value_number, fee.value_date");
+                        sqlBuilder.Append(",fee.value_boolean, fee.value_string, fee.value_number, fee.value_date, fee.value_data");
                     }
 
                     sqlBuilder.AppendLine($@" FROM form_elements fe
@@ -516,6 +516,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
     OR value_string IS NOT NULL
     OR value_number IS NOT NULL
     OR value_date IS NOT NULL
+    OR value_data IS NOT NULL
     OR fe.element_id IN (SELECT DISTINCT fete.element_id FROM form_entries_table_elements fete WHERE entry_id = {entryId})
 )");
                     }
@@ -541,6 +542,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters, cancellationToken),
                         ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters, cancellationToken),
                         ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters, cancellationToken),
+                        ElementType.SignaturePad => await dbController.SelectDataAsync<FormSignaturePadElement>(sql, parameters, cancellationToken),
                         _ => Array.Empty<FormElement>(),
                     };
 
@@ -682,6 +684,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             ElementType.Table => "form_elements_table_attributes",
             ElementType.Text => "form_elements_text_attributes",
             ElementType.Textarea => "form_elements_textarea_attributes",
+            ElementType.SignaturePad => "form_elements_signaturepad_attributes",
             _ => string.Empty,
         };
 

@@ -11,6 +11,7 @@
         Select = 6,
         Table = 7,
         Text = 8,
-        Textarea = 9
+        Textarea = 9,
+        SignaturePad = 10,
     }
 }

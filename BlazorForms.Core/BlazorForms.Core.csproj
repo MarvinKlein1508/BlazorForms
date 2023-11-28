@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Models\FormElements\FormSignaturePadElement.en.Designer.cs">
+      <DependentUpon>FormSignaturePadElement.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Models\FormElements\FormSignaturePadElement.Designer.cs">
+      <DependentUpon>FormSignaturePadElement.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormTextElement.en.Designer.cs">
       <DependentUpon>FormTextElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -149,6 +159,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormSignaturePadElement.en.resx">
+      <LastGenOutput>FormSignaturePadElement.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Models\FormElements\FormSignaturePadElement.resx">
+      <LastGenOutput>FormSignaturePadElement.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.en.resx">
       <LastGenOutput>FormTextElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
