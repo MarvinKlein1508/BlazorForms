@@ -6,6 +6,8 @@ namespace BlazorForms.Core.Models.FormElements
     {
         [CompareField("regex_pattern")]
         public string RegexPattern { get; set; } = string.Empty;
+        [CompareField("regex_validation_message")]
+        public string RegexValidationMessage { get; set; } = string.Empty;
         [CompareField("min_length")]
         public int MinLength { get; set; }
         [CompareField("max_length")]
@@ -16,6 +18,7 @@ namespace BlazorForms.Core.Models.FormElements
         {
             var parameters = base.GetParameters();
             parameters.Add("REGEX_PATTERN", RegexPattern);
+            parameters.Add("REGEX_VALIDATION_MESSAGE", RegexValidationMessage);
             parameters.Add("MIN_LENGTH", MinLength);
             parameters.Add("MAX_LENGTH", MaxLength);
 

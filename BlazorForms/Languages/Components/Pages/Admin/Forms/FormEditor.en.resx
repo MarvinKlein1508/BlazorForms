@@ -228,6 +228,9 @@
   <data name="TAB_GENERAL_LABEL_REGEX" xml:space="preserve">
     <value>Regular expression</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_REGEX_VALIDATION_MESSAGE" xml:space="preserve">
+    <value>Regex error message</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_REQUIRED" xml:space="preserve">
     <value>Required field</value>
   </data>

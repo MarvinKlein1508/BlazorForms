@@ -249,6 +249,7 @@ CREATE TABLE form_elements_textarea_attributes
 (
 	element_id INTEGER NOT NULL,
 	regex_pattern text NOT NULL DEFAULT '',
+	regex_validation_message VARCHAR(150) NOT NULL DEFAULT '',
 	min_length INTEGER NOT NULL DEFAULT 0,
 	max_length INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
@@ -259,6 +260,7 @@ CREATE TABLE form_elements_text_attributes
 (
 	element_id INTEGER NOT NULL,
 	regex_pattern text NOT NULL DEFAULT '',
+	regex_validation_message VARCHAR(150) NOT NULL DEFAULT '',
 	min_length INTEGER NOT NULL DEFAULT 0,
 	max_length INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY(element_id),
