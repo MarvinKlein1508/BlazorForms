@@ -21,7 +21,7 @@ namespace BlazorForms.Components.Pages
 
         public List<Form> Data { get; set; } = new();
         private User? _user;
-        private bool _isLoading;
+        private bool _isLoading = true;
         protected override async Task OnParametersSetAsync()
         {
             if (Page < 1)
