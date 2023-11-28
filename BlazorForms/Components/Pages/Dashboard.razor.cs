@@ -21,6 +21,7 @@ namespace BlazorForms.Components.Pages
 
         public List<Form> Data { get; set; } = new();
         private User? _user;
+        private bool _isLoading;
         protected override async Task OnParametersSetAsync()
         {
             if (Page < 1)
@@ -42,6 +43,7 @@ namespace BlazorForms.Components.Pages
         }
         public async Task LoadAsync(bool navigateToPage1 = false)
         {
+            _isLoading = true;
             if (navigateToPage1)
             {
                 navigationManager.NavigateTo("/");
@@ -53,6 +55,7 @@ namespace BlazorForms.Components.Pages
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
+            _isLoading = false;
         }
     }
 }

@@ -44,7 +44,15 @@
     </div>
     <div class="col-lg-9 col-sm-12">
 
+        @if (_isLoading)
+        {
+            <LoadingCircle IsCentered="true" />
+        }
 
+        @if (!_isLoading && Data.Count is 0)
+        {
+            <Alert Color="AlertColor.Danger">@localizer["NO_RESULTS"]</Alert>
+        }
         <div class="form-wrapper mb-3">
             @foreach (var item in Data)
             {
