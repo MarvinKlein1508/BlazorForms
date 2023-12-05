@@ -394,7 +394,7 @@ CREATE TABLE form_entries_table_elements
 	entry_id INTEGER NOT NULL,
 	element_id INTEGER NOT NULL,
 	value_boolean TINYINT NOT NULL DEFAULT 0,
-	value_string VARCHAR(100) NOT NULL DEFAULT '',
+    value_string TEXT NOT NULL DEFAULT '',
 	value_number DECIMAL(10,5) NOT NULL DEFAULT 0,
 	value_date DATE DEFAULT NULL,
 	PRIMARY KEY (table_row_number, table_parent_element_id, entry_id, element_id),
