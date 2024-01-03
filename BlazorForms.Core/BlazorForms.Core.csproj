@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DbController" Version="3.1.0" />
-    <PackageReference Include="DbController.MySql" Version="3.1.0" />
-    <PackageReference Include="DbController.TypeHandler" Version="3.1.0" />
-    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="DbController" Version="3.4.0" />
+    <PackageReference Include="DbController.MySql" Version="3.4.0" />
+    <PackageReference Include="DbController.TypeHandler" Version="3.4.0" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.2" />
     <PackageReference Include="itext7.pdfhtml" Version="5.0.2" />
     <PackageReference Include="MailKit" Version="4.3.0" />
