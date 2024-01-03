@@ -14,16 +14,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		images\element_editor.png = images\element_editor.png
 		images\form_builder.png = images\form_builder.png
 		MYSQL_INSTALL.sql = MYSQL_INSTALL.sql
-		README.MD = README.MD
 		images\new_form_entry.png = images\new_form_entry.png
 		images\new_form_entry_table.png = images\new_form_entry_table.png
+		README.MD = README.MD
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKEditor", "CKEditor\CKEditor.csproj", "{E5204AC5-205F-41DB-9BCA-FF35C011389B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Tester", "BlazorForms.Tester\BlazorForms.Tester.csproj", "{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Installer", "BlazorForms.Installer\BlazorForms.Installer.csproj", "{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms", "BlazorForms\BlazorForms.csproj", "{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}"
 EndProject
@@ -58,12 +56,6 @@ Global
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92AE875-04D1-4323-A2C6-5F3EE66D64B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F95AD5FD-0164-4EE0-8E26-AE947EF69F63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU

@@ -11,6 +11,7 @@
     },
     "https": {
       "commandName": "Project",
+      "commandLineArgs": "-setup",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
