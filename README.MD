@@ -35,7 +35,14 @@ Create dynamic PDF forms completely in the web.
 * Support for GIFs in the dashboard
 
 ## Installation
-This app ships with a fully installer for appsettings and database. Simply run `BlazorForms.Installer.exe` as administrator and follow the setup wizzard.
+First provide your connection string, email and LDAP configuration in `appsettings.json`. 
+
+Next run the installer 
+```
+BlazorForms.exe -setup
+```
+
+Choose option 2 to create the initial database. If you want to use a local administrator choose option 1 next.
 
 ## Hosting
 Hosting this app is quite simple. It supports all hosting possibilities from ASP.NET Core. For more information take a look on the [official docs from Microsoft](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/server?view=aspnetcore-7.0).
