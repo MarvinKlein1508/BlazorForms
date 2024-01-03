@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		images\dashboard.png = images\dashboard.png
 		images\element_editor.png = images\element_editor.png
 		images\form_builder.png = images\form_builder.png
-		MYSQL_INSTALL.sql = MYSQL_INSTALL.sql
 		images\new_form_entry.png = images\new_form_entry.png
 		images\new_form_entry_table.png = images\new_form_entry_table.png
 		README.MD = README.MD
