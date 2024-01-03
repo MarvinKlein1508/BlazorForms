@@ -7,6 +7,7 @@ namespace BlazorForms.Components.Layout
     public partial class MainLayout
     {
         private Sidebar _sidebar = default!;
+        private Offcanvas _offcanvas = default!;
         IEnumerable<NavItem> navItems = default!;
         private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
         {

@@ -54,6 +54,8 @@ builder.Services.AddScoped<FormEntryService>();
 builder.Services.AddScoped<FormStatusService>();
 builder.Services.AddScoped<FormEntryStatusChangeService>();
 builder.Services.AddScoped<SavedFilterService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<NotificationCenterService>();
 builder.Services.AddHotKeys2();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddLocalization(options =>

@@ -62,7 +62,7 @@ Der Status des Formulareintrages {entry.Name} für das Formular {entry.Form.Name
 <br /><br />
 Neuer Status: {status_description.Name}<br />
 Kommentar: <br />
-{status_change.Comment.Nl2br()}
+{status_change.Comment.Nl2Br()}
 <br /><br />
 <a href="{baseUrl}Entry/{entry.EntryId}">Klicken Sie hier</a> um den Formulareintrag einzusehen
 """

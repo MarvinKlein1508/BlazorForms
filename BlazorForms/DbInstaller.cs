@@ -697,6 +697,27 @@ namespace BlazorForms
                 );
                 """
             };
+
+            yield return new SqlTable
+            { 
+                TableName = "notifications",
+                SQL =
+                """
+                CREATE TABLE notifications
+                (
+                	notification_id INTEGER NOT NULL AUTO_INCREMENT,
+                	created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                	user_id INTEGER DEFAULT NULL,
+                	icon VARCHAR(50) DEFAULT NULL,
+                	title VARCHAR(100) NOT NULL,
+                	details TEXT NOT NULL,
+                	href VARCHAR(100) NOT NULL,
+                	is_read TINYINT NOT NULL DEFAULT 0,
+                	read_timestamp DATETIME DEFAULT NULL,
+                	PRIMARY KEY (notification_id)
+                );
+                """
+            };
         }
         private static IEnumerable<string> GetTriggers()
         {

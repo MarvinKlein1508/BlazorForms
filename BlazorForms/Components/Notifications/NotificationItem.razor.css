@@ -1,0 +1,34 @@
+﻿.notification {
+    display: flex;
+    flex: 1;
+    gap: 1rem;
+    background-color: #f8f5f5;
+    padding: 1em;
+    border-radius: 1.5rem;
+}
+
+.notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .notification-icon > i {
+        background-color: deepskyblue;
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 100%;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+
+.notification-details {
+    display: flex;
+    text-decoration: none;
+    color: #000;
+    flex-direction: column;
+    flex: 1;
+}

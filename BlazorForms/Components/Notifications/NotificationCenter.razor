@@ -1,0 +1,19 @@
+﻿@inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
+@inject NotificationCenterService notificationCenterService
+@inject AuthService authService
+
+@if (notificationCenterService.CountNotifications is 0)
+{
+    <p>Keine neuen Benachrichtigungen</p>
+}
+else
+{
+    <div class="d-flex flex-column gap-2">
+        @foreach (var item in notificationCenterService.Notifications)
+        {
+            <NotificationItem Item="item"
+                              OnDelete="(item) => notificationCenterService.Notifications.Remove(item)" />
+        }
+    </div>
+}

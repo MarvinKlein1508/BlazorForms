@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
 @inject AuthService authService
+@inject NotificationCenterService notificationCenterService
 @using System.Runtime.InteropServices
 @inject IStringLocalizer<MainLayout> localizer
 <PageTitle>BlazorForms</PageTitle>
@@ -16,24 +17,52 @@
 
 
     <main>
-        <article class="content px-4">
-            <div class="py-2">
-                <div class="d-none d-sm-block">
-                    <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
+        <header>
+            <div class="topbar bb-top-row">
+                <div class="topbar-item position-relative px-4" @onclick="async () => await _offcanvas.ShowAsync()">
+                    <div class="position-relative">
+                        <i class="bi bi-bell-fill"></i>
+                        @if (notificationCenterService.CountNotifications > 0)
+                        {
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                @(notificationCenterService.CountNotifications > 99 ? "99+" : notificationCenterService.CountNotifications)
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        }
+                    </div>
                 </div>
+            </div>
+            <div class="sidebar-toggle d-none d-sm-block">
+                <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
+            </div>
+        </header>
 
+        <article class="content px-4 py-2">
+            <div class="main-content">
                 @Body
             </div>
-        </article>
+            <footer class="px-4 text-muted">
 
-        <footer class="px-4 text-muted">
-            <div class="text-right">
-                <CultureSelector />
-                2022 - @DateTime.Now.Year &copy; Marvin Klein
-            </div>
-        </footer>
+                <p>
+                    Entwickelt mit <span class="text-danger"><Icon Name="IconName.HeartFill" /></span> by Marvin Klein
+                </p>
+
+                <p class="text-right">
+                    <CultureSelector />
+                    @DateTime.Now.Year &copy; Marvin Klein
+                </p>
+
+            </footer>
+        </article>
     </main>
 </div>
+
+<Offcanvas @ref="_offcanvas"
+           Title="@(localizer["NOTIFICATION_CENTER_TITLE"])">
+    <BodyTemplate>
+        <BlazorForms.Components.Notifications.NotificationCenter />
+    </BodyTemplate>
+</Offcanvas>
 
 
 

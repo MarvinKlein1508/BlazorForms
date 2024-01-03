@@ -153,4 +153,7 @@
   <data name="NAV_DASHBOARD" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="NOTIFICATION_CENTER_TITLE" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
 </root>
