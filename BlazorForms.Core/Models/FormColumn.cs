@@ -86,6 +86,19 @@ namespace BlazorForms.Core.Models
             return Rules.ValidateRules() && Elements.Any(x => x.IsVisible());
         }
 
+        public IEnumerable<FormElement> GetRuleElements()
+        {
+            ElementType[] allowedRuleTypes = [ElementType.Checkbox, ElementType.Date, ElementType.Number, ElementType.Radio, ElementType.Select];
+            var elements = Form?.GetElements() ?? Enumerable.Empty<FormElement>();
+            foreach (var element in elements)
+            {
+                var elementType = element.GetElementType();
 
+                if (allowedRuleTypes.Contains(elementType))
+                {
+                    yield return element;
+                }
+            }
+        }
     }
 }

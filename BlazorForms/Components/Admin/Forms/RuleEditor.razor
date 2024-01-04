@@ -13,7 +13,7 @@
         <label for="rule-type">@localizer["LABEL_RULE_TYPE"]</label>
     </div>
 
-    @if (Input.Form.GetRuleElements().Any())
+    @if (Input.GetRuleElements().Any())
     {
         <div class="toolbar">
             <Button Color="ButtonColor.Success" @onclick="AddRuleAsync"><Icon Name="IconName.Plus" Size="IconSize.x5" /></Button>
@@ -41,7 +41,7 @@
                                  ValueChanged="(Guid guid) => OnRuleSetElementChangedAsync(rule, guid)"
                                  ValueExpression="() => rule.ElementGuid"
                                  id="@($"rule-guid-{rule.GetHashCode()}")" class="form-select" aria-placeholder="@localizer["LABEL_ELEMENT"]">
-                        @foreach (var item in Input.Form.GetRuleElements())
+                        @foreach (var item in Input.GetRuleElements())
                         {
                             <option value="@item.Guid">@item</option>
                         }
@@ -118,7 +118,7 @@
             // Set RuleSet to a rule which is available for every element
             ruleSet.ComparisonOperator = ComparisonOperator.Equals;
 
-            var searchElement = Input.Form.GetElements().FirstOrDefault(x => x.Guid == elementGuid);
+            var searchElement = Input.GetRuleElements().FirstOrDefault(x => x.Guid == elementGuid);
 
             if (searchElement is not null)
             {

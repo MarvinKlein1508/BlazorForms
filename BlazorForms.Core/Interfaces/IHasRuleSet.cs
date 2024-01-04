@@ -1,5 +1,6 @@
 ﻿using BlazorForms.Core.Constants;
 using BlazorForms.Core.Models;
+using BlazorForms.Core.Models.FormElements;
 
 namespace BlazorForms.Core.Interfaces
 {
@@ -8,5 +9,7 @@ namespace BlazorForms.Core.Interfaces
         List<Rule> Rules { get; set; }
         Form? Form { get; set; }
         RuleType RuleType { get; set; }
+
+        IEnumerable<FormElement> GetRuleElements();
     }
 }
