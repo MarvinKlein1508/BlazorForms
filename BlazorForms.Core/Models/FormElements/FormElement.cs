@@ -103,5 +103,40 @@ namespace BlazorForms.Core.Models.FormElements
 
         public abstract void SetValue(FormEntryElement element);
         public abstract void Reset();
+
+        public IEnumerable<FormElement> GetRuleElements()
+        {
+            ElementType[] allowedRuleTypes = [ElementType.Checkbox, ElementType.Date, ElementType.Number, ElementType.Radio, ElementType.Select];
+            var elements = Form?.GetElements() ?? Enumerable.Empty<FormElement>();
+            foreach (var element in elements)
+            {
+                if (element == this)
+                {
+                    continue;
+                }
+
+                var elementType = element.GetElementType();
+
+                if (elementType is ElementType.Table && element is FormTableElement formTableElement)
+                {
+                    foreach (var tableElement in formTableElement.Elements)
+                    {
+                        if (tableElement == this)
+                        {
+                            continue;
+                        }
+
+                        if (allowedRuleTypes.Contains(tableElement.GetElementType()))
+                        {
+                            yield return tableElement;
+                        }
+                    }
+                }
+                else if (allowedRuleTypes.Contains(elementType))
+                {
+                    yield return element;
+                }
+            }
+        }
     }
 }
