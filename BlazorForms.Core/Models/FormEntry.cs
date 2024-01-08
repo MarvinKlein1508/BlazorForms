@@ -1,5 +1,6 @@
 ﻿using DbController;
 using BlazorForms.Core.Models.FormElements;
+using BlazorForms.Core.Enums;
 
 namespace BlazorForms.Core.Models
 {
@@ -23,6 +24,8 @@ namespace BlazorForms.Core.Models
         public int StatusId { get; set; }
         [CompareField("approved")]
         public bool IsApproved { get; set; }
+        [CompareField("priority")]
+        public Priority Priority { get; set; } = Priority.Normal;
         public Form Form { get; set; }
         public int Id => EntryId;
         public Dictionary<string, object?> GetParameters()
@@ -37,7 +40,8 @@ namespace BlazorForms.Core.Models
                 { "LAST_CHANGE",  LastChange },
                 { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId },
                 { "STATUS_ID", StatusId },
-                { "APPROVED", IsApproved }
+                { "APPROVED", IsApproved },
+                { "PRIORITY", (int)Priority }
             };
         }
 

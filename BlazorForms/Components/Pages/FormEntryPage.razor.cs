@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
 using System.Globalization;
 using BlazorBootstrap;
+using BlazorForms.Core.Enums;
 
 namespace BlazorForms.Components.Pages
 {
@@ -214,6 +215,14 @@ namespace BlazorForms.Components.Pages
                     if (email.To.Any())
                     {
                         email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
+
+                        email.Priority = Input.Priority switch
+                        {
+                            Priority.Low => MessagePriority.NonUrgent,
+                            Priority.Normal => MessagePriority.Normal,
+                            Priority.High => MessagePriority.Urgent,
+                            _ => MessagePriority.Normal,
+                        };
 
                         ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
                         var bytes = entry.GetBytes();

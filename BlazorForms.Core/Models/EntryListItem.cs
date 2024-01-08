@@ -1,4 +1,5 @@
-﻿using BlazorForms.Core.Services;
+﻿using BlazorForms.Core.Enums;
+using BlazorForms.Core.Services;
 using DbController;
 using System.Globalization;
 
@@ -28,6 +29,9 @@ namespace BlazorForms.Core.Models
         public string UsernameCreator { get; set; } = string.Empty;
         [CompareField("username_last_change")]
         public string UsernameLastChange { get; set; } = string.Empty;
+
+        [CompareField("priority")]
+        public Priority Priority { get; set; }
 
         public List<int> ManagerIds { get; set; } = new();
 

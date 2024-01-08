@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FILTER_PLACEHOLDER_PRIORITY" xml:space="preserve">
+    <value>Priorität</value>
+  </data>
   <data name="FILTER_PLACHOLDER_STATUS" xml:space="preserve">
     <value>Status</value>
   </data>
@@ -131,6 +134,15 @@
   </data>
   <data name="NO_RESULTS" xml:space="preserve">
     <value>Es wurden keine Einträge gefunden.</value>
+  </data>
+  <data name="PRIORITY_HIGH" xml:space="preserve">
+    <value>Hoch</value>
+  </data>
+  <data name="PRIORITY_LOW" xml:space="preserve">
+    <value>Niedrig</value>
+  </data>
+  <data name="PRIORITY_NORMAL" xml:space="preserve">
+    <value>Normal</value>
   </data>
   <data name="TH_ACTION" xml:space="preserve">
     <value>Aktion</value>
@@ -155,6 +167,9 @@
   </data>
   <data name="TH_LAST_USER" xml:space="preserve">
     <value>Letzter Bearbeiter</value>
+  </data>
+  <data name="TH_PRIORITY" xml:space="preserve">
+    <value>Priorität</value>
   </data>
   <data name="TH_STATUS" xml:space="preserve">
     <value>Status</value>
