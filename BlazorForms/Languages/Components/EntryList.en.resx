@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FILTER_PLACEHOLDER_PRIORITY" xml:space="preserve">
+    <value>Priority</value>
+  </data>
   <data name="FILTER_PLACHOLDER_STATUS" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="FILTER_PRIORITY_HIGH" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="FILTER_PRIORITY_LOW" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="FILTER_PRIORITY_NORMAL" xml:space="preserve">
+    <value>Normal</value>
   </data>
   <data name="MODAL_DELETE_SUCCESS" xml:space="preserve">
     <value>Form entry was deleted successfully.</value>
@@ -155,6 +167,9 @@
   </data>
   <data name="TH_LAST_USER" xml:space="preserve">
     <value>Last editor</value>
+  </data>
+  <data name="TH_PRIORITY" xml:space="preserve">
+    <value>Priority</value>
   </data>
   <data name="TH_STATUS" xml:space="preserve">
     <value>Status</value>

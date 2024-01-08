@@ -35,6 +35,17 @@
                             <ValidationMessage For="() => Filter.StatusId" />
                         </div>
 
+                        <div class="form-floating mb-3">
+                            <InputSelect @bind-Value="Filter.Priority" class="form-select" id="form-filter-priority" aria-placeholder="@localizer["FILTER_PLACEHOLDER_PRIORITY"]">
+                                <option value="">@appLocalizer["ALL"]</option>
+                                <option value="@Priority.Low">@localizer["PRIORITY_LOW"]</option>
+                                <option value="@Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
+                                <option value="@Priority.High">@localizer["PRIORITY_HIGH"]</option>
+                            </InputSelect>
+                            <label for="form-filter-priority">@localizer["FILTER_PLACEHOLDER_PRIORITY"]</label>
+                            <ValidationMessage For="() => Filter.Priority" />
+                        </div>
+
                         <div class="toolbar">
                             @if (Filter is not null && Filter != DefaultFilter)
                             {
@@ -61,6 +72,7 @@
                                 <th>@localizer["TH_ID"]</th>
                                 <th>@localizer["TH_FORM"]</th>
                                 <th>@localizer["TH_DOCUMENT_NAME"]</th>
+                                <th>@localizer["TH_PRIORITY"]</th>
                                 <th>@localizer["TH_STATUS"]</th>
                                 <th>@localizer["TH_CREATION_DATE"]</th>
                                 <th>@localizer["TH_CREATION_USER"]</th>
@@ -80,6 +92,7 @@
                                     <td>@item.EntryId</td>
                                     <td>@item.FormName</td>
                                     <td><a href="/Entry/@item.EntryId">@item.Name</a></td>
+                                    <td>@GetPriority(item.Priority)</td>
                                     <td>@statusName</td>
                                     <td>@item.CreationDate.ToShortDateString()</td>
                                     <td>@item.UsernameCreator</td>

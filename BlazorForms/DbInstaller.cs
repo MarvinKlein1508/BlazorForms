@@ -582,6 +582,7 @@ namespace BlazorForms
                 	last_change_user_id INTEGER DEFAULT NULL,
                 	status_id INTEGER NOT NULL,
                 	approved TINYINT NOT NULL DEFAULT 0,
+                    priority INTEGER NOT NULL DEFAULT 0,
                 	PRIMARY KEY (entry_id),
                 	FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
                 	FOREIGN KEY (creation_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,

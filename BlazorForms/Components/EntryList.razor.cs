@@ -8,6 +8,7 @@ using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using BlazorBootstrap;
 using BlazorForms.Core;
+using BlazorForms.Core.Enums;
 
 namespace BlazorForms.Components
 {
@@ -169,5 +170,13 @@ namespace BlazorForms.Components
             Filter = DefaultFilter.DeepCopyByExpressionTree();
             await LoadAsync(true);
         }
+
+        private string GetPriority(Priority priority) => priority switch
+        {
+            Priority.Low => (string)localizer["PRIORITY_LOW"],
+            Priority.Normal => (string)localizer["PRIORITY_NORMAL"],
+            Priority.High => (string)localizer["PRIORITY_HIGH"],
+            _ => (string)appLocalizer["UNKOWN"],
+        };
     }
 }

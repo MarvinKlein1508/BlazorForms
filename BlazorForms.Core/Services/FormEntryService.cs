@@ -26,7 +26,8 @@ creation_user_id,
 last_change,
 last_change_user_id,
 status_id,
-approved
+approved,
+priority
 )
 VALUES
 (
@@ -37,7 +38,8 @@ VALUES
 @LAST_CHANGE,
 @LAST_CHANGE_USER_ID,
 @STATUS_ID,
-@APPROVED
+@APPROVED,
+@PRIORITY
 ); {dbController.GetLastIdSql()}";
 
             input.EntryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
@@ -181,6 +183,7 @@ VALUES
             cancellationToken.ThrowIfCancellationRequested();
             string sql = @"UPDATE form_entries SET
 name = @NAME,
+priority = @PRIORITY,
 last_change = @LAST_CHANGE,
 last_change_user_id = @LAST_CHANGE_USER_ID
 WHERE
@@ -232,7 +235,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
             List<EntryListItem> entries = await dbController.SelectDataAsync<EntryListItem>(sql, GetFilterParameter(filter), cancellationToken);
 
             // We need the managers to be able to check for delete permissions
-            if (entries.Any())
+            if (entries.Count != 0)
             {
                 List<int> formIds = entries.Select(x => x.FormId).Distinct().ToList();
 
@@ -311,6 +314,11 @@ OR u2.display_name LIKE @SEARCHPHRASE
                 sqlBuilder.AppendLine(@" AND fm.user_id = @USERID");
             }
 
+            if (filter.Priority is not null)
+            {
+                sqlBuilder.AppendLine(@" AND priority = @PRIORITY");
+            }
+
             string sql = sqlBuilder.ToString();
             return sql;
         }
@@ -321,7 +329,8 @@ OR u2.display_name LIKE @SEARCHPHRASE
             {
                 { "SEARCHPHRASE", $"%{filter.SearchPhrase}%" },
                 { "USERID", filter.UserId },
-                { "STATUS_ID", filter.StatusId }
+                { "STATUS_ID", filter.StatusId },
+                { "PRIORITY", filter.Priority is null ? 0 : (int)filter.Priority }
             };
         }
     }

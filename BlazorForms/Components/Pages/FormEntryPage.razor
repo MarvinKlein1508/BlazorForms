@@ -39,11 +39,23 @@
         <FluentValidationValidator />
         <ValidationSummary />
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name des Dokuments" />
                     <label for="form-name">Name des Dokuments</label>
                     <ValidationMessage For="() => Input.Name" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <InputSelect @bind-Value="Input.Priority" class="form-select" id="form-priority" aria-label="Priorität">
+                        <option value="@Priority.Low">Niedrig</option>
+                        <option value="@Priority.Normal">Normal</option>
+                        <option value="@Priority.High">Hoch</option>
+                    </InputSelect>
+                    <label for="form-priority">Priorität</label>
+                    <ValidationMessage For="() => Input.Priority" />
                 </div>
             </div>
         </div>
