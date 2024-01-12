@@ -39,6 +39,8 @@ builder.Services.AddServerSideBlazor()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
+builder.Services.AddHostedService<NotificationService>();
+
 builder.Services.AddBlazorDragDrop();
 builder.Services.AddBlazorDownloadFile();
 builder.Services.AddSingleton<PermissionService>();
@@ -55,7 +57,6 @@ builder.Services.AddScoped<FormStatusService>();
 builder.Services.AddScoped<FormEntryStatusChangeService>();
 builder.Services.AddScoped<SavedFilterService>();
 builder.Services.AddScoped<NotificationService>();
-builder.Services.AddScoped<NotificationCenterService>();
 builder.Services.AddHotKeys2();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddLocalization(options =>

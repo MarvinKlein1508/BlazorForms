@@ -1,8 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
 @inject AuthService authService
-@inject NotificationCenterService notificationCenterService
+@inject NotificationService notificationService
 @using System.Runtime.InteropServices
+@using BlazorForms.Components.Notifications
 @inject IStringLocalizer<MainLayout> localizer
 <PageTitle>BlazorForms</PageTitle>
 
@@ -19,18 +20,23 @@
     <main>
         <header>
             <div class="topbar bb-top-row">
-                <div class="topbar-item position-relative px-4" @onclick="async () => await _offcanvas.ShowAsync()">
-                    <div class="position-relative">
-                        <i class="bi bi-bell-fill"></i>
-                        @if (notificationCenterService.CountNotifications > 0)
-                        {
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                @(notificationCenterService.CountNotifications > 99 ? "99+" : notificationCenterService.CountNotifications)
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                        }
+                @if (User is not null)
+                {
+                    <div class="topbar-item position-relative px-4" @onclick="async () => await _offcanvas.ShowAsync()">
+                        <div class="position-relative">
+                            <i class="bi bi-bell-fill"></i>
+
+                            @if (_notifications.Count > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @(_notifications.Count > 99 ? "99+" : _notifications.Count)
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            }
+
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div class="sidebar-toggle d-none d-sm-block">
                 <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
@@ -43,7 +49,7 @@
             </div>
             <footer class="px-4 text-muted">
 
-              
+
                 <p class="text-right">
                     <CultureSelector />
                     @DateTime.Now.Year &copy; Marvin Klein
@@ -57,7 +63,7 @@
 <Offcanvas @ref="_offcanvas"
            Title="@(localizer["NOTIFICATION_CENTER_TITLE"])">
     <BodyTemplate>
-        <BlazorForms.Components.Notifications.NotificationCenter />
+        <NotificationCenter Notifications="_notifications" />
     </BodyTemplate>
 </Offcanvas>
 
