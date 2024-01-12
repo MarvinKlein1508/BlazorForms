@@ -50,14 +50,14 @@ namespace BlazorForms.Components
         public static string ToHumanReadableFileSize(byte[] data)
         {
             long bytes = data.LongLength;
-            string[] sizes = { "B", "KiB", "MiB", "GiB", "TiB" };
+            string[] sizes = ["B", "KiB", "MiB", "GiB", "TiB"];
             int order = 0;
             while (bytes >= 1024 && order < sizes.Length - 1)
             {
                 order++;
-                bytes = bytes / 1024;
+                bytes /= 1024;
             }
-            return String.Format("{0:0.##} {1}", bytes, sizes[order]);
+            return string.Format("{0:0.##} {1}", bytes, sizes[order]);
         }
     }
 }
