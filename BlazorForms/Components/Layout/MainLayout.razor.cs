@@ -1,14 +1,37 @@
 using BlazorBootstrap;
 using BlazorForms.Core.Constants;
+using BlazorForms.Core.Models;
+using BlazorForms.Core.Services;
 using Microsoft.JSInterop;
 
 namespace BlazorForms.Components.Layout
 {
-    public partial class MainLayout
+    public partial class MainLayout : IDisposable
     {
         private Sidebar _sidebar = default!;
         private Offcanvas _offcanvas = default!;
         IEnumerable<NavItem> navItems = default!;
+
+        public User? User { get; set; }
+        private List<Notification> _notifications = [];
+
+        protected override async Task OnInitializedAsync()
+        {
+            User = await authService.GetUserAsync();
+
+            NotificationService.NotificationsChanged += NotificationService_NotificationsChanged;
+        }
+
+        private async Task NotificationService_NotificationsChanged()
+        {
+            if (User is not null)
+            {
+                _notifications = notificationService.GetNotifications(User).ToList();
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+
         private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
         {
             if (navItems is null)
@@ -165,6 +188,11 @@ namespace BlazorForms.Components.Layout
         private void ToggleSidebar()
         {
             _sidebar.ToggleSidebar();
+        }
+
+        public void Dispose()
+        {
+            NotificationService.NotificationsChanged -= NotificationService_NotificationsChanged;
         }
     }
 }
