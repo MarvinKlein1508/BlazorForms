@@ -7,11 +7,12 @@
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
 @inject IOptions<EmailSettings> emailConfig
+@inject IStringLocalizer<FormEntryPage> localizer
 
 @if (Input is not null && Input.Form is not null)
 {
 
-    <PageTitle>@Input.Form.Name ausfüllen</PageTitle>
+    <PageTitle>@(String.Format(localizer["PAGETITLE"], Input.Form.Name))</PageTitle>
 
 
     <h2 class="page-title">@Input.Form.Name</h2>
@@ -21,12 +22,12 @@
             @if (!Copy)
             {
 
-                <Button Color="ButtonColor.Info" Type="ButtonType.Link" To="@($"/Entry/{EntryId}?copy=true")" TooltipTitle="Kopieren" TooltipPlacement="TooltipPlacement.Top">
+                <Button Color="ButtonColor.Info" Type="ButtonType.Link" To="@($"/Entry/{EntryId}?copy=true")" TooltipTitle="@localizer["BUTTON_TOOLTIP_COPY"]" TooltipPlacement="TooltipPlacement.Top">
                     <Icon Name="IconName.Copy" />
                 </Button>
 
 
-                <button type="button" class="btn btn-primary" @onclick="ShowHistoryModalAsync">Verlauf</button>
+                <button type="button" class="btn btn-primary" @onclick="ShowHistoryModalAsync">@localizer["BUTTON_HISTORY"]</button>
 
                 <button type="button" class="btn btn-secondary" @onclick="OpenStatusModalAsync">
                     <span class="ms-1"><Icon Name="IconName.PencilSquare" /></span>
@@ -41,20 +42,20 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="Name des Dokuments" />
-                    <label for="form-name">Name des Dokuments</label>
+                    <InputText @bind-Value="Input.Name" class="form-control" id="form-name" placeholder="@localizer["LABEL_ENTRY_NAME"]" />
+                    <label for="form-name">@localizer["LABEL_ENTRY_NAME"]</label>
                     <ValidationMessage For="() => Input.Name" />
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-floating mb-3">
-                    <InputSelect @bind-Value="Input.Priority" class="form-select" id="form-priority" aria-label="Priorität">
-                        <option value="@Priority.Low">Niedrig</option>
-                        <option value="@Priority.Normal">Normal</option>
-                        <option value="@Priority.High">Hoch</option>
+                    <InputSelect @bind-Value="Input.Priority" class="form-select" id="form-priority" aria-label="@localizer["LABEL_ENTRY_PRIORITY"]">
+                        <option value="@Priority.Low">@localizer["PRIORITY_LOW"]</option>
+                        <option value="@Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
+                        <option value="@Priority.High">@localizer["PRIORITY_HIGH"]</option>
                     </InputSelect>
-                    <label for="form-priority">Priorität</label>
+                    <label for="form-priority">@localizer["LABEL_ENTRY_PRIORITY"]</label>
                     <ValidationMessage For="() => Input.Priority" />
                 </div>
             </div>
@@ -289,7 +290,7 @@
 
                                             @if (totals.Any())
                                             {
-                                                <h4>Summen</h4>
+                                                <h4>@localizer["HEADING_SUMS"]</h4>
 
                                                 @foreach (var kvp in totals)
                                                 {
@@ -339,14 +340,14 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-success" @onclick="SubmitAsync">Absenden</button>
+                    <button type="button" class="btn btn-success" @onclick="SubmitAsync">@localizer["BUTTON_SUBMIT"]</button>
                 }
             </div>
         }
     </EditForm>
 
 
-    <Modal @ref="_historyModal" Title="Verlauf" Size="ModalSize.ExtraLarge">
+    <Modal @ref="_historyModal" Title="@localizer["MODAL_TITLE_HISTORY"]" Size="ModalSize.ExtraLarge">
         <BodyTemplate>
             <EntryHistory EntryId="Input.Id" />
         </BodyTemplate>
@@ -354,7 +355,7 @@
 
 }
 
-<Modal @ref="_statusModal" Title="Status ändern" UseStaticBackdrop="true">
+<Modal @ref="_statusModal" Title="@localizer["MODAL_TITLE_CHANGE_STATUS"]" UseStaticBackdrop="true">
     <BodyTemplate>
         <StatusChangeEditor Entry="Input"
                             User="_user"

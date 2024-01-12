@@ -31,9 +31,6 @@ namespace BlazorForms.Components.Pages
         private User? _user;
         private bool _isSaving;
 
-
-
-
         public bool IsAdmin { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAllowedToApprove { get; set; }
@@ -62,7 +59,7 @@ namespace BlazorForms.Components.Pages
                         }
                         else
                         {
-                            await jsRuntime.ShowToastAsync(ToastType.error, "Sie verfügen nicht über die ausreichenden Berechtigungen, um diesen Formulareintrag zu bearbeiten.");
+                            await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_NO_PERMISSION_EDIT"]);
                             navigationManager.NavigateTo("/");
                         }
                         return;
@@ -78,21 +75,21 @@ namespace BlazorForms.Components.Pages
                 {
                     if (form.IsOnlyAvailableForLoggedInUsers && _user is null)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Um dieses Formular ausfüllen zu können, müssen Sie sich zunächst einloggen.");
+                        await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_LOGIN_REQUIRED"]);
                         navigationManager.NavigateTo($"/Account/Login?returnUrl=Forms/{FormId}", true);
                         return;
                     }
 
                     if (form.IsOnlyAvailableForLoggedInUsers && form.AllowedUsersForNewEntries.Any() && _user is not null && form.AllowedUsersForNewEntries.FirstOrDefault(x => x.UserId == _user.UserId) is null)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Sie sind nicht berechtigt dieses Formular auszufüllen.");
+                        await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_NO_PERMISSION_NEW"]);
                         navigationManager.NavigateTo($"/");
                         return;
                     }
 
                     if (!form.IsActive)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Dieses Formular ist nicht aktiviert.");
+                        await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_FORM_DISABLED"]);
                         navigationManager.NavigateTo($"/");
                         return;
                     }
@@ -126,7 +123,7 @@ namespace BlazorForms.Components.Pages
                 }
                 else
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Formular konnte nicht gefunden werden.");
+                    await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_FORM_NOT_FOUND"]);
                     navigationManager.NavigateTo($"/");
                     return;
                 }
@@ -214,7 +211,7 @@ namespace BlazorForms.Components.Pages
 
                     if (email.To.Any())
                     {
-                        email.Subject = $"Neuer Formulareintrag für {Input.Form.Name}";
+                        email.Subject = String.Format(localizer["EMAIL_NEW_ENTRY_SUBJECT"], Input.Form.Name);
 
                         email.Priority = Input.Priority switch
                         {
@@ -229,7 +226,7 @@ namespace BlazorForms.Components.Pages
 
                         var body = new TextPart("html")
                         {
-                            Text = $"Es wurde ein neuer Eintrag für das Formular {Input.Form.Name} abgeschickt. <a href='{navigationManager.BaseUri}Entry/{Input.EntryId}'>Klicken Sie hier</a> um den Formulareintrag zu bearbeiten"
+                            Text = string.Format(localizer["EMAIL_NEW_ENTRY_BODY"], Input.Form.Name, navigationManager.BaseUri, Input.EntryId)
                         };
 
                         string filename = Input.Name;
@@ -252,10 +249,10 @@ namespace BlazorForms.Components.Pages
                         // now create the multipart/mixed container to hold the message text and the
                         // image attachment
                         var multipart = new Multipart("mixed")
-                                {
-                                    body,
-                                    attachment
-                                };
+                        {
+                            body,
+                            attachment
+                        };
 
                         // now set the multipart/mixed as the message body
                         email.Body = multipart;
@@ -267,12 +264,12 @@ namespace BlazorForms.Components.Pages
                         }
                         catch (Exception ex)
                         {
-                            await jsRuntime.ShowToastAsync(ToastType.error, $"E-Mail konnte nicht gesendet werden. Fehler: {ex}", 0);
+                            await jsRuntime.ShowToastAsync(ToastType.error, string.Format(localizer["ERROR_EMAIL_NEW_ENTRY_NOT_SEND"], ex), 0);
                         }
                     }
                 }
 
-                await jsRuntime.ShowToastAsync(ToastType.success, "Formular erfolgreich gespeichert");
+                await jsRuntime.ShowToastAsync(ToastType.success, localizer["TOAST_SAVED_SUCCESSFULLY"]);
                 navigationManager.NavigateTo($"/Entry/{Input.EntryId}");
             }
             _isSaving = false;
@@ -292,11 +289,11 @@ namespace BlazorForms.Components.Pages
         {
             if (e.FileCount > 10)
             {
-                await jsRuntime.ShowToastAsync(ToastType.error, "Es können maximal 10 Dateien auf einmal hochgeladen werden.");
+                await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_MAX_ATTACHMENTS"]);
                 return;
             }
 
-            List<string> allowedMimeTypes = new();
+            List<string> allowedMimeTypes = [];
 
             foreach (var extension in fileElement.AcceptedFileTypes)
             {
@@ -322,13 +319,13 @@ namespace BlazorForms.Components.Pages
                 // Check file extension in MimeType list
                 if (!AppdatenService.MimeTypes.TryGetValue(extension, out var mimeType))
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. Dateityp wird nicht unterstützt.");
+                    await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_INVALID_FILETYPE"]);
                     continue;
                 }
 
                 if (!fileElement.AcceptedFileTypes.Contains(extension) || !allowedMimeTypes.Contains(contentType))
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, ungültiges Dateiformat.");
+                    await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_INVALID_FILEFORMAT"]);
                     continue;
                 }
 
@@ -336,7 +333,7 @@ namespace BlazorForms.Components.Pages
                 {
                     if (size_in_mib < fileElement.MinSize)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden (zu klein).");
+                        await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_MIN_SIZE"]);
                         continue;
                     }
                 }
@@ -346,7 +343,7 @@ namespace BlazorForms.Components.Pages
                     long sizeInMiB = size / 1024 / 1024;
                     if (sizeInMiB > fileElement.MaxSize)
                     {
-                        await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden. (zu groß)");
+                        await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_MAX_SIZE"]);
                         continue;
                     }
                 }
@@ -364,7 +361,7 @@ namespace BlazorForms.Components.Pages
                 }
                 else
                 {
-                    await jsRuntime.ShowToastAsync(ToastType.error, "Datei konnte nicht hochgeladen werden, dieses Feld unterstützt nur den Upload einer Datei.");
+                    await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_MULTI_UPLOAD_NOT_SUPPORTED"]);
                 }
 
             }
