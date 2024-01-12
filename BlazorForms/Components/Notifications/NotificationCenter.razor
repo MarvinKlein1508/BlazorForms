@@ -2,10 +2,11 @@
 @inject NavigationManager navigationManager
 @inject NotificationCenterService notificationCenterService
 @inject AuthService authService
+@inject IStringLocalizer<NotificationCenter> localizer
 
 @if (notificationCenterService.CountNotifications is 0)
 {
-    <p>Keine neuen Benachrichtigungen</p>
+    <p>@localizer["NO_NEW_NOTIFICATIONS"]</p>
 }
 else
 {
