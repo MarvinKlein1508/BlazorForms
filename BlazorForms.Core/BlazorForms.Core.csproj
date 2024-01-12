@@ -46,6 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Languages\Extensions\DateTimeExtensions.en.Designer.cs">
+      <DependentUpon>DateTimeExtensions.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Languages\Extensions\DateTimeExtensions.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DateTimeExtensions.resx</DependentUpon>
+    </Compile>
     <Compile Update="Languages\Models\FormElements\FormTextElement.en.Designer.cs">
       <DependentUpon>FormTextElement.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -149,6 +159,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.en.resx">
+      <LastGenOutput>DateTimeExtensions.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DateTimeExtensions.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.en.resx">
       <LastGenOutput>FormTextElement.en.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
