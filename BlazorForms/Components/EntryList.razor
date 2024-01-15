@@ -101,18 +101,18 @@
                                     <td class="text-right text-nowrap action-column">
                                         @if (CanDeleteEntry(item))
                                         {
-                                            <button type="button" class="btn btn-danger me-1" @onclick="async () => await ShowDeleteModalAsync(item)"><Icon Name="IconName.Trash" Size="IconSize.x5" /></button>
+                                            <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(item)" Size="Size.Large" Class="me-1">
+                                                <Icon Name="IconName.Trash" />
+                                            </Button>
                                         }
 
-                                        @if (DownloadingList.Contains(item))
-                                        {
-                                            <LoadingButton ButtonClass="btn btn-info me-1" />
-                                        }
-                                        else
-                                        {
-                                            <button type="button" class="btn btn-info me-1" @onclick="() => DownloadAsync(item)"><Icon Name="IconName.Download" Size="IconSize.x5" /></button>
-                                        }
-                                        <a class="btn btn-primary" href="/Entry/@item.EntryId"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></a>
+
+                                        <Button Color="ButtonColor.Info" @onclick="() => DownloadAsync(item)" Disabled="DownloadingList.Contains(item)" Loading="DownloadingList.Contains(item)" Size="Size.Large" LoadingText="">
+                                            <Icon Name="IconName.Download" />
+                                        </Button>
+
+
+                                        <a class="btn btn-primary btn-lg" href="/Entry/@item.EntryId"><Icon Name="IconName.PencilSquare" /></a>
                                     </td>
                                 </tr>
                             </Virtualize>
