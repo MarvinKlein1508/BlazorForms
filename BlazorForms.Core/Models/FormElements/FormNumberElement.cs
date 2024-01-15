@@ -68,7 +68,9 @@ namespace BlazorForms.Core.Models.FormElements
                 _value = Math.Round(value, decimalPlaces);
             }
         }
-
+        
+        [CompareField("default_value")]
+        public decimal DefaultValue { get; set; } 
         public List<CalcRule> CalcRules { get; set; } = new();
 
         public bool IsValueCalculated => CalcRules.Any();
@@ -80,6 +82,7 @@ namespace BlazorForms.Core.Models.FormElements
             parameters.Add("DECIMAL_PLACES", DecimalPlaces);
             parameters.Add("MIN_VALUE", MinValue);
             parameters.Add("MAX_VALUE", MaxValue);
+            parameters.Add("DEFAULT_VALUE", DefaultValue);
             parameters.Add("IS_SUMMABLE", IsSummable);
 
             parameters["VALUE_NUMBER"] = Value;
@@ -116,7 +119,7 @@ namespace BlazorForms.Core.Models.FormElements
 
         public override void Reset()
         {
-            Value = 0;
+            Value = DefaultValue;
         }
     }
 }

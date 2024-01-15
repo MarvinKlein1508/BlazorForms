@@ -192,6 +192,9 @@
   <data name="TAB_GENERAL_LABEL_DEFAULT_STATUS" xml:space="preserve">
     <value>Status for new form entries</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_DEFAULT_VALUE" xml:space="preserve">
+    <value>Default value</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_DESCRIPTION" xml:space="preserve">
     <value>Description</value>
   </data>

@@ -119,6 +119,12 @@ namespace BlazorForms.Components.Pages
                             FormId = FormId,
                             StatusId = form.DefaultStatusId
                         };
+
+                        // Gurantee that all default values are applied
+                        foreach (var item in form.GetAllElements())
+                        {
+                            item.Reset();
+                        }
                     }
                 }
                 else
@@ -276,7 +282,7 @@ namespace BlazorForms.Components.Pages
         }
         private async Task OpenStatusModalAsync()
         {
-                    
+
 
             await _statusModal.ShowAsync();
         }

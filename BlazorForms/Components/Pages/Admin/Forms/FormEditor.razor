@@ -151,6 +151,12 @@ else
                                                 <ValidationMessage For="() => numberElement.MaxValue" />
                                             </div>
 
+                                            <div class="form-floating mb-3">
+                                                <InputNumber @bind-Value="numberElement.DefaultValue" class="form-control" id="numberelement-default-value" placeholder="@localizer["TAB_GENERAL_LABEL_DEFAULT_VALUE"]" />
+                                                <label for="numberelement-default-value">@localizer["TAB_GENERAL_LABEL_DEFAULT_VALUE"]</label>
+                                                <ValidationMessage For="() => numberElement.DefaultValue" />
+                                            </div>
+
                                             @if (numberElement.TableParentElementId != 0)
                                             {
                                                 <div class="form-check">

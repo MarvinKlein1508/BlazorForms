@@ -134,7 +134,8 @@ VALUES
                     "decimal_places",
                     "min_value",
                     "max_value",
-                    "is_summable"
+                    "is_summable",
+                    "default_value"
                 });
             }
 
