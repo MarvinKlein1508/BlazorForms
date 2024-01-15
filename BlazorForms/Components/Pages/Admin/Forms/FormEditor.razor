@@ -449,6 +449,16 @@ else
                                         </div>
 
                                         <div class="form-floating mb-3">
+                                            <InputText @bind-Value="Input.DefaultName" class="form-control" id="form-default-name" placeholder="@localizer["TAB_GENERAL_LABEL_ENTRY_DEFAULT_NAME"]" />
+                                            <label for="form-default-name">@localizer["TAB_GENERAL_LABEL_ENTRY_DEFAULT_NAME"]</label>
+                                            <ValidationMessage For="() => Input.DefaultName" />
+                                        </div>
+
+                                        <div class="d-flex mb-3">
+                                            <kbd>{DATE}</kbd>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
                                             <InputTextArea @bind-Value="Input.Description" class="form-control" id="form-description" placeholder="@localizer["TAB_GENERAL_LABEL_DESCRIPTION"]" />
                                             <label for="form-description">@localizer["TAB_GENERAL_LABEL_DESCRIPTION"]</label>
                                             <ValidationMessage For="() => Input.Description" />

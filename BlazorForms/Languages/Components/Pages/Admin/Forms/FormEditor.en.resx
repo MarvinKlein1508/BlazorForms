@@ -201,6 +201,9 @@
   <data name="TAB_GENERAL_LABEL_ELEMENT_TYPE" xml:space="preserve">
     <value>Element type</value>
   </data>
+  <data name="TAB_GENERAL_LABEL_ENTRY_DEFAULT_NAME" xml:space="preserve">
+    <value>Default name form entry</value>
+  </data>
   <data name="TAB_GENERAL_LABEL_LANGUAGE" xml:space="preserve">
     <value>Language</value>
   </data>

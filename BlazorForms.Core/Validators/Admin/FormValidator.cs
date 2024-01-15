@@ -9,7 +9,11 @@ namespace BlazorForms.Core.Validators.Admin
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MinimumLength(5);
+                .MinimumLength(5)
+                .MaximumLength(50);
+
+            RuleFor(x => x.DefaultName)
+                .MaximumLength(50);
 
             RuleFor(x => x.DefaultStatusId)
                 .GreaterThan(0)

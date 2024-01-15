@@ -117,8 +117,10 @@ namespace BlazorForms.Components.Pages
                         Input = new FormEntry(form)
                         {
                             FormId = FormId,
-                            StatusId = form.DefaultStatusId
+                            StatusId = form.DefaultStatusId,
+                            Name = form.GetDefaultName()
                         };
+
 
                         // Gurantee that all default values are applied
                         foreach (var item in form.GetAllElements())

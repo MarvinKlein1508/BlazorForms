@@ -30,6 +30,12 @@ namespace BlazorForms.Core.Models
         public byte[] Image { get; set; } = Array.Empty<byte>();
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets a name which will be applied as default name for new form entries.
+        /// </summary>
+        [CompareField("default_name")]
+        public string DefaultName { get; set; } = string.Empty;
         public int Id => FormId;
         public bool EntryMode { get; set; }
         public List<FormRow> Rows { get; set; } = new();
@@ -53,7 +59,8 @@ namespace BlazorForms.Core.Models
                 { "LOGIN_REQUIRED", IsOnlyAvailableForLoggedInUsers },
                 { "IS_ACTIVE", IsActive },
                 { "DEFAULT_STATUS_ID", DefaultStatusId },
-                { "LANGUAGE_ID", LanguageId <= 0 ? null : LanguageId }
+                { "LANGUAGE_ID", LanguageId <= 0 ? null : LanguageId },
+                { "DEFAULT_NAME", DefaultName }
             };
         }
 
@@ -179,6 +186,15 @@ namespace BlazorForms.Core.Models
             }
 
             DeleteRulesForElement(column.GetElements().ToArray());
+        }
+
+        public string GetDefaultName()
+        {
+            string defaultName = DefaultName
+                .Replace("{DATE}", DateTime.Today.ToShortDateString())
+                ;
+
+            return defaultName;
         }
     }
 }

@@ -28,7 +28,8 @@ image,
 login_required,
 is_active,
 default_status_id,
-language_id
+language_id,
+default_name
 )
 VALUES
 (
@@ -39,7 +40,8 @@ VALUES
 @LOGIN_REQUIRED,
 @IS_ACTIVE,
 @DEFAULT_STATUS_ID,
-@LANGUAGE_ID
+@LANGUAGE_ID,
+@DEFAULT_NAME
 ); {dbController.GetLastIdSql()}";
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
@@ -205,7 +207,8 @@ image = @IMAGE,
 login_required = @LOGIN_REQUIRED,
 is_active = @IS_ACTIVE,
 default_status_id = @DEFAULT_STATUS_ID,
-language_id = @LANGUAGE_ID
+language_id = @LANGUAGE_ID,
+default_name = @DEFAULT_NAME
 WHERE
 form_id = @FORM_ID";
 
