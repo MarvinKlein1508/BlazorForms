@@ -96,7 +96,7 @@ namespace BlazorForms.Core.Pdf
                                     sb.AppendLine($"\t\t\t\t<label class=\"input-label\">{element}</label>");
                                     sb.AppendLine($"\t\t\t\t<div class='element'>");
                                     sb.AppendLine($"\t\t\t\t\t{numberElement.Value}");
-                                    sb.AppendLine("<\t\t\t\t/div>");
+                                    sb.AppendLine("\t\t\t\t</div>");
                                 }
                                 else if (element is FormSelectElement selectElement)
                                 {
