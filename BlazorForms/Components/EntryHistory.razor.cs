@@ -12,7 +12,7 @@ namespace BlazorForms.Components
         public int EntryId { get; set; }
         [Parameter]
         public string TableClass { get; set; } = "table table-bordered bg-white table-responsive-md";
-        public List<FormEntryStatusChange> History { get; set; } = new();
+        public List<FormEntryStatusChange> History { get; set; } = [];
 
         private bool _isLoading;
         protected override async Task OnParametersSetAsync()

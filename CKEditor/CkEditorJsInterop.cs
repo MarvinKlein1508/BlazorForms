@@ -11,22 +11,20 @@ namespace CKEditor
 
     public class CkEditorJsInterop : IAsyncDisposable
     {
-        private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-        private DotNetObjectReference<InputCkEditor> _reference;
+        private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
         private Guid _id;
 
 
         public CkEditorJsInterop(IJSRuntime jsRuntime)
         {
-            moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+            _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                "import", "./_content/CKEditor/ckeditor.js").AsTask());
         }
 
         public async ValueTask InitAsync(Guid id, DotNetObjectReference<InputCkEditor> reference)
         {
-            _reference = reference;
             _id = id;
-            var module = await moduleTask.Value;
+            var module = await _moduleTask.Value;
             await module.InvokeVoidAsync("setup", new object[] { id, reference });
         }
 
@@ -34,9 +32,9 @@ namespace CKEditor
 
         public async ValueTask DisposeAsync()
         {
-            if (moduleTask.IsValueCreated)
+            if (_moduleTask.IsValueCreated)
             {
-                var module = await moduleTask.Value;
+                var module = await _moduleTask.Value;
                 try
                 {
                     await module.InvokeVoidAsync("destroy", _id);
@@ -53,9 +51,9 @@ namespace CKEditor
 
         public async Task Update(string value)
         {
-            if (moduleTask.IsValueCreated)
+            if (_moduleTask.IsValueCreated)
             {
-                var module = await moduleTask.Value;
+                var module = await _moduleTask.Value;
                 await module.InvokeVoidAsync("update", new object[] { _id, value });
             }
         }

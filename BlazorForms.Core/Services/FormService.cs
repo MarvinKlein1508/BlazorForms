@@ -113,7 +113,7 @@ namespace BlazorForms.Core.Services
             List<Rule> rules = await GetRulesAsync(form, dbController, cancellationToken);
 
 
-            List<FormTableElement> tableElements = new();
+            List<FormTableElement> tableElements = [];
             // Loop through the data and map everything.
             foreach (var row in rows)
             {
@@ -283,7 +283,7 @@ namespace BlazorForms.Core.Services
         }
         public string GetFilterWhere(FormFilter filter)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
 
             if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
@@ -338,11 +338,11 @@ namespace BlazorForms.Core.Services
         }
         private static (HashSet<int> rowIds, HashSet<int> columnIds, HashSet<int> elementIds, HashSet<int> ruleIds, HashSet<int> calcRuleIds) GetHashSets(Form input)
         {
-            HashSet<int> rowIds = new();
-            HashSet<int> columnIds = new();
-            HashSet<int> elementIds = new();
-            HashSet<int> ruleIds = new();
-            HashSet<int> calcRuleIds = new();
+            HashSet<int> rowIds = [];
+            HashSet<int> columnIds = [];
+            HashSet<int> elementIds = [];
+            HashSet<int> ruleIds = [];
+            HashSet<int> calcRuleIds = [];
 
             foreach (var row in input.Rows)
             {
@@ -412,10 +412,9 @@ namespace BlazorForms.Core.Services
         private async Task CleanTableAsync<T>(HashSet<T> identifiersToDelete, string tableName, string identifierColumnName, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = string.Empty;
-            if (identifiersToDelete.Any())
+            if (identifiersToDelete.Count != 0)
             {
-                sql = $"DELETE FROM {tableName} WHERE {identifierColumnName} IN ({string.Join(",", identifiersToDelete)})";
+                string sql = $"DELETE FROM {tableName} WHERE {identifierColumnName} IN ({string.Join(",", identifiersToDelete)})";
                 await dbController.QueryAsync(sql, null, cancellationToken);
             }
         }
@@ -503,7 +502,7 @@ namespace BlazorForms.Core.Services
         private async Task<List<FormElement>> GetElementsAsync(Form form, int entryId, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            List<FormElement> elements = new();
+            List<FormElement> elements = [];
             foreach (ElementType elementType in Enum.GetValues(typeof(ElementType)))
             {
                 // We need to check for each type individually
@@ -543,7 +542,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                     sqlBuilder.AppendLine(" ORDER BY sort_order");
 
                     string sql = sqlBuilder.ToString();
-                    Dictionary<string, object?> parameters = new Dictionary<string, object?>
+                    Dictionary<string, object?> parameters = new()
                     {
                         { "TYPE", elementType.ToString() },
                         { "FORM_ID", form.FormId }
@@ -590,7 +589,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         IEnumerable<FormFileElement> fileElements = (IEnumerable<FormFileElement>)castedElements;
 
                         List<int> elementIds = fileElements.Select(x => x.ElementId).ToList();
-                        List<FormFileElementFile> files = new();
+                        List<FormFileElementFile> files = [];
                         if (entryId > 0)
                         {
                             sql = $"SELECT * FROM form_entries_files WHERE entry_id = @ENTRY_ID AND element_id IN ({string.Join(",", elementIds)})";
@@ -654,7 +653,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
             cancellationToken.ThrowIfCancellationRequested();
             if (entryId <= 0)
             {
-                return new();
+                return [];
             }
 
             string sql = "SELECT * FROM form_entries_table_elements WHERE entry_id = @ENTRY_ID";

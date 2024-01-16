@@ -10,11 +10,10 @@ namespace BlazorForms.Core
     public static class DeepCopyByExpressionTrees
     {
         private static readonly object IsStructTypeToDeepCopyDictionaryLocker = new object();
-        private static Dictionary<Type, bool> IsStructTypeToDeepCopyDictionary = new Dictionary<Type, bool>();
+        private static Dictionary<Type, bool> IsStructTypeToDeepCopyDictionary = [];
 
         private static readonly object CompiledCopyFunctionsDictionaryLocker = new object();
-        private static Dictionary<Type, Func<object, Dictionary<object, object>, object>> CompiledCopyFunctionsDictionary =
-            new Dictionary<Type, Func<object, Dictionary<object, object>, object>>();
+        private static Dictionary<Type, Func<object, Dictionary<object, object>, object>> CompiledCopyFunctionsDictionary = [];
 
         private static readonly Type ObjectType = typeof(object);
         private static readonly Type ObjectDictionaryType = typeof(Dictionary<object, object>);
@@ -50,9 +49,8 @@ namespace BlazorForms.Core
                 return original;
             }
 
-            object alreadyCopiedObject;
 
-            if (copiedReferencesDict.TryGetValue(original, out alreadyCopiedObject))
+            if (copiedReferencesDict.TryGetValue(original, out object alreadyCopiedObject))
             {
                 return alreadyCopiedObject;
             }
@@ -184,9 +182,9 @@ namespace BlazorForms.Core
 
             endLabel = Expression.Label();
 
-            variables = new List<ParameterExpression>();
+            variables = [];
 
-            expressions = new List<Expression>();
+            expressions = [];
 
             variables.Add(outputVariable);
             variables.Add(boxingVariable);
@@ -733,7 +731,7 @@ namespace BlazorForms.Core
 
         private static bool HasInItsHierarchyFieldsWithClasses(Type type, HashSet<Type> alreadyCheckedTypes = null)
         {
-            alreadyCheckedTypes = alreadyCheckedTypes ?? new HashSet<Type>();
+            alreadyCheckedTypes ??= [];
 
             alreadyCheckedTypes.Add(type);
 

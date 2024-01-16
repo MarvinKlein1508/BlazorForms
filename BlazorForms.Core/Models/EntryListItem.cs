@@ -33,7 +33,7 @@ namespace BlazorForms.Core.Models
         [CompareField("priority")]
         public Priority Priority { get; set; }
 
-        public List<int> ManagerIds { get; set; } = new();
+        public List<int> ManagerIds { get; set; } = [];
 
     }
 }

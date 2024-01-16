@@ -220,7 +220,7 @@ namespace BlazorForms.Core.Services
                 await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, false, dbController, cancellationToken);
 
                 // Delete options which are not part of the object anymore.
-                if (elementWithOptions.Options.Any())
+                if (elementWithOptions.Options.Count != 0)
                 {
                     List<int> optionIds = elementWithOptions.Options.Select(x => x.ElementOptionId).ToList();
                     sql = $"DELETE FROM form_elements_options WHERE element_id = @ELEMENT_ID AND element_option_id NOT IN ({string.Join(",", optionIds)})";
@@ -306,10 +306,10 @@ namespace BlazorForms.Core.Services
         private async Task InsertOrUpdateFormElementsOptionsAsync(FormElementWithOptions input, bool forceCreate, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = string.Empty;
             foreach (var option in input.Options)
             {
                 option.ElementId = input.ElementId;
+                string sql;
                 if (option.ElementOptionId is 0 || forceCreate)
                 {
                     sql =
@@ -325,7 +325,7 @@ namespace BlazorForms.Core.Services
                             @NAME
                         ); {dbController.GetLastIdSql()}
                         """;
-                        
+
 
                     option.ElementOptionId = await dbController.GetFirstAsync<int>(sql, option.GetParameters(), cancellationToken);
 
@@ -340,7 +340,7 @@ namespace BlazorForms.Core.Services
                         WHERE
                             element_option_id = @ELEMENT_OPTION_ID
                         """;
-                        
+
                     await dbController.QueryAsync(sql, option.GetParameters(), cancellationToken);
                 }
             }

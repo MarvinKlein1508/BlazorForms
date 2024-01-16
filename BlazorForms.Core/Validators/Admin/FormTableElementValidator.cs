@@ -55,8 +55,8 @@ namespace BlazorForms.Core.Validators.Admin
                  .When(IsEntryMode);
 
             RuleFor(x => x.Elements)
-                .Must(x => x.Any())
-                .WithMessage(x => String.Format(_localizer["VALIDATION_NO_ELEMENTS"], x.Name));
+                .Must(x => x.Count != 0)
+                .WithMessage(x => string.Format(_localizer["VALIDATION_NO_ELEMENTS"], x.Name));
         }
     }
 }

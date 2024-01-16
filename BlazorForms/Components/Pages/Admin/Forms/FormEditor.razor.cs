@@ -26,7 +26,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         public Form? Input { get; set; }
 
         public Form StartCopy { get; set; } = new();
-        public List<FormElement> SelectedFormElementStack { get; set; } = new();
+        public List<FormElement> SelectedFormElementStack { get; set; } = [];
         public FormElement? SelectedFormElement { get; set; }
         public bool EditFormProperties { get; set; }
         public Guid? ScrollToGuid { get; set; }
@@ -37,14 +37,14 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
         private bool _showMobileToolbar;
         private bool _isToolbarDrag;
-        private List<User> _searchUsers = new();
-        private List<User> _searchManagers = new();
+        private List<User> _searchUsers = [];
+        private List<User> _searchManagers = [];
         private HotKeysContext _hotKeysContext = default!;
 
 
         private InputTagOptions _fileTypeOptions = new();
 
-        public List<FormStatus> Statuses { get; set; } = new();
+        public List<FormStatus> Statuses { get; set; } = [];
 
         private async Task<bool> ValidateFileTypeAsync(string fileType)
         {
@@ -92,8 +92,10 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             }
             else
             {
-                Input = new Form();
-                Input.LanguageId = AppdatenService.GetActiveLanguage().Id;
+                Input = new Form
+                {
+                    LanguageId = AppdatenService.GetActiveLanguage().Id
+                };
                 Input.Rows.Add(new FormRow(Input, 1));
                 EditFormProperties = true;
             }
@@ -229,7 +231,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
             if (!validationResult.IsValid)
             {
-                StringBuilder errorBuilder = new StringBuilder();
+                var errorBuilder = new StringBuilder();
                 errorBuilder.AppendLine(localizer["ERROR_VALIDATION"]);
 
                 foreach (var item in validationResult.Errors)
@@ -292,7 +294,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
                     }
                 }
 
-                if (SelectedFormElementStack.Any())
+                if (SelectedFormElementStack.Count != 0)
                 {
                     for (int i = 0; i < SelectedFormElementStack.Count;)
                     {
@@ -397,7 +399,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             {
                 SelectedFormElementStack.Remove(SelectedFormElement);
 
-                if (SelectedFormElementStack.Any())
+                if (SelectedFormElementStack.Count != 0)
                 {
                     SelectedFormElement = SelectedFormElementStack.Last();
                 }

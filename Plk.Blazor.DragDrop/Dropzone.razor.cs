@@ -50,7 +50,7 @@ public partial class Dropzone<TItem>
     private bool IsMaxItemLimitReached()
     {
         var activeItem = DragDropService.ActiveItem;
-        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
+        return !Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count;
     }
 
     private string IsItemDragable(TItem item)
@@ -93,10 +93,7 @@ public partial class Dropzone<TItem>
 
     public void OnDragEnd()
     {
-        if (DragEnd != null)
-        {
-            DragEnd(DragDropService.ActiveItem);
-        }
+        DragEnd?.Invoke(DragDropService.ActiveItem);
 
         DragDropService.Reset();
     }
@@ -395,9 +392,7 @@ public partial class Dropzone<TItem>
         {
             if (indexDraggedOverItem == indexActiveItem)
                 return;
-            TItem tmp = Items[indexDraggedOverItem];
-            Items[indexDraggedOverItem] = Items[indexActiveItem];
-            Items[indexActiveItem] = tmp;
+            (Items[indexActiveItem], Items[indexDraggedOverItem]) = (Items[indexDraggedOverItem], Items[indexActiveItem]);
             OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
         }
         else //no instant replace, just insert it after

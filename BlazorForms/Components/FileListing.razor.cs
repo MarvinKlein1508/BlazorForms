@@ -6,7 +6,7 @@ namespace BlazorForms.Components
     public partial class FileListing
     {
         [Parameter, EditorRequired]
-        public List<FormFileElementFile> Files { get; set; } = new();
+        public List<FormFileElementFile> Files { get; set; } = [];
 
 
         private bool IsImage(FormFileElementFile file) => file.ContentType.StartsWith("image/");

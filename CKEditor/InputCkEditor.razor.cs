@@ -12,7 +12,7 @@ namespace CKEditor
 #nullable enable
         [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
-        private Guid _id;
+        private readonly Guid _id;
 
         public InputCkEditor()
         {
@@ -23,10 +23,7 @@ namespace CKEditor
         [JSInvokable]
         public async Task EditorDataChanged(string? data)
         {
-            if (data is null)
-            {
-                data = String.Empty;
-            }
+            data ??= String.Empty;
             Value = data;
             _originalValue = Value;
             await ValueChanged.InvokeAsync(data);

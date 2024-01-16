@@ -25,7 +25,7 @@ namespace BlazorForms.Components
         public FormEntryFilter? SavedFilter { get; set; }
         public int TotalItems { get; set; }
         public int TotalPages => (int)Math.Ceiling((double)TotalItems / (double)(Filter?.Limit ?? DefaultFilter.Limit));
-        public List<EntryListItem> Data { get; set; } = new();
+        public List<EntryListItem> Data { get; set; } = [];
 
         [Parameter, EditorRequired]
         public string NavUrl { get; set; } = string.Empty;
@@ -33,12 +33,12 @@ namespace BlazorForms.Components
         public string BaseUrl { get; set; } = string.Empty;
         [Parameter, EditorRequired]
         public int CurrentPage { get; set; }
-        public List<EntryListItem> DownloadingList { get; set; } = new();
+        public List<EntryListItem> DownloadingList { get; set; } = [];
 
         public bool UserCanDeleteEntries { get; set; }
         public User? User { get; set; }
 
-        private List<FormStatus> Statuses { get; set; } = new();
+        private List<FormStatus> Statuses { get; set; } = [];
 
         protected override async Task OnParametersSetAsync()
         {

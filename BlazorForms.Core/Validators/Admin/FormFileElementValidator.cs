@@ -18,9 +18,9 @@ namespace BlazorForms.Core.Validators.Admin
         {
             var element = context.InstanceToValidate;
 
-            if (IsValueRequired(element) && !value.Any())
+            if (IsValueRequired(element) && value.Count == 0)
             {
-                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
+                context.AddFailure(new ValidationFailure(context.PropertyPath, string.Format(_localizer["VALIDATION_REQUIRED"], element.Name)));
             }
         }
     }

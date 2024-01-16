@@ -80,7 +80,7 @@ namespace BlazorForms.Components.Pages
                         return;
                     }
 
-                    if (form.IsOnlyAvailableForLoggedInUsers && form.AllowedUsersForNewEntries.Any() && _user is not null && form.AllowedUsersForNewEntries.FirstOrDefault(x => x.UserId == _user.UserId) is null)
+                    if (form.IsOnlyAvailableForLoggedInUsers && form.AllowedUsersForNewEntries.Count != 0 && _user is not null && form.AllowedUsersForNewEntries.FirstOrDefault(x => x.UserId == _user.UserId) is null)
                     {
                         await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_NO_PERMISSION_NEW"]);
                         navigationManager.NavigateTo($"/");
@@ -199,7 +199,7 @@ namespace BlazorForms.Components.Pages
                 // E-Mail support
                 if (emailConfig.Value.Enabled && createEntry && Input.Form.ManagerUsers.Count != 0)
                 {
-                    MimeMessage email = new MimeMessage();
+                    MimeMessage email = new();
                     email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
 
                     var status = AppdatenService.Get<FormStatus>(Input.Form.DefaultStatusId) ?? throw new NullReferenceException($"Status cannot be null");
@@ -217,7 +217,7 @@ namespace BlazorForms.Components.Pages
                         }
                     }
 
-                    if (email.To.Any())
+                    if (email.To.Count != 0)
                     {
                         email.Subject = String.Format(localizer["EMAIL_NEW_ENTRY_SUBJECT"], Input.Form.Name);
 
@@ -244,7 +244,7 @@ namespace BlazorForms.Components.Pages
                             filename = $"{Input.Form.Name}_{Input.EntryId}";
                         }
 
-                        using MemoryStream memoryStream = new MemoryStream(bytes);
+                        using MemoryStream memoryStream = new(bytes);
                         // create an image attachment for the file located at path
                         var attachment = new MimePart("application", "pdf")
                         {
@@ -356,7 +356,7 @@ namespace BlazorForms.Components.Pages
                     }
                 }
 
-                if (fileElement.AllowMultipleFiles || !fileElement.Values.Any())
+                if (fileElement.AllowMultipleFiles || fileElement.Values.Count == 0)
                 {
                     await using MemoryStream fs = new();
                     await file.OpenReadStream(file.Size).CopyToAsync(fs);

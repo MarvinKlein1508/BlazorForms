@@ -10,7 +10,7 @@ namespace BlazorForms.Components.Layout
     {
         private Sidebar _sidebar = default!;
         private Offcanvas _offcanvas = default!;
-        IEnumerable<NavItem> navItems = default!;
+        IEnumerable<NavItem> _navItems = default!;
 
         public User? User { get; set; }
         private List<Notification> _notifications = [];
@@ -34,9 +34,8 @@ namespace BlazorForms.Components.Layout
 
         private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
         {
-            if (navItems is null)
-                navItems = await GetNavItems().ToListAsync();
-            return await Task.FromResult(request.ApplyTo(navItems));
+            _navItems ??= await GetNavItems().ToListAsync();
+            return await Task.FromResult(request.ApplyTo(_navItems));
         }
 
         private async IAsyncEnumerable<NavItem> GetNavItems()

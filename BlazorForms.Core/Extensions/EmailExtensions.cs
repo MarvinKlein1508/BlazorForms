@@ -37,7 +37,7 @@ namespace BlazorForms.Core.Extensions
 
         public static Task SendMailForEntryStatusChangeAsync(this FormEntryStatusChange status_change, List<string> emailAdresses, FormEntry entry, string baseUrl, EmailSettings settings)
         {
-            MimeMessage email = new MimeMessage();
+            MimeMessage email = new();
             email.From.Add(new MailboxAddress(settings.SenderName, settings.SenderEmail));
             foreach (var emailAdress in emailAdresses)
             {
@@ -48,7 +48,7 @@ namespace BlazorForms.Core.Extensions
                 }
             }
 
-            if (email.Bcc.Any())
+            if (email.Bcc.Count != 0)
             {
                 email.Subject = $"Statusänderung des Formulareintrags {entry.Name} ({entry.Id})";
 

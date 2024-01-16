@@ -19,7 +19,7 @@ namespace BlazorForms.Components.Pages
         public int TotalItems { get; set; }
         public int TotalPages => TotalItems / Filter.Limit;
 
-        public List<Form> Data { get; set; } = new();
+        public List<Form> Data { get; set; } = [];
         private User? _user;
         private bool _isLoading = true;
         protected override async Task OnParametersSetAsync()

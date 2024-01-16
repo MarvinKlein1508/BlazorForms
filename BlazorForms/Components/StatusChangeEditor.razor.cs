@@ -26,7 +26,7 @@ namespace BlazorForms.Components
         public FormEntryStatusChange? Input { get; set; }
         private EditForm? _form;
 
-        private List<User> _availableForNotification = new();
+        private List<User> _availableForNotification = [];
         private bool _allowStatusChange;
         protected override async Task OnInitializedAsync()
         {
@@ -89,8 +89,8 @@ namespace BlazorForms.Components
 
         private async Task<List<User>> SetupNotifiersAsync(FormEntry entry, User currentUser)
         {
-            List<User> result = new();
-            List<int> userIds = new();
+            List<User> result = [];
+            List<int> userIds = [];
 
             // Generate list of available notifiers
             foreach (var user in entry.Form.ManagerUsers)
@@ -167,7 +167,7 @@ namespace BlazorForms.Components
                 // Send E-Mails
                 if (emailSettings.Value.Enabled && Input.Notifiers.Any(x => x.Notify))
                 {
-                    List<string> email_addresses = new();
+                    List<string> email_addresses = [];
 
                     foreach (var notify in Input.Notifiers.Where(x => x.Notify))
                     {
@@ -175,7 +175,7 @@ namespace BlazorForms.Components
                         email_addresses.Add(user.Email);
                     }
 
-                    if (email_addresses.Any())
+                    if (email_addresses.Count != 0)
                     {
                         await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
                     }

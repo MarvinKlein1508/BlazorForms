@@ -18,7 +18,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             Limit = AppdatenService.PageLimit
         };
 
-        public List<Form> Data { get; set; } = new();
+        public List<Form> Data { get; set; } = [];
         [Parameter]
         public int Page { get; set; }
         public int TotalItems { get; set; }

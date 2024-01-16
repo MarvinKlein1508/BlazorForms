@@ -18,13 +18,13 @@ namespace BlazorForms.Core.Extensions
 
         public static bool ValidateRules(this List<Rule> rules)
         {
-            if (!rules.Any())
+            if (rules.Count == 0)
             {
                 return true;
             }
 
 
-            List<(LogicalOperator logicOperator, bool result)> checkedRules = new();
+            List<(LogicalOperator logicOperator, bool result)> checkedRules = [];
 
             foreach (var rule in rules)
             {
@@ -84,7 +84,7 @@ namespace BlazorForms.Core.Extensions
             }
 
             // When someone has manipulated the values within the database then me might not have any results at all.
-            if (!checkedRules.Any())
+            if (checkedRules.Count == 0)
             {
                 return false;
             }
@@ -93,12 +93,12 @@ namespace BlazorForms.Core.Extensions
 
             for (int i = 1; i < checkedRules.Count; i++)
             {
-                (LogicalOperator logicOperator, bool result) tmp = checkedRules[i];
+                (LogicalOperator logicOperator, bool result) = checkedRules[i];
 
-                returnResult = tmp.logicOperator switch
+                returnResult = logicOperator switch
                 {
-                    LogicalOperator.And => returnResult && tmp.result,
-                    LogicalOperator.Or => returnResult || tmp.result,
+                    LogicalOperator.And => returnResult && result,
+                    LogicalOperator.Or => returnResult || result,
                     _ => false,
                 };
             }

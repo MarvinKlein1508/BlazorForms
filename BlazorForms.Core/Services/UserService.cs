@@ -149,7 +149,7 @@ namespace BlazorForms.Core.Services
 
         public string GetFilterWhere(UserFilter filter)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
             {
@@ -161,7 +161,7 @@ namespace BlazorForms.Core.Services
 )");
             }
 
-            if (filter.BlockedIds.Any())
+            if (filter.BlockedIds.Count != 0)
             {
                 sb.AppendLine($" AND user_id NOT IN ({string.Join(",", filter.BlockedIds)})");
             }

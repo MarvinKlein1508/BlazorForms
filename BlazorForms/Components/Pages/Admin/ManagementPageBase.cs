@@ -16,7 +16,7 @@ namespace BlazorForms.Components.Pages.Admin
         protected ConfirmDialog _deleteModal = default!;
         [Inject] public TService Service { get; set; } = default!;
 
-        protected List<T> Data { get; set; } = new();
+        protected List<T> Data { get; set; } = [];
 
         protected override Task OnInitializedAsync()
         {

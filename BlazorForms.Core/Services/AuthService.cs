@@ -70,7 +70,7 @@ namespace BlazorForms.Core.Services
             var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            Dictionary<string, bool> results = new();
+            Dictionary<string, bool> results = [];
 
             foreach (var roleName in roleNames)
             {

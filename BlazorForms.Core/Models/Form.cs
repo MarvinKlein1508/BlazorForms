@@ -16,7 +16,7 @@ namespace BlazorForms.Core.Models
         [CompareField("description")]
         public string Description { get; set; } = string.Empty;
         [CompareField("login_required")]
-        public bool IsOnlyAvailableForLoggedInUsers { get => _isOnlyAvailableForLoggedInUsers || AllowedUsersForNewEntries.Any(); set => _isOnlyAvailableForLoggedInUsers = value; }
+        public bool IsOnlyAvailableForLoggedInUsers { get => _isOnlyAvailableForLoggedInUsers || AllowedUsersForNewEntries.Count != 0; set => _isOnlyAvailableForLoggedInUsers = value; }
         [CompareField("is_active")]
         public bool IsActive { get; set; }
         [CompareField("default_status_id")]
@@ -24,10 +24,10 @@ namespace BlazorForms.Core.Models
         [CompareField("language_id")]
         public int LanguageId { get; set; }
         [CompareField("logo")]
-        public byte[] Logo { get; set; } = Array.Empty<byte>();
+        public byte[] Logo { get; set; } = [];
 
         [CompareField("image")]
-        public byte[] Image { get; set; } = Array.Empty<byte>();
+        public byte[] Image { get; set; } = [];
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
@@ -38,15 +38,15 @@ namespace BlazorForms.Core.Models
         public string DefaultName { get; set; } = string.Empty;
         public int Id => FormId;
         public bool EntryMode { get; set; }
-        public List<FormRow> Rows { get; set; } = new();
+        public List<FormRow> Rows { get; set; } = [];
         /// <summary>
         /// Gets all users which are capable of creating a new <see cref="FormEntry"/> for this form.
         /// </summary>
-        public List<User> AllowedUsersForNewEntries { get; set; } = new();
+        public List<User> AllowedUsersForNewEntries { get; set; } = [];
         /// <summary>
         /// Gets all users which are capable of editing and deleting entries for this form.
         /// </summary>
-        public List<User> ManagerUsers { get; set; } = new();
+        public List<User> ManagerUsers { get; set; } = [];
         public virtual Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
@@ -66,7 +66,7 @@ namespace BlazorForms.Core.Models
 
         public void RemoveEmptyRows()
         {
-            var list = Rows.Where(x => !x.Columns.Any()).ToList();
+            var list = Rows.Where(x => x.Columns.Count == 0).ToList();
             foreach (var item in list)
             {
                 Rows.Remove(item);
@@ -120,9 +120,7 @@ namespace BlazorForms.Core.Models
                 }
             }
         }
-        [Obsolete]
-        public IEnumerable<FormElement> GetRuleElements() => GetElements().Where(x => x.GetElementType() is ElementType.Number or ElementType.Checkbox or ElementType.Select or ElementType.Date or ElementType.Radio);
-
+        
         public IEnumerable<FormNumberElement> GetCalcRuleSetElements(bool tableElements)
         {
             foreach (var element in GetElements())

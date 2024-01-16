@@ -49,11 +49,10 @@ VALUES
         private async Task CreateElementsAsync(FormEntry input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = string.Empty;
             foreach (var element in input.Form.GetElements())
             {
                 element.EntryId = input.EntryId;
-                sql = @"INSERT INTO form_entries_elements
+                string sql = @"INSERT INTO form_entries_elements
 (
 entry_id,
 form_id,
@@ -210,7 +209,7 @@ entry_id = @ENTRY_ID";
         public async Task<List<EntryListItem>> GetAsync(FormEntryFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new StringBuilder();
+            var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendLine($@"SELECT DISTINCT fe.*, 
 COALESCE(u1.display_name, '') AS username_creator, 
 COALESCE(u2.display_name, '') AS username_last_change,
@@ -259,7 +258,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
         public async Task<int> GetTotalAsync(FormEntryFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new StringBuilder();
+            var sqlBuilder = new StringBuilder();
 
             sqlBuilder.AppendLine(@$"SELECT COUNT(DISTINCT(fe.entry_id))
 FROM form_entries fe
@@ -286,7 +285,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
         public string GetFilterWhere(FormEntryFilter filter)
         {
-            StringBuilder sqlBuilder = new StringBuilder();
+            var sqlBuilder = new StringBuilder();
 
             if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
             {

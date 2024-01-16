@@ -12,7 +12,7 @@ namespace BlazorForms.Core.Services
     {
         public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
 
-        public static List<CultureInfo> SupportedCultures { get; set; } = new();
+        public static List<CultureInfo> SupportedCultures { get; set; } = [];
 
 
         public static bool FirstUserExists { get; set; } = false;
@@ -169,7 +169,7 @@ namespace BlazorForms.Core.Services
         public static string LdapDomainServer => _configuration?["LdapSettings:DOMAIN_SERVER"] ?? string.Empty;
         public static string LdapDistinguishedName => _configuration?["LdapSettings:DistinguishedName"] ?? string.Empty;
 
-        public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? new Dictionary<string, string>();
+        public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? [];
         public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
         
         public static Language GetActiveLanguage()

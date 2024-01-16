@@ -22,10 +22,12 @@ namespace BlazorForms.Components.Pages.Account
     {
         private readonly UserService _userService;
         private readonly IStringLocalizer<LoginModel> _localizer;
+        private static readonly string[] _attributeList = ["cn", "mail", "givenName", "sn", "objectGUID"];
 
         [BindProperty]
         public LoginInput Input { get; set; } = new LoginInput();
         public string? ReturnUrl { get; set; }
+
 
         public LoginModel(UserService userService, IStringLocalizer<LoginModel> localizer)
         {
@@ -61,7 +63,7 @@ namespace BlazorForms.Components.Pages.Account
                 // Lokale Konten müssen als ersten geprüft werden.
                 if (user is not null)
                 {
-                    PasswordHasher<User> hasher = new PasswordHasher<User>();
+                    PasswordHasher<User> hasher = new();
 
                     string passwordHashed = hasher.HashPassword(user, Input.Password + user.Salt);
 
@@ -90,20 +92,13 @@ namespace BlazorForms.Components.Pages.Account
                                 (
                                 AppdatenService.LdapDistinguishedName,
                 $"(SAMAccountName={Input.Username})",
-                                SearchScope.Subtree, new string[]
-                                {
-                                "cn",
-                                "mail",
-                                "givenName",
-                                "sn",
-                                "objectGUID"
-                                });
+                                SearchScope.Subtree, _attributeList);
 
                             SearchResponse directoryResponse = (SearchResponse)connection.SendRequest(searchRequest);
 
                             SearchResultEntry searchResultEntry = directoryResponse.Entries[0];
 
-                            Dictionary<string, string> attributes = new Dictionary<string, string>();
+                            Dictionary<string, string> attributes = [];
                             Guid? guid = null;
                             foreach (DirectoryAttribute userReturnAttribute in searchResultEntry.Attributes.Values)
                             {
@@ -119,20 +114,10 @@ namespace BlazorForms.Components.Pages.Account
                                 }
                             }
 
-                            if (!attributes.ContainsKey("mail"))
-                            {
-                                attributes.Add("mail", string.Empty);
-                            }
+                            attributes.TryAdd("mail", string.Empty);
+                            attributes.TryAdd("sn", string.Empty);
+                            attributes.TryAdd("givenName", string.Empty);
 
-                            if (!attributes.ContainsKey("sn"))
-                            {
-                                attributes.Add("sn", string.Empty);
-                            }
-
-                            if (!attributes.ContainsKey("givenName"))
-                            {
-                                attributes.Add("givenName", string.Empty);
-                            }
 
                             if (guid is null)
                             {
@@ -180,7 +165,7 @@ namespace BlazorForms.Components.Pages.Account
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim("userId", user.UserId.ToString()),
+                        new("userId", user.UserId.ToString()),
                     };
 
                     foreach (var permission in user.Permissions)
