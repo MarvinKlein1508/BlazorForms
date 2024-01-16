@@ -149,6 +149,14 @@ namespace BlazorForms.Components.Pages.Account
                                 await _userService.CreateAsync(user, dbController);
                                 AppdatenService.FirstUserExists = true;
                             }
+                            else
+                            {
+                                user.Email = attributes["mail"];
+                                user.DisplayName = $"{attributes["givenName"]} {attributes["sn"]}";
+                                user.Username = Input.Username.ToUpper();
+
+                                await _userService.UpdateAsync(user, dbController);
+                            }
 
 
 
