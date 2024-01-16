@@ -9,20 +9,23 @@ namespace BlazorForms.Core.Services
     {
         public async Task SaveAsync(SavedFilter input, IDbController dbController, CancellationToken cancellationToken = default)
         {
-            string sql = @$"REPLACE INTO user_filter
-(
-    user_id,
-    filter_type,
-    page,
-    serialized
-)
-VALUES
-(
-    @USER_ID,
-    @FILTER_TYPE,
-    @PAGE,
-    @SERIALIZED
-)";
+            string sql =
+                """
+                REPLACE INTO user_filter
+                (
+                    user_id,
+                    filter_type,
+                    page,
+                    serialized
+                )
+                VALUES
+                (
+                    @USER_ID,
+                    @FILTER_TYPE,
+                    @PAGE,
+                    @SERIALIZED
+                )
+                """;
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
@@ -50,8 +53,5 @@ VALUES
 
             return defaultFilter;
         }
-
-
-
     }
 }

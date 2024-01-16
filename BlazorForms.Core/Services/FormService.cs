@@ -19,30 +19,33 @@ namespace BlazorForms.Core.Services
         {
             cancellationToken.ThrowIfCancellationRequested();
             input.Rows.SetSortOrder();
-            string sql = $@"INSERT INTO forms
-(
-name,
-description,
-logo,
-image,
-login_required,
-is_active,
-default_status_id,
-language_id,
-default_name
-)
-VALUES
-(
-@NAME,
-@DESCRIPTION,
-@LOGO,
-@IMAGE,
-@LOGIN_REQUIRED,
-@IS_ACTIVE,
-@DEFAULT_STATUS_ID,
-@LANGUAGE_ID,
-@DEFAULT_NAME
-); {dbController.GetLastIdSql()}";
+            string sql =
+                $"""
+                INSERT INTO forms
+                (
+                    name,
+                    description,
+                    logo,
+                    image,
+                    login_required,
+                    is_active,
+                    default_status_id,
+                    language_id,
+                    default_name
+                )
+                VALUES
+                (
+                    @NAME,
+                    @DESCRIPTION,
+                    @LOGO,
+                    @IMAGE,
+                    @LOGIN_REQUIRED,
+                    @IS_ACTIVE,
+                    @DEFAULT_STATUS_ID,
+                    @LANGUAGE_ID,
+                    @DEFAULT_NAME
+                ); {dbController.GetLastIdSql()}
+                """;
 
             input.FormId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
@@ -199,24 +202,23 @@ VALUES
         {
             cancellationToken.ThrowIfCancellationRequested();
             input.Rows.SetSortOrder();
-            string sql = @"UPDATE forms SET
-name = @NAME,
-description = @DESCRIPTION,
-logo = @LOGO,
-image = @IMAGE,
-login_required = @LOGIN_REQUIRED,
-is_active = @IS_ACTIVE,
-default_status_id = @DEFAULT_STATUS_ID,
-language_id = @LANGUAGE_ID,
-default_name = @DEFAULT_NAME
-WHERE
-form_id = @FORM_ID";
-
-
+            string sql =
+                """
+                UPDATE forms SET
+                    name = @NAME,
+                    description = @DESCRIPTION,
+                    logo = @LOGO,
+                    image = @IMAGE,
+                    login_required = @LOGIN_REQUIRED,
+                    is_active = @IS_ACTIVE,
+                    default_status_id = @DEFAULT_STATUS_ID,
+                    language_id = @LANGUAGE_ID,
+                    default_name = @DEFAULT_NAME
+                WHERE
+                    form_id = @FORM_ID
+                """;
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
-
-
 
             foreach (var row in input.Rows)
             {
@@ -423,42 +425,59 @@ form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormRow>> GetRowsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
+        private Task<List<FormRow>> GetRowsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string sql = "SELECT * FROM form_rows WHERE form_id = @FORM_ID ORDER BY sort_order";
 
-            List<FormRow> rows = await dbController.SelectDataAsync<FormRow>(sql, new
+            return dbController.SelectDataAsync<FormRow>(sql, new
             {
                 FORM_ID = form.FormId,
             }, cancellationToken);
-
-            return rows;
         }
-        private async Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController, CancellationToken cancellationToken = default)
+        private Task<List<User>> GetAllowedUsersForNewFormEntries(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin FROM form_to_user fu
-INNER JOIN users u ON (u.user_id = fu.user_id)
-WHERE fu.form_id = @FORM_ID";
+            string sql =
+                """
+                SELECT 
+                    u.user_id, 
+                    u.username, 
+                    u.display_name, 
+                    u.email, 
+                    u.origin 
+                FROM form_to_user fu
+                INNER JOIN users u ON (u.user_id = fu.user_id)
+                WHERE 
+                    fu.form_id = @FORM_ID
+                """;
 
-            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
-
-            return results;
+            return dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
         }
 
 
 
-        private async Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
+        private Task<List<User>> GetManagersForFormAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"SELECT u.user_id, u.username, u.display_name, u.email, u.origin, fm.receive_email, fm.can_approve, fm.status_change_notification_default FROM form_managers fm
-INNER JOIN users u ON (u.user_id = fm.user_id)
-WHERE fm.form_id = @FORM_ID";
+            string sql =
+                """
+                SELECT 
+                    u.user_id, 
+                    u.username, 
+                    u.display_name, 
+                    u.email, 
+                    u.origin, 
+                    fm.receive_email, 
+                    fm.can_approve, 
+                    fm.status_change_notification_default 
+                FROM form_managers fm
+                INNER JOIN users u ON (u.user_id = fm.user_id)
+                WHERE 
+                    fm.form_id = @FORM_ID
+                """;
 
-            List<User> results = await dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
-
-            return results;
+            return dbController.SelectDataAsync<User>(sql, form.GetParameters(), cancellationToken);
         }
         /// <summary>
         /// Get the base <see cref="FormColumn"/> objects for a specific form.
@@ -466,16 +485,14 @@ WHERE fm.form_id = @FORM_ID";
         /// <param name="form"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        private async Task<List<FormColumn>> GetColumnsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
+        private Task<List<FormColumn>> GetColumnsAsync(Form form, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string sql = $"SELECT * FROM form_columns WHERE form_id = @FORM_ID ORDER BY sort_order";
-            List<FormColumn> columns = await dbController.SelectDataAsync<FormColumn>(sql, new
+            return dbController.SelectDataAsync<FormColumn>(sql, new
             {
                 FORM_ID = form.FormId,
             }, cancellationToken);
-
-            return columns;
         }
         /// <summary>
         /// Get the base <see cref="FormElement"/> objects for a specific form.
@@ -698,16 +715,20 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
 
             foreach (var user in input.AllowedUsersForNewEntries)
             {
-                sql = @"INSERT INTO form_to_user
-(
-form_id,
-user_id 
-)
-VALUES
-(
-@FORM_ID,
-@USER_ID
-)";
+                sql =
+                    """
+                    INSERT INTO form_to_user
+                    (
+                        form_id,
+                        user_id 
+                    )
+                    VALUES
+                    (
+                        @FORM_ID,
+                        @USER_ID
+                    )
+                    """;
+                    
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
@@ -726,22 +747,26 @@ VALUES
 
             foreach (var user in input.ManagerUsers)
             {
-                sql = @"INSERT INTO form_managers
-(
-form_id,
-user_id,
-receive_email,
-can_approve,
-status_change_notification_default
-)
-VALUES
-(
-@FORM_ID,
-@USER_ID,
-@RECEIVE_EMAIL,
-@CAN_APPROVE,
-@STATUS_CHANGE_NOTIFICATION_DEFAULT
-)";
+                sql =
+                    """
+                    INSERT INTO form_managers
+                    (
+                        form_id,
+                        user_id,
+                        receive_email,
+                        can_approve,
+                        status_change_notification_default
+                    )
+                    VALUES
+                    (
+                        @FORM_ID,
+                        @USER_ID,
+                        @RECEIVE_EMAIL,
+                        @CAN_APPROVE,
+                        @STATUS_CHANGE_NOTIFICATION_DEFAULT
+                    )
+                    """;
+                    
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,

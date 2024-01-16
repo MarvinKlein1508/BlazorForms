@@ -10,30 +10,33 @@ namespace BlazorForms.Core.Services
         public async Task CreateAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = $@"INSERT INTO form_status
-(
-    requires_approval,
-    is_completed,
-    sort_order
-)
-VALUES
-(
-    @REQUIRES_APPROVAL,
-    @IS_COMPLETED,
-    @SORT_ORDER
-); {dbController.GetLastIdSql()}";
+            string sql =
+                $"""
+                INSERT INTO form_status
+                (
+                    requires_approval,
+                    is_completed,
+                    sort_order
+                )
+                VALUES
+                (
+                    @REQUIRES_APPROVAL,
+                    @IS_COMPLETED,
+                    @SORT_ORDER
+                ); {dbController.GetLastIdSql()}
+                """;
 
             input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             await CreateOrUpdateDescriptionsAsync(input, dbController, cancellationToken);
         }
 
-        public async Task DeleteAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
+        public Task DeleteAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM form_status WHERE status_id = @STATUS_ID";
 
-            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
+            return dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
 
         public async Task<FormStatus?> GetAsync(int statusId, IDbController dbController, CancellationToken cancellationToken = default)
@@ -61,21 +64,21 @@ VALUES
         public async Task<List<FormStatus>> GetAsync(FormStatusFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new();
-            sqlBuilder.AppendLine("SELECT fs.* FROM form_status fs");
-            sqlBuilder.AppendLine("LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)");
-            sqlBuilder.AppendLine("WHERE 1 = 1");
-            sqlBuilder.AppendLine(GetFilterWhere(filter));
-            sqlBuilder.AppendLine(@$"  ORDER BY sort_order ASC");
-            sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
-
-            // Zum Debuggen schreiben wir den Wert einmal als Variabel
-            string sql = sqlBuilder.ToString();
-
+            string sql =
+                $"""
+                SELECT 
+                    fs.* 
+                FROM form_status fs
+                LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)
+                WHERE 1 = 1 {GetFilterWhere(filter)}
+                ORDER BY 
+                    sort_order ASC
+                {dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit)}
+                """;
+            
             List<FormStatus> list = await dbController.SelectDataAsync<FormStatus>(sql, GetFilterParameter(filter), cancellationToken);
 
-
-            if (list.Any())
+            if (list.Count != 0)
             {
                 IEnumerable<int> statusIds = list.Select(x => x.Id);
                 sql = $"SELECT * FROM form_status_description WHERE status_id IN ({string.Join(",", statusIds)})";
@@ -114,30 +117,33 @@ VALUES
             return sql;
         }
 
-        public async Task<int> GetTotalAsync(FormStatusFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
+        public Task<int> GetTotalAsync(FormStatusFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new();
-            sqlBuilder.AppendLine("SELECT COUNT(*) FROM form_status fs");
-            sqlBuilder.AppendLine("LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)");
-            sqlBuilder.AppendLine("WHERE 1 = 1");
-            sqlBuilder.AppendLine(GetFilterWhere(filter));
-
-            string sql = sqlBuilder.ToString();
-
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
-
-            return result;
+            string sql =
+                $"""
+                SELECT 
+                    COUNT(*) 
+                FROM form_status fs
+                LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)
+                WHERE 1 = 1 {GetFilterWhere(filter)}
+                """;
+            
+            return dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
         }
 
         public async Task UpdateAsync(FormStatus input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"UPDATE form_status SET
-requires_approval = @REQUIRES_APPROVAL,
-is_completed = @IS_COMPLETED,
-sort_order = @SORT_ORDER
-WHERE status_id = @STATUS_ID";
+            string sql =
+                """
+                UPDATE form_status SET
+                    requires_approval = @REQUIRES_APPROVAL,
+                    is_completed = @IS_COMPLETED,
+                    sort_order = @SORT_ORDER
+                WHERE 
+                    status_id = @STATUS_ID
+                """;
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
@@ -153,20 +159,24 @@ WHERE status_id = @STATUS_ID";
 
             foreach (var parameters in input.GetLocalizedParameters())
             {
-                sql = @"INSERT INTO form_status_description
-(
-    status_id,
-    code,
-    name,
-    description
-)
-VALUES
-(
-    @STATUS_ID,
-    @CODE,
-    @NAME,
-    @DESCRIPTION
-)";
+                sql =
+                    """
+                    INSERT INTO form_status_description
+                    (
+                        status_id,
+                        code,
+                        name,
+                        description
+                    )
+                    VALUES
+                    (
+                        @STATUS_ID,
+                        @CODE,
+                        @NAME,
+                        @DESCRIPTION
+                    )
+                    """;
+
                 await dbController.QueryAsync(sql, parameters, cancellationToken);
             }
         }
@@ -189,13 +199,11 @@ VALUES
             return statuses;
         }
 
-        public async Task<int> GetTotalStatusAmount(IDbController dbController)
+        public Task<int> GetTotalStatusAmount(IDbController dbController)
         {
             string sql = "SELECT COUNT(*) FROM form_status";
 
-            int result = await dbController.GetFirstAsync<int>(sql);
-
-            return result;
+            return dbController.GetFirstAsync<int>(sql);
         }
     }
 }

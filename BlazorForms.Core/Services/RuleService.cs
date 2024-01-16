@@ -9,37 +9,40 @@ namespace BlazorForms.Core.Services
         public async Task CreateAsync(Rule input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @$"INSERT INTO form_rules
-(
-form_id,
-row_id,
-column_id,
-element_id,
-logical_operator,
-element_guid,
-comparison_operator,
-value_boolean,
-value_string,
-value_number,
-value_date,
-sort_order
-)
-VALUES
-(
-@FORM_ID,
-@ROW_ID,
-@COLUMN_ID,
-@ELEMENT_ID,
-@LOGICAL_OPERATOR,
-@ELEMENT_GUID,
-@COMPARISON_OPERATOR,
-@VALUE_BOOLEAN,
-@VALUE_STRING,
-@VALUE_NUMBER,
-@VALUE_DATE,
-@SORT_ORDER
-); {dbController.GetLastIdSql()}";
-
+            string sql =
+                $"""
+                INSERT INTO form_rules
+                (
+                    form_id,
+                    row_id,
+                    column_id,
+                    element_id,
+                    logical_operator,
+                    element_guid,
+                    comparison_operator,
+                    value_boolean,
+                    value_string,
+                    value_number,
+                    value_date,
+                    sort_order
+                )
+                VALUES
+                (
+                    @FORM_ID,
+                    @ROW_ID,
+                    @COLUMN_ID,
+                    @ELEMENT_ID,
+                    @LOGICAL_OPERATOR,
+                    @ELEMENT_GUID,
+                    @COMPARISON_OPERATOR,
+                    @VALUE_BOOLEAN,
+                    @VALUE_STRING,
+                    @VALUE_NUMBER,
+                    @VALUE_DATE,
+                    @SORT_ORDER
+                ); {dbController.GetLastIdSql()}
+                """;
+                
             input.RuleId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
         }
 
@@ -56,21 +59,24 @@ VALUES
         public async Task UpdateAsync(Rule input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"UPDATE form_rules SET
-form_id = @FORM_ID,
-row_id = @ROW_ID,
-column_id = @COLUMN_ID,
-element_id = @ELEMENT_ID,
-logical_operator = @LOGICAL_OPERATOR,
-element_guid = @ELEMENT_GUID,
-comparison_operator = @COMPARISON_OPERATOR,
-value_boolean = @VALUE_BOOLEAN,
-value_string = @VALUE_STRING,
-value_number = @VALUE_NUMBER,
-value_date = @VALUE_DATE,
-sort_order = @SORT_ORDER
-WHERE
-rule_id = @RULE_ID";
+            string sql =
+                """
+                UPDATE form_rules SET
+                    form_id = @FORM_ID,
+                    row_id = @ROW_ID,
+                    column_id = @COLUMN_ID,
+                    element_id = @ELEMENT_ID,
+                    logical_operator = @LOGICAL_OPERATOR,
+                    element_guid = @ELEMENT_GUID,
+                    comparison_operator = @COMPARISON_OPERATOR,
+                    value_boolean = @VALUE_BOOLEAN,
+                    value_string = @VALUE_STRING,
+                    value_number = @VALUE_NUMBER,
+                    value_date = @VALUE_DATE,
+                    sort_order = @SORT_ORDER
+                WHERE
+                    rule_id = @RULE_ID
+                """;
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }

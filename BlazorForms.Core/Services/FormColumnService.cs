@@ -21,22 +21,26 @@ namespace BlazorForms.Core.Services
         {
             cancellationToken.ThrowIfCancellationRequested();
             input.Elements.SetSortOrder();
-            string sql = @$"INSERT INTO form_columns 
-(
-form_id,
-row_id,
-is_active,
-rule_type,
-sort_order
-)
-VALUES
-(
-@FORM_ID,
-@ROW_ID,
-@IS_ACTIVE,
-@RULE_TYPE,
-@SORT_ORDER
-); {dbController.GetLastIdSql()}";
+            string sql =
+                $"""
+                INSERT INTO form_columns 
+                (
+                    form_id,
+                    row_id,
+                    is_active,
+                    rule_type,
+                    sort_order
+                )
+                VALUES
+                (
+                    @FORM_ID,
+                    @ROW_ID,
+                    @IS_ACTIVE,
+                    @RULE_TYPE,
+                    @SORT_ORDER
+                ); {dbController.GetLastIdSql()}
+                """;
+                
 
             input.ColumnId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
@@ -84,14 +88,17 @@ VALUES
         {
             cancellationToken.ThrowIfCancellationRequested();
             input.Elements.SetSortOrder();
-            string sql = @"UPDATE form_columns SET
-form_id = @FORM_ID,
-row_id = @ROW_ID,
-is_active = @IS_ACTIVE,
-rule_type = @RULE_TYPE,
-sort_order = @SORT_ORDER
-WHERE
-column_id = @COLUMN_ID";
+            string sql =
+                """
+                UPDATE form_columns SET
+                    form_id = @FORM_ID,
+                    row_id = @ROW_ID,
+                    is_active = @IS_ACTIVE,
+                    rule_type = @RULE_TYPE,
+                    sort_order = @SORT_ORDER
+                WHERE
+                    column_id = @COLUMN_ID
+                """;
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 

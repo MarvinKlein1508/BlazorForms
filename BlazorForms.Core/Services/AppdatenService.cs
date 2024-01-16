@@ -16,8 +16,8 @@ namespace BlazorForms.Core.Services
 
 
         public static bool FirstUserExists { get; set; } = false;
-        public static List<FormElement> Elements { get; } = new List<FormElement>
-        {
+        public static List<FormElement> Elements { get; } =
+        [
             new FormTextElement { Name = "Text" },
             new FormDateElement { Name = "Date" },
             new FormSelectElement { Name = "Select" },
@@ -28,11 +28,11 @@ namespace BlazorForms.Core.Services
             new FormNumberElement { Name ="Number"},
             new FormTableElement { Name = "Table"},
             new FormLabelElement { Name = "Label"}
-        };
+        ];
 
-        public static List<Permission> Permissions { get; set; } = new();
-        public static List<FormStatus> Statuses { get; set; } = new();
-        public static List<Language> Languages { get; set; } = new();
+        public static List<Permission> Permissions { get; set; } = [];
+        public static List<FormStatus> Statuses { get; set; } = [];
+        public static List<Language> Languages { get; set; } = [];
 
         private static IConfiguration? _configuration;
 

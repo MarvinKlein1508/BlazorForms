@@ -16,38 +16,41 @@ namespace BlazorForms.Core.Services
         public async Task CreateAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = $@"INSERT INTO users
-    (
-    username,
-    display_name,
-    active_directory_guid,
-    email,
-    password,
-    salt,
-    origin
-    )
-    VALUES 
-    (
-    @USERNAME,
-    @DISPLAY_NAME,
-    @ACTIVE_DIRECTORY_GUID,
-    @EMAIL,
-    @PASSWORD,
-    @SALT,
-    @ORIGIN
-    ); {dbController.GetLastIdSql()}";
-
+            string sql =
+                $"""
+                INSERT INTO users
+                (
+                    username,
+                    display_name,
+                    active_directory_guid,
+                    email,
+                    password,
+                    salt,
+                    origin
+                )
+                VALUES 
+                (
+                    @USERNAME,
+                    @DISPLAY_NAME,
+                    @ACTIVE_DIRECTORY_GUID,
+                    @EMAIL,
+                    @PASSWORD,
+                    @SALT,
+                    @ORIGIN
+                ); {dbController.GetLastIdSql()}
+                """;
+                
             input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);
         }
 
-        public async Task DeleteAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
+        public Task DeleteAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string sql = "DELETE FROM users WHERE user_id = @USER_ID";
 
-            await dbController.QueryAsync(sql, new
+            return dbController.QueryAsync(sql, new
             {
                 USER_ID = input.UserId,
             }, cancellationToken);
@@ -107,18 +110,19 @@ namespace BlazorForms.Core.Services
         public async Task<List<User>> GetAsync(UserFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new();
-            sqlBuilder.Append("SELECT * FROM users WHERE 1 = 1");
-            sqlBuilder.AppendLine(GetFilterWhere(filter));
-            sqlBuilder.AppendLine(@$"  ORDER BY user_id DESC");
-            sqlBuilder.AppendLine(dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit));
 
-            // Zum Debuggen schreiben wir den Wert einmal als Variabel
-            string sql = sqlBuilder.ToString();
-
+            string sql =
+                $"""
+                SELECT 
+                    * 
+                FROM users 
+                WHERE 1 = 1 {GetFilterWhere(filter)}
+                ORDER BY 
+                    user_id DESC
+                {dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit)}
+                """;
+            
             List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter), cancellationToken);
-
-            // Berechtigungen müssen noch geladen werden
             List<Permission> permissions = await PermissionService.GetAllAsync(dbController);
 
             sql = "SELECT * FROM user_permissions";
@@ -131,8 +135,6 @@ namespace BlazorForms.Core.Services
 
                 user.Permissions = permissions.Where(x => permission_ids.Contains(x.PermissionId)).ToList();
             }
-
-
 
             return list;
         }
@@ -169,29 +171,33 @@ namespace BlazorForms.Core.Services
             return sql;
         }
 
-        public async Task<int> GetTotalAsync(UserFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
+        public Task<int> GetTotalAsync(UserFilter filter, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            StringBuilder sqlBuilder = new();
-            sqlBuilder.AppendLine("SELECT COUNT(*) FROM users WHERE 1 = 1");
-            sqlBuilder.AppendLine(GetFilterWhere(filter));
-
-            string sql = sqlBuilder.ToString();
-
-            int result = await dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
-
-            return result;
+            string sql =
+                $"""
+                SELECT 
+                    COUNT(*) 
+                FROM users 
+                WHERE 1 = 1 {GetFilterWhere(filter)}
+                """;
+            
+            return dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
         }
 
         public async Task UpdateAsync(User input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"UPDATE users SET
-username = @USERNAME,
-display_name = @DISPLAY_NAME,
-email = @EMAIL
-WHERE user_id = @USER_ID";
-
+            string sql =
+                """
+                UPDATE users SET
+                    username = @USERNAME,
+                    display_name = @DISPLAY_NAME,
+                    email = @EMAIL
+                WHERE 
+                    user_id = @USER_ID
+                """;
+                
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);

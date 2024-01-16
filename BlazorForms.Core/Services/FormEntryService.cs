@@ -243,7 +243,7 @@ LEFT JOIN users u2 ON (u2.user_id = fe.last_change_user_id)");
 
                 List<FormManagerMapping> mappings = await dbController.SelectDataAsync<FormManagerMapping>(sql, null, cancellationToken);
 
-                if (mappings.Any())
+                if (mappings.Count != 0)
                 {
                     foreach (var entry in entries)
                     {

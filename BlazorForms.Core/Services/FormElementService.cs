@@ -18,36 +18,39 @@ namespace BlazorForms.Core.Services
         public async Task CreateAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = $@"INSERT INTO form_elements
-(
-form_id,
-row_id,
-column_id,
-table_parent_element_id,
-guid,
-name,
-type,
-is_active,
-is_required,
-reset_on_copy,
-rule_type,
-sort_order
-)
-VALUES
-(
-@FORM_ID,
-@ROW_ID,
-@COLUMN_ID,
-@TABLE_PARENT_ELEMENT_ID,
-@GUID,
-@NAME,
-@TYPE,
-@IS_ACTIVE,
-@IS_REQUIRED,
-@RESET_ON_COPY,
-@RULE_TYPE,
-@SORT_ORDER
-); {dbController.GetLastIdSql()}";
+            string sql =
+                $"""
+                INSERT INTO form_elements
+                (
+                    form_id,
+                    row_id,
+                    column_id,
+                    table_parent_element_id,
+                    guid,
+                    name,
+                    type,
+                    is_active,
+                    is_required,
+                    reset_on_copy,
+                    rule_type,
+                    sort_order
+                )
+                VALUES
+                (
+                    @FORM_ID,
+                    @ROW_ID,
+                    @COLUMN_ID,
+                    @TABLE_PARENT_ELEMENT_ID,
+                    @GUID,
+                    @NAME,
+                    @TYPE,
+                    @IS_ACTIVE,
+                    @IS_REQUIRED,
+                    @RESET_ON_COPY,
+                    @RULE_TYPE,
+                    @SORT_ORDER
+                ); {dbController.GetLastIdSql()}
+                """;
 
             input.ElementId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
@@ -57,14 +60,18 @@ VALUES
 
             if (!string.IsNullOrWhiteSpace(tableName))
             {
-                sql = $@"INSERT INTO {tableName}
-(
-{String.Join($",{Environment.NewLine}", fields)}
-)
-VALUES
-(
-{String.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
-)";
+                sql =
+                    $"""
+                    INSERT INTO {tableName}
+                    (
+                        {string.Join($",{Environment.NewLine}", fields)}
+                    )
+                    VALUES
+                    (
+                        {string.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
+                    )
+                    """;
+                    
 
                 await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
             }
@@ -86,8 +93,7 @@ VALUES
         private static (string tableName, List<string> fields) GetCustomAttributeSql(FormElement input)
         {
             string tableName = string.Empty;
-            List<string> fields = new();
-            fields.Add("element_id");
+            List<string> fields = ["element_id"];
 
             if (input is FormCheckboxElement)
             {
@@ -97,46 +103,25 @@ VALUES
             if (input is FormDateElement)
             {
                 tableName = "form_elements_date_attributes";
-                fields.AddRange(new string[]
-                {
-                    "is_current_date_default",
-                    "min_value",
-                    "max_value"
-                });
+                fields.AddRange(["is_current_date_default", "min_value", "max_value"]);
             }
 
             if (input is FormFileElement)
             {
                 tableName = "form_elements_file_attributes";
-                fields.AddRange(new string[]
-                {
-                    "min_size",
-                    "max_size",
-                    "allow_multiple_files"
-                });
+                fields.AddRange(["min_size", "max_size", "allow_multiple_files"]);
             }
 
             if (input is FormLabelElement)
             {
                 tableName = "form_elements_label_attributes";
-                fields.AddRange(new string[]
-                {
-                    "description",
-                    "show_on_pdf"
-                });
+                fields.AddRange(["description", "show_on_pdf"]);
             }
 
             if (input is FormNumberElement)
             {
                 tableName = "form_elements_number_attributes";
-                fields.AddRange(new string[]
-                {
-                    "decimal_places",
-                    "min_value",
-                    "max_value",
-                    "is_summable",
-                    "default_value"
-                });
+                fields.AddRange(["decimal_places", "min_value", "max_value", "is_summable", "default_value"]);
             }
 
             if (input is FormRadioElement)
@@ -152,35 +137,20 @@ VALUES
             if (input is FormTableElement)
             {
                 tableName = "form_elements_table_attributes";
-                fields.AddRange(new string[]
-                {
-                    "allow_add_rows"
-                });
+                fields.AddRange(["allow_add_rows"]);
             }
 
             if (input is FormTextElement)
             {
                 tableName = "form_elements_text_attributes";
-                fields.AddRange(new string[]
-                {
-                    "regex_pattern",
-                    "regex_validation_message",
-                    "min_length",
-                    "max_length",
-                });
+                fields.AddRange(["regex_pattern", "regex_validation_message", "min_length", "max_length"]);
 
             }
 
             if (input is FormTextareaElement)
             {
                 tableName = "form_elements_textarea_attributes";
-                fields.AddRange(new string[]
-                {
-                    "regex_pattern",
-                    "regex_validation_message",
-                    "min_length",
-                    "max_length",
-                });
+                fields.AddRange(["regex_pattern", "regex_validation_message", "min_length", "max_length"]);
             }
 
             return (tableName, fields);
@@ -202,21 +172,25 @@ VALUES
         public async Task UpdateAsync(FormElement input, IDbController dbController, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            string sql = @"UPDATE form_elements SET 
-form_id = @FORM_ID,
-row_id = @ROW_ID,
-column_id = @COLUMN_ID,
-table_parent_element_id = @TABLE_PARENT_ELEMENT_ID,
-name = @NAME,
-is_active = @IS_ACTIVE,
-is_required = @IS_REQUIRED,
-reset_on_copy = @RESET_ON_COPY,
-rule_type = @RULE_TYPE,
-sort_order = @SORT_ORDER
-WHERE
-element_id = @ELEMENT_ID";
+            string sql =
+                """
+                UPDATE form_elements SET 
+                    form_id = @FORM_ID,
+                    row_id = @ROW_ID,
+                    column_id = @COLUMN_ID,
+                    table_parent_element_id = @TABLE_PARENT_ELEMENT_ID,
+                    name = @NAME,
+                    is_active = @IS_ACTIVE,
+                    is_required = @IS_REQUIRED,
+                    reset_on_copy = @RESET_ON_COPY,
+                    rule_type = @RULE_TYPE,
+                    sort_order = @SORT_ORDER
+                WHERE
+                    element_id = @ELEMENT_ID
+                """;
+                
 
-            await dbController.QueryAsync(sql, input.GetParameters());
+            await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             (string tableName, List<string> fields) = GetCustomAttributeSql(input);
 
@@ -224,23 +198,26 @@ element_id = @ELEMENT_ID";
             {
                 // Delete all rows to avoid duplicate key
                 sql = $"DELETE FROM {tableName} WHERE element_id = @ELEMENT_ID";
-                await dbController.QueryAsync(sql, input.GetParameters());
+                await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
-                sql = $@"INSERT INTO {tableName}
-(
-{String.Join($",{Environment.NewLine}", fields)}
-)
-VALUES
-(
-{String.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
-)";
-
+                sql =
+                    $"""
+                    INSERT INTO {tableName}
+                    (
+                        {string.Join($",{Environment.NewLine}", fields)}
+                    )
+                    VALUES
+                    (
+                        {string.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
+                    )
+                    """;
+                    
                 await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
             }
 
             if (input is FormElementWithOptions elementWithOptions)
             {
-                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions,false, dbController, cancellationToken);
+                await InsertOrUpdateFormElementsOptionsAsync(elementWithOptions, false, dbController, cancellationToken);
 
                 // Delete options which are not part of the object anymore.
                 if (elementWithOptions.Options.Any())
@@ -264,7 +241,7 @@ VALUES
                 }
             }
 
-            await InsertOrUpdateElementRulesAsync(input,false, dbController, cancellationToken);
+            await InsertOrUpdateElementRulesAsync(input, false, dbController, cancellationToken);
             await InsertOrUpdateFormTableElementsAsync(input, false, dbController, cancellationToken);
             await InsertOrUpdateCalcRuleSetsAsync(input, false, dbController, cancellationToken);
             await InsertOrUpdateAcceptedFileTypesAsync(input, dbController, cancellationToken);
@@ -282,16 +259,21 @@ VALUES
 
                 foreach (var contentType in fileElement.AcceptedFileTypes)
                 {
-                    sql = @"INSERT INTO form_elements_file_types
-(
-element_id,
-content_type
-)
-VALUES
-(
-@ELEMENT_ID,
-@CONTENT_TYPE
-)";
+                    sql =
+                        """
+                        INSERT INTO form_elements_file_types
+                        (
+                            element_id,
+                            content_type
+                        )
+                        VALUES
+                        (
+                            @ELEMENT_ID,
+                            @CONTENT_TYPE
+                        )
+                        """;
+                        
+
                     await dbController.QueryAsync(sql, new
                     {
                         ELEMENT_ID = input.ElementId,
@@ -330,28 +312,35 @@ VALUES
                 option.ElementId = input.ElementId;
                 if (option.ElementOptionId is 0 || forceCreate)
                 {
-                    sql = $@"INSERT INTO form_elements_options
-(
-    element_id,
-    name
-)
-VALUES
-(
-    @ELEMENT_ID,
-    @NAME
-); {dbController.GetLastIdSql()}";
+                    sql =
+                        $"""
+                        INSERT INTO form_elements_options
+                        (
+                            element_id,
+                            name
+                        )
+                        VALUES
+                        (
+                            @ELEMENT_ID,
+                            @NAME
+                        ); {dbController.GetLastIdSql()}
+                        """;
+                        
 
                     option.ElementOptionId = await dbController.GetFirstAsync<int>(sql, option.GetParameters(), cancellationToken);
 
                 }
                 else
                 {
-                    sql = @"UPDATE form_elements_options SET
-element_id = @ELEMENT_ID,
-name = @NAME
-WHERE
-element_option_id = @ELEMENT_OPTION_ID";
-
+                    sql =
+                        """
+                        UPDATE form_elements_options SET
+                            element_id = @ELEMENT_ID,
+                            name = @NAME
+                        WHERE
+                            element_option_id = @ELEMENT_OPTION_ID
+                        """;
+                        
                     await dbController.QueryAsync(sql, option.GetParameters(), cancellationToken);
                 }
             }
