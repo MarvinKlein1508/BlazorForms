@@ -432,8 +432,8 @@ namespace BlazorForms
                 (
                 	element_id INTEGER NOT NULL,
                 	decimal_places INTEGER NOT NULL DEFAULT 0,
-                	min_value decimal NOT NULL DEFAULT 0,
-                	max_value decimal NOT NULL DEFAULT 0,
+                	min_value decimal(15,5) NOT NULL DEFAULT 0,
+                	max_value decimal(15,5) NOT NULL DEFAULT 0,
                 	is_summable TINYINT NOT NULL DEFAULT 0,
                     default_value decimal NOT NULL DEFAULT 0,
                 	PRIMARY KEY(element_id),
