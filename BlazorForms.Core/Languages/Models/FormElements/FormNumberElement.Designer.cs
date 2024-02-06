@@ -104,5 +104,14 @@ namespace BlazorForms.Core.Languages.Models.FormElements {
                 return ResourceManager.GetString("VALIDATION_REQUIRED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} darf nicht größer als 9999999999 sein. ähnelt.
+        /// </summary>
+        internal static string VALIDATION_VALUE_LIMIT {
+            get {
+                return ResourceManager.GetString("VALIDATION_VALUE_LIMIT", resourceCulture);
+            }
+        }
     }
 }

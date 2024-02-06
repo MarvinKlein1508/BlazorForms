@@ -38,6 +38,11 @@ namespace BlazorForms.Core.Validators.Admin
             {
                 context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_GREATER_THAN_MAX_VALUE"], element.Name, element.MaxValue)));
             }
+
+            if (number > 9999999999)
+            {
+                context.AddFailure(new ValidationFailure(context.PropertyPath, String.Format(_localizer["VALIDATION_VALUE_LIMIT"], element.Name)));
+            }
         }
     }
 

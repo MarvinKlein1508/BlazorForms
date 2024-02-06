@@ -132,4 +132,7 @@
   <data name="VALIDATION_REQUIRED" xml:space="preserve">
     <value>{0} darf nicht 0 sein.</value>
   </data>
+  <data name="VALIDATION_VALUE_LIMIT" xml:space="preserve">
+    <value>{0} darf nicht größer als 9999999999 sein.</value>
+  </data>
 </root>
