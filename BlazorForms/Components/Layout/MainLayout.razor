@@ -1,78 +1,28 @@
 ﻿@inherits LayoutComponentBase
-@inject IJSRuntime JSRuntime
-@inject AuthService authService
-@inject NotificationService notificationService
-@using System.Runtime.InteropServices
-@using BlazorForms.Components.Notifications
-@inject IStringLocalizer<MainLayout> localizer
-<PageTitle>BlazorForms</PageTitle>
-
-
-<div class="bb-page">
-
-    <Sidebar @ref="_sidebar"
-             ImageSrc="/assets/images/logo/sidebar_logo.png"
-             Title="BlazorForms"
-             BadgeText="@($"v{Program.GetVersion()}")"
-             DataProvider="SidebarDataProvider" />
-
-
-    <main>
-        <header>
-            <div class="topbar bb-top-row">
-                @if (User is not null)
-                {
-                    <div class="topbar-item position-relative px-4" @onclick="async () => await _offcanvas.ShowAsync()">
-                        <div class="position-relative">
-                            <i class="bi bi-bell-fill"></i>
-
-                            @if (_notifications.Count > 0)
-                            {
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    @(_notifications.Count > 99 ? "99+" : _notifications.Count)
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            }
-
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="sidebar-toggle d-none d-sm-block">
-                <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
-            </div>
-        </header>
-
-        <article class="content px-4 py-2">
-            <div class="main-content">
+<FluentLayout>
+    <FluentHeader>
+        BlazorForms
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+        <NavMenu />
+        <FluentBodyContent Class="body-content">
+            <div class="content">
                 @Body
             </div>
-            <footer class="px-4 text-muted justify-content-end">
+        </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter>
+        <div class="link1">
+            <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
+        </div>
+        <div class="link2">
+            <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
+        </div>
+    </FluentFooter>
+</FluentLayout>
 
-
-                <p class="text-right">
-                    <CultureSelector />
-                    @DateTime.Now.Year &copy; Marvin Klein
-                </p>
-
-            </footer>
-        </article>
-    </main>
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
 </div>
-
-<Offcanvas @ref="_offcanvas"
-           Title="@(localizer["NOTIFICATION_CENTER_TITLE"])">
-    <BodyTemplate>
-        <NotificationCenter Notifications="_notifications" />
-    </BodyTemplate>
-</Offcanvas>
-
-
-
-
-
-
-
-
-
-
