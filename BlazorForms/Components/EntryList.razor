@@ -38,9 +38,9 @@
                         <div class="form-floating mb-3">
                             <InputSelect @bind-Value="Filter.Priority" class="form-select" id="form-filter-priority" aria-placeholder="@localizer["FILTER_PLACEHOLDER_PRIORITY"]">
                                 <option value="">@appLocalizer["ALL"]</option>
-                                <option value="@Priority.Low">@localizer["PRIORITY_LOW"]</option>
-                                <option value="@Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
-                                <option value="@Priority.High">@localizer["PRIORITY_HIGH"]</option>
+                                <option value="@BlazorForms.Core.Enums.Priority.Low">@localizer["PRIORITY_LOW"]</option>
+                                <option value="@BlazorForms.Core.Enums.Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
+                                <option value="@BlazorForms.Core.Enums.Priority.High">@localizer["PRIORITY_HIGH"]</option>
                             </InputSelect>
                             <label for="form-filter-priority">@localizer["FILTER_PLACEHOLDER_PRIORITY"]</label>
                             <ValidationMessage For="() => Filter.Priority" />

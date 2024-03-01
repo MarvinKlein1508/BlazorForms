@@ -12,6 +12,7 @@ using MimeKit;
 using System.Globalization;
 using BlazorBootstrap;
 using BlazorForms.Core.Enums;
+using Priority = BlazorForms.Core.Enums.Priority;
 
 namespace BlazorForms.Components.Pages
 {
