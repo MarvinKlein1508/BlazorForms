@@ -33,17 +33,23 @@ namespace BlazorForms.Core.Models.FormElements
         /// </summary>
         public List<FormElement> NewRow()
         {
-            var tmp = Elements.DeepCopyByExpressionTree();
+            //var tmp = Elements.DeepCopyByExpressionTree();
 
-            foreach (var element in tmp)
+            List<FormElement> tmp = [];
+            Guid guid = Guid.NewGuid();
+            foreach (var element in Elements)
             {
-                if (element is FormDateElement dateElement)
+                var copy = (FormElement)element.Clone();
+                copy.GuidTableCount = guid;
+                if (copy is FormDateElement dateElement)
                 {
                     if (dateElement.SetDefaultValueToCurrentDate)
                     {
                         dateElement.Value = DateTime.Now;
                     }
                 }
+
+                tmp.Add(copy);
             }
 
             ElementValues.Add(tmp);
@@ -57,6 +63,11 @@ namespace BlazorForms.Core.Models.FormElements
         public override void Reset()
         {
             // This element has nothing to be resetted
+        }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

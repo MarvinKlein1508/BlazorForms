@@ -26,5 +26,10 @@ namespace BlazorForms.Core.Models.FormElements
         {
             Value = false;
         }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

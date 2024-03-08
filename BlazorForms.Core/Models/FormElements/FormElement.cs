@@ -5,7 +5,7 @@ using BlazorForms.Core.Interfaces;
 
 namespace BlazorForms.Core.Models.FormElements
 {
-    public abstract class FormElement : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormElementTabs>
+    public abstract class FormElement : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormElementTabs>, ICloneable
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
@@ -68,6 +68,10 @@ namespace BlazorForms.Core.Models.FormElements
             };
         }
 
+        /// <summary>
+        /// Gets or sets a unique ID to identitfy this column within <see cref="FormTableElement.Elements"/>
+        /// </summary>
+        public Guid? GuidTableCount { get; set; }
         public FormElement()
         {
             GenerateGuid();
@@ -138,5 +142,7 @@ namespace BlazorForms.Core.Models.FormElements
                 }
             }
         }
+
+        public abstract object Clone();
     }
 }

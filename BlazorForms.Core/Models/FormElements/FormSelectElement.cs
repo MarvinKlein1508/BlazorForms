@@ -6,5 +6,10 @@ namespace BlazorForms.Core.Models.FormElements
     {
         public override ElementType GetElementType() => ElementType.Select;
         public override string GetDefaultName() => "Select";
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

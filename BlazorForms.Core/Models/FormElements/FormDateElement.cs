@@ -48,5 +48,10 @@ namespace BlazorForms.Core.Models.FormElements
                 Value = default;
             }
         }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

@@ -727,7 +727,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         @USER_ID
                     )
                     """;
-                    
+
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
@@ -765,7 +765,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         @STATUS_CHANGE_NOTIFICATION_DEFAULT
                     )
                     """;
-                    
+
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,

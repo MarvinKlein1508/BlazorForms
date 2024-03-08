@@ -5,5 +5,10 @@ namespace BlazorForms.Core.Models.FormElements
     {
         public override ElementType GetElementType() => ElementType.Text;
         public override string GetDefaultName() => "Text";
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

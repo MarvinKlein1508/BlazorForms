@@ -34,7 +34,25 @@ namespace BlazorForms.Core.Models.FormElements
 
                 foreach (var rule in CalcRules)
                 {
-                    var element = Form?.GetCalcRuleSetElements(isPartOfTable).FirstOrDefault(x => x.Guid == rule.GuidElement);
+                    FormNumberElement? element;
+                    if (GuidTableCount is not null)
+                    {
+                        element = Parent?.Elements.Where(x => x.ElementId == TableParentElementId)
+                            .Cast<FormTableElement>()
+                            .SelectMany(x => x.ElementValues)
+                            .SelectMany(x => x)
+                            .Where(x => x.GuidTableCount == GuidTableCount && x.GetElementType() is ElementType.Number)
+                            .Cast<FormNumberElement>()
+                            .FirstOrDefault(x => x.Guid == rule.GuidElement);
+                        
+                    }
+                    else
+                    {
+                        element = Form?.GetCalcRuleSetElements(isPartOfTable)
+                                       .FirstOrDefault(x => x.Guid == rule.GuidElement);
+
+                    }
+
 
                     if (element is not null)
                     {
@@ -68,11 +86,10 @@ namespace BlazorForms.Core.Models.FormElements
                 _value = Math.Round(value, decimalPlaces);
             }
         }
-        
-        [CompareField("default_value")]
-        public decimal DefaultValue { get; set; } 
-        public List<CalcRule> CalcRules { get; set; } = new();
 
+        [CompareField("default_value")]
+        public decimal DefaultValue { get; set; }
+        public List<CalcRule> CalcRules { get; set; } = new();
         public bool IsValueCalculated => CalcRules.Any();
         public override ElementType GetElementType() => ElementType.Number;
         public override Dictionary<string, object?> GetParameters()
@@ -120,6 +137,11 @@ namespace BlazorForms.Core.Models.FormElements
         public override void Reset()
         {
             Value = DefaultValue;
+        }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

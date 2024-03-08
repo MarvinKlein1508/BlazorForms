@@ -62,5 +62,10 @@ namespace BlazorForms.Core.Models.FormElements
         {
             // No value to be set
         }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
