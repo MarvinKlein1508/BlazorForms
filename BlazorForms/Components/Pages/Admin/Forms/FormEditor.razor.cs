@@ -66,16 +66,24 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             _fileTypeOptions.InputPlaceholder = localizer["PLACEHOLDER_EXTENSIONS"];
 
             _hotKeysContext = hotKeys.CreateContext()
-                .Add(ModCode.None, Code.Escape, async () =>
+                .Add(ModCode.None, Code.Escape, new Func<Task>(async () =>
                 {
                     await CloseItemAsync();
                     await InvokeAsync(StateHasChanged);
-                }, AppLocalizer["BACK"], Exclude.None)
-                .Add(ModCode.Ctrl, Code.S, async () =>
+                }), new HotKeyOptions()
+                {
+                    Description = AppLocalizer["BACK"],
+                    Exclude = Exclude.None
+                })
+                .Add(ModCode.Ctrl, Code.S, new Func<Task>(async () =>
                 {
                     await SaveAsync();
                     await InvokeAsync(StateHasChanged);
-                }, AppLocalizer["SAVE"], Exclude.None);
+                }), new HotKeyOptions()
+                {
+                    Description = AppLocalizer["SAVE"],
+                    Exclude = Exclude.None
+                });
             return base.OnInitializedAsync();
         }
         protected override async Task OnParametersSetAsync()
