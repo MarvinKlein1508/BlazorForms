@@ -51,9 +51,9 @@
             <div class="col-md-6">
                 <div class="form-floating mb-3">
                     <InputSelect @bind-Value="Input.Priority" class="form-select" id="form-priority" aria-label="@localizer["LABEL_ENTRY_PRIORITY"]">
-                        <option value="@Priority.Low">@localizer["PRIORITY_LOW"]</option>
-                        <option value="@Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
-                        <option value="@Priority.High">@localizer["PRIORITY_HIGH"]</option>
+                        <option value="@BlazorForms.Core.Enums.Priority.Low">@localizer["PRIORITY_LOW"]</option>
+                        <option value="@BlazorForms.Core.Enums.Priority.Normal">@localizer["PRIORITY_NORMAL"]</option>
+                        <option value="@BlazorForms.Core.Enums.Priority.High">@localizer["PRIORITY_HIGH"]</option>
                     </InputSelect>
                     <label for="form-priority">@localizer["LABEL_ENTRY_PRIORITY"]</label>
                     <ValidationMessage For="() => Input.Priority" />

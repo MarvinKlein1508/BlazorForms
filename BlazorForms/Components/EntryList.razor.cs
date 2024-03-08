@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using BlazorBootstrap;
 using BlazorForms.Core;
 using BlazorForms.Core.Enums;
+using Priority = BlazorForms.Core.Enums.Priority;
 
 namespace BlazorForms.Components
 {
