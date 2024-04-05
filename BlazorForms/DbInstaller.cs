@@ -594,6 +594,23 @@ namespace BlazorForms
                 """
             };
 
+            yield return new SqlTable
+            {
+                TableName = "form_entries_manager_content",
+                SQL =
+                """
+                CREATE TABLE form_entries_manager_content
+                (
+                	entry_id INTEGER NOT NULL,
+                    work_user_id INTEGER DEFAULT NULL,
+                    note VARCHAR(5000) NOT NULL DEFAULT '',
+                	PRIMARY KEY (entry_id),
+                	FOREIGN KEY (entry_id) REFERENCES form_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                	FOREIGN KEY (work_user_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE
+                );
+                """
+            };
+
 
             yield return new SqlTable
             {
