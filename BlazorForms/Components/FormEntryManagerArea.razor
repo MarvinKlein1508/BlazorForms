@@ -1,3 +1,23 @@
-﻿<h3>FormEntryManagerArea</h3>
+﻿@inject IStringLocalizer<App> localizer
+@if (Entry is not null)
+{
+    <EditForm Model="Input">
 
+        <div class="form-floating mb-3">
+            <InputSelect @bind-Value="Input.WorkUserId">
+                <option value="">--- Nicht zugeordnet ---</option>
+                @foreach (var item in Entry.Form.ManagerUsers)
+                {
+                    <option value="@item.Id">@item.DisplayName</option>
+                }
+            </InputSelect>
+        </div>
 
+        <div class="form-floating mb-3">
+            <InputTextArea @bind-Value="Input.Note" id="notiz" placeholder="Notiz" class="form-control" rows="6" />
+            <label for="notiz">Notiz</label>
+            <ValidationMessage For="() => Input.Note" />
+        </div>
+
+    </EditForm>
+}
