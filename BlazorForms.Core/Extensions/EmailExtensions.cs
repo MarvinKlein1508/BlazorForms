@@ -65,6 +65,8 @@ Kommentar: <br />
 {status_change.Comment.Nl2Br()}
 <br /><br />
 <a href="{baseUrl}Entry/{entry.EntryId}">Klicken Sie hier</a> um den Formulareintrag einzusehen
+
+<p><strong>Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese. Nutzen Sie stattdessen den obenstehenden Link.</strong></p>
 """
                 };
 
