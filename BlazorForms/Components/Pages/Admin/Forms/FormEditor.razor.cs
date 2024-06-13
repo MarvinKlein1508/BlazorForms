@@ -19,7 +19,7 @@ using FluentValidation;
 
 namespace BlazorForms.Components.Pages.Admin.Forms
 {
-    public partial class FormEditor
+    public partial class FormEditor : IAsyncDisposable
     {
         [Parameter]
         public int FormId { get; set; }
@@ -486,9 +486,10 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             }
         }
 
-        public void Dispose()
+
+        public async ValueTask DisposeAsync()
         {
-            _hotKeysContext.Dispose();
+            await _hotKeysContext.DisposeAsync();
         }
     }
 }
