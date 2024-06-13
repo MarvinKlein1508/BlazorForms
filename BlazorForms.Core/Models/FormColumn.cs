@@ -28,8 +28,8 @@ namespace BlazorForms.Core.Models
         /// <summary>
         /// Gets or sets the elements for this column
         /// </summary>
-        public List<FormElement> Elements { get; set; } = new();
-        public List<Rule> Rules { get; set; } = new();
+        public List<FormElement> Elements { get; set; } = [];
+        public List<Rule> Rules { get; set; } = [];
         [IgnoreModificationCheck]
         public FormRow? Parent { get; set; }
         [IgnoreModificationCheck]
@@ -78,7 +78,7 @@ namespace BlazorForms.Core.Models
                 return true;
             }
 
-            if (!Rules.Any())
+            if (Rules.Count == 0)
             {
                 return true;
             }
@@ -89,7 +89,7 @@ namespace BlazorForms.Core.Models
         public IEnumerable<FormElement> GetRuleElements()
         {
             ElementType[] allowedRuleTypes = [ElementType.Checkbox, ElementType.Date, ElementType.Number, ElementType.Radio, ElementType.Select];
-            var elements = Form?.GetElements() ?? Enumerable.Empty<FormElement>();
+            var elements = Form?.GetElements() ?? [];
             foreach (var element in elements)
             {
                 var elementType = element.GetElementType();

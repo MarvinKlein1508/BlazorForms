@@ -21,7 +21,7 @@ namespace BlazorForms.Core.Models.FormElements
         {
             get
             {
-                if (!CalcRules.Any())
+                if (CalcRules.Count == 0)
                 {
                     return _value;
                 }
@@ -89,8 +89,8 @@ namespace BlazorForms.Core.Models.FormElements
 
         [CompareField("default_value")]
         public decimal DefaultValue { get; set; }
-        public List<CalcRule> CalcRules { get; set; } = new();
-        public bool IsValueCalculated => CalcRules.Any();
+        public List<CalcRule> CalcRules { get; set; } = [];
+        public bool IsValueCalculated => CalcRules.Count != 0;
         public override ElementType GetElementType() => ElementType.Number;
         public override Dictionary<string, object?> GetParameters()
         {

@@ -560,7 +560,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                         ElementType.Table => await dbController.SelectDataAsync<FormTableElement>(sql, parameters, cancellationToken),
                         ElementType.Text => await dbController.SelectDataAsync<FormTextElement>(sql, parameters, cancellationToken),
                         ElementType.Textarea => await dbController.SelectDataAsync<FormTextareaElement>(sql, parameters, cancellationToken),
-                        _ => Array.Empty<FormElement>(),
+                        _ => [],
                     };
 
                     // Load all available options for types that have a list of available options.

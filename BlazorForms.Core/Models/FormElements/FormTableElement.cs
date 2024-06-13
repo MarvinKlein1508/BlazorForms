@@ -10,12 +10,12 @@ namespace BlazorForms.Core.Models.FormElements
         /// <summary>
         /// Holds all elements for the FormEditor
         /// </summary>
-        public List<FormElement> Elements { get; set; } = new();
+        public List<FormElement> Elements { get; set; } = [];
 
         /// <summary>
         /// Holds all values for a FormEntry.
         /// </summary>
-        public List<List<FormElement>> ElementValues { get; set; } = new();
+        public List<List<FormElement>> ElementValues { get; set; } = [];
         public override ElementType GetElementType() => ElementType.Table;
         public override string GetDefaultName() => "Table";
 

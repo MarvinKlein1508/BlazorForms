@@ -164,13 +164,13 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         public void CleanToolbarDrag()
         {
             dragDropServiceRows.ActiveItem = null;
-            dragDropServiceRows.Items = new List<FormRow>();
+            dragDropServiceRows.Items = [];
 
             dragDropServiceColumns.ActiveItem = null;
-            dragDropServiceColumns.Items = new List<FormColumn>();
+            dragDropServiceColumns.Items = [];
 
             dragDropServiceElements.ActiveItem = null;
-            dragDropServiceElements.Items = new List<FormElement>();
+            dragDropServiceElements.Items = [];
 
             _isToolbarDrag = false;
 
@@ -200,7 +200,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             if (Input is not null)
             {
                 dragDropServiceColumns.ActiveItem = new FormColumn(Input);
-                dragDropServiceColumns.Items = new List<FormColumn>();
+                dragDropServiceColumns.Items = [];
                 _showMobileToolbar = false;
                 _isToolbarDrag = true;
             }
@@ -211,7 +211,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             if (Input is not null)
             {
                 dragDropServiceRows.ActiveItem = new FormRow(Input, 1);
-                dragDropServiceRows.Items = new List<FormRow>();
+                dragDropServiceRows.Items = [];
                 _showMobileToolbar = false;
                 _isToolbarDrag = true;
             }
@@ -223,7 +223,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             newElement.GenerateGuid();
             newElement.Form = Input;
             dragDropServiceElements.ActiveItem = newElement;
-            dragDropServiceElements.Items = new List<FormElement>();
+            dragDropServiceElements.Items = [];
             _showMobileToolbar = false;
             _isToolbarDrag = true;
             StateHasChanged();
@@ -490,6 +490,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         public async ValueTask DisposeAsync()
         {
             await _hotKeysContext.DisposeAsync();
+            GC.SuppressFinalize(_hotKeysContext);
         }
     }
 }

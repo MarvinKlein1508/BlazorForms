@@ -38,7 +38,7 @@ namespace BlazorForms.Core.Models.FormElements
         public abstract ElementType GetElementType();
         [IgnoreModificationCheck]
         public FormColumn? Parent { get; set; }
-        public List<Rule> Rules { get; set; } = new();
+        public List<Rule> Rules { get; set; } = [];
         [IgnoreModificationCheck]
         public FormRow? Row => Parent?.Parent;
         [IgnoreModificationCheck]
@@ -97,7 +97,7 @@ namespace BlazorForms.Core.Models.FormElements
                 return true;
             }
 
-            if (!Rules.Any())
+            if (Rules.Count == 0)
             {
                 return true;
             }
@@ -111,7 +111,7 @@ namespace BlazorForms.Core.Models.FormElements
         public IEnumerable<FormElement> GetRuleElements()
         {
             ElementType[] allowedRuleTypes = [ElementType.Checkbox, ElementType.Date, ElementType.Number, ElementType.Radio, ElementType.Select];
-            var elements = Form?.GetElements() ?? Enumerable.Empty<FormElement>();
+            var elements = Form?.GetElements() ?? [];
             foreach (var element in elements)
             {
                 if (element == this)

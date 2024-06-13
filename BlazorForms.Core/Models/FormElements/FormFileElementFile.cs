@@ -11,7 +11,7 @@ namespace BlazorForms.Core.Models.FormElements
         [CompareField("element_id")]
         public int ElementId { get; set; }
         [CompareField("data")]
-        public byte[] Data { get; set; } = Array.Empty<byte>();
+        public byte[] Data { get; set; } = [];
         [CompareField("content_type")]
         public string ContentType { get; set; } = string.Empty;
         [CompareField("filename")]

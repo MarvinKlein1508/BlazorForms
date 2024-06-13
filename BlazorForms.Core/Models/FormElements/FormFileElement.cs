@@ -18,8 +18,8 @@ namespace BlazorForms.Core.Models.FormElements
         [CompareField("allow_multiple_files")]
         public bool AllowMultipleFiles { get; set; }
 
-        public List<string> AcceptedFileTypes { get; set; } = new();
-        public List<FormFileElementFile> Values { get; set; } = new();
+        public List<string> AcceptedFileTypes { get; set; } = [];
+        public List<FormFileElementFile> Values { get; set; } = [];
         public override ElementType GetElementType() => ElementType.File;
 
         public override Dictionary<string, object?> GetParameters()
@@ -34,12 +34,12 @@ namespace BlazorForms.Core.Models.FormElements
 
         public string GetAcceptTypesDefinition(Dictionary<string, string> mimeTypes)
         {
-            if (!AcceptedFileTypes.Any())
+            if (AcceptedFileTypes.Count == 0)
             {
                 return string.Empty;
             }
 
-            List<string> allowedMimeTypes = new();
+            List<string> allowedMimeTypes = [];
 
             foreach (var extension in AcceptedFileTypes)
             {
