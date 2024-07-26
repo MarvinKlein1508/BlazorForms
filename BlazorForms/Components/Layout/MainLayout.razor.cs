@@ -109,65 +109,10 @@ namespace BlazorForms.Components.Layout
         //        };
         //    }
 
-        //    var user = await authService.GetUserAsync();
+   
 
 
-        //    if (user is not null)
-        //    {
-        //        yield return new NavItem
-        //        {
-        //            Id = "14",
-        //            IconName = IconName.PersonCircle,
-        //            Text = localizer["NAV_ACCOUNT"],
-        //            IconColor = IconColor.Success
-        //        };
 
-        //        yield return new NavItem
-        //        {
-        //            Id = "15",
-        //            Href = "/Account/Entries",
-        //            IconName = IconName.PencilFill,
-        //            Text = localizer["NAV_ACCOUNT_ENTRIES"],
-        //            ParentId = "14"
-        //        };
-
-        //        yield return new NavItem
-        //        {
-        //            Id = "16",
-        //            Href = "/Account/Assigned",
-        //            IconName = IconName.Send,
-        //            Text = localizer["NAV_ACCOUNT_ASSIGNED"],
-        //            ParentId = "14"
-        //        };
-        //        yield return new NavItem
-        //        {
-        //            Id = "17",
-        //            Href = "/Account/Details",
-        //            IconName = IconName.PersonVCard,
-        //            Text = localizer["NAV_ACCOUNT_DETAILS"],
-        //            ParentId = "14"
-        //        };
-        //        yield return new NavItem
-        //        {
-        //            Id = "18",
-        //            Href = "/Account/Logout",
-        //            IconName = IconName.BoxArrowInRight,
-        //            Text = localizer["NAV_ACCOUNT_LOGOUT"],
-        //            ParentId = "14",
-        //            IconColor = IconColor.Danger
-        //        };
-        //    }
-        //    else
-        //    {
-        //        yield return new NavItem
-        //        {
-        //            Id = "18",
-        //            Href = "/Account/Login",
-        //            IconName = IconName.BoxArrowInRight,
-        //            Text = localizer["NAV_ACCOUNT_LOGIN"],
-        //            IconColor = IconColor.Success
-        //        };
-        //    }
         //}
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

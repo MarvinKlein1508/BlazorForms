@@ -1,4 +1,5 @@
 ﻿@inject AuthService authService
+@inject IStringLocalizer<NavMenu> localizer
 @if (_user is null)
 {
     return;
@@ -10,15 +11,23 @@
         <FluentNavMenu Id="main-menu" Collapsible="true" Width="250" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true">
             <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
 
-         
 
 
-            <FluentNavGroup Title="Account" Icon="@(new Icons.Regular.Size20.Person())">
-                <ChildContent>
-                    <FluentNavLink Href="/Account/Details" Icon="@(new Icons.Regular.Size20.ContactCard())">Details</FluentNavLink>
-                    <FluentNavLink Href="/Account/Logout" Icon="@(new Icons.Regular.Size20.SignOut())" IconColor="Color.Accent">Logout</FluentNavLink>
-                </ChildContent>
-            </FluentNavGroup>
+            <AuthorizeView>
+                <Authorized>
+                    <FluentNavGroup Title="@localizer["NAV_ACCOUNT"]" Icon="@(new Icons.Regular.Size20.Person())">
+                        <ChildContent>
+                            <FluentNavLink Href="/Account/Entries" Icon="@(new Icons.Regular.Size20.Pen())">@localizer["NAV_ACCOUNT_ENTRIES"]</FluentNavLink>
+                            <FluentNavLink Href="/Account/Assigned" Icon="@(new Icons.Regular.Size20.Send())">@localizer["NAV_ACCOUNT_ASSIGNED"]</FluentNavLink>
+                            <FluentNavLink Href="/Account/Details" Icon="@(new Icons.Regular.Size20.ContactCard())">@localizer["NAV_ACCOUNT_DETAILS"]</FluentNavLink>
+                            <FluentNavLink Href="/Account/Logout" Icon="@(new Icons.Regular.Size20.SignOut())" IconColor="Color.Accent">@localizer["NAV_ACCOUNT_LOGOUT"]</FluentNavLink>
+                        </ChildContent>
+                    </FluentNavGroup>
+                </Authorized>
+                <NotAuthorized>
+                    <FluentNavLink Href="/Account/Login" Icon="@(new Icons.Regular.Size20.SignOut())" IconColor="Color.Accent">@localizer["NAV_ACCOUNT_LOGIN"]</FluentNavLink>
+                </NotAuthorized>
+            </AuthorizeView>
         </FluentNavMenu>
     </nav>
 </div>
