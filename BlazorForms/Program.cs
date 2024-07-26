@@ -15,6 +15,7 @@ using DbController.MySql;
 using BlazorForms;
 using BlazorForms.Core.Models;
 using BlazorForms.Core;
+using BlazorForms.Core.Database;
 
 SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 SqlMapper.RemoveTypeMap(typeof(Guid));
@@ -138,7 +139,7 @@ if (args.Length > 0 && args[0] == "-setup")
     }
 }
 
-await AppdatenService.InitAsync(builder.Configuration);
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -169,6 +170,10 @@ app.MapRazorPages();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+var result = await dbInitializer.InitializeAsync();
+await AppdatenService.InitAsync(config);
 
 app.Run();
 
