@@ -347,19 +347,19 @@
     </EditForm>
 
 
-    <Modal @ref="_historyModal" Title="@localizer["MODAL_TITLE_HISTORY"]" Size="ModalSize.ExtraLarge">
+    @* <Modal @ref="_historyModal" Title="@localizer["MODAL_TITLE_HISTORY"]" Size="ModalSize.ExtraLarge">
         <BodyTemplate>
             <EntryHistory EntryId="Input.Id" />
         </BodyTemplate>
-    </Modal>
+    </Modal> *@
 
 }
 
-<Modal @ref="_statusModal" Title="@localizer["MODAL_TITLE_CHANGE_STATUS"]" UseStaticBackdrop="true">
+@* <Modal @ref="_statusModal" Title="@localizer["MODAL_TITLE_CHANGE_STATUS"]" UseStaticBackdrop="true">
     <BodyTemplate>
         <StatusChangeEditor Entry="Input"
                             User="_user"
                             OnSaved="OnEntryStatusSavedAsync"
                             OnCancel="_statusModal.HideAsync" />
     </BodyTemplate>
-</Modal>
+</Modal> *@

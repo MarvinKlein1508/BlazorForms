@@ -6,16 +6,14 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core.Pdf;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
-using BlazorBootstrap;
 using BlazorForms.Core;
-using BlazorForms.Core.Enums;
 using Priority = BlazorForms.Core.Enums.Priority;
 
 namespace BlazorForms.Components
 {
     public partial class EntryList
     {
-        private ConfirmDialog _deleteModal = default!;
+        //private ConfirmDialog _deleteModal = default!;
         [Parameter]
         public FormEntryFilter DefaultFilter { get; set; } = new()
         {
@@ -116,39 +114,39 @@ namespace BlazorForms.Components
         private async Task ShowDeleteModalAsync(EntryListItem input)
         {
 
-            var options = new ConfirmDialogOptions
-            {
-                YesButtonText = appLocalizer["YES"],
-                YesButtonColor = ButtonColor.Success,
-                NoButtonText = appLocalizer["NO"],
-                NoButtonColor = ButtonColor.Danger
-            };
+            //var options = new ConfirmDialogOptions
+            //{
+            //    YesButtonText = appLocalizer["YES"],
+            //    YesButtonColor = ButtonColor.Success,
+            //    NoButtonText = appLocalizer["NO"],
+            //    NoButtonColor = ButtonColor.Danger
+            //};
 
-            var confirmation = await _deleteModal.ShowAsync(
-            title: localizer["MODAL_DELETE_TITLE"],
-            message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
-            confirmDialogOptions: options);
+            //var confirmation = await _deleteModal.ShowAsync(
+            //title: localizer["MODAL_DELETE_TITLE"],
+            //message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
+            //confirmDialogOptions: options);
 
-            if (confirmation)
-            {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            //if (confirmation)
+            //{
+            //    using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                await dbController.StartTransactionAsync();
+            //    await dbController.StartTransactionAsync();
 
-                try
-                {
-                    await formEntryService.DeleteAsync(input, dbController);
-                    await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
-                }
-                catch (Exception)
-                {
-                    await dbController.RollbackChangesAsync();
-                    throw;
-                }
+            //    try
+            //    {
+            //        await formEntryService.DeleteAsync(input, dbController);
+            //        await dbController.CommitChangesAsync();
+            //        await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
+            //    }
+            //    catch (Exception)
+            //    {
+            //        await dbController.RollbackChangesAsync();
+            //        throw;
+            //    }
 
-                await LoadAsync();
-            }
+            //    await LoadAsync();
+            //}
         }
 
         private bool CanDeleteEntry(EntryListItem entry)

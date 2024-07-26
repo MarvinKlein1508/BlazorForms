@@ -50,7 +50,6 @@ builder.Services.AddApplication();
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 
 builder.Services.AddHotKeys2();
-builder.Services.AddBlazorBootstrap();
 builder.Services.AddLocalization(options =>
 {
     options.ResourcesPath = "Languages";

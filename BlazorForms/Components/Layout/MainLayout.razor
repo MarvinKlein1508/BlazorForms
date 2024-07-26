@@ -8,64 +8,39 @@
 <PageTitle>BlazorForms</PageTitle>
 
 
-<div class="bb-page">
 
-    <Sidebar @ref="_sidebar"
-             ImageSrc="/assets/images/logo/sidebar_logo.png"
-             Title="BlazorForms"
-             BadgeText="@($"v{Program.GetVersion()}")"
-             DataProvider="SidebarDataProvider" />
+<FluentLayout>
+    <FluentHeader>
 
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+        @* <Sidebar @ref="_sidebar"
+                 ImageSrc="/assets/images/logo/sidebar_logo.png"
+                 Title="BlazorForms"
+                 BadgeText="@($"v{Program.GetVersion()}")"
+                 DataProvider="SidebarDataProvider" /> *@
+                 <FluentBodyContent Class="body-content">
+                     @Body
+                 </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter>
 
-    <main>
-        <header>
-            <div class="topbar bb-top-row">
-                @if (User is not null)
-                {
-                    <div class="topbar-item position-relative px-4" @onclick="async () => await _offcanvas.ShowAsync()">
-                        <div class="position-relative">
-                            <i class="bi bi-bell-fill"></i>
+    </FluentFooter>
+</FluentLayout>
 
-                            @if (_notifications.Count > 0)
-                            {
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    @(_notifications.Count > 99 ? "99+" : _notifications.Count)
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            }
-
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="sidebar-toggle d-none d-sm-block">
-                <Icon role="button" Name="IconName.List" @onclick="ToggleSidebar" Style="font-size: 1.35rem;" />
-            </div>
-        </header>
-
-        <article class="content px-4 py-2">
-            <div class="main-content">
-                @Body
-            </div>
-            <footer class="px-4 text-muted justify-content-end">
+<FluentToastProvider RemoveToastsOnNavigation="false" Position="ToastPosition.TopCenter" />
 
 
-                <p class="text-right">
-                    <CultureSelector />
-                    @DateTime.Now.Year &copy; Marvin Klein
-                </p>
 
-            </footer>
-        </article>
-    </main>
-</div>
 
-<Offcanvas @ref="_offcanvas"
+
+
+@* <Offcanvas @ref="_offcanvas"
            Title="@(localizer["NOTIFICATION_CENTER_TITLE"])">
     <BodyTemplate>
         <NotificationCenter Notifications="_notifications" />
     </BodyTemplate>
-</Offcanvas>
+</Offcanvas> *@
 
 
 <div id="blazor-error-ui">

@@ -33,7 +33,7 @@
             <div class="notify-container mb-3">
                 @foreach (var notify in Input.Notifiers)
                 {
-                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.Id == notify.UserId).DisplayName)" />
+                    <FluentSwitch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.Id == notify.UserId).DisplayName)" />
                 }
             </div>
         }

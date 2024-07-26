@@ -5,14 +5,13 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
-using BlazorBootstrap;
 
 namespace BlazorForms.Components.Pages.Admin.Forms
 {
     public partial class FormListing
     {
-        private ConfirmDialog _deleteModal = default!;
-        private ConfirmDialog _copyModal = default!;
+        //private ConfirmDialog _deleteModal = default!;
+        //private ConfirmDialog _copyModal = default!;
         public FormFilter Filter { get; set; } = new()
         {
             Limit = AppdatenService.PageLimit
@@ -55,39 +54,39 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         private async Task ShowDeleteModalAsync(Form input)
         {
 
-            var options = new ConfirmDialogOptions
-            {
-                YesButtonText = AppLocalizer["YES"],
-                YesButtonColor = ButtonColor.Success,
-                NoButtonText = AppLocalizer["NO"],
-                NoButtonColor = ButtonColor.Danger
-            };
+            //var options = new ConfirmDialogOptions
+            //{
+            //    YesButtonText = AppLocalizer["YES"],
+            //    YesButtonColor = ButtonColor.Success,
+            //    NoButtonText = AppLocalizer["NO"],
+            //    NoButtonColor = ButtonColor.Danger
+            //};
 
-            var confirmation = await _deleteModal.ShowAsync(
-            title: localizer["MODAL_DELETE_TITLE"],
-            message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
-            confirmDialogOptions: options);
+            //var confirmation = await _deleteModal.ShowAsync(
+            //title: localizer["MODAL_DELETE_TITLE"],
+            //message1: String.Format(localizer["MODAL_DELETE_TEXT"], input.Name),
+            //confirmDialogOptions: options);
 
-            if (confirmation)
-            {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            //if (confirmation)
+            //{
+            //    using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                await dbController.StartTransactionAsync();
+            //    await dbController.StartTransactionAsync();
 
-                try
-                {
-                    await formService.DeleteAsync(input, dbController);
-                    await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
-                }
-                catch (Exception)
-                {
-                    await dbController.RollbackChangesAsync();
-                    throw;
-                }
+            //    try
+            //    {
+            //        await formService.DeleteAsync(input, dbController);
+            //        await dbController.CommitChangesAsync();
+            //        await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_DELETE_SUCCESS"]);
+            //    }
+            //    catch (Exception)
+            //    {
+            //        await dbController.RollbackChangesAsync();
+            //        throw;
+            //    }
 
-                await LoadAsync();
-            }
+            //    await LoadAsync();
+            //}
 
 
 
@@ -98,45 +97,45 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         private async Task ShowCopyModalAsync(Form input)
         {
 
-            var options = new ConfirmDialogOptions
-            {
-                YesButtonText = AppLocalizer["YES"],
-                YesButtonColor = ButtonColor.Success,
-                NoButtonText = AppLocalizer["NO"],
-                NoButtonColor = ButtonColor.Danger
-            };
+            //var options = new ConfirmDialogOptions
+            //{
+            //    YesButtonText = AppLocalizer["YES"],
+            //    YesButtonColor = ButtonColor.Success,
+            //    NoButtonText = AppLocalizer["NO"],
+            //    NoButtonColor = ButtonColor.Danger
+            //};
 
-            var confirmation = await _deleteModal.ShowAsync(
-            title: localizer["MODAL_COPY_TITLE"],
-            message1: localizer["MODAL_COPY_DESCRIPTION"],
-            confirmDialogOptions: options);
+            //var confirmation = await _deleteModal.ShowAsync(
+            //title: localizer["MODAL_COPY_TITLE"],
+            //message1: localizer["MODAL_COPY_DESCRIPTION"],
+            //confirmDialogOptions: options);
 
-            if (confirmation)
-            {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            //if (confirmation)
+            //{
+            //    using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
 
-                await dbController.StartTransactionAsync();
+            //    await dbController.StartTransactionAsync();
 
-                try
-                {
-                    var form = await formService.GetAsync(input.Id, dbController);
+            //    try
+            //    {
+            //        var form = await formService.GetAsync(input.Id, dbController);
 
-                    if (form is not null)
-                    {
-                        await formService.CreateAsync(form, dbController);
-                    }
+            //        if (form is not null)
+            //        {
+            //            await formService.CreateAsync(form, dbController);
+            //        }
 
-                    await dbController.CommitChangesAsync();
-                    await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_COPY_SUCCESS"]);
-                }
-                catch (Exception)
-                {
-                    await dbController.RollbackChangesAsync();
-                    throw;
-                }
+            //        await dbController.CommitChangesAsync();
+            //        await jsRuntime.ShowToastAsync(ToastType.success, localizer["MODAL_COPY_SUCCESS"]);
+            //    }
+            //    catch (Exception)
+            //    {
+            //        await dbController.RollbackChangesAsync();
+            //        throw;
+            //    }
 
-                await LoadAsync();
-            }
+            //    await LoadAsync();
+            //}
 
 
 
