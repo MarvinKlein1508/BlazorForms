@@ -1,9 +1,38 @@
-﻿.form-card {
-    width: 300px;
+﻿.form-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    gap: 1em;
 }
 
-
-.form-card-image img {
-    max-width: 100%;
-    
+.form-card {
+    border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
+    background: var(--fill-color);
+    border-radius: calc(var(--layer-corner-radius) * 1px);
+    display: flex;
+    flex-direction: column;
 }
+
+.form-card-body {
+    padding: 1em;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-card-body p {
+        flex: 1;
+    }
+
+
+
+
+.form-card-image {
+}
+
+    .form-card-image img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-top-right-radius: calc(var(--layer-corner-radius) * 1px);
+        border-top-left-radius: calc(var(--layer-corner-radius) * 1px);
+    }

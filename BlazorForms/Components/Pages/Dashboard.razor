@@ -14,10 +14,9 @@
         <FluentCard Height="auto" AreaRestricted="false">
             <h4>@appLocalizer["FILTER_TITLE"]</h4>
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Filter.SearchPhrase" class="form-control" id="form-filter-searchphrase" placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
-                    <label for="form-filter-searchphrase">@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]</label>
-                </div>
+
+                <FluentTextField @bind-Value="Filter.SearchPhrase" Label="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" Immediate="true" Placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
+
 
                 <div class="form-floating mb-3">
                     <InputSelect @bind-Value="Filter.LanguageId" class="form-select" id="form-filter-language" aria-placeholder="@appLocalizer["LANGUAGE"]">
@@ -31,9 +30,9 @@
                     <ValidationMessage For="() => Filter.LanguageId" />
                 </div>
 
-                <div class="toolbar">
-                    <button type="submit" class="btn btn-primary">@appLocalizer["FILTER_BUTTON_SEARCH"]</button>
-                </div>
+                <FluentButton Type="ButtonType.Submit">@appLocalizer["FILTER_BUTTON_SEARCH"]</FluentButton>
+
+
 
             </EditForm>
         </FluentCard>
@@ -50,10 +49,11 @@
         {
             <Alert Color="AlertColor.Danger">@localizer["NO_RESULTS"]</Alert>
         }
-        <FluentStack Wrap="true">
+        <div class="form-wrapper mb-3">
             @foreach (var item in Data)
             {
-                <div class="form-card">
+
+                <div class="form-card h-100">
                     <div class="form-card-image">
                         @if (item.Image.Length > 0)
                         {
@@ -64,16 +64,19 @@
                             <div class="shape bg-line blue w-100 h-18"></div>
                         }
                     </div>
-                    <div class="card-body form-card">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                        <a href="/Forms/@item.FormId" class="btn btn-primary">@localizer["TEXT_BUTTON_FILL_OUT"]</a>
+                    <div class="form-card-body">
+                        <h5>@item.Name</h5>
+                        <p>@item.Description</p>
+                        <div class="form-card-buttons">
+                            <FluentAnchor Href="@($"/Forms/{item.FormId}")" Class="w-100">@localizer["TEXT_BUTTON_FILL_OUT"]</FluentAnchor>
+                        </div>
                     </div>
-
                 </div>
-            }
 
-        </FluentStack>
+
+            }
+        </div>
+
 
 
         @if (TotalPages > 1)
