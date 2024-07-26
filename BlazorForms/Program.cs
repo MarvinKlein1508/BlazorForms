@@ -14,7 +14,7 @@ using DbController;
 using DbController.MySql;
 using BlazorForms;
 using BlazorForms.Core.Models;
-using Microsoft.AspNetCore.Mvc;
+using BlazorForms.Core;
 
 SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 SqlMapper.RemoveTypeMap(typeof(Guid));
@@ -43,20 +43,10 @@ builder.Services.AddHostedService<NotificationService>();
 
 builder.Services.AddBlazorDragDrop();
 builder.Services.AddBlazorDownloadFile();
-builder.Services.AddSingleton<PermissionService>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddScoped<FormService>();
-builder.Services.AddScoped<FormRowService>();
-builder.Services.AddScoped<FormColumnService>();
-builder.Services.AddScoped<FormElementService>();
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<RuleService>();
-builder.Services.AddScoped<CalcRuleService>();
-builder.Services.AddScoped<FormEntryService>();
-builder.Services.AddScoped<FormStatusService>();
-builder.Services.AddScoped<FormEntryStatusChangeService>();
-builder.Services.AddScoped<SavedFilterService>();
-builder.Services.AddScoped<NotificationService>();
+
+builder.Services.AddApplication();
+builder.Services.AddDatabase(config.GetConnectionString("Default")!);
+
 builder.Services.AddHotKeys2();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddLocalization(options =>
