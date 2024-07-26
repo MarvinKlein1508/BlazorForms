@@ -71,6 +71,42 @@ builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDom
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAntiforgery();
+
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.MapRazorPages();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+var result = await dbInitializer.InitializeAsync();
+await AppdatenService.InitAsync(config);
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
+    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
+    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
+
+app.UseRequestLocalization(localizationOptions);
+
 if (args.Length > 0 && args[0] == "-setup")
 {
     // Ask for the user's favorite fruit
@@ -131,51 +167,13 @@ if (args.Length > 0 && args[0] == "-setup")
 
                 AnsiConsole.MarkupLine("[green]User has been created successfully![/]");
             }
-        } 
+        }
         else if (choice is 2)
         {
             exitMenu = true;
         }
     }
 }
-
-
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAntiforgery();
-
-
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.MapRazorPages();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
-var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
-var result = await dbInitializer.InitializeAsync();
-await AppdatenService.InitAsync(config);
-
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
-    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
-    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
-
-app.UseRequestLocalization(localizationOptions);
 
 app.Run();
 
