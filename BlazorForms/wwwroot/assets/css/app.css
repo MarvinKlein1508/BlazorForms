@@ -1,160 +1,67 @@
-﻿:root {
-    --bb-sidebar-collapsed-width: -100px;
-    --bb-sidebar-top-row-background-color: #EAB700;
-    --bb-sidebar-top-row-border-color: #EAB700;
-    --bb-sidebar-title-badge-text-color: #EAB700;
-    --bb-sidebar-nav-item-background-hover-color: #eeeded;
-    --bb-sidebar-nav-item-text-active-color: #000;
-    --bb-sidebar-nav-item-text-hover-color: #000;
-    --bb-topbar-item-hover-background-color: #E3B202;
+﻿@import '/_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css';
+
+body {
+    --body-font: "Segoe UI Variable", "Segoe UI", sans-serif;
+    font-family: var(--body-font);
+    font-size: var(--type-ramp-base-font-size);
+    line-height: var(--type-ramp-base-line-height);
+    margin: 0;
 }
 
-.bb-sidebar.collapsed {
-    display: none !important;
+.navmenu-icon {
+    display: none;
 }
 
-.sidebar-toggle {
-    position: absolute;
-    z-index: 1000;
-    top: .7rem;
-    margin-left: .5rem;
+.main {
+    min-height: calc(100dvh - 86px);
+    color: var(--neutral-foreground-rest);
+    align-items: stretch !important;
 }
 
-.topbar {
+.body-content {
+    padding: 0.5rem 1.5rem;
+    height: calc(100dvh - 86px) !important;
     display: flex;
-    flex-direction: row;
-    background-color: var(--bb-sidebar-top-row-background-color);
-    z-index: 3;
+    flex-direction: column;
+    align-items: initial !important;
 }
 
-.topbar-item {
-    padding: 1em;
-    cursor: pointer;
+.content {
+    align-self: stretch !important;
+    width: 100%;
 }
 
-    .topbar-item:hover {
-        background-color: var(--bb-topbar-item-hover-background-color);
-    }
-
-@media(max-width:750px) {
-    .topbar {
-        position: absolute;
-        top: 0;
-        right: 3em;
-        border: none;
-    }
-
-    footer {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-
-
-
-
-html, body, .bb-page {
-    height: 100%;
+.manage {
+    width: 100dvw;
 }
 
 footer {
-    display: flex;
-    justify-content: space-between;
+    background: var(--neutral-layer-4);
+    color: var(--neutral-foreground-rest);
+    align-items: center;
+    padding: 10px 10px;
 }
 
-main {
-    background-color: rgb(242, 247, 255);
-    display: flex;
-    flex-direction: column;
-}
+    footer a {
+        color: var(--neutral-foreground-rest);
+        text-decoration: none;
+    }
 
+        footer a:focus {
+            outline: 1px dashed;
+            outline-offset: 3px;
+        }
 
+        footer a:hover {
+            text-decoration: underline;
+        }
 
-article.content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: auto;
-}
-
-.main-content {
-    flex: 1;
-}
-
-.toolbar {
-    text-align: right;
-    padding-bottom: 0.5em;
+.alert {
+    border: 1px dashed var(--accent-fill-rest);
+    padding: 5px;
 }
 
 
-/* Fixte floating input groups */
-.input-group-append > :first-child {
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;
-}
-
-/* Minimum height of textareas */
-textarea {
-    min-height: 10rem !important;
-}
-
-/* Override bootstrap */
-.card {
-    border: none;
-    margin-bottom: 2.2rem;
-}
-
-.card {
-    --bs-card-spacer-y: 1rem;
-    --bs-card-spacer-x: 1rem;
-    --bs-card-title-spacer-y: 0.5rem;
-    --bs-card-border-width: 1px;
-    --bs-card-border-color: rgba(0,0,0,.125);
-    --bs-card-border-radius: 0.5rem;
-    --bs-card-box-shadow: -8px 12px 18px 0 rgba(25,42,70,.13);
-    --bs-card-inner-border-radius: calc(0.7rem - 1px);
-    --bs-card-cap-padding-y: 1rem;
-    --bs-card-cap-padding-x: 1.5rem;
-    --bs-card-cap-bg: #fff;
-    --bs-card-cap-color:;
-    --bs-card-height:;
-    --bs-card-color:;
-    --bs-card-bg: #fff;
-    --bs-card-img-overlay-padding: 1rem;
-    --bs-card-group-margin: 0.75rem;
-    word-wrap: break-word;
-    background-clip: border-box;
-    background-color: var(--bs-card-bg);
-    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
-    border-radius: var(--bs-card-border-radius);
-    display: flex;
-    flex-direction: column;
-    height: var(--bs-card-height);
-    min-width: 0;
-    position: relative;
-}
-
-.card-header {
-    border: none !important;
-}
-
-.card-header h1,
-.card-header h2,
-.card-header h3,
-.card-header h4,
-.card-header h5,
-.card-header h6 {
-    margin-bottom: 0;
-}
-
-.text-right {
-    text-align: right;
-}
-
-/* Blazor Specific */
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -165,6 +72,7 @@ textarea {
     position: fixed;
     width: 100%;
     z-index: 1000;
+    margin: 20px 0;
 }
 
     #blazor-error-ui .dismiss {
@@ -180,77 +88,105 @@ textarea {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
+    .blazor-error-boundary::before {
+        content: "An error has occurred. "
     }
 
-.validation-message {
-    color: red;
-    font-weight: bold;
+.loading-progress {
+    position: relative;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin: 20vh auto 1rem auto;
 }
 
-/* Autocomplete search */
-.autocomplete-dropdown {
-    max-height: 10rem;
-    overflow-y: scroll;
-    min-height: 2em;
-    border: 1px solid #dce7f1;
-    border-radius: .25rem;
-    list-style: none;
-    padding: 0;
-}
-
-    .autocomplete-dropdown > li {
-        padding: .25em;
+    .loading-progress circle {
+        fill: none;
+        stroke: #e0e0e0;
+        stroke-width: 0.6rem;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
     }
 
-        .autocomplete-dropdown > li > button {
-            background: red;
-            width: 100%;
-            background: transparent;
-            border: none;
-            text-align: left;
+        .loading-progress circle:last-child {
+            stroke: #1b6ec2;
+            stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+            transition: stroke-dasharray 0.05s ease-in-out;
         }
 
-            .autocomplete-dropdown > li > button:is(:hover) {
-                background-color: #dce7f1;
-            }
-
-
-
-.autocomplete-search {
-    height: 400px;
-    overflow: auto;
-    min-height: 20px;
-    padding: .25em;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #dce7f1;
-    border-radius: .25rem;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
 }
 
-.autocomplete-item-wrapper i {
-    cursor: pointer;
+    .loading-progress-text:after {
+        content: var(--blazor-load-percentage-text, "Loading");
+    }
+
+code {
+    color: #c02d76;
 }
 
+@media (max-width: 600px) {
+    .header-gutters {
+        margin: 0.5rem 3rem 0.5rem 1.5rem !important;
+    }
 
-/* Shapes */
-.bg-line.blue {
-    background: repeating-linear-gradient(-55deg,rgba(255,255,255,0) .8px,#3f78e0 1.6px,#3f78e0 3px,rgba(255,255,255,0) 3.8px,rgba(255,255,255,0) 10px);
-}
+    [dir="rtl"] .header-gutters {
+        margin: 0.5rem 1.5rem 0.5rem 3rem !important;
+    }
 
-.bg-dot, .bg-line {
-    opacity: .5;
-}
+    .main {
+        flex-direction: column !important;
+        row-gap: 0 !important;
+    }
 
-.h-18 {
-    height: 12rem !important;
-}
+    nav.sitenav {
+        width: 100%;
+        height: 100%;
+    }
 
-.shape {
-    border-top-left-radius: .7rem;
-    border-top-right-radius: .7rem;
-    background-color: #fff;
+    #main-menu {
+        width: 100% !important;
+    }
+
+        #main-menu > div:first-child:is(.expander) {
+            display: none;
+        }
+
+    .navmenu {
+        width: 100%;
+    }
+
+    #navmenu-toggle {
+        appearance: none;
+    }
+
+        #navmenu-toggle ~ nav {
+            display: none;
+        }
+
+        #navmenu-toggle:checked ~ nav {
+            display: block;
+        }
+
+    .navmenu-icon {
+        cursor: pointer;
+        z-index: 10;
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: unset;
+        right: 20px;
+        width: 20px;
+        height: 20px;
+        border: none;
+    }
+
+    [dir="rtl"] .navmenu-icon {
+        left: 20px;
+        right: unset;
+    }
 }
