@@ -54,9 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Database\Scripts\Script000001 - Tables.sql" />
-    <Resource Include="Database\Scripts\Script000002 - Triggers.sql" />
-    <Resource Include="Database\Scripts\Script000003 - Data.sql" />
+    <EmbeddedResource Include="Database\Scripts\Script000001 - Tables.sql" />
+    <EmbeddedResource Include="Database\Scripts\Script000002 - Triggers.sql" />
+    <EmbeddedResource Include="Database\Scripts\Script000003 - Data.sql" />
   </ItemGroup>
 
   <ItemGroup>

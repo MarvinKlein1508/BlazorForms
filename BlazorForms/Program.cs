@@ -149,12 +149,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
-    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
-    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
 
-app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
 
@@ -174,6 +169,13 @@ app.MapRazorComponents<App>()
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 var result = await dbInitializer.InitializeAsync();
 await AppdatenService.InitAsync(config);
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
+    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
+    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
+
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();
 
