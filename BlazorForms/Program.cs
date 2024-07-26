@@ -86,12 +86,11 @@ if (args.Length > 0 && args[0] == "-setup")
                 .UseConverter(x => x switch
                 {
                     1 => "1. Create local admin account",
-                    2 => "2. Install new database",
-                    3 => "3. Exit setup",
+                    2 => "2. Exit setup",
                     _ => string.Empty
                 }));
 
-        string? connectionString = builder.Configuration["ConnectionString"];
+        string? connectionString = builder.Configuration.GetConnectionString("Default");
         if (string.IsNullOrWhiteSpace(connectionString))
         {
             AnsiConsole.MarkupLine($"[red]Could not find a connection string. Please provide a valid connection string for MySql in appsettings.json[/]");
@@ -131,29 +130,12 @@ if (args.Length > 0 && args[0] == "-setup")
 
                 AnsiConsole.MarkupLine("[green]User has been created successfully![/]");
             }
-        }
+        } 
         else if (choice is 2)
-        {
-            AnsiConsole.MarkupLine($"ConnectionString:\"[green]{connectionString}[/]\"");
-            if (AnsiConsole.Confirm("Do you want to install a new database for the provided ConnectionString?", false))
-            {
-                using (IDbController dbController = new MySqlController(connectionString))
-                {
-                    await DbInstaller.InstallAsync(dbController);
-                }
-
-                AnsiConsole.MarkupLine("[green]Database has been created successfully[/]");
-            }
-        }
-        else if (choice is 3)
         {
             exitMenu = true;
         }
     }
-
-
-
-
 }
 
 await AppdatenService.InitAsync(builder.Configuration);

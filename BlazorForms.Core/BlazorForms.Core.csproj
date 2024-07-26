@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database\Scripts\Script000001 - Tables.sql" />
+    <None Remove="Database\Scripts\Script000002 - Triggers.sql" />
+    <None Remove="Database\Scripts\Script000003 - Data.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DbController" Version="4.1.0" />
     <PackageReference Include="DbController.MySql" Version="4.1.0" />
     <PackageReference Include="DbController.TypeHandler" Version="4.1.0" />
@@ -45,6 +51,12 @@
 
   <ItemGroup>
     <Folder Include="Pdf\Templates\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Database\Scripts\Script000001 - Tables.sql" />
+    <Resource Include="Database\Scripts\Script000002 - Triggers.sql" />
+    <Resource Include="Database\Scripts\Script000003 - Data.sql" />
   </ItemGroup>
 
   <ItemGroup>
