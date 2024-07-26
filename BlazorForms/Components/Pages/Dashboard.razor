@@ -18,19 +18,19 @@
                 <FluentTextField @bind-Value="Filter.SearchPhrase" Label="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" Immediate="true" Placeholder="@appLocalizer["FILTER_PLACEHOLDER_SEARCHTERM"]" />
 
 
-                <div class="form-floating mb-3">
-                    <InputSelect @bind-Value="Filter.LanguageId" class="form-select" id="form-filter-language" aria-placeholder="@appLocalizer["LANGUAGE"]">
-                        <option value="0">@appLocalizer["SELECT_ALL"]</option>
-                        @foreach (var language in AppdatenService.Languages)
-                        {
-                            <option value="@language.Id">@language.Name</option>
-                        }
-                    </InputSelect>
-                    <label for="form-filter-language">@appLocalizer["LANGUAGE"]</label>
-                    <ValidationMessage For="() => Filter.LanguageId" />
-                </div>
 
-                <FluentButton Type="ButtonType.Submit">@appLocalizer["FILTER_BUTTON_SEARCH"]</FluentButton>
+                <label for="form-filter-language">@appLocalizer["LANGUAGE"]</label>
+                <InputSelect @bind-Value="Filter.LanguageId" class="fluent-select w-100" id="form-filter-language" aria-placeholder="@appLocalizer["LANGUAGE"]">
+                    <option value="0">@appLocalizer["SELECT_ALL"]</option>
+                    @foreach (var language in AppdatenService.Languages)
+                    {
+                        <option value="@language.Id">@language.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Filter.LanguageId" />
+
+
+                <FluentButton Class="mt-2" Type="ButtonType.Submit">@appLocalizer["FILTER_BUTTON_SEARCH"]</FluentButton>
 
 
 
@@ -65,7 +65,7 @@
                         }
                     </div>
                     <div class="form-card-body">
-                        <h5>@item.Name</h5>
+                        <FluentLabel Typo="Typography.H4" Class="mb-2">@item.Name</FluentLabel>
                         <p>@item.Description</p>
                         <div class="form-card-buttons">
                             <FluentAnchor Href="@($"/Forms/{item.FormId}")" Class="w-100">@localizer["TEXT_BUTTON_FILL_OUT"]</FluentAnchor>
