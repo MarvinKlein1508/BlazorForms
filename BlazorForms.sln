@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms.Tester", "Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorForms", "BlazorForms\BlazorForms.csproj", "{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dbup-mysql", "dbup-mysql\dbup-mysql.csproj", "{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,12 @@ Global
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC081B67-9AD0-43F8-BEBA-F4B1220B67C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.DebugKlein|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.DebugKlein|Any CPU.Build.0 = Debug|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB6DB001-12E9-43A8-99D8-AC86E8AE756B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
