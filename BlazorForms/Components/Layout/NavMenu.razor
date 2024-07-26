@@ -12,6 +12,12 @@
             <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
 
 
+            <FluentNavGroup Title="@localizer["NAV_ADMIN"]" Icon="@(new Icons.Regular.Size20.Settings())">
+                <FluentNavLink Href="/Admin/Users" Icon="@(new Icons.Regular.Size20.People())">@localizer["NAV_ADMIN_USERS"]</FluentNavLink>
+                <FluentNavLink Href="/Admin/Status" Icon="@(new Icons.Regular.Size20.Check())">@localizer["NAV_ADMIN_STATUS"]</FluentNavLink>
+                <FluentNavLink Href="/Admin/Forms" Icon="@(new Icons.Regular.Size20.Form())">@localizer["NAV_ADMIN_FORMS"]</FluentNavLink>
+                <FluentNavLink Href="/Admin/Entries" Icon="@(new Icons.Regular.Size20.FolderOpen())">@localizer["NAV_ADMIN_FORM_ENTRIES"]</FluentNavLink>
+            </FluentNavGroup>
 
             <AuthorizeView>
                 <Authorized>
