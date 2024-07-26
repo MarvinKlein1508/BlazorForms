@@ -17,6 +17,7 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core;
 using BlazorForms.Core.Database;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 SqlMapper.RemoveTypeMap(typeof(Guid));
@@ -48,7 +49,7 @@ builder.Services.AddBlazorDownloadFile();
 
 builder.Services.AddApplication();
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
-
+builder.Services.AddFluentUIComponents();
 builder.Services.AddHotKeys2();
 builder.Services.AddLocalization(options =>
 {
