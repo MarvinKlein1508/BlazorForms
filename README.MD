@@ -41,14 +41,16 @@ Create dynamic PDF forms completely in the web.
 ### Configuration
 Most of the configuration tasks are managed through the appsettings.json file. Ensure you provide a valid connection string to the database within this file. Refer to  [connectionstrings.com](https://www.connectionstrings.com/mysql/) for examples.
 
+The database will be automatically created on startup for the provided connectionString.
+
 ### Configure local accounts
 To activate local accounts, ensure that the ENABLE_LOCAL_LOGIN setting is set to true. After installing the database, create a local admin user before utilizing the application.
 
 ### Configure LDAP accounts
 BlazorForms supports LDAP login alongside local accounts. To enable LDAP, set ENABLE_LDAP_LOGIN to true and provide the necessary details for `LDAP_SERVER`, `DOMAIN_SERVER` and `DistinguishedName`.
 
-### Database installation
-Before running the application, you must create the initial database. BlazorForms includes a built-in installer accessible through the command line.
+### Create admin account
+If you only want to use local accounts, you'll need to create an admin user by yourself.
 
 1. Navigate your terminal to the directory containing the `BlazorForms.exe` file.
 2. Execute the following command:
@@ -59,10 +61,8 @@ BlazorForms.exe -setup
 
 ![Setup BlazorForms](images/setup.png)
 
-3. Choose option 2 to install a new database. 
-4. If you're only using local accounts, make sure to create a local admin account before using the app. If you're using LDAP login, you can skip this step because BlazorForms automatically gives all privileges to the first LDAP user.
+3. Choose option 1 to create a new admin account. 
 
-BlazorForms should be installed and be ready to use now. 
 
 ## Hosting
 Hosting this app is quite simple. It supports all hosting possibilities from ASP.NET Core. For more information take a look on the [official docs from Microsoft](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/server?view=aspnetcore-7.0).
