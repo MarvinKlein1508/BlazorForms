@@ -82,8 +82,8 @@
                                         }
 
                                         <Button Color="ButtonColor.Info" @onclick="() => ShowCopyModalAsync(item)"><Icon Name="IconName.ClipboardCheckFill" Size="IconSize.x5" /></Button>
-
-                                        <a class="btn btn-primary" href="/Admin/FormEditor/@item.FormId"><Icon Name="IconName.PencilSquare" Size="IconSize.x5" /></a>
+                                        
+                                        <FluentAnchor Href="@($"/Admin/FormEditor/{item.FormId}")" IconStart="@(new Icons.Regular.Size20.Edit())" />
                                     </td>
                                 </tr>
                             </Virtualize>
