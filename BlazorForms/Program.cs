@@ -16,6 +16,7 @@ using BlazorForms;
 using BlazorForms.Core.Models;
 using BlazorForms.Core;
 using BlazorForms.Core.Database;
+using Microsoft.AspNetCore.Identity;
 
 SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 SqlMapper.RemoveTypeMap(typeof(Guid));
@@ -154,8 +155,9 @@ if (args.Length > 0 && args[0] == "-setup")
                     Password = AnsiConsole.Ask<string>("Please enter password:")
                 };
 
+                PasswordHasher<User> hasher = new();
+                string passwordHashed = hasher.HashPassword(user, user.Password + user.Salt);
 
-                string passwordHashed = DbInstaller.HashPassword(user);
                 user.Password = passwordHashed;
 
                 var permissions = await PermissionService.GetAllAsync(dbController);
