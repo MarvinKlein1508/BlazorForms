@@ -14,7 +14,9 @@ using DbController;
 using DbController.MySql;
 using BlazorForms;
 using BlazorForms.Core.Models;
-using Microsoft.AspNetCore.Mvc;
+using BlazorForms.Core;
+using BlazorForms.Core.Database;
+using Microsoft.AspNetCore.Identity;
 
 SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 SqlMapper.RemoveTypeMap(typeof(Guid));
@@ -43,20 +45,10 @@ builder.Services.AddHostedService<NotificationService>();
 
 builder.Services.AddBlazorDragDrop();
 builder.Services.AddBlazorDownloadFile();
-builder.Services.AddSingleton<PermissionService>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddScoped<FormService>();
-builder.Services.AddScoped<FormRowService>();
-builder.Services.AddScoped<FormColumnService>();
-builder.Services.AddScoped<FormElementService>();
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<RuleService>();
-builder.Services.AddScoped<CalcRuleService>();
-builder.Services.AddScoped<FormEntryService>();
-builder.Services.AddScoped<FormStatusService>();
-builder.Services.AddScoped<FormEntryStatusChangeService>();
-builder.Services.AddScoped<SavedFilterService>();
-builder.Services.AddScoped<NotificationService>();
+
+builder.Services.AddApplication();
+builder.Services.AddDatabase(config.GetConnectionString("Default")!);
+
 builder.Services.AddHotKeys2();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddLocalization(options =>
@@ -80,6 +72,42 @@ builder.Services.AddValidatorsFromAssembly(Assembly.LoadFrom(Path.Combine(AppDom
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAntiforgery();
+
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.MapRazorPages();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+var result = await dbInitializer.InitializeAsync();
+await AppdatenService.InitAsync(config);
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
+    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
+    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
+
+app.UseRequestLocalization(localizationOptions);
+
 if (args.Length > 0 && args[0] == "-setup")
 {
     // Ask for the user's favorite fruit
@@ -96,12 +124,11 @@ if (args.Length > 0 && args[0] == "-setup")
                 .UseConverter(x => x switch
                 {
                     1 => "1. Create local admin account",
-                    2 => "2. Install new database",
-                    3 => "3. Exit setup",
+                    2 => "2. Exit setup",
                     _ => string.Empty
                 }));
 
-        string? connectionString = builder.Configuration["ConnectionString"];
+        string? connectionString = builder.Configuration.GetConnectionString("Default");
         if (string.IsNullOrWhiteSpace(connectionString))
         {
             AnsiConsole.MarkupLine($"[red]Could not find a connection string. Please provide a valid connection string for MySql in appsettings.json[/]");
@@ -128,8 +155,9 @@ if (args.Length > 0 && args[0] == "-setup")
                     Password = AnsiConsole.Ask<string>("Please enter password:")
                 };
 
+                PasswordHasher<User> hasher = new();
+                string passwordHashed = hasher.HashPassword(user, user.Password + user.Salt);
 
-                string passwordHashed = DbInstaller.HashPassword(user);
                 user.Password = passwordHashed;
 
                 var permissions = await PermissionService.GetAllAsync(dbController);
@@ -144,59 +172,10 @@ if (args.Length > 0 && args[0] == "-setup")
         }
         else if (choice is 2)
         {
-            AnsiConsole.MarkupLine($"ConnectionString:\"[green]{connectionString}[/]\"");
-            if (AnsiConsole.Confirm("Do you want to install a new database for the provided ConnectionString?", false))
-            {
-                using (IDbController dbController = new MySqlController(connectionString))
-                {
-                    await DbInstaller.InstallAsync(dbController);
-                }
-
-                AnsiConsole.MarkupLine("[green]Database has been created successfully[/]");
-            }
-        }
-        else if (choice is 3)
-        {
             exitMenu = true;
         }
     }
-
-
-
-
 }
-
-await AppdatenService.InitAsync(builder.Configuration);
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
-    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
-    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
-
-app.UseRequestLocalization(localizationOptions);
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAntiforgery();
-
-
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.MapRazorPages();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
 
 app.Run();
 

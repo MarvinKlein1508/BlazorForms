@@ -9,9 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database\Scripts\Script000001 - Tables.sql" />
+    <None Remove="Database\Scripts\Script000002 - Triggers.sql" />
+    <None Remove="Database\Scripts\Script000003 - Data.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DbController" Version="4.1.0" />
     <PackageReference Include="DbController.MySql" Version="4.1.0" />
     <PackageReference Include="DbController.TypeHandler" Version="4.1.0" />
+    <PackageReference Include="dbup-mysql" Version="5.0.44" />
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
     <PackageReference Include="itext7.pdfhtml" Version="5.0.5" />
@@ -44,6 +51,12 @@
 
   <ItemGroup>
     <Folder Include="Pdf\Templates\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Database\Scripts\Script000001 - Tables.sql" />
+    <EmbeddedResource Include="Database\Scripts\Script000002 - Triggers.sql" />
+    <EmbeddedResource Include="Database\Scripts\Script000003 - Data.sql" />
   </ItemGroup>
 
   <ItemGroup>
