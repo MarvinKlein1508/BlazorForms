@@ -16,7 +16,7 @@
     @if (Input.GetRuleElements().Any())
     {
         <div class="toolbar">
-            <Button Color="ButtonColor.Success" @onclick="AddRuleAsync"><Icon Name="IconName.Plus" Size="IconSize.x5" /></Button>
+            <FluentButton @onclick="AddRuleAsync" IconStart="@(new Icons.Regular.Size20.Add().WithColor(Color.Success))" />
         </div>
     }
     else

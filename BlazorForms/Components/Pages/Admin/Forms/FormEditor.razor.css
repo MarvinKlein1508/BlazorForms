@@ -14,7 +14,9 @@
     display: grid;
     grid-template-columns: 7fr 1fr;
 }
-
+.toolbar-wrapper {
+    border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
+}
 .toolbar-wrapper h4 {
     text-align: center;
     padding-top: .25em;
@@ -27,6 +29,7 @@
 #element-toolbar {
     padding: 0;
     margin: 0;
+
 }
 
 .loading-wrapper {
@@ -43,10 +46,10 @@
     padding: 1em;
     cursor: grab;
     text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
     margin-top: -1px;
     margin-left: -1px;
-    background-color: #fff;
+    background-color: var(--fill-color);
 }
 
     .toolbar-element.toolbar-element-zeile {
@@ -57,7 +60,7 @@
     }
 
 .form-editor {
-    background-color: #eeeded;
+    background-color: var(--neutral-fill-layer-rest);
     position: relative;
     overflow: auto;
     display: flex;
@@ -76,7 +79,6 @@
 }
 
 #topbar {
-    background-color: rgb(242, 247, 255);
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -91,6 +93,8 @@
         border-radius: 0 !important;
         flex: 1;
     }
+
+
 
 .form-grid-editor {
     padding: 1em;
@@ -243,7 +247,7 @@
 ::deep .formular-row {
     border: 1px dashed red;
     border-radius: .5em;
-    background-color: #fff;
+    background-color: var(--fill-color);
     padding: 1em;
     display: flex;
 }
@@ -262,8 +266,7 @@
 
 .formular-element-editor {
     padding: 1em;
-    background: #fff;
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: var(--fill-color);
     position: absolute;
     inset: 0;
     overflow: auto;

@@ -45,7 +45,7 @@ namespace BlazorForms.Core.Services
             Statuses = await FormStatusService.GetAllAsync(dbController);
             FirstUserExists = await UserService.FirstUserExistsAsync(dbController);
 
-            
+
             foreach (var language in Languages)
             {
                 try
@@ -58,9 +58,9 @@ namespace BlazorForms.Core.Services
 
                 }
             }
-
             
-            if(SupportedCultures.Count == 0) 
+
+            if (SupportedCultures.Count == 0)
             {
                 throw new InvalidOperationException("No supported language could be found.");
             }
@@ -171,7 +171,7 @@ namespace BlazorForms.Core.Services
 
         public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? [];
         public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
-        
+
         public static Language GetActiveLanguage()
         {
             var currentCulture = CultureInfo.CurrentCulture;
