@@ -1,9 +1,6 @@
 ﻿@inject AuthService authService
 @inject IStringLocalizer<NavMenu> localizer
-@if (_user is null)
-{
-    return;
-}
+
 <div class="navmenu">
     <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
     <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
@@ -40,10 +37,6 @@
 
 @code {
     private bool expanded = true;
-    private User? _user;
-    protected override async Task OnInitializedAsync()
-    {
-        _user = await authService.GetUserAsync();
-    }
+   
 }
 
