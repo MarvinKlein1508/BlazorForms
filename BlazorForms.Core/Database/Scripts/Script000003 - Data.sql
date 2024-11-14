@@ -18,10 +18,10 @@ INSERT INTO permission_description (permission_id, code, name, description) VALU
 (5, 'en', 'Delete Entries','Allows the user to delete submitted form entries.'),
 (6, 'en', 'Status management','Edit and create new statuses.'),
 (1, 'de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
-(2, 'de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
+(2, 'de', 'FormulareintrÃ¤ge ','Bearbeitung aller FormulareintrÃ¤ge.'),
 (3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
-(4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
-(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.'),
+(4, 'de', 'Formulare lÃ¶schen','Erlaubt es dem Benutzer Formulare zu lÃ¶schen.'),
+(5, 'de', 'FormulareintrÃ¤ge lÃ¶schen','Erlaubt es dem Benutzer FormulareintrÃ¤ge zu lÃ¶schen.'),
 (6, 'de', 'Statusverwaltung','Erstellen und Bearbeiten von Stati.');
 
 INSERT INTO form_status (status_id, requires_approval, is_completed, sort_order) VALUES
@@ -35,7 +35,7 @@ INSERT INTO form_status_description (status_id, code, name, description) VALUES
 (2, 'en', 'Waiting for approval', 'Form entries that currently need to be approved.'),
 (3, 'en', 'In process', 'Currently being processed by a form manager.'),
 (4, 'en', 'Completed', 'Fully processed and completed form entries.'),
-(1, 'de', 'Offen', 'Neue und unbearbeitete Formulareinträge.'),
-(2, 'de', 'Warten auf Freigabe', 'Formulareinträge die derzeit noch freigegeben werden müssen.'),
+(1, 'de', 'Offen', 'Neue und unbearbeitete FormulareintrÃ¤ge.'),
+(2, 'de', 'Warten auf Freigabe', 'FormulareintrÃ¤ge die derzeit noch freigegeben werden mÃ¼ssen.'),
 (3, 'de', 'In Bearbeitung', 'Wird zurzeit durch einen Formularmanager bearbeitet.'),
-(4, 'de', 'Erledigt', 'Vollständig bearbeitete und abgeschlossene Formulareinträge.');
+(4, 'de', 'Erledigt', 'VollstÃ¤ndig bearbeitete und abgeschlossene FormulareintrÃ¤ge.');
