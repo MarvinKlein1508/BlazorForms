@@ -20,7 +20,7 @@ namespace BlazorForms.Components.Pages.Admin
 
         protected override Task OnInitializedAsync()
         {
-            Data = AppdatenService.GetList<T>();
+            Data = Storage.Get<T>().ToList();
             return base.OnInitializedAsync();
         }
         protected virtual Task NewAsync()
@@ -56,7 +56,7 @@ namespace BlazorForms.Components.Pages.Admin
                     }
 
                     await dbController.CommitChangesAsync();
-                    AppdatenService.UpdateRecord(Input);
+                    //AppdatenService.UpdateRecord(Input);
                 }
                 catch (Exception)
                 {
@@ -94,7 +94,7 @@ namespace BlazorForms.Components.Pages.Admin
                 {
                     await Service.DeleteAsync(input, dbController);
                     await dbController.CommitChangesAsync();
-                    AppdatenService.DeleteRecord(input);
+                    //AppdatenService.DeleteRecord(input);
                     await JSRuntime.ShowToastAsync(ToastType.success, deleteSuccessMessage);
                 }
                 catch (Exception ex)

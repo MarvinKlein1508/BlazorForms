@@ -3,6 +3,7 @@ using DbController.MySql;
 using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages.Admin
 {
@@ -14,7 +15,7 @@ namespace BlazorForms.Components.Pages.Admin
         {
             var newStatus = new FormStatus();
 
-            foreach (var culture in AppdatenService.SupportedCultures)
+            foreach (var culture in Storage.SupportedCultures)
             {
                 newStatus.Description.Add(new FormStatusDescription
                 {

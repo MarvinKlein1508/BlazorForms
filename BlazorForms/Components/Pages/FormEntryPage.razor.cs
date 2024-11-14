@@ -13,6 +13,7 @@ using System.Globalization;
 using BlazorBootstrap;
 using BlazorForms.Core.Enums;
 using Priority = BlazorForms.Core.Enums.Priority;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages
 {
@@ -146,10 +147,10 @@ namespace BlazorForms.Components.Pages
             }
 
             IsAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
-            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.UserFilterId);
+            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.UserId);
             IsManager = user is not null;
             IsAllowedToApprove = user?.CanApprove ?? false;
-            var searchStatus = AppdatenService.Get<FormStatus>(Input.StatusId);
+            var searchStatus = Storage.Get<FormStatus, int?>(Input.StatusId);
             IsCompleted = searchStatus?.IsCompleted ?? false;
             RequiresApproval = searchStatus?.RequiresApproval ?? false;
         }
@@ -203,7 +204,7 @@ namespace BlazorForms.Components.Pages
                     MimeMessage email = new();
                     email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
 
-                    var status = AppdatenService.Get<FormStatus>(Input.Form.DefaultStatusId) ?? throw new NullReferenceException($"Status cannot be null");
+                    var status = Storage.Get<FormStatus, int?>(Input.Form.DefaultStatusId) ?? throw new NullReferenceException($"Status cannot be null");
 
                     foreach (var manager in Input.Form.ManagerUsers)
                     {
@@ -381,7 +382,7 @@ namespace BlazorForms.Components.Pages
             {
                 return string.Empty;
             }
-            var status = AppdatenService.Get<FormStatus>(Input.StatusId);
+            var status = Storage.Get<FormStatus, int?>(Input.StatusId);
 
             if (status is null)
             {

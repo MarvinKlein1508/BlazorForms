@@ -13,10 +13,10 @@
         <div class="form-floating mb-3">
             <InputSelect @bind-Value="Input.StatusId" class="form-select" id="status-id" aria-placeholder="@localizer["LABEL_STATUS"]" disabled="@(!_allowStatusChange)">
                 <option value="0">@AppLocalizer["SELECT_CHOOSE"]</option>
-                @foreach (var status in AppdatenService.Statuses)
+                @foreach (var status in Storage.Get<FormStatus>())
                 {
                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                    <option value="@status.UserFilterId">@description?.Name</option>
+                    <option value="@status.StatusId">@description?.Name</option>
                 }
             </InputSelect>
             <label for="status-id">@localizer["LABEL_STATUS"]</label>
@@ -33,7 +33,7 @@
             <div class="notify-container mb-3">
                 @foreach (var notify in Input.Notifiers)
                 {
-                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.UserFilterId == notify.UserId).DisplayName)" />
+                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.UserId == notify.UserId).DisplayName)" />
                 }
             </div>
         }

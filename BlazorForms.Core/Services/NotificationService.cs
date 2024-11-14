@@ -67,7 +67,7 @@ WHERE
 
         public IEnumerable<Notification> GetNotifications(User user)
         {
-            return _notifications.Where(x => x.UserId == user.UserFilterId);
+            return _notifications.Where(x => x.UserId == user.UserId);
         }
 
         public Task UpdateAsync(Notification input, IDbController dbController, CancellationToken cancellationToken = default)

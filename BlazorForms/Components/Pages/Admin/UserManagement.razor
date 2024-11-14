@@ -1,6 +1,6 @@
 ﻿@page "/Admin/Users"
 @inject AuthService authService
-@inherits ManagementBasePage<User, UserService>
+@inherits ManagementBasePage<User, int?, UserService>
 @attribute [Authorize(Roles = Roles.EDIT_USERS)]
 @inject IStringLocalizer<App> appLocalizer
 @inject IStringLocalizer<UserManagement> localizer
@@ -61,7 +61,7 @@
                                         <td>@user.Username</td>
                                         <td>@user.Email</td>
                                         <td class="text-right">
-                                            @if (user.Origin is "local" && _loggedInUser?.UserFilterId != user.UserFilterId)
+                                            @if (user.Origin is "local" && _loggedInUser?.UserId != user.UserId)
                                             {
                                                 <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(user)" class="me-1"><Icon Name="IconName.Trash" Size="IconSize.x5" /></Button>
                                             }
@@ -92,7 +92,7 @@
 }
 else
 {
-    @if(Input.UserFilterId > 0)
+    @if(Input.UserId > 0)
     {
         <h3>@String.Format(localizer["EDIT_USER_TITLE"], Input.DisplayName)</h3>
     }
@@ -168,7 +168,7 @@ else
                                     </tr>
                                 }
 
-                                @if (Input.Permissions.Count != AppdatenService.Permissions.Count)
+                                @if (Input.Permissions.Count != Storage.Get<Permission>().Count())
                                 {
                                     <tr>
                                         <td colspan="3">
@@ -183,7 +183,7 @@ else
                                                         <option value="0">@appLocalizer["SELECT_CHOOSE"]</option>
                                                     }
 
-                                                    @foreach (var permission in AppdatenService.Permissions)
+                                                    @foreach (var permission in Storage.Get<Permission>())
                                                     {
                                                         var userberechtigung = Input.Permissions.FirstOrDefault(x => x.PermissionId == permission.PermissionId);
                                                         var description = permission.GetLocalization(CultureInfo.CurrentCulture);

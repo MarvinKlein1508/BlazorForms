@@ -14,7 +14,7 @@
         <tbody>
             <Virtualize Items="History" Context="change">
                 @{
-                    var status_description = AppdatenService.Get<FormStatus>(change.StatusId)?.GetLocalization(CultureInfo.CurrentCulture);
+                    var status_description = Storage.Get<FormStatus, int?>(change.StatusId)?.GetLocalization(CultureInfo.CurrentCulture);
                 }
                 <tr>
                     <td>@change.DateAdded</td>

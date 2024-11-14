@@ -50,9 +50,9 @@ namespace BlazorForms.Core.Extensions
 
             if (email.Bcc.Count != 0)
             {
-                email.Subject = $"Statusänderung des Formulareintrags {entry.Name} ({entry.Id})";
+                email.Subject = $"Statusänderung des Formulareintrags {entry.Name} ({entry.EntryId})";
 
-                var status = AppdatenService.Get<FormStatus>(status_change.StatusId);
+                var status = Storage.Get<FormStatus, int?>(status_change.StatusId);
                 var status_description = status?.GetLocalization(CultureInfo.CurrentCulture) ?? new();
                 var body = new TextPart("html")
                 {

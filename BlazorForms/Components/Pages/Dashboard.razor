@@ -25,9 +25,9 @@
                     <div class="form-floating mb-3">
                         <InputSelect @bind-Value="Filter.LanguageId" class="form-select" id="form-filter-language" aria-placeholder="@appLocalizer["LANGUAGE"]">
                             <option value="0">@appLocalizer["SELECT_ALL"]</option>
-                            @foreach (var language in AppdatenService.Languages)
+                            @foreach (var language in Storage.Get<Language>())
                             {
-                                <option value="@language.UserFilterId">@language.Name</option>
+                                <option value="@language.LanguageId">@language.Name</option>
                             }
                         </InputSelect>
                         <label for="form-filter-language">@appLocalizer["LANGUAGE"]</label>

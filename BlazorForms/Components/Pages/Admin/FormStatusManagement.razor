@@ -1,6 +1,6 @@
 ﻿@page "/Admin/Status"
 @attribute [Authorize(Roles = Roles.EDIT_STATUS)]
-@inherits ManagementBasePage<FormStatus, FormStatusService>
+@inherits ManagementBasePage<FormStatus, int?, FormStatusService>
 @inject IStringLocalizer<FormStatusManagement> localizer
 
 <PageTitle>@localizer["PAGETITLE"]</PageTitle>
@@ -38,7 +38,7 @@
                                     }
 
                                     <tr>
-                                        <td>@item.UserFilterId</td>
+                                        <td>@item.StatusId</td>
                                         <td>@description?.Name</td>
                                         <td>@description?.Description</td>
                                         <td class="text-right">

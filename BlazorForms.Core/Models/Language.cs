@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BlazorForms.Core.Models
 {
-    public class Language : IDbModelWithName
+    public class Language : IDbModelWithName<int?>
     {
         [CompareField("language_id")]
-        public int UserFilterId { get; set; }
+        public int LanguageId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("code")]
@@ -19,6 +19,16 @@ namespace BlazorForms.Core.Models
         public int SortOrder { get; set; }
         [CompareField("status")]
         public bool Status { get; set; }
+
+        public int? GetIdentifier()
+        {
+            return LanguageId > 0 ? LanguageId : null;
+        }
+
+        public string GetName()
+        {
+            throw new NotImplementedException();
+        }
 
         public Dictionary<string, object?> GetParameters()
         {

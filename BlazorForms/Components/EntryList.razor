@@ -28,7 +28,7 @@
                                 @foreach (var status in Statuses)
                                 {
                                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                                    <option value="@status.UserFilterId">@description?.Name</option>
+                                    <option value="@status.StatusId">@description?.Name</option>
                                 }
                             </InputSelect>
                             <label for="form-filter-status">@localizer["FILTER_PLACHOLDER_STATUS"]</label>
@@ -84,7 +84,7 @@
                         <tbody>
                             <Virtualize Items="Data" Context="item">
                                 @{
-                                    var status = AppdatenService.Get<FormStatus>(item.StatusId);
+                                    var status = Storage.Get<FormStatus, int?>(item.StatusId);
                                     string statusName = status?.GetLocalization(CultureInfo.CurrentCulture)?.Name ?? appLocalizer["UNKOWN"];
                                 }
 

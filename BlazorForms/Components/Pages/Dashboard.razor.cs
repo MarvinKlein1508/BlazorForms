@@ -4,6 +4,7 @@ using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages
 {
@@ -32,7 +33,7 @@ namespace BlazorForms.Components.Pages
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
             Filter.UserId = _user?.UserId ?? 0;
-            Filter.LanguageId = AppdatenService.GetActiveLanguage().UserFilterId;
+            Filter.LanguageId = Storage.GetActiveLanguage().LanguageId;
             await LoadAsync();
         }
 

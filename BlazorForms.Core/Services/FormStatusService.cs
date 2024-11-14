@@ -26,7 +26,7 @@ namespace BlazorForms.Core.Services
                 ); {dbController.GetLastIdSql()}
                 """;
 
-            input.UserFilterId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
+            input.StatusId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             await CreateOrUpdateDescriptionsAsync(input, dbController, cancellationToken);
         }
@@ -80,13 +80,13 @@ namespace BlazorForms.Core.Services
 
             if (list.Count != 0)
             {
-                IEnumerable<int> statusIds = list.Select(x => x.UserFilterId);
+                IEnumerable<int> statusIds = list.Select(x => x.StatusId);
                 sql = $"SELECT * FROM form_status_description WHERE status_id IN ({string.Join(",", statusIds)})";
                 List<FormStatusDescription> descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql,null, cancellationToken);
 
                 foreach (var status in list)
                 {
-                    status.Description = descriptions.Where(x => x.StatusId == status.UserFilterId).ToList();
+                    status.Description = descriptions.Where(x => x.StatusId == status.StatusId).ToList();
                 }
 
             }
@@ -193,7 +193,7 @@ namespace BlazorForms.Core.Services
 
             foreach (var status in statuses)
             {
-                status.Description = descriptions.Where(x => x.StatusId == status.UserFilterId).ToList();
+                status.Description = descriptions.Where(x => x.StatusId == status.StatusId).ToList();
             }
 
             return statuses;

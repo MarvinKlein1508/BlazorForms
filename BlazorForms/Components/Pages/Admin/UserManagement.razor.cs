@@ -7,6 +7,7 @@ using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using BlazorBootstrap;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages.Admin
 {
@@ -93,7 +94,7 @@ namespace BlazorForms.Components.Pages.Admin
         private Task PermissionSelectionChangedAsync(ChangeEventArgs e)
         {
             int permissionId = Convert.ToInt32(e.Value);
-            SelectedPermission = AppdatenService.Permissions.FirstOrDefault(x => x.PermissionId == permissionId);
+            SelectedPermission = Storage.Get<Permission>().FirstOrDefault(x => x.PermissionId == permissionId);
             return Task.CompletedTask;
         }
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DbController" Version="4.1.0" />
-    <PackageReference Include="DbController.MySql" Version="4.1.0" />
-    <PackageReference Include="DbController.TypeHandler" Version="4.1.0" />
+    <PackageReference Include="DbController" Version="5.0.0" />
+    <PackageReference Include="DbController.MySql" Version="5.0.0" />
+    <PackageReference Include="DbController.TypeHandler" Version="5.0.0" />
     <PackageReference Include="dbup-mysql" Version="6.0.4" />
     <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />

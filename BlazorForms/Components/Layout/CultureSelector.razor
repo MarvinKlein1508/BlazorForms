@@ -3,7 +3,7 @@
 
 <div class="culture-select">
     <select @bind="Culture" class="form-select w-auto">
-        @foreach (var culture in AppdatenService.SupportedCultures)
+        @foreach (var culture in Storage.SupportedCultures)
         {
             <option value="@culture">@culture.NativeName</option>
         }

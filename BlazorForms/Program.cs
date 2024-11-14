@@ -101,11 +101,12 @@ app.MapRazorComponents<App>()
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 var result = await dbInitializer.InitializeAsync();
 await AppdatenService.InitAsync(config);
+await Storage.InitAsync(config);
 
 var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(AppdatenService.SupportedCultures[0].Name)
-    .AddSupportedCultures(AppdatenService.SupportedCultureCodes)
-    .AddSupportedUICultures(AppdatenService.SupportedCultureCodes);
+    .SetDefaultCulture(Storage.SupportedCultures[0].Name)
+    .AddSupportedCultures(Storage.SupportedCultureCodes)
+    .AddSupportedUICultures(Storage.SupportedCultureCodes);
 
 app.UseRequestLocalization(localizationOptions);
 

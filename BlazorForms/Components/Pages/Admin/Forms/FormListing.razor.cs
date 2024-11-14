@@ -119,7 +119,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
                 try
                 {
-                    var form = await formService.GetAsync(input.Id, dbController);
+                    var form = await formService.GetAsync(input.FormId, dbController);
 
                     if (form is not null)
                     {

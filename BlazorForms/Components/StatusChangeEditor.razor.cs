@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
 using Microsoft.AspNetCore.Mvc;
 using BlazorForms.Core.Constants;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components
 {
@@ -37,8 +38,8 @@ namespace BlazorForms.Components
 
             Input = new()
             {
-                UserId = User.UserFilterId,
-                EntryId = Entry.Id,
+                UserId = User.UserId,
+                EntryId = Entry.EntryId,
                 StatusId = Entry.StatusId,
             };
 
@@ -46,7 +47,7 @@ namespace BlazorForms.Components
             {
                 Input.Notifiers.Add(new FormEntryHistoryNotify
                 {
-                    UserId = user.UserFilterId,
+                    UserId = user.UserId,
                     Notify = user.StatusChangeNotificationDefault
                 });
             }
@@ -70,7 +71,7 @@ namespace BlazorForms.Components
                 return true;
             }
 
-            var searchStatus = AppdatenService.Get<FormStatus>(Entry.StatusId);
+            var searchStatus = Storage.Get<FormStatus, int?>(Entry.StatusId);
             bool isCompleted = searchStatus?.IsCompleted ?? false;
 
             // Completed form entries can only be changed by admins
@@ -79,7 +80,7 @@ namespace BlazorForms.Components
                 return false;
             }
 
-            var user = Entry.Form.ManagerUsers.FirstOrDefault(x => x.UserId == User.UserFilterId);
+            var user = Entry.Form.ManagerUsers.FirstOrDefault(x => x.UserId == User.UserId);
             bool isManager = user is not null;
             bool isAllowedToApprove = user?.CanApprove ?? false;
             bool requiresApproval = searchStatus?.RequiresApproval ?? false;
@@ -96,16 +97,16 @@ namespace BlazorForms.Components
             foreach (var user in entry.Form.ManagerUsers)
             {
                 // We don't want to notify ourself
-                if (user.UserFilterId == currentUser.UserFilterId)
+                if (user.UserId == currentUser.UserId)
                 {
                     continue;
                 }
 
                 result.Add(user);
-                userIds.Add(user.UserFilterId);
+                userIds.Add(user.UserId);
             }
 
-            if (entry.CreationUserId is int creationUserId && currentUser.UserFilterId != creationUserId && !userIds.Contains(creationUserId))
+            if (entry.CreationUserId is int creationUserId && currentUser.UserId != creationUserId && !userIds.Contains(creationUserId))
             {
                 using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
                 User? creationUser = await userService.GetAsync((int)entry.CreationUserId, dbController);
@@ -146,11 +147,11 @@ namespace BlazorForms.Components
 
                     // Update the status of the entry
                     // Check if old status needed approve
-                    var status = AppdatenService.Get<FormStatus>(Entry.StatusId);
+                    var status = Storage.Get<FormStatus, int?>(Entry.StatusId);
                     if (status is not null && status.RequiresApproval)
                     {
                         // We only approve once, even when the second status requires another approval
-                        await statusChangeService.ApproveAsync(Entry.Id, dbController);
+                        await statusChangeService.ApproveAsync(Entry.EntryId, dbController);
                         Entry.IsApproved = true;
 
                     }
@@ -171,7 +172,7 @@ namespace BlazorForms.Components
 
                     foreach (var notify in Input.Notifiers.Where(x => x.Notify))
                     {
-                        var user = _availableForNotification.First(x => x.UserFilterId == notify.UserId);
+                        var user = _availableForNotification.First(x => x.UserId == notify.UserId);
                         email_addresses.Add(user.Email);
                     }
 

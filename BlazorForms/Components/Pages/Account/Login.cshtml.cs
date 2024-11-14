@@ -14,6 +14,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using Microsoft.Extensions.Localization;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages.Account
 {
@@ -138,16 +139,16 @@ namespace BlazorForms.Components.Pages.Account
                                 };
 
                                 // Give the first user of the app all permissions
-                                if (!AppdatenService.FirstUserExists)
+                                if (!Storage.FirstUserExists)
                                 {
-                                    foreach (var permission in AppdatenService.Permissions)
+                                    foreach (var permission in Storage.Get<Permission>())
                                     {
                                         user.Permissions.Add(permission);
                                     }
                                 }
 
                                 await _userService.CreateAsync(user, dbController);
-                                AppdatenService.FirstUserExists = true;
+                                Storage.FirstUserExists = true;
                             }
                             else
                             {
