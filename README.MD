@@ -10,7 +10,7 @@ Create dynamic PDF forms completely in the web.
 
 ## Requirements
 * MariaDB Database
-* ASP.NET Core 8 Hosting Bundle x64
+* ASP.NET Core 9 Hosting Bundle x64
 
 ## Features
 * Login via LDAP or local account
