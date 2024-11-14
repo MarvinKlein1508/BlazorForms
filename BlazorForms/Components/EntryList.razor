@@ -101,13 +101,13 @@
                                     <td class="text-right text-nowrap action-column">
                                         @if (CanDeleteEntry(item))
                                         {
-                                            <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(item)" Size="Size.Large" Class="me-1">
+                                            <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(item)" Size="ButtonSize.Large" Class="me-1">
                                                 <Icon Name="IconName.Trash" />
                                             </Button>
                                         }
 
 
-                                        <Button Color="ButtonColor.Info" @onclick="() => DownloadAsync(item)" Disabled="DownloadingList.Contains(item)" Loading="DownloadingList.Contains(item)" Size="Size.Large" LoadingText="">
+                                        <Button Color="ButtonColor.Info" @onclick="() => DownloadAsync(item)" Disabled="DownloadingList.Contains(item)" Loading="DownloadingList.Contains(item)" Size="ButtonSize.Large" LoadingText="">
                                             <Icon Name="IconName.Download" />
                                         </Button>
 
