@@ -1,17 +1,16 @@
-﻿using DbController;
-using DbController.MySql;
+﻿using BlazorBootstrap;
 using BlazorForms.Core;
-using BlazorForms.Core.Services;
+using DbController;
+using DbController.MySql;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using BlazorBootstrap;
 
 namespace BlazorForms.Components.Pages.Admin
 {
     public abstract class ManagementBasePage<T, TIdentifier, TService> : BlazorFormsComponentBase where T : class, IDbModel<TIdentifier>, new() where TService : IModelService<T>
     {
         protected T? Input { get; set; }
-        
+
         protected EditForm? _form;
         protected ConfirmDialog _deleteModal = default!;
         [Inject] public TService Service { get; set; } = default!;

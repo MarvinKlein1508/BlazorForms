@@ -1,5 +1,5 @@
-﻿using DbController;
-using BlazorForms.Core.Models;
+﻿using BlazorForms.Core.Models;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -17,7 +17,7 @@ namespace BlazorForms.Core.Services
                 WHERE 
                     user_id = @USER_ID
                 """;
-                
+
 
             var list = await dbController.SelectDataAsync<Permission>(sql, new
             {

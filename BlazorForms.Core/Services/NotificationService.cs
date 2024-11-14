@@ -1,13 +1,7 @@
 ﻿using BlazorForms.Core.Models;
-using DbController.MySql;
 using DbController;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DbController.MySql;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Components;
 
 namespace BlazorForms.Core.Services
 {
@@ -92,7 +86,7 @@ WHERE
                         created DESC
                     """;
 
-                
+
                 _notifications = await dbController.SelectDataAsync<Notification>(sql, cancellationToken: stoppingToken);
 
                 if (NotificationsChanged != null)

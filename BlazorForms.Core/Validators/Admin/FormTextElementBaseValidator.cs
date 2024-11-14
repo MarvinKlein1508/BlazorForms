@@ -1,8 +1,8 @@
-﻿using FluentValidation;
+﻿using BlazorForms.Core.Models.FormElements;
+using FluentValidation;
 using FluentValidation.Results;
-using BlazorForms.Core.Models.FormElements;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
+using System.Text.RegularExpressions;
 
 namespace BlazorForms.Core.Validators.Admin
 {

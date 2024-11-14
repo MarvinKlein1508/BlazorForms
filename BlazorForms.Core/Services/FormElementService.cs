@@ -1,6 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Extensions;
+﻿using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Models.FormElements;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -71,7 +71,7 @@ namespace BlazorForms.Core.Services
                         {string.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
                     )
                     """;
-                    
+
 
                 await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
             }
@@ -188,7 +188,7 @@ namespace BlazorForms.Core.Services
                 WHERE
                     element_id = @ELEMENT_ID
                 """;
-                
+
 
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
@@ -211,7 +211,7 @@ namespace BlazorForms.Core.Services
                         {string.Join($",{Environment.NewLine}", fields.Select(x => $"@{x}".ToUpper()))}
                     )
                     """;
-                    
+
                 await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
             }
 
@@ -272,7 +272,7 @@ namespace BlazorForms.Core.Services
                             @CONTENT_TYPE
                         )
                         """;
-                        
+
 
                     await dbController.QueryAsync(sql, new
                     {

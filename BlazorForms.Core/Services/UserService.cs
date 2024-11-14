@@ -1,6 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Filters;
+﻿using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
+using DbController;
 using System.Text;
 
 namespace BlazorForms.Core.Services
@@ -39,7 +39,7 @@ namespace BlazorForms.Core.Services
                     @ORIGIN
                 ); {dbController.GetLastIdSql()}
                 """;
-                
+
             input.UserId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);
@@ -121,7 +121,7 @@ namespace BlazorForms.Core.Services
                     user_id DESC
                 {dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit)}
                 """;
-            
+
             List<User> list = await dbController.SelectDataAsync<User>(sql, GetFilterParameter(filter), cancellationToken);
             List<Permission> permissions = await PermissionService.GetAllAsync(dbController);
 
@@ -181,7 +181,7 @@ namespace BlazorForms.Core.Services
                 FROM users 
                 WHERE 1 = 1 {GetFilterWhere(filter)}
                 """;
-            
+
             return dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
         }
 
@@ -197,7 +197,7 @@ namespace BlazorForms.Core.Services
                 WHERE 
                     user_id = @USER_ID
                 """;
-                
+
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             await _permissionService.UpdateUserPermissionsAsync(input, dbController, cancellationToken);

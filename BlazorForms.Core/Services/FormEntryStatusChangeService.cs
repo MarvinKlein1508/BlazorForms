@@ -1,5 +1,5 @@
-﻿using DbController;
-using BlazorForms.Core.Models;
+﻿using BlazorForms.Core.Models;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -18,7 +18,7 @@ namespace BlazorForms.Core.Services
                     date_added = @DATE_ADDED; 
                 {dbController.GetLastIdSql()}
                 """;
-                
+
 
             input.HistoryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 

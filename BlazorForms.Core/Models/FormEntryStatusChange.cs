@@ -16,7 +16,7 @@ namespace BlazorForms.Core.Models
         public string Comment { get; set; } = string.Empty;
         [CompareField("date_added")]
         public DateTime DateAdded { get; set; }
-        
+
         public List<FormEntryHistoryNotify> Notifiers { get; set; } = new();
 
         [CompareField("display_name")]

@@ -1,6 +1,6 @@
-﻿using DbController;
+﻿using BlazorForms.Core.Enums;
 using BlazorForms.Core.Models.FormElements;
-using BlazorForms.Core.Enums;
+using DbController;
 
 namespace BlazorForms.Core.Models
 {

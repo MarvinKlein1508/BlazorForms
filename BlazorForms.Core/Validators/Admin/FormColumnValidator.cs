@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using BlazorForms.Core.Models;
-using Microsoft.Extensions.Localization;
+﻿using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
+using FluentValidation;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin
 {
@@ -32,12 +32,12 @@ namespace BlazorForms.Core.Validators.Admin
                     x.Add(new FormSelectElementValidator(selectLocalizer));
                     x.Add(new FormTableElementValidator
                         (
-                            tableLocalizer, 
-                            checkboxLocalizer, 
-                            dateLocalizer, 
-                            fileLocalizer, 
-                            labelLocalizer, 
-                            numberLocalizer, 
+                            tableLocalizer,
+                            checkboxLocalizer,
+                            dateLocalizer,
+                            fileLocalizer,
+                            labelLocalizer,
+                            numberLocalizer,
                             radioLocalizer,
                             selectLocalizer,
                             textareaLocalizer,

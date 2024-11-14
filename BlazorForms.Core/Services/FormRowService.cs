@@ -1,6 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Extensions;
+﻿using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Models;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -80,7 +80,7 @@ namespace BlazorForms.Core.Services
                 WHERE
                     row_id = @ROW_ID
                 """;
-                
+
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
 
             foreach (var column in input.Columns)

@@ -1,7 +1,6 @@
+using BlazorForms.Core.Models;
 using DbController;
 using DbController.MySql;
-using BlazorForms.Core.Models;
-using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorForms.Components

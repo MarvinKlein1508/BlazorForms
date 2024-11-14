@@ -1,5 +1,5 @@
-﻿using DbController;
-using BlazorForms.Core.Models;
+﻿using BlazorForms.Core.Models;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -25,7 +25,7 @@ namespace BlazorForms.Core.Services
                     @SORT_ORDER
                 ); {dbController.GetLastIdSql()}
                 """;
-                
+
             input.CalcRuleId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
         }
 
@@ -45,7 +45,7 @@ namespace BlazorForms.Core.Services
                 WHERE 
                     calc_rule_id = @CALC_RULE_ID
                 """;
-                
+
             await dbController.QueryAsync(sql, input.GetParameters(), cancellationToken);
         }
     }

@@ -1,5 +1,5 @@
-﻿using DbController;
-using BlazorForms.Core.Constants;
+﻿using BlazorForms.Core.Constants;
+using DbController;
 
 namespace BlazorForms.Core.Models.FormElements
 {
@@ -44,7 +44,7 @@ namespace BlazorForms.Core.Models.FormElements
                             .Where(x => x.GuidTableCount == GuidTableCount && x.GetElementType() is ElementType.Number)
                             .Cast<FormNumberElement>()
                             .FirstOrDefault(x => x.Guid == rule.GuidElement);
-                        
+
                     }
                     else
                     {

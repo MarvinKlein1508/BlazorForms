@@ -1,6 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Filters;
+﻿using BlazorForms.Core.Filters;
 using BlazorForms.Core.Models;
+using DbController;
 using System.Text;
 
 namespace BlazorForms.Core.Services
@@ -75,14 +75,14 @@ namespace BlazorForms.Core.Services
                     sort_order ASC
                 {dbController.GetPaginationSyntax(filter.PageNumber, filter.Limit)}
                 """;
-            
+
             List<FormStatus> list = await dbController.SelectDataAsync<FormStatus>(sql, GetFilterParameter(filter), cancellationToken);
 
             if (list.Count != 0)
             {
                 IEnumerable<int> statusIds = list.Select(x => x.StatusId);
                 sql = $"SELECT * FROM form_status_description WHERE status_id IN ({string.Join(",", statusIds)})";
-                List<FormStatusDescription> descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql,null, cancellationToken);
+                List<FormStatusDescription> descriptions = await dbController.SelectDataAsync<FormStatusDescription>(sql, null, cancellationToken);
 
                 foreach (var status in list)
                 {
@@ -128,7 +128,7 @@ namespace BlazorForms.Core.Services
                 LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)
                 WHERE 1 = 1 {GetFilterWhere(filter)}
                 """;
-            
+
             return dbController.GetFirstAsync<int>(sql, GetFilterParameter(filter), cancellationToken);
         }
 

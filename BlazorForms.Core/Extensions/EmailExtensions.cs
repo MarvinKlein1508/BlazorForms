@@ -1,13 +1,8 @@
 ﻿using BlazorForms.Core.Models;
-using BlazorForms.Core.Pdf;
-using BlazorForms.Core.Services;
 using BlazorForms.Core.Settings;
 using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Components;
 using MimeKit;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using static iText.IO.Util.IntHashtable;
 
 namespace BlazorForms.Core.Extensions
 {

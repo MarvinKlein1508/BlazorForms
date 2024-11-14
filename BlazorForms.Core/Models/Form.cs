@@ -1,7 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Constants;
-using BlazorForms.Core.Interfaces;
+﻿using BlazorForms.Core.Interfaces;
 using BlazorForms.Core.Models.FormElements;
+using DbController;
 
 namespace BlazorForms.Core.Models
 {
@@ -123,7 +122,7 @@ namespace BlazorForms.Core.Models
                 }
             }
         }
-        
+
         public IEnumerable<FormNumberElement> GetCalcRuleSetElements(bool tableElements)
         {
             foreach (var element in GetElements())

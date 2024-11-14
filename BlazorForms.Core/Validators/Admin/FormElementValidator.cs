@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using BlazorForms.Core.Constants;
+﻿using BlazorForms.Core.Constants;
 using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Models.FormElements;
+using FluentValidation;
 using Microsoft.Extensions.Localization;
 
 namespace BlazorForms.Core.Validators.Admin

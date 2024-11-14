@@ -1,6 +1,5 @@
-﻿using FluentValidation;
-using BlazorForms.Core.Models;
-using BlazorForms.Core.Validators.Admin;
+﻿using BlazorForms.Core.Models;
+using FluentValidation;
 
 namespace BlazorForms.Core.Validators
 {

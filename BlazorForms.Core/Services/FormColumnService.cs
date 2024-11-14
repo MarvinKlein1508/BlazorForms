@@ -1,6 +1,6 @@
-﻿using DbController;
-using BlazorForms.Core.Extensions;
+﻿using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Models;
+using DbController;
 
 namespace BlazorForms.Core.Services
 {
@@ -40,7 +40,7 @@ namespace BlazorForms.Core.Services
                     @SORT_ORDER
                 ); {dbController.GetLastIdSql()}
                 """;
-                
+
 
             input.ColumnId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
