@@ -101,6 +101,7 @@ app.MapRazorComponents<App>()
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 var result = await dbInitializer.InitializeAsync();
 MySqlController.Initialize(config);
+MySqlController.InitializeTypeAttributeCache();
 await Storage.InitAsync(config);
 
 var localizationOptions = new RequestLocalizationOptions()
