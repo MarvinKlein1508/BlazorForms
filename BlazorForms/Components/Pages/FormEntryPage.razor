@@ -106,7 +106,7 @@
                                                     @* Style wird über das Input gestezt, da es über razor.css nicht funktioniert *@
                                                     <InputFile id="@($"form-{element.Guid}")"
                                                                multiple="@formFileElement.AllowMultipleFiles"
-                                                               accept="@formFileElement.GetAcceptTypesDefinition(AppdatenService.MimeTypes)"
+                                                               accept="@formFileElement.GetAcceptTypesDefinition(Storage.MimeTypes)"
                                                                OnChange="(e) => UploadFileAsync(formFileElement, e)"
                                                                style="opacity: 0; width: 100%; cursor: pointer;" />
                                                 </div>

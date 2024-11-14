@@ -6,6 +6,7 @@ using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
 using BlazorBootstrap;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages.Admin.Forms
 {
@@ -15,7 +16,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         private ConfirmDialog _copyModal = default!;
         public FormFilter Filter { get; set; } = new()
         {
-            Limit = AppdatenService.PageLimit
+            Limit = Storage.PageLimit
         };
 
         public List<Form> Data { get; set; } = [];
@@ -46,7 +47,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             }
 
             Filter.PageNumber = Page;
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
 
@@ -70,7 +71,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
             if (confirmation)
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
 
                 await dbController.StartTransactionAsync();
 
@@ -113,7 +114,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
             if (confirmation)
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
 
                 await dbController.StartTransactionAsync();
 

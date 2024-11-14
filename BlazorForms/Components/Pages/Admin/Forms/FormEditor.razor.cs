@@ -53,7 +53,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
                 return false;
             }
 
-            if (!AppdatenService.MimeTypes.TryGetValue(fileType, out var _))
+            if (!Storage.MimeTypes.TryGetValue(fileType, out var _))
             {
                 await JSRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_INVALID_FILETYPE"]);
                 return false;
@@ -88,7 +88,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         }
         protected override async Task OnParametersSetAsync()
         {
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             Statuses = await FormStatusService.GetAllAsync(dbController);
 
             if (FormId > 0)
@@ -122,7 +122,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         }
         public async Task LoadEditModeAsync()
         {
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
 
             Form? form = await formService.GetAsync(FormId, dbController);
 
@@ -257,7 +257,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
 
 
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
 
             await dbController.StartTransactionAsync();
 
@@ -436,7 +436,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         {
             if (Input is not null)
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
                 if (searchManagers)
                 {
                     FilterUser.BlockedIds = Input.ManagerUsers.Select(x => x.UserId).ToList();

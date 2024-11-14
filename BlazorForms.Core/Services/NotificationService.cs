@@ -78,7 +78,7 @@ WHERE
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(200));
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             while (!stoppingToken.IsCancellationRequested
                  && await timer.WaitForNextTickAsync(stoppingToken))
             {

@@ -108,7 +108,7 @@ namespace BlazorForms.Components
 
             if (entry.CreationUserId is int creationUserId && currentUser.UserId != creationUserId && !userIds.Contains(creationUserId))
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
                 User? creationUser = await userService.GetAsync((int)entry.CreationUserId, dbController);
                 if (creationUser is not null)
                 {
@@ -128,7 +128,7 @@ namespace BlazorForms.Components
                 return;
             }
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             await dbController.StartTransactionAsync();
             Input.DateAdded = DateTime.Now;
 

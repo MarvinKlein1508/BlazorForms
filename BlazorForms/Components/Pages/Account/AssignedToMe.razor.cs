@@ -3,6 +3,7 @@ using DbController.MySql;
 using BlazorForms.Core.Filters;
 using BlazorForms.Core.Services;
 using Microsoft.AspNetCore.Components;
+using BlazorForms.Core;
 
 namespace BlazorForms.Components.Pages.Account
 {
@@ -11,7 +12,7 @@ namespace BlazorForms.Components.Pages.Account
         public FormEntryFilter Filter { get; set; } = new FormEntryFilter
         {
             SearchAssigned = true,
-            Limit = AppdatenService.PageLimit
+            Limit = Storage.PageLimit
         };
 
 
@@ -26,7 +27,7 @@ namespace BlazorForms.Components.Pages.Account
 
             Filter.PageNumber = Page;
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             var user = await authService.GetUserAsync(dbController);
             Filter.UserId = user?.UserId ?? 0;
         }

@@ -31,7 +31,7 @@ namespace BlazorForms.Components.Pages.Admin
         protected async Task ShowDeleteModalAsync(FormStatus input)
         {
             // Check if more than one status exist
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             int amount_of_statuses = await Service.GetTotalStatusAmount(dbController);
             if (amount_of_statuses > 1)
             {

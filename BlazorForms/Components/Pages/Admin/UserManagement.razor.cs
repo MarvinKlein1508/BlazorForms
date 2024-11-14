@@ -16,7 +16,7 @@ namespace BlazorForms.Components.Pages.Admin
         private User? _loggedInUser;
         public UserFilter Filter { get; set; } = new()
         {
-            Limit = AppdatenService.PageLimit
+            Limit = Storage.PageLimit
         };
         public Permission? SelectedPermission { get; set; }
         [Parameter, SupplyParameterFromQuery]
@@ -56,7 +56,7 @@ namespace BlazorForms.Components.Pages.Admin
             }
 
             Filter.PageNumber = navigateToPage1 ? 1 : Page;
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             TotalItems = await Service.GetTotalAsync(Filter, dbController);
             Data = await Service.GetAsync(Filter, dbController);
         }

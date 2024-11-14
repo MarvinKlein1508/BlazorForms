@@ -19,7 +19,7 @@ namespace BlazorForms.Components
         [Parameter]
         public FormEntryFilter DefaultFilter { get; set; } = new()
         {
-            Limit = AppdatenService.PageLimit
+            Limit = Storage.PageLimit
         };
         public FormEntryFilter? Filter { get; set; }
 
@@ -43,7 +43,7 @@ namespace BlazorForms.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             User = await authService.GetUserAsync(dbController);
 
             if (User is not null)
@@ -78,7 +78,7 @@ namespace BlazorForms.Components
                 navigationManager.NavigateTo(BaseUrl);
             }
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
 
             Statuses = await FormStatusService.GetAllAsync(dbController);
             TotalItems = await formEntryService.GetTotalAsync(Filter, dbController);
@@ -93,7 +93,7 @@ namespace BlazorForms.Components
         private async Task DownloadAsync(EntryListItem item)
         {
             DownloadingList.Add(item);
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             var entry = await formEntryService.GetAsync(item.EntryId, dbController);
             if (entry is not null)
             {
@@ -131,7 +131,7 @@ namespace BlazorForms.Components
 
             if (confirmation)
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
 
                 await dbController.StartTransactionAsync();
 

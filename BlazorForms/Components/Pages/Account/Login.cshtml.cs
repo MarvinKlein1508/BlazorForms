@@ -58,8 +58,8 @@ namespace BlazorForms.Components.Pages.Account
             {
 
                 // Erst prüfen wir gegen die Datenbank
-                IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
-                User? user = AppdatenService.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
+                IDbController dbController = new MySqlController();
+                User? user = Storage.IsLocalLoginEnabled ? await _userService.GetAsync(Input.Username, dbController) : null;
 
                 // Lokale Konten müssen als ersten geprüft werden.
                 if (user is not null)
@@ -78,20 +78,20 @@ namespace BlazorForms.Components.Pages.Account
                 else
                 {
                     // Wenn kein lokales Konto gefunden wurde, dann prüfen wir das Active-Directory
-                    if (AppdatenService.IsLdapLoginEnabled)
+                    if (Storage.IsLdapLoginEnabled)
                     {
                         try
                         {
-                            using var connection = new LdapConnection(AppdatenService.LdapServer);
+                            using var connection = new LdapConnection(Storage.LdapServer);
 
-                            var networkCredential = new NetworkCredential(Input.Username, Input.Password, AppdatenService.LdapDomainServer);
+                            var networkCredential = new NetworkCredential(Input.Username, Input.Password, Storage.LdapDomainServer);
                             connection.SessionOptions.SecureSocketLayer = false; // Warnung kann ignoriert werden, ist ein Fehler vom Package
                             connection.AuthType = AuthType.Negotiate;
                             connection.Bind(networkCredential);
 
                             var searchRequest = new SearchRequest
                                 (
-                                AppdatenService.LdapDistinguishedName,
+                                Storage.LdapDistinguishedName,
                 $"(SAMAccountName={Input.Username})",
                                 SearchScope.Subtree, _attributeList);
 
@@ -195,7 +195,7 @@ namespace BlazorForms.Components.Pages.Account
                 }
                 else
                 {
-                    if (!AppdatenService.IsLdapLoginEnabled && !AppdatenService.IsLocalLoginEnabled)
+                    if (!Storage.IsLdapLoginEnabled && !Storage.IsLocalLoginEnabled)
                     {
                         ModelState.AddModelError("login-error", _localizer["ERROR_NO_PROVIDER"]);
                     }

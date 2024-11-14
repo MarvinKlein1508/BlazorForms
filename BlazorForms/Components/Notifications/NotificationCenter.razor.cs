@@ -14,7 +14,7 @@ namespace BlazorForms.Components.Notifications
 
         private async Task DeleteAsync(Notification notification)
         {
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             await notificationService.DeleteAsync(notification, dbController);
         }
 

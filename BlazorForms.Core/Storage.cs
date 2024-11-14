@@ -11,6 +11,7 @@ using BlazorForms.Core.Services;
 using BlazorForms.Core.Models;
 using System.Globalization;
 using BlazorForms.Core.Interfaces;
+using BlazorForms.Core.Models.FormElements;
 
 namespace BlazorForms.Core;
 
@@ -23,6 +24,28 @@ public static class Storage
     public static List<CultureInfo> SupportedCultures { get; set; } = [];
     public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
     private static List<(string name, Func<Dictionary<Type, object>, IDbController, Task> configure)> Provider { get; } = [];
+    public static List<FormElement> Elements { get; } =
+    [
+        new FormTextElement { Name = "Text" },
+        new FormDateElement { Name = "Date" },
+        new FormSelectElement { Name = "Select" },
+        new FormCheckboxElement { Name = "Checkbox"},
+        new FormTextareaElement { Name = "Textarea" },
+        new FormFileElement { Name = "File"},
+        new FormRadioElement { Name = "Radio"},
+        new FormNumberElement { Name ="Number"},
+        new FormTableElement { Name = "Table"},
+        new FormLabelElement { Name = "Label"}
+    ];
+
+    public static bool IsLdapLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
+    public static bool IsLocalLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
+    public static string LdapServer => _configuration?["LdapSettings:LDAP_SERVER"] ?? string.Empty;
+    public static string LdapDomainServer => _configuration?["LdapSettings:DOMAIN_SERVER"] ?? string.Empty;
+    public static string LdapDistinguishedName => _configuration?["LdapSettings:DistinguishedName"] ?? string.Empty;
+
+    public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? [];
+    public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
 
     public static void RegisterProvider(string name, Func<Dictionary<Type, object>, IDbController, Task> provider)
     {

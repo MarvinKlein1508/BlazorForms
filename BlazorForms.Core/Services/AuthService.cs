@@ -38,7 +38,7 @@ namespace BlazorForms.Core.Services
                 bool shouldDispose = dbController is null;
 
 
-                dbController ??= new MySqlController(AppdatenService.ConnectionString);
+                dbController ??= new MySqlController();
 
                 var result = await _userService.GetAsync(userId, dbController);
 

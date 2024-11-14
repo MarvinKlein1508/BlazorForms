@@ -42,7 +42,7 @@ namespace BlazorForms.Components.Pages.Admin
 
             if (_form.EditContext.Validate())
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
                 await dbController.StartTransactionAsync();
                 try
                 {
@@ -87,7 +87,7 @@ namespace BlazorForms.Components.Pages.Admin
 
             if (confirmation)
             {
-                using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+                using IDbController dbController = new MySqlController();
                 await dbController.StartTransactionAsync();
 
                 try

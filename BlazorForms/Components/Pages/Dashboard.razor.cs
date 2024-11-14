@@ -13,7 +13,7 @@ namespace BlazorForms.Components.Pages
         public FormFilter Filter { get; set; } = new()
         {
             ShowOnlyActiveForms = true,
-            Limit = AppdatenService.PageLimit
+            Limit = Storage.PageLimit
         };
         [Parameter]
         public int Page { get; set; } = 1;
@@ -30,7 +30,7 @@ namespace BlazorForms.Components.Pages
                 Page = 1;
             }
 
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             _user = await authService.GetUserAsync(dbController);
             Filter.UserId = _user?.UserId ?? 0;
             Filter.LanguageId = Storage.GetActiveLanguage().LanguageId;
@@ -53,7 +53,7 @@ namespace BlazorForms.Components.Pages
             Filter.HideLoginRequired = _user is null;
 
             Filter.PageNumber = Page;
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             TotalItems = await formService.GetTotalAsync(Filter, dbController);
             Data = await formService.GetAsync(Filter, dbController);
             _isLoading = false;

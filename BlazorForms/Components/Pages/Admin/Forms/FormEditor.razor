@@ -655,7 +655,7 @@ else
             <ul id="element-toolbar" ondragstart="event.dataTransfer.setData('text', event.target.id);">
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">@localizer["TOOLBAR_NEW_ROW"]</li>
                 <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">@localizer["TOOLBAR_NEW_COLUMN"]</li>
-                @foreach (var item in AppdatenService.Elements)
+                @foreach (var item in Storage.Elements)
                 {
                     <li class="toolbar-element @GetToolbarDraggingCss()" draggable="true"
                     @ondragend="CleanToolbarDrag"

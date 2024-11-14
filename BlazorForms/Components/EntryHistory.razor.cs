@@ -24,7 +24,7 @@ namespace BlazorForms.Components
         {
             _isLoading = true;
             await Task.Yield();
-            using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
+            using IDbController dbController = new MySqlController();
             History = await entryStatusService.GetHistoryAsync(EntryId, dbController);
             _isLoading = false;
         }
