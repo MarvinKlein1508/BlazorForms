@@ -37,7 +37,7 @@ namespace BlazorForms.Components
 
             Input = new()
             {
-                UserId = User.Id,
+                UserId = User.UserFilterId,
                 EntryId = Entry.Id,
                 StatusId = Entry.StatusId,
             };
@@ -46,7 +46,7 @@ namespace BlazorForms.Components
             {
                 Input.Notifiers.Add(new FormEntryHistoryNotify
                 {
-                    UserId = user.Id,
+                    UserId = user.UserFilterId,
                     Notify = user.StatusChangeNotificationDefault
                 });
             }
@@ -79,7 +79,7 @@ namespace BlazorForms.Components
                 return false;
             }
 
-            var user = Entry.Form.ManagerUsers.FirstOrDefault(x => x.UserId == User.Id);
+            var user = Entry.Form.ManagerUsers.FirstOrDefault(x => x.UserId == User.UserFilterId);
             bool isManager = user is not null;
             bool isAllowedToApprove = user?.CanApprove ?? false;
             bool requiresApproval = searchStatus?.RequiresApproval ?? false;
@@ -96,16 +96,16 @@ namespace BlazorForms.Components
             foreach (var user in entry.Form.ManagerUsers)
             {
                 // We don't want to notify ourself
-                if (user.Id == currentUser.Id)
+                if (user.UserFilterId == currentUser.UserFilterId)
                 {
                     continue;
                 }
 
                 result.Add(user);
-                userIds.Add(user.Id);
+                userIds.Add(user.UserFilterId);
             }
 
-            if (entry.CreationUserId is int creationUserId && currentUser.Id != creationUserId && !userIds.Contains(creationUserId))
+            if (entry.CreationUserId is int creationUserId && currentUser.UserFilterId != creationUserId && !userIds.Contains(creationUserId))
             {
                 using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
                 User? creationUser = await userService.GetAsync((int)entry.CreationUserId, dbController);
@@ -135,7 +135,7 @@ namespace BlazorForms.Components
             {
                 try
                 {
-                    if (Input.Id is 0)
+                    if (Input.HistoryId is 0)
                     {
                         await statusChangeService.CreateAsync(Input, dbController);
                     }
@@ -171,7 +171,7 @@ namespace BlazorForms.Components
 
                     foreach (var notify in Input.Notifiers.Where(x => x.Notify))
                     {
-                        var user = _availableForNotification.First(x => x.Id == notify.UserId);
+                        var user = _availableForNotification.First(x => x.UserFilterId == notify.UserId);
                         email_addresses.Add(user.Email);
                     }
 

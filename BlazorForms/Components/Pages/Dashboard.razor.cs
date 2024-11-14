@@ -32,7 +32,7 @@ namespace BlazorForms.Components.Pages
             using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
             _user = await authService.GetUserAsync(dbController);
             Filter.UserId = _user?.UserId ?? 0;
-            Filter.LanguageId = AppdatenService.GetActiveLanguage().Id;
+            Filter.LanguageId = AppdatenService.GetActiveLanguage().UserFilterId;
             await LoadAsync();
         }
 

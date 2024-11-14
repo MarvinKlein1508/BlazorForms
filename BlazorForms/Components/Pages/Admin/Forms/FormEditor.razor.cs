@@ -102,7 +102,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             {
                 Input = new Form
                 {
-                    LanguageId = AppdatenService.GetActiveLanguage().Id
+                    LanguageId = AppdatenService.GetActiveLanguage().UserFilterId
                 };
                 Input.Rows.Add(new FormRow(Input, 1));
                 EditFormProperties = true;
@@ -114,7 +114,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             {
                 if (Input.DefaultStatusId is 0)
                 {
-                    Input.DefaultStatusId = Statuses.First().Id;
+                    Input.DefaultStatusId = Statuses.First().UserFilterId;
                 }
 
                 StartCopy = Input.DeepCopyByExpressionTree();
@@ -439,12 +439,12 @@ namespace BlazorForms.Components.Pages.Admin.Forms
                 using IDbController dbController = new MySqlController(AppdatenService.ConnectionString);
                 if (searchManagers)
                 {
-                    FilterUser.BlockedIds = Input.ManagerUsers.Select(x => x.Id).ToList();
+                    FilterUser.BlockedIds = Input.ManagerUsers.Select(x => x.UserFilterId).ToList();
                     _searchManagers = await userService.GetAsync(FilterUser, dbController);
                 }
                 else
                 {
-                    FilterUser.BlockedIds = Input.AllowedUsersForNewEntries.Select(x => x.Id).ToList();
+                    FilterUser.BlockedIds = Input.AllowedUsersForNewEntries.Select(x => x.UserFilterId).ToList();
                     _searchUsers = await userService.GetAsync(FilterUser, dbController);
                 }
             }
@@ -454,11 +454,11 @@ namespace BlazorForms.Components.Pages.Admin.Forms
             _searchUsers.Remove(user);
             _searchManagers.Remove(user);
 
-            var searchUser = list.FirstOrDefault(x => x.Id == user.Id);
+            var searchUser = list.FirstOrDefault(x => x.UserFilterId == user.UserFilterId);
 
             if (searchUser is null)
             {
-                FilterUser.BlockedIds.Add(user.Id);
+                FilterUser.BlockedIds.Add(user.UserFilterId);
                 list.Add(user);
             }
 
@@ -468,7 +468,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
         {
 
             list.Remove(user);
-            FilterUser.BlockedIds.Remove(user.Id);
+            FilterUser.BlockedIds.Remove(user.UserFilterId);
 
             return Task.CompletedTask;
         }

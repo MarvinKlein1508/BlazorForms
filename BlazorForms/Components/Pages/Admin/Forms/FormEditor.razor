@@ -467,7 +467,7 @@ else
                                             <InputSelect @bind-Value="Input.LanguageId" class="form-select" id="form-default-language" aria-placeholder="@localizer["TAB_GENERAL_LABEL_LANGUAGE"]">
                                                 @foreach (var language in AppdatenService.Languages)
                                                 {
-                                                    <option value="@language.Id">@language.Name</option>
+                                                    <option value="@language.UserFilterId">@language.Name</option>
                                                 }
                                             </InputSelect>
                                             <label for="form-default-language">@localizer["TAB_GENERAL_LABEL_LANGUAGE"]</label>
@@ -480,7 +480,7 @@ else
                                                 {
                                                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
 
-                                                    <option value="@status.Id">@description?.Name</option>
+                                                    <option value="@status.UserFilterId">@description?.Name</option>
                                                 }
                                             </InputSelect>
                                             <label for="form-default-status">@localizer["TAB_GENERAL_LABEL_DEFAULT_STATUS"]</label>

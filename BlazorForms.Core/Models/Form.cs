@@ -5,7 +5,7 @@ using BlazorForms.Core.Models.FormElements;
 
 namespace BlazorForms.Core.Models
 {
-    public class Form : IDbModel, IHasSortableElement
+    public class Form : IDbModel<int?>, IHasSortableElement
     {
         private bool _isOnlyAvailableForLoggedInUsers;
 
@@ -36,7 +36,10 @@ namespace BlazorForms.Core.Models
         /// </summary>
         [CompareField("default_name")]
         public string DefaultName { get; set; } = string.Empty;
-        public int Id => FormId;
+        public int? GetIdentifier()
+        {
+            return FormId > 0 ? FormId : null;
+        }
         public bool EntryMode { get; set; }
         public List<FormRow> Rows { get; set; } = [];
         /// <summary>

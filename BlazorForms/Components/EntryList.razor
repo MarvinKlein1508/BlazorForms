@@ -28,7 +28,7 @@
                                 @foreach (var status in Statuses)
                                 {
                                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                                    <option value="@status.Id">@description?.Name</option>
+                                    <option value="@status.UserFilterId">@description?.Name</option>
                                 }
                             </InputSelect>
                             <label for="form-filter-status">@localizer["FILTER_PLACHOLDER_STATUS"]</label>

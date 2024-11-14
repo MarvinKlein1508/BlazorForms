@@ -146,7 +146,7 @@ namespace BlazorForms.Components.Pages
             }
 
             IsAdmin = await authService.HasRole(Roles.EDIT_ENTRIES);
-            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.Id);
+            var user = Input.Form.ManagerUsers.FirstOrDefault(x => x.UserId == _user.UserFilterId);
             IsManager = user is not null;
             IsAllowedToApprove = user?.CanApprove ?? false;
             var searchStatus = AppdatenService.Get<FormStatus>(Input.StatusId);

@@ -48,7 +48,7 @@ namespace BlazorForms.Components
 
             if (User is not null)
             {
-                Filter = await savedFilterService.GetAsync(DefaultFilter.DeepCopyByExpressionTree(), User.Id, BaseUrl, dbController);
+                Filter = await savedFilterService.GetAsync(DefaultFilter.DeepCopyByExpressionTree(), User.UserId, BaseUrl, dbController);
             }
 
             if (Filter is not null)
@@ -85,7 +85,7 @@ namespace BlazorForms.Components
             Data = await formEntryService.GetAsync(Filter, dbController);
             if (User is not null)
             {
-                var savedFilter = Filter.ToSavedFilter<FormEntryFilter>(User.Id, BaseUrl);
+                var savedFilter = Filter.ToSavedFilter<FormEntryFilter>(User.UserId, BaseUrl);
                 await savedFilterService.SaveAsync(savedFilter, dbController);
             }
         }

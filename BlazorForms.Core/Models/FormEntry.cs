@@ -4,7 +4,7 @@ using BlazorForms.Core.Enums;
 
 namespace BlazorForms.Core.Models
 {
-    public class FormEntry : IDbModel
+    public class FormEntry : IDbModel<int?>
     {
         [CompareField("entry_id")]
         public int EntryId { get; set; }
@@ -27,7 +27,10 @@ namespace BlazorForms.Core.Models
         [CompareField("priority")]
         public Priority Priority { get; set; } = Priority.Normal;
         public Form Form { get; set; }
-        public int Id => EntryId;
+        public int? GetIdentifier()
+        {
+            return EntryId > 0 ? EntryId : null;
+        }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

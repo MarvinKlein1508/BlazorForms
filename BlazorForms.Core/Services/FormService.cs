@@ -731,7 +731,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
-                    USER_ID = user.Id
+                    USER_ID = user.UserFilterId
                 }, cancellationToken);
             }
         }
@@ -769,7 +769,7 @@ LEFT JOIN {tableName} fea ON (fea.element_id = fe.element_id)");
                 await dbController.QueryAsync(sql, new
                 {
                     FORM_ID = input.Id,
-                    USER_ID = user.Id,
+                    USER_ID = user.UserFilterId,
                     RECEIVE_EMAIL = user.EmailEnabled,
                     CAN_APPROVE = user.CanApprove,
                     STATUS_CHANGE_NOTIFICATION_DEFAULT = user.StatusChangeNotificationDefault,

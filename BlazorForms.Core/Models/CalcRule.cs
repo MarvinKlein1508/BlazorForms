@@ -8,7 +8,7 @@ namespace BlazorForms.Core.Models
     /// <summary>
     /// A <see cref="CalcRule"/> is a logical grouping of two <see cref="FormNumberElement"/> elements which can be chained together to automatically calculate values.
     /// </summary>
-    public class CalcRule : IDbModel, IHasSortableElement
+    public class CalcRule : IDbModel<int?>, IHasSortableElement
     {
         [CompareField("calc_rule_id")]
         public int CalcRuleId { get; set; }
@@ -23,7 +23,10 @@ namespace BlazorForms.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
-        public int Id => CalcRuleId;
+        public int? GetIdentifier()
+        {
+            return CalcRuleId > 0 ? CalcRuleId : null;
+        }
 
         public Dictionary<string, object?> GetParameters()
         {

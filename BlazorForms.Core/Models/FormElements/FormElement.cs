@@ -5,7 +5,7 @@ using BlazorForms.Core.Interfaces;
 
 namespace BlazorForms.Core.Models.FormElements
 {
-    public abstract class FormElement : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormElementTabs>, ICloneable
+    public abstract class FormElement : IDbModel<int?>, IHasSortableElement, IHasRuleSet, IHasTabs<FormElementTabs>, ICloneable
     {
         [CompareField("element_id")]
         public int ElementId { get; set; }
@@ -33,7 +33,10 @@ namespace BlazorForms.Core.Models.FormElements
         public int SortOrder { get; set; }
 
         public int EntryId { get; set; }
-        public int Id => ElementId;
+        public int? GetIdentifier()
+        {
+            return ElementId > 0 ? ElementId : null;
+        }
         public override string ToString() => Name;
         public abstract ElementType GetElementType();
         [IgnoreModificationCheck]

@@ -9,7 +9,7 @@ namespace BlazorForms.Core.Models
     /// <summary>
     /// Represents a column for a <see cref="FormRow"/>
     /// </summary>
-    public class FormColumn : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormColumnTabs>
+    public class FormColumn : IDbModel<int?>, IHasSortableElement, IHasRuleSet, IHasTabs<FormColumnTabs>
     {
         [CompareField("column_id")]
         public int ColumnId { get; set; }
@@ -24,7 +24,10 @@ namespace BlazorForms.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
-        public int Id => ColumnId;
+        public int? GetIdentifier()
+        {
+            return ColumnId > 0 ? ColumnId : null;
+        }
         /// <summary>
         /// Gets or sets the elements for this column
         /// </summary>

@@ -6,7 +6,7 @@ namespace BlazorForms.Core.Models
     public class FormStatus : LocalizationModelBase<FormStatusDescription>, ILocalizedDbModel
     {
         [CompareField("status_id")]
-        public int Id { get; set; }
+        public int UserFilterId { get; set; }
         [CompareField("requires_approval")]
         public bool RequiresApproval { get; set; }
         [CompareField("is_completed")]
@@ -20,7 +20,7 @@ namespace BlazorForms.Core.Models
             {
                 yield return new Dictionary<string, object?>
                 {
-                    { "STATUS_ID", Id },
+                    { "STATUS_ID", UserFilterId },
                     { "CODE", item.Code },
                     { "NAME", item.Name },
                     { "DESCRIPTION", item.Description }
@@ -32,7 +32,7 @@ namespace BlazorForms.Core.Models
         {
             return new Dictionary<string, object?>
             {
-                { "STATUS_ID", Id },
+                { "STATUS_ID", UserFilterId },
                 { "REQUIRES_APPROVAL", RequiresApproval },
                 { "IS_COMPLETED", IsCompleted },
                 { "SORT_ORDER", SortOrder }

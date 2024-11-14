@@ -10,7 +10,7 @@ namespace BlazorForms.Core.Models
     public class Language : IDbModelWithName
     {
         [CompareField("language_id")]
-        public int Id { get; set; }
+        public int UserFilterId { get; set; }
         [CompareField("name")]
         public string Name { get; set; } = string.Empty;
         [CompareField("code")]

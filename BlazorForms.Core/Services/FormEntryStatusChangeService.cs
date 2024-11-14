@@ -20,11 +20,11 @@ namespace BlazorForms.Core.Services
                 """;
                 
 
-            input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
+            input.HistoryId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
 
             foreach (var item in input.Notifiers)
             {
-                item.HistoryId = input.Id;
+                item.HistoryId = input.HistoryId;
                 sql =
                     """
                     INSERT INTO form_entry_history_notify

@@ -2,7 +2,7 @@
 
 namespace BlazorForms.Core.Models.FormElements
 {
-    public class FormFileElementFile : IDbModel
+    public class FormFileElementFile : IDbModel<int?>
     {
         [CompareField("file_id")]
         public int FileId { get; set; }
@@ -16,7 +16,10 @@ namespace BlazorForms.Core.Models.FormElements
         public string ContentType { get; set; } = string.Empty;
         [CompareField("filename")]
         public string Filename { get; set; } = string.Empty;
-        public int Id => FileId;
+        public int? GetIdentifier()
+        {
+            return FileId > 0 ? FileId : null;
+        }
 
         public Dictionary<string, object?> GetParameters()
         {

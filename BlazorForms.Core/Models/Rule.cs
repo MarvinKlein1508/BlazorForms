@@ -5,7 +5,7 @@ using BlazorForms.Core.Models.FormElements;
 
 namespace BlazorForms.Core.Models
 {
-    public class Rule : IDbModel, IHasSortableElement
+    public class Rule : IDbModel<int?>, IHasSortableElement
     {
         [CompareField("rule_id")]
         public int RuleId { get; set; }
@@ -34,10 +34,13 @@ namespace BlazorForms.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
-        public int Id => RuleId;
         [IgnoreModificationCheck]
         public FormElement? Element { get; set; }
 
+        public int? GetIdentifier()
+        {
+            return RuleId > 0 ? RuleId : null;
+        }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

@@ -2,7 +2,7 @@
 
 namespace BlazorForms.Core.Models
 {
-    public sealed class User : IDbModel
+    public sealed class User : IDbModel<int?>
     {
         [CompareField("user_id")]
         public int UserId { get; set; }
@@ -22,7 +22,6 @@ namespace BlazorForms.Core.Models
         public string Origin { get; set; } = string.Empty;
 
         public List<Permission> Permissions { get; set; } = new();
-        public int Id => UserId;
         /// <summary>
         /// Gets or sets a flag for a form manager to receive an email for new form entries
         /// </summary>
@@ -39,6 +38,10 @@ namespace BlazorForms.Core.Models
         [CompareField("status_change_notification_default")]
         public bool StatusChangeNotificationDefault { get; set; }
 
+        public int? GetIdentifier()
+        {
+            return UserId > 0 ? UserId : null;
+        }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>

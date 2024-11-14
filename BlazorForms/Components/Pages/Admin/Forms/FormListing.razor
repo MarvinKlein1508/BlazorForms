@@ -35,7 +35,7 @@
                             <option value="0">@AppLocalizer["SELECT_ALL"]</option>
                             @foreach (var language in AppdatenService.Languages)
                             {
-                                <option value="@language.Id">@language.Name</option>
+                                <option value="@language.UserFilterId">@language.Name</option>
                             }
                         </InputSelect>
                         <label for="form-filter-language">@AppLocalizer["LANGUAGE"]</label>

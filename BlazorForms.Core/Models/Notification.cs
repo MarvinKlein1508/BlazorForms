@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BlazorForms.Core.Models
 {
-    public class Notification : IDbModel
+    public class Notification : IDbModel<int?>
     {
         [CompareField("notification_id")]
-        public int Id { get; set; }
+        public int NotificationId { get; set; }
         [CompareField("created")]
         public DateTime Created { get; set; } = DateTime.Now;
         [CompareField("user_id")]
@@ -28,12 +28,15 @@ namespace BlazorForms.Core.Models
         [CompareField("read_timestamp")]
         public DateTime? ReadTimestamp { get; set; } = null;
 
-
+        public int? GetIdentifier()
+        {
+            return NotificationId > 0 ? NotificationId : null;
+        }
         public Dictionary<string, object?> GetParameters()
         {
             return new Dictionary<string, object?>
             {
-                { "NOTIFICATION_ID", Id },
+                { "NOTIFICATION_ID", NotificationId },
                 { "CREATED", Created },
                 { "USER_ID", UserId },
                 { "ICON", Icon },

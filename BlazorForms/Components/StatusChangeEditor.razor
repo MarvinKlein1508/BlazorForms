@@ -16,7 +16,7 @@
                 @foreach (var status in AppdatenService.Statuses)
                 {
                     var description = status.GetLocalization(CultureInfo.CurrentCulture);
-                    <option value="@status.Id">@description?.Name</option>
+                    <option value="@status.UserFilterId">@description?.Name</option>
                 }
             </InputSelect>
             <label for="status-id">@localizer["LABEL_STATUS"]</label>
@@ -33,7 +33,7 @@
             <div class="notify-container mb-3">
                 @foreach (var notify in Input.Notifiers)
                 {
-                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.Id == notify.UserId).DisplayName)" />
+                    <Switch @bind-Value="notify.Notify" Label="@(_availableForNotification.First(x => x.UserFilterId == notify.UserId).DisplayName)" />
                 }
             </div>
         }

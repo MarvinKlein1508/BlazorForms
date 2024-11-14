@@ -8,7 +8,7 @@ using BlazorBootstrap;
 
 namespace BlazorForms.Components.Pages.Admin
 {
-    public abstract class ManagementBasePage<T, TService> : BlazorFormsComponentBase where T : class, IDbModel, new() where TService : IModelService<T>
+    public abstract class ManagementBasePage<T, TIdentifier, TService> : BlazorFormsComponentBase where T : class, IDbModel<TIdentifier>, new() where TService : IModelService<T>
     {
         protected T? Input { get; set; }
         
@@ -46,7 +46,7 @@ namespace BlazorForms.Components.Pages.Admin
                 await dbController.StartTransactionAsync();
                 try
                 {
-                    if (Input.Id is 0)
+                    if (Input.GetIdentifier() is null)
                     {
                         await Service.CreateAsync(Input, dbController);
                     }

@@ -46,7 +46,7 @@ VALUES
     @READ_TIMESTAMP
 ); {dbController.GetLastIdSql()}
 """;
-            input.Id = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
+            input.NotificationId = await dbController.GetFirstAsync<int>(sql, input.GetParameters(), cancellationToken);
         }
 
         public async Task DeleteAsync(Notification input, IDbController dbController, CancellationToken cancellationToken = default)
@@ -67,7 +67,7 @@ WHERE
 
         public IEnumerable<Notification> GetNotifications(User user)
         {
-            return _notifications.Where(x => x.UserId == user.Id);
+            return _notifications.Where(x => x.UserId == user.UserFilterId);
         }
 
         public Task UpdateAsync(Notification input, IDbController dbController, CancellationToken cancellationToken = default)

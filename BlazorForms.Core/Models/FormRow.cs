@@ -9,7 +9,7 @@ namespace BlazorForms.Core.Models
     /// <summary>
     /// Represents a row within the Form.
     /// </summary>
-    public class FormRow : IDbModel, IHasSortableElement, IHasRuleSet, IHasTabs<FormRowTabs>
+    public class FormRow : IDbModel<int?>, IHasSortableElement, IHasRuleSet, IHasTabs<FormRowTabs>
     {
         [CompareField("row_id")]
         public int RowId { get; set; }
@@ -22,7 +22,10 @@ namespace BlazorForms.Core.Models
         [CompareField("sort_order")]
         public int SortOrder { get; set; }
 
-        public int Id => RowId;
+        public int? GetIdentifier()
+        {
+            return RowId > 0 ? RowId : null;
+        }
         /// <summary>
         /// Gets or sets all columns for this row.
         /// </summary>

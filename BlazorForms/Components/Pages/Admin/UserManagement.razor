@@ -61,7 +61,7 @@
                                         <td>@user.Username</td>
                                         <td>@user.Email</td>
                                         <td class="text-right">
-                                            @if (user.Origin is "local" && _loggedInUser?.Id != user.Id)
+                                            @if (user.Origin is "local" && _loggedInUser?.UserFilterId != user.UserFilterId)
                                             {
                                                 <Button Color="ButtonColor.Danger" @onclick="async () => await ShowDeleteModalAsync(user)" class="me-1"><Icon Name="IconName.Trash" Size="IconSize.x5" /></Button>
                                             }
@@ -92,7 +92,7 @@
 }
 else
 {
-    @if(Input.Id > 0)
+    @if(Input.UserFilterId > 0)
     {
         <h3>@String.Format(localizer["EDIT_USER_TITLE"], Input.DisplayName)</h3>
     }
