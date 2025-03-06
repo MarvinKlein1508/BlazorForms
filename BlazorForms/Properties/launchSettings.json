@@ -11,12 +11,13 @@
     },
     "https": {
       "commandName": "Project",
+      "commandLineArgs": "",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://mkw11:7185;http://mkw11:5074"
+      "applicationUrl": "https://localhost:7185;http://localhost:5074"
     },
     "IIS Express": {
       "commandName": "IISExpress",
