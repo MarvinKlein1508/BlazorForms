@@ -18,8 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.4" />
 		<!--<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />-->
 	</ItemGroup>
 

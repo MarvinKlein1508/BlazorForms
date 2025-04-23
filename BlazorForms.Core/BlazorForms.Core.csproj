@@ -22,14 +22,14 @@
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.1.0" />
     <PackageReference Include="itext7.pdfhtml" Version="6.1.0" />
-    <PackageReference Include="MailKit" Version="4.10.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.2" />
-    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+    <PackageReference Include="MailKit" Version="4.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.4" />
+    <PackageReference Include="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
