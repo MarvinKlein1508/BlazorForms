@@ -1,72 +1,70 @@
 ﻿using BlazorForms.Core.Constants;
 
-namespace BlazorForms.Core.Models.FormElements
+namespace BlazorForms.Core.Models.FormElements;
+
+public class FormTableElement : FormElement
 {
-    public class FormTableElement : FormElement
+    public bool AllowAddRows { get; set; }
+    /// <summary>
+    /// Holds all elements for the FormEditor
+    /// </summary>
+    public List<FormElement> Elements { get; set; } = [];
+
+    /// <summary>
+    /// Holds all values for a FormEntry.
+    /// </summary>
+    public List<List<FormElement>> ElementValues { get; set; } = [];
+    public override ElementType GetElementType() => ElementType.Table;
+    public override string GetDefaultName() => "Table";
+
+    public override Dictionary<string, object?> GetParameters()
     {
-        [CompareField("allow_add_rows")]
-        public bool AllowAddRows { get; set; }
-        /// <summary>
-        /// Holds all elements for the FormEditor
-        /// </summary>
-        public List<FormElement> Elements { get; set; } = [];
+        var parameters = base.GetParameters();
 
-        /// <summary>
-        /// Holds all values for a FormEntry.
-        /// </summary>
-        public List<List<FormElement>> ElementValues { get; set; } = [];
-        public override ElementType GetElementType() => ElementType.Table;
-        public override string GetDefaultName() => "Table";
+        parameters.Add("ALLOW_ADD_ROWS", AllowAddRows);
 
-        public override Dictionary<string, object?> GetParameters()
+        return parameters;
+    }
+
+    /// <summary>
+    /// Adds a new row to fill out for the user.
+    /// </summary>
+    public List<FormElement> NewRow()
+    {
+        //var tmp = Elements.DeepCopyByExpressionTree();
+
+        List<FormElement> tmp = [];
+        Guid guid = Guid.NewGuid();
+        foreach (var element in Elements)
         {
-            var parameters = base.GetParameters();
-
-            parameters.Add("ALLOW_ADD_ROWS", AllowAddRows);
-
-            return parameters;
-        }
-
-        /// <summary>
-        /// Adds a new row to fill out for the user.
-        /// </summary>
-        public List<FormElement> NewRow()
-        {
-            //var tmp = Elements.DeepCopyByExpressionTree();
-
-            List<FormElement> tmp = [];
-            Guid guid = Guid.NewGuid();
-            foreach (var element in Elements)
+            var copy = (FormElement)element.Clone();
+            copy.GuidTableCount = guid;
+            if (copy is FormDateElement dateElement)
             {
-                var copy = (FormElement)element.Clone();
-                copy.GuidTableCount = guid;
-                if (copy is FormDateElement dateElement)
+                if (dateElement.SetDefaultValueToCurrentDate)
                 {
-                    if (dateElement.SetDefaultValueToCurrentDate)
-                    {
-                        dateElement.Value = DateTime.Now;
-                    }
+                    dateElement.Value = DateTime.Now;
                 }
-
-                tmp.Add(copy);
             }
 
-            ElementValues.Add(tmp);
-            return tmp;
+            tmp.Add(copy);
         }
 
-        public override void SetValue(FormEntryElement element)
-        {
-            // No value to be set
-        }
-        public override void Reset()
-        {
-            // This element has nothing to be resetted
-        }
+        ElementValues.Add(tmp);
+        return tmp;
+    }
 
-        public override object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+    public override void SetValue(FormEntryElement element)
+    {
+        // No value to be set
+    }
+    public override void Reset()
+    {
+        // This element has nothing to be resetted
+    }
+
+    public override object Clone()
+    {
+        return this.MemberwiseClone();
     }
 }

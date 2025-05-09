@@ -1,74 +1,63 @@
 ﻿using BlazorForms.Core.Enums;
 using BlazorForms.Core.Models.FormElements;
 
-namespace BlazorForms.Core.Models
+namespace BlazorForms.Core.Models;
+
+public class FormEntry : IDbModel<int?>
 {
-    public class FormEntry : IDbModel<int?>
+    public int EntryId { get; set; }
+    public int FormId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public int? CreationUserId { get; set; }
+    public DateTime LastChange { get; set; } = DateTime.Now;
+    public int? LastChangeUserId { get; set; }
+    public int StatusId { get; set; }
+    public bool IsApproved { get; set; }
+    public Priority Priority { get; set; } = Priority.Normal;
+    public Form Form { get; set; }
+    public int? GetIdentifier()
     {
-        [CompareField("entry_id")]
-        public int EntryId { get; set; }
-        [CompareField("form_id")]
-        public int FormId { get; set; }
-        [CompareField("name")]
-        public string Name { get; set; } = string.Empty;
-        [CompareField("creation_date")]
-        public DateTime CreationDate { get; set; } = DateTime.Now;
-        [CompareField("creation_user_id")]
-        public int? CreationUserId { get; set; }
-        [CompareField("last_change")]
-        public DateTime LastChange { get; set; } = DateTime.Now;
-        [CompareField("last_change_user_id")]
-        public int? LastChangeUserId { get; set; }
-        [CompareField("status_id")]
-        public int StatusId { get; set; }
-        [CompareField("approved")]
-        public bool IsApproved { get; set; }
-        [CompareField("priority")]
-        public Priority Priority { get; set; } = Priority.Normal;
-        public Form Form { get; set; }
-        public int? GetIdentifier()
+        return EntryId > 0 ? EntryId : null;
+    }
+    public Dictionary<string, object?> GetParameters()
+    {
+        return new Dictionary<string, object?>
         {
-            return EntryId > 0 ? EntryId : null;
-        }
-        public Dictionary<string, object?> GetParameters()
+            { "ENTRY_ID",  EntryId },
+            { "FORM_ID",  FormId },
+            { "NAME", Name },
+            { "CREATION_DATE",  CreationDate },
+            { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
+            { "LAST_CHANGE",  LastChange },
+            { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId },
+            { "STATUS_ID", StatusId },
+            { "APPROVED", IsApproved },
+            { "PRIORITY", (int)Priority }
+        };
+    }
+
+    public FormEntry()
+    {
+        Form = new();
+    }
+
+    public FormEntry(Form form)
+    {
+        form.EntryMode = true;
+        Form = form;
+
+        foreach (var element in form.GetElements())
         {
-            return new Dictionary<string, object?>
+            if (element is FormTableElement tableElement)
             {
-                { "ENTRY_ID",  EntryId },
-                { "FORM_ID",  FormId },
-                { "NAME", Name },
-                { "CREATION_DATE",  CreationDate },
-                { "CREATION_USER_ID",  CreationUserId is 0 ? null : CreationUserId },
-                { "LAST_CHANGE",  LastChange },
-                { "LAST_CHANGE_USER_ID",  LastChangeUserId is 0 ? null : LastChangeUserId },
-                { "STATUS_ID", StatusId },
-                { "APPROVED", IsApproved },
-                { "PRIORITY", (int)Priority }
-            };
-        }
-
-        public FormEntry()
-        {
-            Form = new();
-        }
-
-        public FormEntry(Form form)
-        {
-            form.EntryMode = true;
-            Form = form;
-
-            foreach (var element in form.GetElements())
+                tableElement.NewRow();
+            }
+            else if (element is FormDateElement dateElement)
             {
-                if (element is FormTableElement tableElement)
+                if (dateElement.SetDefaultValueToCurrentDate)
                 {
-                    tableElement.NewRow();
-                }
-                else if (element is FormDateElement dateElement)
-                {
-                    if (dateElement.SetDefaultValueToCurrentDate)
-                    {
-                        dateElement.Value = DateTime.Now;
-                    }
+                    dateElement.Value = DateTime.Now;
                 }
             }
         }

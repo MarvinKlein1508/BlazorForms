@@ -1,36 +1,20 @@
 ﻿using BlazorForms.Core.Enums;
 
-namespace BlazorForms.Core.Models
+namespace BlazorForms.Core.Models;
+public class EntryListItem
 {
-    public class EntryListItem
-    {
-        [CompareField("entry_id")]
-        public int EntryId { get; set; }
-        [CompareField("form_id")]
-        public int FormId { get; set; }
-        [CompareField("status_id")]
-        public int StatusId { get; set; }
-        [CompareField("name")]
-        public string Name { get; set; } = string.Empty;
-        [CompareField("creation_date")]
-        public DateTime CreationDate { get; set; } = DateTime.Now;
-        [CompareField("creation_user_id")]
-        public int? CreationUserId { get; set; }
-        [CompareField("last_change")]
-        public DateTime LastChange { get; set; } = DateTime.Now;
-        [CompareField("last_change_user_id")]
-        public int? LastChangeUserId { get; set; }
-        [CompareField("form_name")]
-        public string FormName { get; set; } = string.Empty;
-        [CompareField("username_creator")]
-        public string UsernameCreator { get; set; } = string.Empty;
-        [CompareField("username_last_change")]
-        public string UsernameLastChange { get; set; } = string.Empty;
+    public int EntryId { get; set; }
+    public int FormId { get; set; }
+    public int StatusId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public int? CreationUserId { get; set; }
+    public DateTime LastChange { get; set; } = DateTime.Now;
+    public int? LastChangeUserId { get; set; }
+    public string FormName { get; set; } = string.Empty;
+    public string UsernameCreator { get; set; } = string.Empty;
+    public string UsernameLastChange { get; set; } = string.Empty;
+    public Priority Priority { get; set; }
+    public List<int> ManagerIds { get; set; } = [];
 
-        [CompareField("priority")]
-        public Priority Priority { get; set; }
-
-        public List<int> ManagerIds { get; set; } = [];
-
-    }
 }

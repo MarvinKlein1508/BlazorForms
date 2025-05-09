@@ -1,33 +1,27 @@
 ﻿using BlazorForms.Core.Filters;
 
-namespace BlazorForms.Core.Models
+namespace BlazorForms.Core.Models;
+
+public class SavedFilter : IDbModel<int?>
 {
-    public class SavedFilter : IDbModel<int?>
+    public int UserFilterId { get; set; }
+    public int UserId { get; set; }
+    public FilterTypes FilterType { get; set; }
+    public string Page { get; set; } = string.Empty;
+    public string Json { get; set; } = string.Empty;
+    public int? GetIdentifier()
     {
-        [CompareField("user_filter_id")]
-        public int UserFilterId { get; set; }
-        [CompareField("user_id")]
-        public int UserId { get; set; }
-        [CompareField("filter_type")]
-        public FilterTypes FilterType { get; set; }
-        [CompareField("page")]
-        public string Page { get; set; } = string.Empty;
-        [CompareField("serialized")]
-        public string Json { get; set; } = string.Empty;
-        public int? GetIdentifier()
+        return UserFilterId > 0 ? UserFilterId : null;
+    }
+    public Dictionary<string, object?> GetParameters()
+    {
+        return new()
         {
-            return UserFilterId > 0 ? UserFilterId : null;
-        }
-        public Dictionary<string, object?> GetParameters()
-        {
-            return new()
-            {
-                { "USER_FILTER_ID", UserFilterId },
-                { "user_id", UserId },
-                { "filter_type", FilterType.ToString() },
-                { "page", Page },
-                { "serialized", Json },
-            };
-        }
+            { "USER_FILTER_ID", UserFilterId },
+            { "user_id", UserId },
+            { "filter_type", FilterType.ToString() },
+            { "page", Page },
+            { "serialized", Json },
+        };
     }
 }

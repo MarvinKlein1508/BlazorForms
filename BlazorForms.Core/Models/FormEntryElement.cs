@@ -1,20 +1,12 @@
-﻿namespace BlazorForms.Core.Models
+﻿namespace BlazorForms.Core.Models;
+
+public class FormEntryElement
 {
-    public class FormEntryElement
-    {
-        [CompareField("entry_id")]
-        public int EntryId { get; set; }
-        [CompareField("form_id")]
-        public int FormId { get; set; }
-        [CompareField("element_id")]
-        public int ElementId { get; set; }
-        [CompareField("value_boolean")]
-        public bool ValueBoolean { get; set; }
-        [CompareField("value_string")]
-        public string ValueString { get; set; } = string.Empty;
-        [CompareField("value_number")]
-        public decimal ValueNumber { get; set; }
-        [CompareField("value_date")]
-        public DateTime ValueDate { get; set; }
-    }
+    public int EntryId { get; set; }
+    public int FormId { get; set; }
+    public int ElementId { get; set; }
+    public bool ValueBoolean { get; set; }
+    public string ValueString { get; set; } = string.Empty;
+    public decimal ValueNumber { get; set; }
+    public DateTime ValueDate { get; set; }
 }
