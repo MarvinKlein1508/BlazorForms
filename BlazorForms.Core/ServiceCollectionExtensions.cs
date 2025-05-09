@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
     {
-        services.AddSingleton<IDbConnectionFactory>(_ => new MySqlConnectionFactory(connectionString));
+        services.AddSingleton<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString));
         services.AddSingleton<DbInitializer>(_ => new DbInitializer(connectionString));
         return services;
     }

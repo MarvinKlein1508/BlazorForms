@@ -1,7 +1,6 @@
 ﻿#if DEBUG
 #define CREATE_HTML
 #endif
-using DbController;
 using iText.Html2pdf;
 using System.Text;
 

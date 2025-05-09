@@ -1,6 +1,4 @@
-﻿using DbController;
-
-namespace BlazorForms.Core.Models
+﻿namespace BlazorForms.Core.Models
 {
     public class FormEntryTableElement : FormEntryElement
     {

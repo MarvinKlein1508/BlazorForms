@@ -15,10 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DbController" Version="5.0.0" />
-    <PackageReference Include="DbController.MySql" Version="5.0.0" />
-    <PackageReference Include="DbController.TypeHandler" Version="5.0.0" />
     <PackageReference Include="dbup-mysql" Version="6.0.4" />
+    <PackageReference Include="dbup-postgresql" Version="6.0.3" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.1.0" />
     <PackageReference Include="itext7.pdfhtml" Version="6.1.0" />
@@ -29,6 +27,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
     <PackageReference Include="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
 

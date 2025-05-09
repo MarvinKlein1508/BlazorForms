@@ -13,9 +13,9 @@ public class DbInitializer
 
     public Task<int> InitializeAsync()
     {
-        EnsureDatabase.For.MySqlDatabase(_connectionString);
+        EnsureDatabase.For.PostgresqlDatabase(_connectionString);
 
-        var upgrader = DeployChanges.To.MySqlDatabase(_connectionString)
+        var upgrader = DeployChanges.To.PostgresqlDatabase(_connectionString)
             .WithScriptsEmbeddedInAssembly(typeof(DbInitializer).Assembly)
             .LogToConsole()
             .Build();
