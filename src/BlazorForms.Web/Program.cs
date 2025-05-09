@@ -1,12 +1,20 @@
+using BlazorForms.Infrastructure.Database;
 using BlazorForms.Web.Components;
+using BlazorForms.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddDatabase(config.GetConnectionString("Default")!);
+
 var app = builder.Build();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+var result = await dbInitializer.InitializeAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
