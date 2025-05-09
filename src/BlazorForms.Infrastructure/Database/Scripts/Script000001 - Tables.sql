@@ -130,3 +130,12 @@ CREATE TABLE forms
     CONSTRAINT fk_forms_status FOREIGN KEY (default_status_id) REFERENCES form_status(status_id),
     CONSTRAINT fk_forms_language FOREIGN KEY (language_id) REFERENCES languages(language_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE form_to_user
+(
+    form_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    CONSTRAINT pk_form_to_user PRIMARY KEY (form_id, user_id),
+    CONSTRAINT fk_form_to_user_form FOREIGN KEY (form_id) REFERENCES forms(form_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_form_to_user_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
