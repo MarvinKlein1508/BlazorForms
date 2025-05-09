@@ -1,4 +1,6 @@
-﻿namespace BlazorForms.Core.Models;
+﻿using BlazorForms.Core.Interfaces;
+
+namespace BlazorForms.Core.Models;
 
 public class Notification : IDbModel<int?>
 {

@@ -1,4 +1,6 @@
-﻿namespace BlazorForms.Core.Models.FormElements;
+﻿using BlazorForms.Core.Interfaces;
+
+namespace BlazorForms.Core.Models.FormElements;
 
 public class FormElementOption : IDbModel<int?>
 {
