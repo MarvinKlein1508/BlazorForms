@@ -59,8 +59,8 @@ INSERT INTO permission_descriptions (permission_id, code, name, description) VAL
 (5, 'en', 'Delete Entries','Allows the user to delete submitted form entries.'),
 (6, 'en', 'Status management','Edit and create new statuses.'),
 (1, 'de', 'Formularverwaltung','Anlegen und bearbeiten von Formularen.'),
-(2, 'de', 'Formulareinträge ','Bearbeitung aller Formulareinträge.'),
+(2, 'de', 'FormulareintrÃ¤ge ','Bearbeitung aller FormulareintrÃ¤ge.'),
 (3, 'de', 'Benutzerverwaltung','Bearbeitung und Anlegen von Nutzern.'),
-(4, 'de', 'Formulare löschen','Erlaubt es dem Benutzer Formulare zu löschen.'),
-(5, 'de', 'Formulareinträge löschen','Erlaubt es dem Benutzer Formulareinträge zu löschen.'),
+(4, 'de', 'Formulare lÃ¶schen','Erlaubt es dem Benutzer Formulare zu lÃ¶schen.'),
+(5, 'de', 'FormulareintrÃ¤ge lÃ¶schen','Erlaubt es dem Benutzer FormulareintrÃ¤ge zu lÃ¶schen.'),
 (6, 'de', 'Statusverwaltung','Erstellen und Bearbeiten von Stati.');
