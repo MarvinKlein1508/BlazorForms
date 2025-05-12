@@ -1,0 +1,11 @@
+﻿@page "/Account/Login"
+
+<h3>Login</h3>
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+}

@@ -1,6 +1,7 @@
+using BlazorForms.Infrastructure;
 using BlazorForms.Infrastructure.Database;
 using BlazorForms.Web.Components;
-using BlazorForms.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -8,6 +9,10 @@ var config = builder.Configuration;
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 
