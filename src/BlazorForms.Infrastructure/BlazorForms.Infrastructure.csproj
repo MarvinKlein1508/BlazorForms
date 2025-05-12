@@ -9,6 +9,8 @@
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.1.66" />
 		<PackageReference Include="dbup-postgresql" Version="6.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>

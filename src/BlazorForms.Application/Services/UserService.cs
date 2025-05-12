@@ -10,4 +10,9 @@ public class UserService(IUserRepository _userRepository) : IUserService
     {
         return _userRepository.GetAsync(userId, dbConnection, dbTransaction, cancellationToken);
     }
+
+    public Task<User?> GetByUsernameAsync(string username, IDbConnection dbConnection, IDbTransaction? dbTransaction = null, CancellationToken cancellationToken = default)
+    {
+        return _userRepository.GetByUsernameAsync(username, dbConnection, dbTransaction, cancellationToken);
+    }
 }

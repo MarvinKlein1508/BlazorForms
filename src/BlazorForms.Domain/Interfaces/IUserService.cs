@@ -11,4 +11,5 @@ namespace BlazorForms.Domain.Interfaces;
 public interface IUserService
 {
     Task<User?> GetAsync(int userId, IDbConnection dbConnection, IDbTransaction? dbTransaction = null, CancellationToken cancellationToken = default);
+    Task<User?> GetByUsernameAsync(string username, IDbConnection dbConnection, IDbTransaction? dbTransaction = null, CancellationToken cancellationToken = default);
 }

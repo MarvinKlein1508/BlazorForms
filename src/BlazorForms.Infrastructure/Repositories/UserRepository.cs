@@ -7,7 +7,7 @@ namespace BlazorForms.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    public Task<User?> GetAsync(int userId, IDbConnection connection, IDbTransaction? dbTransaction = null, CancellationToken cancellationToken = default)
+    public Task<User?> GetAsync(int userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         string sql = "SELECT * FROM users WHERE user_id = @USER_ID";
 
@@ -16,7 +16,24 @@ public class UserRepository : IUserRepository
             commandText: sql,
             commandType: CommandType.Text,
             parameters: new { USER_ID = userId },
-            transaction: dbTransaction,
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+
+        return connection.QueryFirstOrDefaultAsync<User>(command);
+    }
+
+    public Task<User?> GetByUsernameAsync(string username, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql = "SELECT * FROM users WHERE UPPER(username) = @USERNAME";
+
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: new { USERNAME = username },
+            transaction: transaction,
             cancellationToken: cancellationToken
         );
 
