@@ -1,9 +1,9 @@
 ﻿using BlazorForms.Application.Database;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Web;
+namespace BlazorForms.Web.Components.ComponentBases;
 
-public class BlazorFormsPageBase : ComponentBase
+public abstract class BlazorFormsPageBase : ComponentBase
 {
     [Inject]
     public IDbConnectionFactory DbFactory { get; set; } = default!;
