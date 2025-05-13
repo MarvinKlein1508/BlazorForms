@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BlazorForms.Application.Common;
+public abstract class PageFilterBase
+{
+    private int _pageNumber = 1;
+    private int _limit = 30;
+
+    public int PageNumber { get => _pageNumber; set => _pageNumber = value < 1 ? 1 : value; }
+    public int Limit { get => _limit; set => _limit = value < 1 ? 1 : value; }
+}

@@ -119,20 +119,5 @@ public interface IFilterOperations<TObject, TFilter>
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<TObject>> GetAsync(TFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
-    /// <summary>
-    /// Gets the total amount of search results based on the provided filter.
-    /// </summary>
-    /// <param name="filter"></param>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<int> GetTotalAsync(TFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
-    /// <summary>
-    /// Generates the conditional WHERE statement for the SQL query.
-    /// </summary>
-    /// <param name="filter"></param>
-    /// <returns></returns>
-    string GetFilterWhere(TFilter filter);
+    Task<PagedResponse<TObject>> GetAsync(TFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
 }

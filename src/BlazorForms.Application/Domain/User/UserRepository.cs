@@ -1,13 +1,20 @@
 ﻿using Dapper;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Text;
 
 namespace BlazorForms.Application.Domain;
 
-public class UserRepository 
+public class UserRepository : IModelService<User, int?, UserFilter>
 {
-    public Task<User?> GetAsync(int userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public Task<User?> GetAsync(int? userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
+        if(userId is null)
+        {
+            return Task.FromResult<User?>(null);
+        }
+
         string sql = "SELECT * FROM users WHERE user_id = @USER_ID";
 
         var command = new CommandDefinition
@@ -43,7 +50,7 @@ public class UserRepository
     public Task<User?> GetByActiveDirectoryGuid(Guid guid, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         string sql = "SELECT * FROM users WHERE active_directory_guid = @GUID";
-        
+
         var command = new CommandDefinition
         (
             commandText: sql,
@@ -105,7 +112,7 @@ public class UserRepository
             WHERE 
                 user_id = @USER_ID
             """;
-        
+
         var command = new CommandDefinition
         (
             commandText: sql,
@@ -116,6 +123,25 @@ public class UserRepository
         );
 
         await connection.ExecuteAsync(command);
+    }
+
+    public Task DeleteAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PagedResponse<User>> GetAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string GetWhereClause()
+        {
+            return "WHERE 1 = 1";
+        }
+
+        StringBuilder sb = new();
+        sb.AppendLine($"SELECT * FROM users {GetWhereClause()}");
+        sb.AppendLine("ORDER BY user_id DESC");
+        sb.AppendLine($"LIMIT {(filter.PageNumber - 1) * filter.Limit}, {filter.Limit}");
+        return null;
     }
 }
 
