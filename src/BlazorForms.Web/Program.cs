@@ -1,8 +1,9 @@
 using BlazorForms.Application;
+using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
-using BlazorForms.Application.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -40,5 +41,13 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+var accountGroup = app.MapGroup("/Account");
+
+accountGroup.MapPost("/Logout", async (HttpContext context) =>
+{
+    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    return Results.LocalRedirect("/Account/Login");
+});
 
 app.Run();
