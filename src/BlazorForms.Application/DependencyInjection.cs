@@ -1,6 +1,7 @@
 ﻿using BlazorForms.Application.Auth;
 using BlazorForms.Application.Database;
 using BlazorForms.Application.Domain;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
     {
+        // Configure dapper
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
+
         services.AddSingleton<UserRepository>();
 
         // Options

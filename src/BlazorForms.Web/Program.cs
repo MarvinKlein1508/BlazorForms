@@ -1,4 +1,5 @@
 using BlazorForms.Application;
+using BlazorForms.Application.Common;
 using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
 using Microsoft.AspNetCore.Authentication;
@@ -24,6 +25,8 @@ var app = builder.Build();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 var result = await dbInitializer.InitializeAsync();
+
+await Storage.InitAsync(config);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
