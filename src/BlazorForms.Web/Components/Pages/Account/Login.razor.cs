@@ -1,4 +1,5 @@
 using BlazorForms.Application.Auth;
+using BlazorForms.Application.Common;
 using BlazorForms.Application.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -51,7 +52,26 @@ public partial class Login
 
             if (result is not null && result.Guid is not null)
             {
+                string[] assignedGroupsFromActiveDirectory = result.Groups
+                        .Where(x => x.Contains(ldapSettings.GroupBaseOU))
+                        .Select(x => x.Replace($",{ldapSettings.GroupBaseOU}", string.Empty).Replace("CN=", string.Empty))
+                        .ToArray();
+
                 user = await userRepository.GetByActiveDirectoryGuid(result.Guid.Value, connection);
+
+                // Find all roles that are assigned to the user based on the Active Directory groups
+                List<UserRole> userGroups = [];
+                foreach (var role in Storage.Get<Role>().Where(x => !string.IsNullOrWhiteSpace(x.ActiveDirectoryGroupCN)))
+                {
+                    if (assignedGroupsFromActiveDirectory.Contains(role.ActiveDirectoryGroupCN))
+                    {
+                        userGroups.Add(new UserRole
+                        {
+                            RoleId = role.RoleId,
+                            IsActive = true
+                        });
+                    }
+                }
 
                 if (user is null)
                 {
@@ -61,7 +81,8 @@ public partial class Login
                         Username = Input.Username.ToUpper(),
                         Email = result.Attributes["mail"],
                         DisplayName = $"{result.Attributes["givenName"]} {result.Attributes["sn"]}",
-                        Origin = "ad"
+                        Origin = "ad",
+                        Roles = userGroups,
                     };
 
                     await userRepository.CreateAsync(user, connection);
@@ -71,8 +92,8 @@ public partial class Login
                     user.Email = result.Attributes["mail"];
                     user.DisplayName = $"{result.Attributes["givenName"]} {result.Attributes["sn"]}";
                     user.Username = Input.Username.ToUpper();
-
-                    await userRepository.UpdateAsync(user, connection); 
+                    user.Roles = userGroups;
+                    await userRepository.UpdateAsync(user, connection);
                 }
             }
 
@@ -86,10 +107,17 @@ public partial class Login
             };
 
 
-            //foreach (var permission in user.Permissions)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, permission.Identifier));
-            //}
+            foreach (var role in user.Roles.Where(x => x.IsActive))
+            {
+                foreach (var rolePermission in Storage.Get<Role>().First(x => x.RoleId == role.RoleId).Permissions.Where(x => x.IsActive))
+                {
+                    var permission = Storage.Get<Permission, int?>(rolePermission.PermissionId);
+                    if (permission is not null)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, permission.Identifier));
+                    }
+                }
+            }
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

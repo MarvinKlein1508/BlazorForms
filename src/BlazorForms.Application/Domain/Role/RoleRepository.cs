@@ -79,7 +79,7 @@ public class RoleRepository : IModelService<Role, int?>
     {
         string sql =
             """
-            UPDATE role SET
+            UPDATE roles SET
                 name = @NAME,
                 active_directory_group_cn = @ACTIVE_DIRECTORY_GROUP_CN
             WHERE
@@ -104,5 +104,26 @@ public class RoleRepository : IModelService<Role, int?>
             permission.RoleId = input.RoleId;
             await RolePermissionRepository.CreateAsync(permission, connection, transaction, cancellationToken);
         }
+    }
+
+    public static async Task<List<Role>> GetAllAsync(IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql = "SELECT * FROM roles ORDER BY name";
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+        
+        var results = await connection.QueryAsync<Role>(command);
+
+        foreach (var item in results)
+        {
+            item.Permissions = await RolePermissionRepository.GetAsync(connection, transaction, cancellationToken, item.RoleId);
+        }
+
+        return results.ToList();
     }
 }

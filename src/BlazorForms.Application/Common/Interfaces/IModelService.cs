@@ -120,4 +120,6 @@ public interface IFilterOperations<TObject, TFilter>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<PagedResponse<TObject>> GetAsync(TFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
+
+    string GetFilterWhere(TFilter filter);
 }

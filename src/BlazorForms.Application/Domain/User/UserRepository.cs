@@ -8,11 +8,11 @@ namespace BlazorForms.Application.Domain;
 
 public class UserRepository : IModelService<User, int?, UserFilter>
 {
-    public Task<User?> GetAsync(int? userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<User?> GetAsync(int? userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        if(userId is null)
+        if (userId is null)
         {
-            return Task.FromResult<User?>(null);
+            return null;
         }
 
         string sql = "SELECT * FROM users WHERE user_id = @USER_ID";
@@ -27,10 +27,19 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
 
-        return connection.QueryFirstOrDefaultAsync<User>(command);
+        var result = await connection.QueryFirstOrDefaultAsync<User>(command);
+
+        if (result is null)
+        {
+            return null;
+        }
+
+        result.Roles = await UserRoleRepository.GetAsync(connection, transaction, cancellationToken, result.UserId);
+
+        return result;
     }
 
-    public Task<User?> GetByUsernameAsync(string username, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByUsernameAsync(string username, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         string sql = "SELECT * FROM users WHERE UPPER(username) = @USERNAME";
 
@@ -44,7 +53,16 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
 
-        return connection.QueryFirstOrDefaultAsync<User>(command);
+        var result = await connection.QueryFirstOrDefaultAsync<User>(command);
+
+        if (result is null)
+        {
+            return null;
+        }
+
+        result.Roles = await UserRoleRepository.GetAsync(connection, transaction, cancellationToken, result.UserId);
+
+        return result;
     }
 
     public Task<User?> GetByActiveDirectoryGuid(Guid guid, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
@@ -59,6 +77,8 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             transaction: transaction,
             cancellationToken: cancellationToken
         );
+
+        // We don't need to load roles here because they will be taken from the Active Directory on login
 
         return connection.QueryFirstOrDefaultAsync<User>(command);
     }
@@ -99,6 +119,12 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
         input.UserId = await connection.ExecuteScalarAsync<int>(command);
+
+        foreach (var item in input.Roles)
+        {
+            item.UserId = input.UserId;
+            await UserRoleRepository.CreateAsync(item, connection, transaction, cancellationToken);
+        }
     }
 
     public async Task UpdateAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
@@ -123,6 +149,14 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
         await connection.ExecuteAsync(command);
+
+        await UserRoleRepository.CleanAsync(input.UserId, connection, transaction, cancellationToken);
+
+        foreach (var item in input.Roles)
+        {
+            item.UserId = input.UserId;
+            await UserRoleRepository.CreateAsync(item, connection, transaction, cancellationToken);
+        }
     }
 
     public Task DeleteAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
@@ -130,18 +164,44 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         throw new NotImplementedException();
     }
 
-    public Task<PagedResponse<User>> GetAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<PagedResponse<User>> GetAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        string GetWhereClause()
-        {
-            return "WHERE 1 = 1";
-        }
 
-        StringBuilder sb = new();
-        sb.AppendLine($"SELECT * FROM users {GetWhereClause()}");
-        sb.AppendLine("ORDER BY user_id DESC");
-        sb.AppendLine($"LIMIT {(filter.PageNumber - 1) * filter.Limit}, {filter.Limit}");
+        string sql =
+            $"""
+            SELECT * FROM users
+            WHERE 1 = 1 {GetFilterWhere(filter)}  
+            ORDER BY user_id DESC
+            LIMIT {(filter.PageNumber - 1) * filter.Limit}, {filter.Limit}
+            """;
+
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: filter.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+
+        var results = await connection.QueryAsync<User>(command);
+
+
+        var response = new PagedResponse<User>
+        {
+            Items = results.ToList(),
+            Page = filter.PageNumber,
+            PageSize = filter.Limit,
+            Total = results.Count()
+        };
+
         return null;
+    }
+
+    public string GetFilterWhere(UserFilter filter)
+    {
+        throw new NotImplementedException();
     }
 }
 

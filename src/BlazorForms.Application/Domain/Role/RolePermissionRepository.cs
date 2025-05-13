@@ -48,8 +48,8 @@ public static class RolePermissionRepository
             SELECT
                 ri.role_id,
                 p.permission_id,
-                coalesce(rp.is_active, 0) as is_active
-            FROM permission p 
+                coalesce(rp.is_active, FALSE) as is_active
+            FROM permissions p 
             LEFT JOIN (VALUES ({string.Join("),(", roleIds)})) AS ri (role_id) ON 1 = 1
             LEFT JOIN role_permissions rp ON (rp.role_id = ri.role_id AND rp.permission_id = p.permission_id)
             """;

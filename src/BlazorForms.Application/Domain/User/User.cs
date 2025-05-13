@@ -12,6 +12,8 @@ public class User : IDbParameterizable
     public string Salt { get; set; } = string.Empty;
     public string Origin { get; set; } = string.Empty;
 
+    public List<UserRole> Roles { get; set; } = [];
+
     public Dictionary<string, object?> GetParameters()
     {
         return new Dictionary<string, object?>
