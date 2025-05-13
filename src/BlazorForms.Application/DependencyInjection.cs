@@ -1,14 +1,21 @@
-﻿using BlazorForms.Application.Database;
+﻿using BlazorForms.Application.Auth;
+using BlazorForms.Application.Database;
 using BlazorForms.Application.Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorForms.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
     {
         services.AddSingleton<UserRepository>();
+
+        // Options
+        services.AddOptions<LoginOptions>()
+            .Bind(config.GetRequiredSection(LoginOptions.SectionName));
+
         return services;
     }
 

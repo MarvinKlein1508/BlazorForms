@@ -6,16 +6,23 @@
 @inject UserRepository userRepository
 <h3>Login</h3>
 
+@if (!string.IsNullOrWhiteSpace(_errorMessage))
+{
+    <FluentMessageBar Intent="@MessageIntent.Error" AllowDismiss="false" Class="mb-2 mt-2" FadeIn="false">
+        @_errorMessage
+    </FluentMessageBar>
+}
+
 <FluentGrid>
     <FluentGridItem xs="8" sm="4">
-        
+
         <EditForm Model="Input" method="post" OnValidSubmit="HandleLogin" FormName="login">
             <DataAnnotationsValidator />
             <h2>Use a local account to log in.</h2>
             <hr />
             <FluentValidationSummary class="text-danger" role="alert" />
             <FluentStack Orientation="Orientation.Vertical">
-                <FluentTextField Name="Input.Email" @bind-Value="Input.Username" AutoComplete="username" Required="true" Placeholder="name@example.com" Label="Email" Style="width: 100%" />
+                <FluentTextField Name="Input.Username" @bind-Value="Input.Username" AutoComplete="username" Required="true" Label="Username" Style="width: 100%" />
                 <FluentValidationMessage For="() => Input.Username" class="text-danger" />
                 <FluentTextField type="password" Name="Input.Password" @bind-Value="Input.Password" AutoComplete="current-password" Required="true" Placeholder="password" Label="Password" Style="width: 100%" />
                 <FluentValidationMessage For="() => Input.Password" class="text-danger" />

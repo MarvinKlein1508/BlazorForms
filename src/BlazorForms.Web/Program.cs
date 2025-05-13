@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
-builder.Services.AddApplication();
+builder.Services.AddApplication(config);
 var app = builder.Build();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();

@@ -86,12 +86,36 @@ public class UserRepository
         (
             commandText: sql,
             commandType: CommandType.Text,
-            parameters: new { GUID = guid },
+            parameters: input.GetParameters(),
             transaction: transaction,
             cancellationToken: cancellationToken
         );
 
         input.UserId = await connection.ExecuteScalarAsync<int>(command);
+    }
+
+    public async Task UpdateAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql =
+            """
+            UPDATE users SET
+                username = @USERNAME,
+                display_name = @DISPLAY_NAME,
+                email = @EMAIL
+            WHERE 
+                user_id = @USER_ID
+            """;
+        
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: input.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+        await connection.ExecuteAsync(command);
     }
 }
 
