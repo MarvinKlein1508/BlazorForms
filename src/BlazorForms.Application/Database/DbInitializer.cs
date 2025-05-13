@@ -1,6 +1,6 @@
 ﻿using DbUp;
 
-namespace BlazorForms.Infrastructure.Database;
+namespace BlazorForms.Application.Database;
 
 public class DbInitializer
 {

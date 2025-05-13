@@ -1,8 +1,7 @@
-﻿using BlazorForms.Domain.Interfaces;
-using Npgsql;
+﻿using Npgsql;
 using System.Data;
 
-namespace BlazorForms.Infrastructure.Database;
+namespace BlazorForms.Application.Database;
 public class NpgsqlConnectionFactory : IDbConnectionFactory
 {
     private readonly string _connectionString;

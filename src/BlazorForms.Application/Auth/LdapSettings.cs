@@ -1,4 +1,4 @@
-﻿namespace BlazorForms.Infrastructure.Auth;
+﻿namespace BlazorForms.Application.Auth;
 
 public class LdapSettings
 {

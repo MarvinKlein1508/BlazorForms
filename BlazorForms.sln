@@ -5,6 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{715ADD3A-DD6E-416F-9412-ECC251CAA351}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		images\calc_editor.png = images\calc_editor.png
 		images\dashboard.png = images\dashboard.png
 		images\element_editor.png = images\element_editor.png
@@ -17,10 +18,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorForms.Application", "src\BlazorForms.Application\BlazorForms.Application.csproj", "{6B0DF37D-D101-4D96-AC13-6BD02F07847E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorForms.Domain", "src\BlazorForms.Domain\BlazorForms.Domain.csproj", "{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorForms.Infrastructure", "src\BlazorForms.Infrastructure\BlazorForms.Infrastructure.csproj", "{AA798E55-08A9-4831-A3BE-AD61F41E5B13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorForms.Web", "src\BlazorForms.Web\BlazorForms.Web.csproj", "{360094D4-EDFF-4219-BF48-FA343479DF5C}"
 EndProject
@@ -46,30 +43,6 @@ Global
 		{6B0DF37D-D101-4D96-AC13-6BD02F07847E}.Release|x64.Build.0 = Release|Any CPU
 		{6B0DF37D-D101-4D96-AC13-6BD02F07847E}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B0DF37D-D101-4D96-AC13-6BD02F07847E}.Release|x86.Build.0 = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|x64.Build.0 = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Debug|x86.Build.0 = Debug|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|x64.ActiveCfg = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|x64.Build.0 = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|x86.ActiveCfg = Release|Any CPU
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3}.Release|x86.Build.0 = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|x64.Build.0 = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Debug|x86.Build.0 = Debug|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|x64.ActiveCfg = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|x64.Build.0 = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|x86.ActiveCfg = Release|Any CPU
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13}.Release|x86.Build.0 = Release|Any CPU
 		{360094D4-EDFF-4219-BF48-FA343479DF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{360094D4-EDFF-4219-BF48-FA343479DF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360094D4-EDFF-4219-BF48-FA343479DF5C}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -88,8 +61,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B0DF37D-D101-4D96-AC13-6BD02F07847E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{2CC52EAE-4BA2-4BC7-BD07-18571E9DD4F3} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{AA798E55-08A9-4831-A3BE-AD61F41E5B13} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{360094D4-EDFF-4219-BF48-FA343479DF5C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

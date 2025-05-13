@@ -1,9 +1,8 @@
-using BlazorForms.Infrastructure;
 using BlazorForms.Application;
-using BlazorForms.Infrastructure.Database;
 using BlazorForms.Web.Components;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
+using BlazorForms.Application.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -20,7 +19,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure(config);
 var app = builder.Build();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();

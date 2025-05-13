@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace BlazorForms.Domain.Interfaces;
+namespace BlazorForms.Application.Database;
 
 public interface IDbConnectionFactory
 {

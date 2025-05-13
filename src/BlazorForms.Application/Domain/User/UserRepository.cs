@@ -1,11 +1,9 @@
-﻿using BlazorForms.Domain.Entities;
-using BlazorForms.Domain.Interfaces;
-using Dapper;
+﻿using Dapper;
 using System.Data;
 
-namespace BlazorForms.Infrastructure.Repositories;
+namespace BlazorForms.Application.Domain;
 
-public class UserRepository : IUserRepository
+public class UserRepository 
 {
     public Task<User?> GetAsync(int userId, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {

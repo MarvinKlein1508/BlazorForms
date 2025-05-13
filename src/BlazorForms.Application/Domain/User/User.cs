@@ -1,4 +1,4 @@
-﻿namespace BlazorForms.Domain.Entities;
+﻿namespace BlazorForms.Application.Domain;
 
 public class User
 {
