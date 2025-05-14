@@ -34,8 +34,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             return null;
         }
 
-        result.Roles = await UserRoleRepository.GetAsync(connection, transaction, cancellationToken, result.UserId);
-
         return result;
     }
 
@@ -60,8 +58,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             return null;
         }
 
-        result.Roles = await UserRoleRepository.GetAsync(connection, transaction, cancellationToken, result.UserId);
-
         return result;
     }
 
@@ -78,8 +74,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             cancellationToken: cancellationToken
         );
 
-        // We don't need to load roles here because they will be taken from the Active Directory on login
-
         return connection.QueryFirstOrDefaultAsync<User>(command);
     }
 
@@ -89,6 +83,7 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             """
             INSERT INTO users
             (
+                user_group_id,
                 username,
                 display_name,
                 active_directory_guid,
@@ -99,6 +94,7 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             )
             VALUES 
             (
+                @USER_GROUP_ID,
                 @USERNAME,
                 @DISPLAY_NAME,
                 @ACTIVE_DIRECTORY_GUID,
@@ -119,12 +115,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
         input.UserId = await connection.ExecuteScalarAsync<int>(command);
-
-        foreach (var item in input.Roles)
-        {
-            item.UserId = input.UserId;
-            await UserRoleRepository.CreateAsync(item, connection, transaction, cancellationToken);
-        }
     }
 
     public async Task UpdateAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
@@ -132,6 +122,7 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         string sql =
             """
             UPDATE users SET
+                user_group_id = @USER_GROUP_ID,
                 username = @USERNAME,
                 display_name = @DISPLAY_NAME,
                 email = @EMAIL
@@ -149,14 +140,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         );
 
         await connection.ExecuteAsync(command);
-
-        await UserRoleRepository.CleanAsync(input.UserId, connection, transaction, cancellationToken);
-
-        foreach (var item in input.Roles)
-        {
-            item.UserId = input.UserId;
-            await UserRoleRepository.CreateAsync(item, connection, transaction, cancellationToken);
-        }
     }
 
     public Task DeleteAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)

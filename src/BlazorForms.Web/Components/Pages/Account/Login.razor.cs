@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Security;
 using System.Security.Claims;
 
 namespace BlazorForms.Web.Components.Pages.Account;
@@ -52,37 +53,30 @@ public partial class Login
 
             if (result is not null && result.Guid is not null)
             {
-                string[] assignedGroupsFromActiveDirectory = result.Groups
-                        .Where(x => x.Contains(ldapSettings.GroupBaseOU))
-                        .Select(x => x.Replace($",{ldapSettings.GroupBaseOU}", string.Empty).Replace("CN=", string.Empty))
-                        .ToArray();
-
                 user = await userRepository.GetByActiveDirectoryGuid(result.Guid.Value, connection);
+                UserGroup ldapUserGroup = UserGroup.Users; // Default group for LDAP users
 
-                // Find all roles that are assigned to the user based on the Active Directory groups
-                List<UserRole> userGroups = [];
-                foreach (var role in Storage.Get<Role>().Where(x => !string.IsNullOrWhiteSpace(x.ActiveDirectoryGroupCN)))
+                if (result.Groups.Contains(ldapSettings.AdminGroupDistinguishedName))
                 {
-                    if (assignedGroupsFromActiveDirectory.Contains(role.ActiveDirectoryGroupCN))
-                    {
-                        userGroups.Add(new UserRole
-                        {
-                            RoleId = role.RoleId,
-                            IsActive = true
-                        });
-                    }
+                    ldapUserGroup = UserGroup.Administrators;
                 }
+                else if (result.Groups.Contains(ldapSettings.EditorGroupDistinguishedName))
+                {
+                    ldapUserGroup = UserGroup.Editors;
+                }
+
+
 
                 if (user is null)
                 {
                     user = new User()
                     {
+                        UserGroupId = ldapUserGroup,
                         ActiveDirectoryGuid = result.Guid.Value,
                         Username = Input.Username.ToUpper(),
                         Email = result.Attributes["mail"],
                         DisplayName = $"{result.Attributes["givenName"]} {result.Attributes["sn"]}",
-                        Origin = "ad",
-                        Roles = userGroups,
+                        Origin = "ad"
                     };
 
                     await userRepository.CreateAsync(user, connection);
@@ -92,7 +86,7 @@ public partial class Login
                     user.Email = result.Attributes["mail"];
                     user.DisplayName = $"{result.Attributes["givenName"]} {result.Attributes["sn"]}";
                     user.Username = Input.Username.ToUpper();
-                    user.Roles = userGroups;
+                    user.UserGroupId = ldapUserGroup;
                     await userRepository.UpdateAsync(user, connection);
                 }
             }
@@ -106,17 +100,13 @@ public partial class Login
                 new("userId", user.UserId.ToString()),
             };
 
-
-            foreach (var role in user.Roles.Where(x => x.IsActive))
+            if (user.UserGroupId is UserGroup.Administrators)
             {
-                foreach (var rolePermission in Storage.Get<Role>().First(x => x.RoleId == role.RoleId).Permissions.Where(x => x.IsActive))
-                {
-                    var permission = Storage.Get<Permission, int?>(rolePermission.PermissionId);
-                    if (permission is not null)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, permission.Identifier));
-                    }
-                }
+                claims.Add(new Claim(ClaimTypes.Role, AuthConstants.ADMIN_ROLE));
+            }
+            else if (user.UserGroupId is UserGroup.Editors)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, AuthConstants.EDITOR_ROLE));
             }
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

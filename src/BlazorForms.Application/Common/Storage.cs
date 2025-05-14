@@ -27,8 +27,7 @@ public static class Storage
         using var connection = await dbFactory.CreateConnectionAsync();
 
         _storage.Add(typeof(Language), await LanguageRepository.GetAllAsync(connection));
-        _storage.Add(typeof(Role), await RoleRepository.GetAllAsync(connection));
-        _storage.Add(typeof(Permission), await PermissionRepository.GetAllAsync(connection));
+        //_storage.Add(typeof(UserGroup), await RoleRepository.GetAllAsync(connection));
 
         foreach (var language in Get<Language>())
         {

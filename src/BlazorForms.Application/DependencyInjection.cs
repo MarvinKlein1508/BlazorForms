@@ -15,7 +15,6 @@ public static class DependencyInjection
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         services.AddSingleton<UserRepository>();
-        services.AddSingleton<RoleRepository>();
 
         // Options
         services.AddOptions<LoginOptions>()
