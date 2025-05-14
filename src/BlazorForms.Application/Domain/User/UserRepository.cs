@@ -45,7 +45,7 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         (
             commandText: sql,
             commandType: CommandType.Text,
-            parameters: new { USERNAME = username },
+            parameters: new { USERNAME = username.ToUpper() },
             transaction: transaction,
             cancellationToken: cancellationToken
         );
