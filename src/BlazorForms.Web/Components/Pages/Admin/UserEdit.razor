@@ -1,0 +1,93 @@
+﻿@page "/Admin/Users/Edit"
+@inherits EditPageBase<User, UserRepository, int?>
+<PageTitle>Benutzer (@Identifier)</PageTitle>
+
+
+<FluentBreadcrumb>
+    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/Admin/Users">Benutzer</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@Identifier</FluentBreadcrumbItem>
+</FluentBreadcrumb>
+
+@if (Input is null)
+{
+    return;
+}
+
+<FluentStack HorizontalAlignment="HorizontalAlignment.End">
+    <FluentAnchor Href="/Admin/Users"
+                  IconStart="@(new Icons.Regular.Size20.ArrowReply())">
+        Zurück
+    </FluentAnchor>
+
+
+    <FluentButton id="btnOpen1" Appearance="Appearance.Accent" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
+        Optionen
+    </FluentButton>
+
+    <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
+        <FluentMenuItem @onclick="ShowDeleteModalAsync">Benutzer löschen</FluentMenuItem>
+    </FluentMenu>
+
+
+    <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
+                  Appearance="Appearance.Accent"
+                  OnClick="SaveAsync">
+
+        Speichern
+    </FluentButton>
+</FluentStack>
+
+<EditForm Model="Input" @ref="_form">
+    @if (ActiveDirectoryMode)
+    {
+        <FluentMessageBar Title="Hinweis:" Intent="@MessageIntent.Warning" AllowDismiss="false" Class="mb-2 mt-2" FadeIn="false">
+            Dieses Konto ist mit dem Active Directory verknüpft. Sie können daher nicht alle Eigenschaften bearbeiten.
+        </FluentMessageBar>
+    }
+    <FluentTabs>
+        <FluentTab Label="Allgemein">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <FluentNumberField @bind-Value="Input.UserId" Label="UserId" Disabled />
+                            <FluentValidationMessage For="() => Input.UserId" />
+                        </div>
+
+                        @if (ActiveDirectoryMode)
+                        {
+                            <div class="col-12">
+                                <FluentTextField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="ActiveDirectoryGuid" Disabled />
+                            </div>
+                        }
+
+                        <div class="col-12">
+                            <FluentTextField @bind-Value="Input.Username" Label="Username" Disabled="ActiveDirectoryMode" />
+                            <FluentValidationMessage For="() => Input.Username" />
+                        </div>
+
+                        <div class="col-12">
+                            <FluentTextField @bind-Value="Input.DisplayName" Label="Anzeigename" Disabled="ActiveDirectoryMode" />
+                            <FluentValidationMessage For="() => Input.DisplayName" />
+                        </div>
+
+                        <div class="col-12">
+                            <FluentTextField @bind-Value="Input.Email" Label="E-Mail" Disabled="ActiveDirectoryMode" />
+                            <FluentValidationMessage For="() => Input.Email" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </FluentTab>
+    </FluentTabs>
+</EditForm>
+
+@code {
+    protected override string GetListUrl() => "/Admin/Users";
+
+    public bool ActiveDirectoryMode => Input?.Origin is "ad";
+}

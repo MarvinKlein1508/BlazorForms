@@ -8,6 +8,8 @@
         <NavMenu />
         <FluentBodyContent Class="body-content">
             <div class="content">
+                <FluentMessageBarProvider Id="@FluentConstants.MESSAGEBAR_TOP_SECTION" />
+
                 @Body     
             </div>
         </FluentBodyContent>
@@ -17,6 +19,10 @@
     </div>
 </FluentLayout>
 
+<FluentTooltipProvider />
+<FluentDialogProvider />
+<FluentMenuProvider />
+<FluentToastProvider RemoveToastsOnNavigation="false" Position="ToastPosition.TopCenter" />
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
