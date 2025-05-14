@@ -21,6 +21,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Languages";
+});
+
 var app = builder.Build();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
@@ -41,7 +47,11 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapStaticAssets();
+app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
@@ -52,5 +62,12 @@ accountGroup.MapPost("/Logout", async (HttpContext context) =>
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     return Results.LocalRedirect("/Account/Login");
 });
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(Storage.SupportedCultures[0].Name)
+    .AddSupportedCultures(Storage.SupportedCultureCodes)
+    .AddSupportedUICultures(Storage.SupportedCultureCodes);
+
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();

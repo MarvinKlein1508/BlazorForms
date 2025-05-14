@@ -16,4 +16,8 @@
     <ProjectReference Include="..\BlazorForms.Application\BlazorForms.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Languages\" />
+  </ItemGroup>
+
 </Project>
