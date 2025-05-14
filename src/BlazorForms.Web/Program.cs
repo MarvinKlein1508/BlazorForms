@@ -13,6 +13,8 @@ var config = builder.Configuration;
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddControllers();
+
 builder.Services.AddFluentUIComponents();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

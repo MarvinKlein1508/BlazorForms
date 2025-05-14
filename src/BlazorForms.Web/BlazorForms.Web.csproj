@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Languages\" />
+    <Folder Include="Languages\Components\" />
   </ItemGroup>
 
 </Project>
