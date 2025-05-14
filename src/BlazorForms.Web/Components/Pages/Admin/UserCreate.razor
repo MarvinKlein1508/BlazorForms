@@ -1,13 +1,13 @@
-﻿@page "/Admin/Users/Edit"
-@inherits EditPageBase<User, UserRepository, int?>
-<PageTitle>Benutzer (@Identifier)</PageTitle>
+﻿@page "/Admin/Users/Create"
+@inherits CreatePageBase<User, UserRepository, int?>
+<PageTitle>Neuer Benutzer</PageTitle>
 
 
 <FluentBreadcrumb>
     <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
     <FluentBreadcrumbItem Href="/Admin/Users">Benutzer</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@Identifier</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Neu</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
 @if (Input is null)
@@ -20,16 +20,6 @@
                   IconStart="@(new Icons.Regular.Size20.ArrowReply())">
         Zurück
     </FluentAnchor>
-
-
-    <FluentButton id="btnOpen1" Appearance="Appearance.Accent" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
-        Optionen
-    </FluentButton>
-
-    <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
-        <FluentMenuItem @onclick="ShowDeleteModalAsync">Benutzer löschen</FluentMenuItem>
-    </FluentMenu>
-
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="Appearance.Accent"
@@ -46,17 +36,12 @@
             Dieses Konto ist mit dem Active Directory verknüpft. Sie können daher nicht alle Eigenschaften bearbeiten.
         </FluentMessageBar>
     }
+
     <FluentTabs>
         <FluentTab Label="Allgemein">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
-
-                        <div class="col-12">
-                            <FluentNumberField @bind-Value="Input.UserId" Label="UserId" Disabled />
-                            <FluentValidationMessage For="() => Input.UserId" />
-                        </div>
-
                         @if (ActiveDirectoryMode)
                         {
                             <div class="col-12">
@@ -69,11 +54,18 @@
                             <FluentValidationMessage For="() => Input.Username" />
                         </div>
 
+                        @if (!ActiveDirectoryMode)
+                        {
+                            <div class="col-12">
+                                <FluentTextField @bind-Value="Input.Password" Label="Passwort" />
+                                <FluentValidationMessage For="() => Input.Password" />
+                            </div>
+                        }
+
                         <div class="col-12">
                             <FluentSelect @bind-SelectedOption="Input.UserGroupId"
                                           Label="Benutzergruppe"
-                                          Items="Enum.GetValues<UserGroup>()"
-                                          Disabled="ActiveDirectoryMode" />
+                                          Items="Enum.GetValues<UserGroup>()" />
                             <FluentValidationMessage For="() => Input.UserGroupId" />
                         </div>
 
@@ -86,7 +78,6 @@
                             <FluentTextField @bind-Value="Input.Email" Label="E-Mail" Disabled="ActiveDirectoryMode" />
                             <FluentValidationMessage For="() => Input.Email" />
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -94,8 +85,3 @@
     </FluentTabs>
 </EditForm>
 
-@code {
-    protected override string GetListUrl() => "/Admin/Users";
-
-    public bool ActiveDirectoryMode => Input?.Origin is "ad";
-}

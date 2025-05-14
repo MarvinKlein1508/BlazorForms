@@ -1,4 +1,5 @@
 using BlazorForms.Application;
+using BlazorForms.Application.Auth;
 using BlazorForms.Application.Common;
 using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
