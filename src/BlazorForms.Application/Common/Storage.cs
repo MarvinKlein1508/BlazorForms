@@ -28,6 +28,7 @@ public static class Storage
 
         _storage.Add(typeof(Language), await LanguageRepository.GetAllAsync(connection));
         _storage.Add(typeof(Role), await RoleRepository.GetAllAsync(connection));
+        _storage.Add(typeof(Permission), await PermissionRepository.GetAllAsync(connection));
 
         foreach (var language in Get<Language>())
         {
