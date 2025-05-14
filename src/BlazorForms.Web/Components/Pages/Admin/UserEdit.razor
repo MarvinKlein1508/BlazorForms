@@ -27,7 +27,7 @@
     </FluentButton>
 
     <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
-        <FluentMenuItem @onclick="ShowDeleteModalAsync">Benutzer löschen</FluentMenuItem>
+        <FluentMenuItem @onclick="ShowDeleteModalAsync" Disabled="CurrentUser?.UserId == Input.UserId">Benutzer löschen</FluentMenuItem>
     </FluentMenu>
 
 
