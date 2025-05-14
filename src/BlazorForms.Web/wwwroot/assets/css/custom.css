@@ -1,0 +1,35 @@
+﻿.list {
+    display: flex;
+    padding: 1em;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--fill-color);
+    color: var(--neutral-foreground-rest);
+    border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
+    border-radius: calc(var(--layer-corner-radius) * 1px);
+    box-shadow: var(--elevation-shadow-card-rest);
+}
+
+.list-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    flex: 1;
+    gap: 2rem; /* This adds space between the items */
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+    .list-item label {
+        font-weight: bold !important;
+        font-variation-settings: "wght" 800, "opsz" 10.5;
+    }
+
+fluent-text-field, fluent-number-field, fluent-select {
+    width: 100%;
+}

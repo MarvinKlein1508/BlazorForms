@@ -1,7 +1,6 @@
-﻿
-namespace BlazorForms.Application.Domain;
+﻿namespace BlazorForms.Application.Domain;
 
-public class User : IDbParameterizable
+public class User : IDbModel<int?>, IDbParameterizable
 {
     public int UserId { get; set; }
     public UserGroup UserGroupId { get; set; } = UserGroup.Users;
@@ -12,6 +11,8 @@ public class User : IDbParameterizable
     public string Password { get; set; } = string.Empty;
     public string Salt { get; set; } = string.Empty;
     public string Origin { get; set; } = string.Empty;
+
+    public int? GetIdentifier() => UserId > 0 ? UserId : null;
 
     public Dictionary<string, object?> GetParameters()
     {

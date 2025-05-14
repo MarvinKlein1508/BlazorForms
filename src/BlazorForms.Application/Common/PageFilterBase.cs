@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorForms.Application.Common;
-public abstract class PageFilterBase
+public abstract class PageFilterBase : FilterBase
 {
     private int _pageNumber = 1;
     private int _limit = 30;

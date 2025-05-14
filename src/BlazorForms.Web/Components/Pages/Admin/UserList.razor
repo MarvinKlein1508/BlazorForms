@@ -1,0 +1,84 @@
+﻿@page "/Admin/Users"
+@inherits ListPageBase<User, UserRepository, UserFilter>
+
+<PageTitle>Benutzerliste</PageTitle>
+
+<FluentBreadcrumb>
+    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Benutzer</FluentBreadcrumbItem>
+</FluentBreadcrumb>
+
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
+    <FluentAnchor Href="/Admin/Users/Create"
+                  IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
+                  Appearance="Appearance.Accent">
+        Neuer Benutzer
+    </FluentAnchor>
+</FluentStack>
+
+<div class="row">
+    <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
+        <FluentCard Height="auto" AreaRestricted="false">
+            <h4>Filter</h4>
+
+            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentTextField @bind-Value="Filter.SearchPhrase" Immediate="true" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+
+                    <div class="d-flex justify-content-end mt-2 w-100">
+                        <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
+                                      Appearance="Appearance.Accent">
+                            Suchen
+                        </FluentButton>
+                    </div>
+                </FluentStack>
+            </EditForm>
+        </FluentCard>
+    </div>
+    <div class="col-lg-9">
+        <FluentStack Orientation="Orientation.Vertical">
+
+            @if (_isLoading || Data is null)
+            {
+                <FluentProgressRing />
+            }
+            else
+            {
+                @foreach (var item in Data.Items)
+                {
+                    <div class="list">
+                        <div class="list-details">
+                            <div class="list-item" hidden-when="xs sm">
+                                <label>Id</label>
+                                <span>@item.UserId</span>
+                            </div>
+                            <div class="list-item">
+                                <label>Name</label>
+                                <span>@item.DisplayName</span>
+                            </div>
+
+                            <div class="list-item">
+                                <label>E-Mail</label>
+                                <span>@item.Email</span>
+                            </div>
+                        </div>
+                        <div class="list-buttons">
+                            <FluentAnchor Href="@($"/Admin/Users/Edit?Id={item.GetIdentifier()}")">
+                                Bearbeiten
+                            </FluentAnchor>
+                        </div>
+                    </div>
+                }
+
+                @if (!_isLoading && !Data.Items.Any())
+                {
+                    <div class="list justify-content-center">
+                        Keine Datensätze
+                    </div>
+                }
+
+            }
+        </FluentStack>
+    </div>
+</div>

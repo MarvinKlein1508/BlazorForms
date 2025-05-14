@@ -152,10 +152,12 @@ public class UserRepository : IModelService<User, int?, UserFilter>
 
         string sql =
             $"""
-            SELECT * FROM users
+            SELECT 
+                * 
+            FROM users
             WHERE 1 = 1 {GetFilterWhere(filter)}  
             ORDER BY user_id DESC
-            LIMIT {(filter.PageNumber - 1) * filter.Limit}, {filter.Limit}
+            LIMIT {filter.Limit} OFFSET {(filter.PageNumber - 1) * filter.Limit} 
             """;
 
         var command = new CommandDefinition
@@ -169,22 +171,56 @@ public class UserRepository : IModelService<User, int?, UserFilter>
 
 
         var results = await connection.QueryAsync<User>(command);
-
+        var total = await GetTotalAsync(filter, connection, transaction, cancellationToken);
 
         var response = new PagedResponse<User>
         {
-            Items = results.ToList(),
+            Items = results.AsList(),
             Page = filter.PageNumber,
             PageSize = filter.Limit,
-            Total = results.Count()
+            Total = total
         };
 
-        return null;
+        return response;
     }
 
     public string GetFilterWhere(UserFilter filter)
     {
-        throw new NotImplementedException();
+        StringBuilder sb = new();
+        if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+        {
+            sb.AppendLine(@" AND 
+(
+        UPPER(display_name) LIKE @SEARCH_PHRASE
+    OR  UPPER(email) LIKE @SEARCH_PHRASE
+    OR  UPPER(username) LIKE @SEARCH_PHRASE
+)");
+        }
+
+        string sql = sb.ToString();
+        return sql;
+    }
+
+    public Task<int> GetTotalAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql =
+            $"""
+            SELECT 
+                COUNT(*) 
+            FROM users
+            WHERE 1 = 1 {GetFilterWhere(filter)}
+            """;
+
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: filter.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+        return connection.ExecuteScalarAsync<int>(command);
     }
 }
 
