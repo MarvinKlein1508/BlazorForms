@@ -144,7 +144,17 @@ public class UserRepository : IModelService<User, int?, UserFilter>
 
     public Task DeleteAsync(User input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        string sql = "DELETE FROM users WHERE user_id = @USER_ID";
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: input.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+        return connection.ExecuteAsync(command);
     }
 
     public async Task<PagedResponse<User>> GetAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
