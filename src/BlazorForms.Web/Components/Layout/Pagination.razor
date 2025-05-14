@@ -1,0 +1,99 @@
+﻿@if (TotalPages > 1)
+{
+    <FluentStack HorizontalGap="5">
+        @if (CurrentPageNumber > 2)
+        {
+            <FluentAnchor Href="@GetUrl(1)">
+                <FluentIcon Value="@(new Icons.Regular.Size20.ChevronDoubleLeft())" />
+            </FluentAnchor>
+        }
+
+        @if (CurrentPageNumber > 1)
+        {
+            <FluentAnchor Href="@GetUrl(CurrentPageNumber - 1)">
+                <FluentIcon Value="@(new Icons.Regular.Size20.ChevronLeft())" />
+            </FluentAnchor>
+        }
+
+        @if (StartPage != MaxPage)
+        {
+            @for (int i = StartPage; i <= MaxPage; i++)
+            {
+                int pageNumber = i;
+                Appearance appearance = CurrentPageNumber == pageNumber ? Appearance.Accent : Appearance.Neutral;
+
+                <FluentAnchor Appearance="appearance" Href="@GetUrl(pageNumber)">
+                    @pageNumber
+                </FluentAnchor>
+            }
+
+            @if (CurrentPageNumber + 1 <= TotalPages)
+            {
+                <FluentAnchor Href="@GetUrl(CurrentPageNumber + 1)">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
+                </FluentAnchor>
+            }
+
+            @if (CurrentPageNumber < TotalPages)
+            {
+                <FluentAnchor Href="@GetUrl(TotalPages)">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.ChevronDoubleRight())" />
+                </FluentAnchor>
+            }
+        }
+    </FluentStack>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public string NavUrl { get; set; } = String.Empty;
+    [Parameter, EditorRequired]
+    public int CurrentPageNumber { get; set; } = 1;
+    [Parameter, EditorRequired]
+    public int ItemsPerPage { get; set; } = 30;
+    [Parameter, EditorRequired]
+    public int TotalItems { get; set; }
+
+    public int TotalPages
+    {
+        get
+        {
+            if (TotalItems == 0 || ItemsPerPage == 0)
+            {
+                return 1;
+            }
+
+            return (int)Math.Ceiling((double)TotalItems / (double)ItemsPerPage);
+        }
+    }
+
+    public int StartPage
+    {
+        get
+        {
+            int startPage = CurrentPageNumber - 2;
+            if (startPage < 1)
+            {
+                startPage = 1;
+            }
+
+            return startPage;
+        }
+    }
+
+    public int MaxPage
+    {
+        get
+        {
+            int maxPage = StartPage + 4;
+            if (maxPage > TotalPages)
+            {
+                maxPage = TotalPages;
+            }
+
+            return maxPage;
+        }
+    }
+
+    public string GetUrl(int pageNumber) => $"{NavUrl}{pageNumber}";
+}
