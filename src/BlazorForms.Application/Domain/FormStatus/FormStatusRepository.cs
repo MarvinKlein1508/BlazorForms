@@ -51,9 +51,44 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
         await _formStatusDescriptionRepository.DeleteForFormStatusAsync(input.StatusId, connection, transaction, cancellationToken);
     }
 
-    public Task<FormStatus?> GetAsync(int? identifier, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<FormStatus?> GetAsync(int? identifier, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        if (identifier == null)
+        {
+            return null;
+        }
+
+        string sql =
+            """
+            SELECT fs.*, fsd.*
+                    FROM form_status fs
+                    LEFT JOIN form_status_description fsd ON fs.status_id = fsd.status_id
+                    WHERE fs.status_id = @StatusId
+            """;
+        FormStatus? formStatus = null;
+
+        var result = await connection.QueryAsync<FormStatus, FormStatusDescription, FormStatus>(
+            sql,
+            (status, description) =>
+            {
+                if (formStatus == null)
+                {
+                    formStatus = status;
+                }
+
+                if (description != null)
+                {
+                    formStatus.Descriptions.Add(description);
+                }
+
+                return formStatus;
+            },
+            new { StatusId = identifier },
+            transaction: transaction,
+            splitOn: "status_id"
+        );
+
+        return formStatus;
     }
 
     public async Task UpdateAsync(FormStatus input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
@@ -86,5 +121,42 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
             description.StatusId = input.StatusId;
             await _formStatusDescriptionRepository.CreateAsync(description, connection, transaction, cancellationToken);
         }
+    }
+
+    public static async Task<List<FormStatus>> GetAllAsync(IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql =
+            """
+            SELECT fs.*, fsd.*
+            FROM form_status fs
+            LEFT JOIN form_status_description fsd ON fs.status_id = fsd.status_id
+            ORDER BY fs.sort_order
+            """;
+
+        var statusDictionary = new Dictionary<int, FormStatus>();
+
+        var result = await connection.QueryAsync<FormStatus, FormStatusDescription, FormStatus>(sql,
+            (status, description) =>
+            {
+                if (!statusDictionary.TryGetValue(status.StatusId, out var formStatus))
+                {
+                    formStatus = status;
+                    statusDictionary.Add(formStatus.StatusId, formStatus);
+                }
+
+                if (description != null)
+                {
+                    formStatus.Descriptions.Add(description);
+                }
+
+                return formStatus;
+            },
+            transaction: transaction,
+            splitOn: "status_id"
+        );
+
+        var list = statusDictionary.Values.AsList();
+
+        return list;
     }
 }
