@@ -242,6 +242,8 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
             sb.AppendLine(" AND UPPER(name) LIKE @SEARCH_PHRASE");
         }
 
+        sb.AppendLine(" AND fsd.code = @LANGUAGE_CODE");
+
         string sql = sb.ToString();
         return sql;
     }
