@@ -15,6 +15,8 @@ public static class DependencyInjection
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         services.AddSingleton<UserRepository>();
+        services.AddSingleton<FormStatusRepository>();
+        services.AddSingleton<FormStatusDescriptionRepository>();
         services.AddScoped<AuthService>();
 
         // Options
