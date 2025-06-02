@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorForms.Application.Domain;
-public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDescriptionRepository) : IModelService<FormStatus, int?>
+public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDescriptionRepository) : IModelService<FormStatus, int?, FormStatusFilter>
 {
     public async Task CreateAsync(FormStatus input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
@@ -158,5 +159,90 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
         var list = statusDictionary.Values.AsList();
 
         return list;
+    }
+
+    public async Task<PagedResponse<FormStatus>> GetAsync(FormStatusFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        string sql =
+            $"""
+            SELECT fs.*, fsd.*
+            FROM form_status fs
+            LEFT JOIN form_status_description fsd ON fs.status_id = fsd.status_id
+            WHERE 1 = 1 {GetFilterWhere(filter)}
+            ORDER BY fs.sort_order
+            """;
+
+        var statusDictionary = new Dictionary<int, FormStatus>();
+
+        var result = await connection.QueryAsync<FormStatus, FormStatusDescription, FormStatus>(sql,
+            (status, description) =>
+            {
+                if (!statusDictionary.TryGetValue(status.StatusId, out var formStatus))
+                {
+                    formStatus = status;
+                    statusDictionary.Add(formStatus.StatusId, formStatus);
+                }
+
+                if (description != null)
+                {
+                    formStatus.Descriptions.Add(description);
+                }
+
+                return formStatus;
+            },
+            transaction: transaction,
+            param: filter.GetParameters(),
+            splitOn: "status_id"
+        );
+
+        var list = statusDictionary.Values.AsList();
+
+        int total = await GetTotalAsync(filter, connection, transaction, cancellationToken);
+
+        var response = new PagedResponse<FormStatus>
+        {
+            Items = list,
+            Page = filter.PageNumber,
+            PageSize = filter.Limit,
+            Total = total
+        };
+
+        return response;
+    }
+
+    public Task<int> GetTotalAsync(FormStatusFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        string sql =
+            $"""
+            SELECT 
+                COUNT(*) 
+            FROM form_status fs
+            LEFT JOIN form_status_description fsd ON (fs.status_id = fsd.status_id)
+            WHERE 1 = 1 {GetFilterWhere(filter)}
+            """;
+
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: filter.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+        return connection.ExecuteScalarAsync<int>(command);
+    }
+
+    public string GetFilterWhere(FormStatusFilter filter)
+    {
+        StringBuilder sb = new();
+        if (!string.IsNullOrWhiteSpace(filter.SearchPhrase))
+        {
+            sb.AppendLine(" AND UPPER(name) LIKE @SEARCH_PHRASE");
+        }
+
+        string sql = sb.ToString();
+        return sql;
     }
 }

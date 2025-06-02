@@ -1,0 +1,91 @@
+﻿@page "/Admin/Status"
+@using System.Globalization
+@inherits ListPageBase<FormStatus, FormStatusRepository, FormStatusFilter>
+
+<PageTitle>Benutzerliste</PageTitle>
+
+<FluentBreadcrumb>
+    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Benutzer</FluentBreadcrumbItem>
+</FluentBreadcrumb>
+
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
+    <FluentAnchor Href="/Admin/Status/Create"
+                  IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
+                  Appearance="Appearance.Accent">
+        Neuer Status
+    </FluentAnchor>
+</FluentStack>
+
+<div class="row">
+    <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
+        <FluentCard Height="auto" AreaRestricted="false">
+            <h4>Filter</h4>
+
+            <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentTextField @bind-Value="Filter.SearchPhrase" Immediate="true" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+
+                    <div class="d-flex justify-content-end mt-2 w-100">
+                        <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
+                                      Appearance="Appearance.Accent">
+                            Suchen
+                        </FluentButton>
+                    </div>
+                </FluentStack>
+            </EditForm>
+        </FluentCard>
+    </div>
+    <div class="col-lg-9">
+        <FluentStack Orientation="Orientation.Vertical">
+
+            @if (_isLoading || Data is null)
+            {
+                <FluentProgressRing />
+            }
+            else
+            {
+                @foreach (var item in Data.Items)
+                {
+                    var description = item.GetLocalization(CultureInfo.CurrentCulture);
+                    <div class="list">
+                        <div class="list-details">
+                            <div class="list-item" hidden-when="xs sm">
+                                <label>Id</label>
+                                <span>@item.StatusId</span>
+                            </div>
+                            <div class="list-item">
+                                <label>Name</label>
+                                <span>@description?.Name</span>
+                            </div>
+
+                            <div class="list-item">
+                                <label>Beschreibung</label>
+                                <span>@description?.Description</span>
+                            </div>
+                        </div>
+                        <div class="list-buttons">
+                            <FluentAnchor Href="@($"/Admin/Status/Edit?Id={item.GetIdentifier()}")">
+                                Bearbeiten
+                            </FluentAnchor>
+                        </div>
+                    </div>
+                }
+
+                @if (!_isLoading && !Data.Items.Any())
+                {
+                    <div class="list justify-content-center">
+                        Keine Datensätze
+                    </div>
+                }
+
+                <Pagination CurrentPageNumber="Page"
+                            TotalItems="Data.Total"
+                            ItemsPerPage="Filter.Limit"
+                            NavUrl="/Admin/Status?page=" />
+
+            }
+        </FluentStack>
+    </div>
+</div>

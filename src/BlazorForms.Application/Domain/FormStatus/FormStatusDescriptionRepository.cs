@@ -12,14 +12,14 @@ public class FormStatusDescriptionRepository : ICreateOperation<FormStatusDescri
             INSERT INTO form_status_description
             (
                 status_id,
-                language_id,
+                code,
                 name,
                 description
             )
             VALUES
             (
                 @STATUS_ID,
-                @LANGUAGE_ID,
+                @CODE,
                 @NAME,
                 @DESCRIPTION
             )

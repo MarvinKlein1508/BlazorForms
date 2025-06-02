@@ -5,5 +5,5 @@
 /// </summary>
 public interface ILocalizationHelper
 {
-    public int GetLanguageId();
+    public string GetLanguageCode();
 }
