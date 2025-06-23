@@ -1,0 +1,53 @@
+﻿:root {
+    --base-padding: .5em;
+}
+
+::deep .fluentcx-drop-zone-placeholder {
+    height: var(--base-padding) !important;
+}
+
+.form-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+.form-editor-content {
+    flex: 1;
+    background-color: pink;
+    display: flex;
+    padding: var(--base-padding);
+}
+
+.form-row {
+    border: 1px dashed red;
+    border-radius: .5em;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    padding: var(--base-padding);
+    gap: var(--base-padding);
+}
+
+.form-column {
+    flex: 1;
+    border: 2px dashed orange;
+    border-radius: .5em;
+    min-height: 5em;
+}
+.form-element {
+    border: 1px solid green;
+    border-radius: .5em;
+    margin: 0 1em;
+}
+
+.dropzone {
+    width: 100%;
+    height: 100%;
+}
+
+    .dropzone.dropzone-inner {
+        display: flex;
+        align-items: stretch;
+        gap: var(--base-padding);
+    }

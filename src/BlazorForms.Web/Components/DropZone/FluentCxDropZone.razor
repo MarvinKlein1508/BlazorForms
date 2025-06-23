@@ -1,0 +1,57 @@
+﻿@namespace BlazorForms.Web.Components.DropZone
+@using BlazorForms.Web.Components.DropZone
+@using Microsoft.AspNetCore.Components.Rendering
+@inherits FluentComponentBase
+@typeparam TItem
+
+<CascadingValue Value="this" IsFixed>
+
+    @if (DropZoneContainer.ChildContent is null || ForceRender)
+    {
+        @_renderDropZone
+    }
+
+</CascadingValue>
+
+@code {
+    public FluentCxDropZone()
+    {
+        Id = Identifier.NewId();
+
+        _renderDropZone = __builder =>
+        {
+
+            @if (Index == 0 && !DropZoneContainer.MaxItems.HasValue || DropZoneContainer.MaxItems > 1)
+            {
+                <div @ondrop="() => OnDropItemOnPlaceholderAsync(0)"
+                @ondrop:stopPropagation
+                     @ondragenter="() => State!.ActivePlaceholderId = 0"
+                     @ondragleave="() => State!.ActivePlaceholderId = null"
+                     class="@GetPlaceholderCss(0)" />
+            }
+
+            <div draggable="@(IsDragAllowed.ToString())"
+                 @ondragstart="@OnDragStart"
+                 @ondragend="@OnDragEndAsync"
+                 role="listitem"
+                 @ondragenter="() => OnDragEnterAsync()"
+                 @ondragleave="() => OnDragLeave()"
+                 class="@GetItemCss()"
+                 style="@GetItemStyle()">
+                @ChildContent
+            </div>
+
+            @if (!DropZoneContainer.MaxItems.HasValue || DropZoneContainer.MaxItems > 1)
+            {
+                int currentIndex = Index + 1;
+
+                <div @ondrop="() => OnDropItemOnPlaceholderAsync(currentIndex)"
+                @ondrop:stopPropagation
+                     @ondragenter="() => State!.ActivePlaceholderId = currentIndex"
+                     @ondragleave="() => State!.ActivePlaceholderId = null"
+                     class="@GetPlaceholderCss(currentIndex)" />
+            }
+
+        };
+    }
+}

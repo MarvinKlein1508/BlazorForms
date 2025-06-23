@@ -1,0 +1,67 @@
+﻿@page "/Admin/Forms/Create"
+@layout EmptyLayout
+@using BlazorForms.Web.Components.DropZone
+@using BlazorForms.Core.Models.Elements
+@inject IDialogService DialogService
+<SectionContent SectionName="additional-css">
+    <link rel="stylesheet" href="@Assets["/assets/css/form-editor.css"]" />
+</SectionContent>
+
+<div class="form-editor">
+    <div class="form-editor-content">
+        <FluentCxDropZoneContainer Class="dropzone" TItem="FormRow" Items="_testForm.Rows">
+            <ItemContent Context="row">
+                <div class="form-row">
+                    Row: @row.RowId
+                    <FluentCxDropZoneContainer Class="dropzone dropzone-inner" TItem="FormColumn" Items="row.Columns">
+                        <ItemContent Context="column">
+                            <div class="form-column">
+                                Column: @column.ColumnId
+                                <FluentCxDropZoneContainer Class="dropzone" TItem="FormElementBase" Items="column.Elements">
+                                    <ItemContent Context="element">
+                                        <div class="form-element">
+                                            Element: @element.ElementId
+                                        </div>
+                                    </ItemContent>
+                                </FluentCxDropZoneContainer>
+                            </div>
+                        </ItemContent>
+                    </FluentCxDropZoneContainer>
+                </div>
+            </ItemContent>
+        </FluentCxDropZoneContainer>
+    </div>
+    <div class="form-editor-appbar">
+        <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">
+            <FluentAppBarItem Href="/"
+                              Match="NavLinkMatch.All"
+                              IconRest="HomeIcon()"
+                              IconActive="HomeIcon(active: true)"
+                              Text="Home"
+                              OnClick="HandleOnClick" />
+            <FluentAppBarItem Href="/AppBar"
+                              IconRest="AppBarIcon()"
+                              IconActive="AppBarIcon(active: true)"
+                              Text="AppBar"
+                              OnClick="HandleOnClick" />
+            <FluentAppBarItem IconRest="WhatsNewIcon()"
+                              IconActive="WhatsNewIcon(active: true)"
+                              Text="What's New'"
+                              OnClick="ShowSuccessAsync" />
+            <FluentAppBarItem Href="@(null)"
+                              IconRest="IconsIcon()"
+                              IconActive="IconsIcon(active: true)"
+                              Text="Icons"
+                              OnClick="ShowWarningAsync" />
+            <FluentAppBarItem Href="/Dialog"
+                              IconRest="DialogIcon()"
+                              IconActive="DialogIcon(active: true)"
+                              Text="Dialog"
+                              OnClick="HandleOnClick" />
+        </FluentAppBar>
+    </div>
+</div>
+
+
+
+
