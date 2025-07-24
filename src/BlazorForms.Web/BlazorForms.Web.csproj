@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\DropZone\" />
     <Folder Include="Languages\Components\" />
   </ItemGroup>
 

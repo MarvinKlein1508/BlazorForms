@@ -1,6 +1,5 @@
 ﻿@page "/Admin/Forms/Create"
 @layout EmptyLayout
-@using BlazorForms.Web.Components.DropZone
 @using BlazorForms.Core.Models.Elements
 @inject IDialogService DialogService
 <SectionContent SectionName="additional-css">
@@ -9,27 +8,7 @@
 
 <div class="form-editor">
     <div class="form-editor-content">
-        <FluentCxDropZoneContainer Class="dropzone" TItem="FormRow" Items="_testForm.Rows">
-            <ItemContent Context="row">
-                <div class="form-row">
-                    Row: @row.RowId
-                    <FluentCxDropZoneContainer Class="dropzone dropzone-inner" TItem="FormColumn" Items="row.Columns">
-                        <ItemContent Context="column">
-                            <div class="form-column">
-                                Column: @column.ColumnId
-                                <FluentCxDropZoneContainer Class="dropzone" TItem="FormElementBase" Items="column.Elements">
-                                    <ItemContent Context="element">
-                                        <div class="form-element">
-                                            Element: @element.ElementId
-                                        </div>
-                                    </ItemContent>
-                                </FluentCxDropZoneContainer>
-                            </div>
-                        </ItemContent>
-                    </FluentCxDropZoneContainer>
-                </div>
-            </ItemContent>
-        </FluentCxDropZoneContainer>
+
     </div>
     <div class="form-editor-appbar">
         <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">

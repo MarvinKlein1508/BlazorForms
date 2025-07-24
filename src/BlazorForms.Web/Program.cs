@@ -3,7 +3,6 @@ using BlazorForms.Application.Auth;
 using BlazorForms.Application.Common;
 using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
-using BlazorForms.Web.Components.DropZone;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -18,7 +17,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers();
 
 builder.Services.AddFluentUIComponents();
-builder.Services.AddScoped(typeof(DropZoneState<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
