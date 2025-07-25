@@ -14,14 +14,18 @@ public partial class Dropzone<TItem>
         }
 
         var activeItem = DragDropService.ActiveItem;
+
+        if (activeItem is null)
+        {
+            return;
+        }
+
         var oldIndex = Items.IndexOf(activeItem);
         var sameDropZone = false;
-        if (oldIndex == -1) // item not present in target dropzone
+
+        if (oldIndex == -1 && CopyItem is null) // item not present in target dropzone
         {
-            if (CopyItem == null)
-            {
-                DragDropService.Items.Remove(activeItem);
-            }
+            DragDropService.Items.Remove(activeItem);
         }
         else // same dropzone drop
         {
@@ -29,10 +33,12 @@ public partial class Dropzone<TItem>
             Items.RemoveAt(oldIndex);
             // the actual index could have shifted due to the removal
             if (newIndex > oldIndex)
+            {
                 newIndex--;
+            }
         }
 
-        if (CopyItem == null)
+        if (CopyItem is null)
         {
             Items.Insert(newIndex, activeItem);
         }
@@ -53,19 +59,19 @@ public partial class Dropzone<TItem>
         return !Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count;
     }
 
-    private string IsItemDragable(TItem item)
+    private bool IsItemDragable(TItem item)
     {
         if (AllowsDrag is null)
         {
-            return "true";
+            return true;
         }
 
         if (item is null)
         {
-            return "false";
+            return false;
         }
 
-        return AllowsDrag(item).ToString();
+        return AllowsDrag(item);
     }
 
     private bool IsItemAccepted(TItem dragTargetItem)
@@ -130,7 +136,7 @@ public partial class Dropzone<TItem>
         }
 
         DragDropService.DragTargetItem = item;
-        
+
         if (InstantReplace)
         {
             Swap(DragDropService.DragTargetItem, activeItem);
@@ -216,19 +222,19 @@ public partial class Dropzone<TItem>
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
     /// </summary>
     [Parameter]
-    public Func<TItem, TItem, bool> Accepts { get; set; }
+    public Func<TItem?, TItem, bool>? Accepts { get; set; }
 
     /// <summary>
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
     /// </summary>
     [Parameter]
-    public Func<TItem, bool> AllowsDrag { get; set; }
+    public Func<TItem, bool>? AllowsDrag { get; set; }
 
     /// <summary>
     /// Allows to pass a delegate which executes if a drag operation ends
     /// </summary>
     [Parameter]
-    public Action<TItem> DragEnd { get; set; }
+    public Action<TItem>? DragEnd { get; set; }
 
     [Parameter]
     public EventCallback<TItem> DragStart { get; set; }
@@ -266,7 +272,7 @@ public partial class Dropzone<TItem>
     /// <summary>
     /// List of items for the dropzone
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public IList<TItem> Items { get; set; }
 
     /// <summary>
@@ -288,7 +294,7 @@ public partial class Dropzone<TItem>
     /// Specifies one or more classnames for the Dropzone element.
     /// </summary>
     [Parameter]
-    public string Class { get; set; }
+    public string? Class { get; set; }
 
     /// <summary>
     /// Specifies the id for the Dropzone element.
@@ -339,7 +345,6 @@ public partial class Dropzone<TItem>
 
     private void OnDrop()
     {
-        //DragDropService.ShouldRender = true;
         if (!IsDropAllowed())
         {
             DragDropService.Reset();

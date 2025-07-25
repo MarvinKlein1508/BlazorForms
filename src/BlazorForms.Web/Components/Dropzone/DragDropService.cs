@@ -18,7 +18,7 @@ public class DragDropService<T>
     /// <summary>
     /// Holds a reference to the items of the dropzone in which the drag operation originated
     /// </summary>
-    public IList<T>? Items { get; set; }
+    public IList<T> Items { get; set; } = [];
 
     /// <summary>
     /// Holds the id of the Active Spacing div
@@ -32,7 +32,7 @@ public class DragDropService<T>
     {
         ActiveItem = default;
         ActiveSpacerId = null;
-        Items = null;
+        Items = [];
         DragTargetItem = default;
     }
 }
