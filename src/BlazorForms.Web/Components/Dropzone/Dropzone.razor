@@ -1,9 +1,15 @@
 ﻿@typeparam TItem
 @namespace BlazorForms.Web.Components
 @inject DragDropService<TItem> DragDropService
-@using System.Text
 
-<div id="@Id" class="@GetClassesForDropzone()" @ondragover:preventDefault @ondragover="()=> { }" @ondragenter:preventDefault @ondragenter="()=> { }" @ondrop="()=>OnDrop()" @ondrop:preventDefault ondragstart="event.dataTransfer.setData('text', event.target.id);"
+<div id="@Id" class="@GetClassesForDropzone()"
+     ondragstart="event.dataTransfer.setData('text', event.target.id);"
+     @ondragover:preventDefault
+     @ondragover="()=> { }"
+     @ondragenter:preventDefault
+     @ondragenter="()=> { }"
+     @ondrop="()=>OnDrop()"
+     @ondrop:preventDefault
      @ondrop:stopPropagation
      @ondragenter:stopPropagation
      @ondragend:stopPropagation
@@ -13,7 +19,6 @@
 
     @foreach (var item in Items)
     {
-
         if ((Items.IndexOf(item) == 0 && MaxItems == null || MaxItems > 1) && !DisabledSpacer)
         {
             <div @ondrop="()=>OnDropItemOnSpacing(0)" @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId =  0" @ondragleave="()=>DragDropService.ActiveSpacerId = null" class="@GetClassesForSpacing(0)"></div>
@@ -25,11 +30,10 @@
              @ondragenter="()=>OnDragEnter(item)"
              @ondragleave="()=>OnDragLeave()"
              class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
-
             @{
                 if (ChildContent != null)
                 {
-                    @ChildContent(item);
+                    @ChildContent(item)
                 }
             }
 

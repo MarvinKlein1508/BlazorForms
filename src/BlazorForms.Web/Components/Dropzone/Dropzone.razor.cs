@@ -55,17 +55,26 @@ public partial class Dropzone<TItem>
 
     private string IsItemDragable(TItem item)
     {
-        if (AllowsDrag == null)
+        if (AllowsDrag is null)
+        {
             return "true";
-        if (item == null)
+        }
+
+        if (item is null)
+        {
             return "false";
+        }
+
         return AllowsDrag(item).ToString();
     }
 
     private bool IsItemAccepted(TItem dragTargetItem)
     {
-        if (Accepts == null)
+        if (Accepts is null)
+        {
             return true;
+        }
+
         return Accepts(DragDropService.ActiveItem, dragTargetItem);
     }
 
@@ -76,19 +85,18 @@ public partial class Dropzone<TItem>
 
     public string CheckIfDraggable(TItem item)
     {
-        if (AllowsDrag == null)
-            return "";
-        if (item == null)
-            return "";
-        if (AllowsDrag(item))
-            return "";
+        if (AllowsDrag is null || item is null || AllowsDrag(item))
+        {
+            return string.Empty;
+        }
+
         return "plk-dd-noselect";
     }
 
     public string CheckIfDragOperationIsInProgess()
     {
         var activeItem = DragDropService.ActiveItem;
-        return activeItem == null ? "" : "plk-dd-inprogess";
+        return activeItem is null ? "" : "plk-dd-inprogess";
     }
 
     public void OnDragEnd()
@@ -102,14 +110,27 @@ public partial class Dropzone<TItem>
     {
         var activeItem = DragDropService.ActiveItem;
         if (item.Equals(activeItem))
+        {
             return;
+        }
+
         if (!IsValidItem())
+        {
             return;
+        }
+
         if (IsMaxItemLimitReached())
+        {
             return;
+        }
+
         if (!IsItemAccepted(item))
+        {
             return;
+        }
+
         DragDropService.DragTargetItem = item;
+        
         if (InstantReplace)
         {
             Swap(DragDropService.DragTargetItem, activeItem);
@@ -127,8 +148,6 @@ public partial class Dropzone<TItem>
         DragDropService.Items = Items;
 
         await DragStart.InvokeAsync(item);
-
-
     }
 
     public string CheckIfItemIsInTransit(TItem item)
@@ -139,7 +158,10 @@ public partial class Dropzone<TItem>
     public string CheckIfItemIsDragTarget(TItem item)
     {
         if (item.Equals(DragDropService.ActiveItem))
+        {
             return "";
+        }
+
         if (item.Equals(DragDropService.DragTargetItem))
         {
             return IsItemAccepted(DragDropService.DragTargetItem) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
@@ -391,14 +413,20 @@ public partial class Dropzone<TItem>
         else if (InstantReplace) //swap the items
         {
             if (indexDraggedOverItem == indexActiveItem)
+            {
                 return;
+            }
+
             (Items[indexActiveItem], Items[indexDraggedOverItem]) = (Items[indexDraggedOverItem], Items[indexActiveItem]);
             OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
         }
         else //no instant replace, just insert it after
         {
             if (indexDraggedOverItem == indexActiveItem)
+            {
                 return;
+            }
+
             var tmp = Items[indexActiveItem];
             Items.RemoveAt(indexActiveItem);
             Items.Insert(indexDraggedOverItem, tmp);
