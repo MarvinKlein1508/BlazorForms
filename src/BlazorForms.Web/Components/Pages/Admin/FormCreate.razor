@@ -8,7 +8,11 @@
 
 <div class="form-editor">
     <div class="form-editor-content">
-
+        <Dropzone DragStart="(item) => StateHasChanged()" TItem="FormRow" Class="large-dropzone" Items="_testForm.Rows" Context="row">
+            <div class="form-row">
+                @row.Guid
+            </div>
+        </Dropzone>
     </div>
     <div class="form-editor-appbar">
         <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">
