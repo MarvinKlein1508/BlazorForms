@@ -1,13 +1,6 @@
 # BlazorForms
 Create dynamic PDF forms completely in the web.
 
-![Dashboard](images/dashboard.png)
-![Form builder](images/form_builder.png)
-![Element editor](images/element_editor.png)
-![Calc editor](images/calc_editor.png)
-![New form entry](images/new_form_entry.png)
-![New form entry tables](images/new_form_entry_table.png)
-
 ## Requirements
 * MariaDB Database
 * ASP.NET Core 9 Hosting Bundle x64

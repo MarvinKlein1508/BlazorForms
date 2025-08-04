@@ -6,12 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{715ADD3A-DD6E-416F-9412-ECC251CAA351}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		images\calc_editor.png = images\calc_editor.png
-		images\dashboard.png = images\dashboard.png
-		images\element_editor.png = images\element_editor.png
-		images\form_builder.png = images\form_builder.png
-		images\new_form_entry.png = images\new_form_entry.png
-		images\new_form_entry_table.png = images\new_form_entry_table.png
 		README.MD = README.MD
 	EndProjectSection
 EndProject
