@@ -7,6 +7,7 @@ namespace BlazorForms.Web.Components.Pages.Admin;
 public partial class FormCreate
 {
     private bool _dragFromToolbar;
+    private FormElementBase? _selectedFormElement;
     public static List<FormElementBase> ToolbarElements { get; } =
     [
         new FormTextElement(),
