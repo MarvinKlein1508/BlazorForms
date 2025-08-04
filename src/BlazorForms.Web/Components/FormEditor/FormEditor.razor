@@ -29,7 +29,23 @@
             <div class="form-element-editor">
                 <FluentTabs>
                     <FluentTab Label="General">
-                        <FluentTextField Value="@_selectedFormElement.GetElementType().ToString()" ReadOnly />
+                        <FluentTextField Value="@_selectedFormElement.GetElementType().ToString()" Label="Element type" ReadOnly />
+
+                        <FluentTextField @bind-Value="_selectedFormElement.Name" Label="Name" Required Immediate />
+
+                        @if (_selectedFormElement is FormTextElementBase textElement)
+                        {
+                            <label for="textelement-minlength">Min length</label>
+                            <InputNumber @bind-Value="textElement.TextMinLength" id="textelement-minlength" />
+                            
+                            <label for="textelement-maxlength">Max length</label>
+                            <InputNumber @bind-Value="textElement.TextMaxLength" id="textelement-maxlength" />
+                          
+                            <FluentTextArea @bind-Value="textElement.RegexPattern" Label="REGEX Pattern" Immediate />
+                           
+                            <FluentTextField @bind-Value="textElement.RegexValidationMessage" Label="REGEX error message" />
+                        }
+
                     </FluentTab>
                 </FluentTabs>
             </div>
