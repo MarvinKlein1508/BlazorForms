@@ -10,18 +10,14 @@
 }
 
 .form-editor-wrapper {
-    background-color: pink;
+    background-color: var(--neutral-layer-2);
     flex: 1;
-}
-
-.form-editor {
-    color: #000 !important;
 }
 
 .form-row {
     border: 1px dashed red;
     border-radius: var(--form-editor-border-radius);
-    background-color: #fff;
+    background-color: var(--neutral-layer-floating);
     padding: var(--base-padding);
     display: flex;
     gap: var(--base-padding);
@@ -78,5 +74,5 @@
 }
 
 .toolbar-wrapper {
-    background-color: orange;
+    background-color: var(--fill-color);
 }

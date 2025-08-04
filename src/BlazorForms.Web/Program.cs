@@ -3,6 +3,7 @@ using BlazorForms.Application.Auth;
 using BlazorForms.Application.Common;
 using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
+using BlazorForms.Web.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -20,7 +21,7 @@ builder.Services.AddFluentUIComponents();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-
+builder.Services.AddScoped<CacheStorageAccessor>();
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);
 //builder.Services.AddScoped(typeof(DragDropService<>));
