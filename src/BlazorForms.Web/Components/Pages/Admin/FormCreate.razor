@@ -35,7 +35,8 @@
                                                 @foreach (var element in column.Elements)
                                                 {
                                                     <FluentDropZone StopPropagation="true" Item="element" Data="@column" Class="form-element" Draggable="true" Droppable="true">
-                                                        <span>[@element.GetElementType()] Element: @element.ElementId</span>
+                                                        <span>[@element.GetElementType()] @element.Name</span>
+                                                        <FluentButton IconEnd="@(new Icons.Regular.Size20.Edit())" />
                                                     </FluentDropZone>
                                                 }
                                             }

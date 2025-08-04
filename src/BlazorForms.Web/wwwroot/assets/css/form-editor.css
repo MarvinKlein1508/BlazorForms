@@ -46,7 +46,13 @@
     border: 1px solid green;
     border-radius: var(--form-editor-border-radius);
     padding: var(--base-padding);
+    display: flex;
+    align-items: center
 }
+
+    .form-element span {
+        flex: 1;
+    }
 
 .form-editor-flex {
     display: flex;
