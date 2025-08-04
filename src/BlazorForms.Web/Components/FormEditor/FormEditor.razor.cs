@@ -91,12 +91,6 @@ public partial class FormEditor
     private static Icon DialogIcon(bool active = false) =>
         active ? new Icons.Filled.Size24.AppGeneric()
                : new Icons.Regular.Size24.AppGeneric();
-
-    private void HandleOnClick(IAppBarItem item)
-    {
-
-    }
-
     private async Task ShowSuccessAsync(IAppBarItem item)
     {
         var dialog = await DialogService.ShowSuccessAsync($"You clicked {item.Text}");
