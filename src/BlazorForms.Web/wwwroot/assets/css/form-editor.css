@@ -1,5 +1,6 @@
 ﻿:root {
     --base-padding: .5em;
+    --form-editor-border-radius: .5em;
 }
 
 .form-editor {
@@ -8,36 +9,30 @@
     height: 100dvh;
 }
 
-.form-editor-content {
-    flex: 1;
+.form-editor-wrapper {
     background-color: pink;
-    display: flex;
-    padding: var(--base-padding);
-}
-
-.form-editor-content > * {
-    width: 100%;
+    flex: 1;
 }
 
 .form-editor {
-    color: #000 !important; /* Ignore themes for this demo */
+    color: #000 !important;
 }
 
 .form-row {
     border: 1px dashed red;
-    border-radius: .5em;
+    border-radius: var(--form-editor-border-radius);
     background-color: #fff;
-    padding: 1em;
+    padding: var(--base-padding);
     display: flex;
-    gap: 1em;
+    gap: var(--base-padding);
 }
 
 .form-column {
     flex: 1;
     border: 2px dashed orange;
-    border-radius: .5em;
+    border-radius: var(--form-editor-border-radius);
     min-height: 5em;
-    padding: .5rem;
+    padding: var(--base-padding);
 }
 
 .empty-zone {
@@ -49,12 +44,33 @@
 
 .form-element {
     border: 1px solid green;
-    border-radius: .5em;
-    padding: 1rem;
+    border-radius: var(--form-editor-border-radius);
+    padding: var(--base-padding);
 }
 
 .form-editor-flex {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: var(--base-padding);
+}
+
+.dropzone {
+    width: 100%;
+    height: 100%;
+}
+
+.form-editor-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-padding);
+    padding: var(--base-padding);
+}
+
+.form-editor-grid {
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+}
+
+.toolbar-wrapper {
+    background-color: orange;
 }
