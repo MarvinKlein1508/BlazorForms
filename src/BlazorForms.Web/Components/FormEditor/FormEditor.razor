@@ -33,6 +33,15 @@
 
                         <FluentTextField @bind-Value="_selectedFormElement.Name" Label="Name" Required Immediate />
 
+                        <div class="d-flex flex-column gap-2 mt-2 mb-2">
+                            @if(_selectedFormElement is not FormLabelElement)
+                            {
+                                <FluentCheckbox @bind-Value="_selectedFormElement.IsRequired" Label="Required field" />
+                            }
+                            <FluentCheckbox @bind-Value="_selectedFormElement.ResetOnCopy" Label="Reset when copying the form entry" />
+                            <FluentCheckbox @bind-Value="_selectedFormElement.IsActive" Label="Active" />
+                        </div>
+
                         @if (_selectedFormElement is FormTextElementBase textElement)
                         {
                             <label class="fluent-input-label" for="textelement-minlength">Min length</label>
