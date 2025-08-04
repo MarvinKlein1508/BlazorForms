@@ -59,11 +59,11 @@
                             }
                         </div>
                         <div class="toolbar-wrapper">
-                            <p>Hello World</p>
-                            <ul>
+                            <h4>Toolbar</h4>
+                            <ul id="element-toolbar">
                                 @foreach (var element in ToolbarElements)
                                 {
-                                    <li>
+                                    <li class="toolbar-element">
                                         <FluentDropZone StopPropagation="true" Item="element" OnDragStart="(e) => _dragFromToolbar = true" TItem="FormElementBase" Draggable="true" Droppable="false">
                                             @element.GetElementType()
                                         </FluentDropZone>

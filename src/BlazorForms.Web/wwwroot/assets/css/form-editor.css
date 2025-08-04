@@ -75,4 +75,26 @@
 
 .toolbar-wrapper {
     background-color: var(--fill-color);
+    text-align: center;
+}
+
+    .toolbar-wrapper h4 {
+        padding-top: var(--base-padding);
+    }
+
+.toolbar-element {
+    list-style: none;
+    display: block;
+}
+
+    .toolbar-element > div {
+        padding: calc(var(--base-padding) * 2);
+        cursor: grab !important;
+        background-color: var(--neutral-layer-4);
+        
+    }
+
+#element-toolbar {
+    padding: 0;
+    margin: 0;
 }
