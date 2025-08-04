@@ -7,7 +7,10 @@ namespace BlazorForms.Web.Components;
 public partial class FormEditor
 {
     private bool _dragFromToolbar;
+    private bool _editFormProperties { get; set; }
+    private Guid? _scrollToGuid;
     private FormElementBase? _selectedFormElement;
+    private readonly List<FormElementBase> _selectedFormElementStack = [];
     public static List<FormElementBase> ToolbarElements { get; } =
     [
         new FormTextElement(),
@@ -183,5 +186,46 @@ public partial class FormEditor
 
         _dragFromToolbar = false;
         StateHasChanged();
+    }
+
+    private Task OpenFormElementAsync(FormElementBase element)
+    {
+        _selectedFormElementStack.Add(element);
+        _selectedFormElement = element;
+        return Task.CompletedTask;
+    }
+
+    private Task CloseItemAsync()
+    {
+        bool redirect = _selectedFormElement is null && !_editFormProperties;
+
+        if (_selectedFormElement is not null)
+        {
+            _selectedFormElementStack.Remove(_selectedFormElement);
+
+            if (_selectedFormElementStack.Count != 0)
+            {
+                _selectedFormElement = _selectedFormElementStack.Last();
+            }
+            else
+            {
+                // Cache element to jump back to it in editor
+                var tmp = _selectedFormElement;
+                _scrollToGuid = tmp.Guid;
+                _selectedFormElement = null;
+            }
+        }
+
+        if (_editFormProperties)
+        {
+            _editFormProperties = false;
+        }
+
+        //if (redirect)
+        //{
+        //    navigationManager.NavigateTo("/Admin/Forms");
+        //}
+
+        return Task.CompletedTask;
     }
 }

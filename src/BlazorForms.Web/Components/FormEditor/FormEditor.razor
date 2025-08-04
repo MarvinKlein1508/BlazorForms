@@ -8,12 +8,9 @@
 <div class="form-editor">
     <div class="form-editor-appbar">
         <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">
-            <FluentAppBarItem Href="/"
-                              Match="NavLinkMatch.All"
-                              IconRest="HomeIcon()"
-                              IconActive="HomeIcon(active: true)"
-                              Text="Home"
-                              OnClick="HandleOnClick" />
+            <FluentAppBarItem IconRest="HomeIcon()"
+                              Text="Close"
+                              OnClick="CloseItemAsync" />
             <FluentAppBarItem Href="/AppBar"
                               IconRest="AppBarIcon()"
                               IconActive="AppBarIcon(active: true)"
@@ -76,7 +73,7 @@
                                                     {
                                                         <FluentDropZone StopPropagation="true" Item="element" Data="@column" Class="form-element" Draggable="true" Droppable="true">
                                                             <span>[@element.GetElementType()] @element.Name</span>
-                                                            <FluentButton OnClick="() => _selectedFormElement = element" IconEnd="@(new Icons.Regular.Size20.Edit())" />
+                                                            <FluentButton OnClick="async () => await OpenFormElementAsync(element)" IconEnd="@(new Icons.Regular.Size20.Edit())" />
                                                         </FluentDropZone>
                                                     }
                                                 }
