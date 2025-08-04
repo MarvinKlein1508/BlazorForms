@@ -15,14 +15,21 @@
     padding: var(--base-padding);
 }
 
+.form-editor-content > * {
+    width: 100%;
+}
+
+.form-editor {
+    color: #000 !important; /* Ignore themes for this demo */
+}
+
 .form-row {
     border: 1px dashed red;
     border-radius: .5em;
     background-color: #fff;
-    width: 100%;
+    padding: 1em;
     display: flex;
-    padding: var(--base-padding);
-    gap: var(--base-padding);
+    gap: 1em;
 }
 
 .form-column {
@@ -30,22 +37,23 @@
     border: 2px dashed orange;
     border-radius: .5em;
     min-height: 5em;
+    padding: .5rem;
+}
+
+.empty-zone {
+    width: 100%;
+    min-height: 50px;
+    background-color: yellow;
+    height: 100%;
 }
 
 .form-element {
     border: 1px solid green;
     border-radius: .5em;
-    margin: 0 1em;
+    padding: 1rem;
 }
 
-.dropzone {
-    width: 100%;
-    height: 100%;
-}
-
-#form-row-dropzone {
-    width: 100%;
-    height: 100%;
+.form-editor-flex {
     display: flex;
     flex-direction: column;
     gap: .5rem;

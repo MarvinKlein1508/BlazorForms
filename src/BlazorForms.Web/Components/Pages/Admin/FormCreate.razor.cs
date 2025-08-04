@@ -1,5 +1,6 @@
 ﻿using BlazorForms.Application.Domain;
 using BlazorForms.Application.Domain.Elements;
+using BlazorForms.Core.Models.Elements;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
@@ -11,43 +12,50 @@ public partial class FormCreate
     {
         _testForm = new Form();
 
-        var testRow1 = new FormRow() { RowId = 1 };
-        var testRow2 = new FormRow() { RowId = 2 };
-        var testRow3 = new FormRow() { RowId = 3 };
-        var testRow4 = new FormRow() { RowId = 4 };
-        var testRow5 = new FormRow() { RowId = 5 };
-        var testRow6 = new FormRow() { RowId = 6 };
-        var testColumn1 = new FormColumn() { ColumnId = 1 };
-        var testColumn2 = new FormColumn() { ColumnId = 2 };
-        var testColumn3 = new FormColumn() { ColumnId = 3 };
-        var testColumn4 = new FormColumn() { ColumnId = 4 };
-        var testColumn5 = new FormColumn() { ColumnId = 5 };
-        var testColumn6 = new FormColumn() { ColumnId = 6 };
-        var testColumn7 = new FormColumn() { ColumnId = 7 };
-        var testColumn8 = new FormColumn() { ColumnId = 8 };
-        var testElement1 = new FormTextElement() { ElementId = 1 };
-        var testElement2 = new FormTextElement() { ElementId = 2 };
-        var testElement3 = new FormTextElement() { ElementId = 3 };
-        var testElement4 = new FormTextElement() { ElementId = 4 };
-        var testElement5 = new FormTextElement() { ElementId = 5 };
-        var testElement6 = new FormTextElement() { ElementId = 6 };
-        var testElement7 = new FormTextElement() { ElementId = 7 };
-        var testElement8 = new FormTextElement() { ElementId = 8 };
-        var testElement9 = new FormTextElement() { ElementId = 9 };
-        var testElement10 = new FormTextElement() { ElementId = 10 };
+        var rows = Enumerable.Range(1, 6)
+                             .Select(id => new FormRow { RowId = id })
+                             .ToList();
 
-        testColumn1.Elements.AddRange(testElement1, testElement2);
-        testColumn2.Elements.AddRange(testElement3, testElement4, testElement5);
-        testColumn4.Elements.AddRange(testElement6);
-        testColumn5.Elements.AddRange(testElement7, testElement8);
-        testColumn6.Elements.AddRange(testElement9, testElement10);
+        var columns = Enumerable.Range(1, 9)
+                                .Select(id => new FormColumn { ColumnId = id })
+                                .ToList();
 
-        testRow1.Columns.AddRange(testColumn1, testColumn2);
-        testRow2.Columns.Add(testColumn3);
-        testRow3.Columns.Add(testColumn4);
-        testRow4.Columns.AddRange(testColumn5, testColumn6);
-        testRow5.Columns.AddRange(testColumn7, testColumn8);
-        _testForm.Rows.AddRange(testRow1, testRow2, testRow3, testRow4, testRow5, testRow6);
+        var elementMap = new Dictionary<int, int>
+        {
+            { 1, 2 },
+            { 2, 1 },
+            { 3, 3 },
+            { 4, 0 },
+            { 5, 2 },
+            { 6, 1 },
+            { 7, 0 },
+            { 8, 1 },
+            { 9, 0 }
+        };
+
+        int elementIdCounter = 1;
+        foreach (var column in columns)
+        {
+            if (elementMap.TryGetValue(column.ColumnId, out int count))
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    column.Elements.Add(new FormElementBase
+                    {
+                        ElementId = elementIdCounter++
+                    });
+                }
+            }
+        }
+
+        rows[0].Columns.AddRange([columns[0], columns[1]]);
+        rows[1].Columns.Add(columns[2]);
+        rows[2].Columns.Add(columns[3]);
+        rows[3].Columns.AddRange([columns[4], columns[5]]);
+        rows[4].Columns.AddRange([columns[6], columns[7]]);
+        rows[5].Columns.Add(columns[8]);
+
+        _testForm.Rows.AddRange(rows);
     }
     private static Icon HomeIcon(bool active = false) =>
         active ? new Icons.Filled.Size24.Home()
@@ -121,7 +129,52 @@ public partial class FormCreate
         else
         {
             sourceRow.Columns.Remove(source);
-            targetRow.Columns.Insert(targetIndex, source);
+            if (targetIndex != -1)
+            {
+                targetRow.Columns.Insert(targetIndex, source);
+            }
+            else
+            {
+                targetRow.Columns.Add(source);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    private void OnDropElement(FluentDragEventArgs<FormElementBase> e)
+    {
+        var sourceColumn = e.Source.Data as FormColumn;
+        var targetColumn = e.Target.Data as FormColumn;
+
+        if (sourceColumn is null || targetColumn is null)
+        {
+            return;
+        }
+
+        var source = e.Source.Item;
+        var target = e.Target.Item;
+
+
+        int targetIndex = targetColumn.Elements.IndexOf(target);
+
+
+        if (sourceColumn == targetColumn)
+        {
+            sourceColumn.Elements.Remove(source);
+            sourceColumn.Elements.Insert(targetIndex, source);
+        }
+        else
+        {
+            sourceColumn.Elements.Remove(source);
+            if (targetIndex != -1)
+            {
+                targetColumn.Elements.Insert(targetIndex, source);
+            }
+            else
+            {
+                targetColumn.Elements.Add(source);
+            }
         }
 
         StateHasChanged();

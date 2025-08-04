@@ -1,6 +1,6 @@
 ﻿namespace BlazorForms.Core.Models.Elements;
-
-public abstract class FormElementBase
+// TODO: Make abstract again
+public class FormElementBase
 {
     public int ElementId { get; set; }
     public Guid Guid { get; set; } = Guid.NewGuid();
