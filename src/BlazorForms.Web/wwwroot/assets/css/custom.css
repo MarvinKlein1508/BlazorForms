@@ -1,4 +1,4 @@
-﻿.list {
+.list {
     display: flex;
     padding: 1em;
     width: 100%;
@@ -30,6 +30,36 @@
         font-variation-settings: "wght" 800, "opsz" 10.5;
     }
 
-fluent-text-field, fluent-number-field, fluent-select {
+fluent-text-field, fluent-number-field, fluent-select, fluent-text-area {
     width: 100%;
+}
+
+.fluent-input-label {
+    margin-bottom: calc(var(--design-unit) * 1px);
+}
+
+.fluent-control {
+    appearance: none;
+    color: inherit;
+    background: transparent;
+    border: 0px;
+    height: calc(100% - 4px);
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0 calc(var(--design-unit) * 2px + 1px);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    position: relative;
+    color: inherit;
+    border: calc(var(--stroke-width) * 1px) solid transparent;
+    border-radius: calc(var(--control-corner-radius) * 1px);
+    height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background: padding-box linear-gradient(var(--neutral-fill-input-rest),var(--neutral-fill-input-rest)),border-box var(--neutral-stroke-input-rest);
 }

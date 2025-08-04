@@ -35,15 +35,15 @@
 
                         @if (_selectedFormElement is FormTextElementBase textElement)
                         {
-                            <label for="textelement-minlength">Min length</label>
-                            <InputNumber @bind-Value="textElement.TextMinLength" id="textelement-minlength" />
-                            
-                            <label for="textelement-maxlength">Max length</label>
-                            <InputNumber @bind-Value="textElement.TextMaxLength" id="textelement-maxlength" />
+                            <label class="fluent-input-label" for="textelement-minlength">Min length</label>
+                            <InputNumber @bind-Value="textElement.TextMinLength" class="fluent-control" id="textelement-minlength" />
+
+                            <label class="fluent-input-label" for="textelement-maxlength">Max length</label>
+                            <InputNumber @bind-Value="textElement.TextMaxLength" class="fluent-control" id="textelement-maxlength" />
                           
-                            <FluentTextArea @bind-Value="textElement.RegexPattern" Label="REGEX Pattern" Immediate />
+                            <FluentTextArea @bind-Value="textElement.RegexPattern" Label="Regex pattern" Immediate />
                            
-                            <FluentTextField @bind-Value="textElement.RegexValidationMessage" Label="REGEX error message" />
+                            <FluentTextField @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
                         }
 
                     </FluentTab>
