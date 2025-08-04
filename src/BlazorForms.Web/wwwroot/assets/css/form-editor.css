@@ -1,6 +1,11 @@
-﻿:root {
+:root {
     --base-padding: .5em;
     --form-editor-border-radius: .5em;
+}
+
+.fluent-appbar-item {
+    flex: 1;
+    cursor: pointer;
 }
 
 .form-editor {
@@ -91,7 +96,6 @@
         padding: calc(var(--base-padding) * 2);
         cursor: grab !important;
         background-color: var(--neutral-layer-4);
-        
     }
 
 #element-toolbar {
