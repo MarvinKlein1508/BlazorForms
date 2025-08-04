@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 using System.Data;
 
 namespace BlazorForms.Application.Database;
@@ -10,10 +10,10 @@ public class NpgsqlConnectionFactory : IDbConnectionFactory
     {
         _connectionString = connectionString;
     }
-    public async Task<IDbConnection> CreateConnectionAsync(CancellationToken token = default)
+    public async Task<IDbConnection> CreateConnectionAsync(CancellationToken cancellationToken = default)
     {
         var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync(token);
+        await connection.OpenAsync(cancellationToken);
         return connection;
     }
 }

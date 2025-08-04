@@ -1,6 +1,4 @@
-﻿using Dapper;
-using System;
-using System.Collections.Generic;
+using Dapper;
 using System.Data;
 using System.Text;
 
@@ -26,7 +24,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             cancellationToken: cancellationToken
         );
 
-
         var result = await connection.QueryFirstOrDefaultAsync<User>(command);
 
         if (result is null)
@@ -49,7 +46,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             transaction: transaction,
             cancellationToken: cancellationToken
         );
-
 
         var result = await connection.QueryFirstOrDefaultAsync<User>(command);
 
@@ -178,7 +174,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             transaction: transaction,
             cancellationToken: cancellationToken
         );
-
 
         var results = await connection.QueryAsync<User>(command);
         var total = await GetTotalAsync(filter, connection, transaction, cancellationToken);

@@ -1,27 +1,21 @@
-﻿using BlazorForms.Application.Database;
+using BlazorForms.Application.Database;
 using BlazorForms.Application.Domain;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorForms.Application.Common;
 public static class Storage
 {
     private static IConfiguration? _configuration;
-    private readonly static Dictionary<Type, object> _storage = [];
+    private static readonly Dictionary<Type, object> _storage = [];
     public static List<CultureInfo> SupportedCultures { get; private set; } = [];
     public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
 
     public static async Task InitAsync(IConfiguration configuration)
     {
         _configuration = configuration;
-        string connectionString = configuration.GetConnectionString("Default") ?? throw new NullReferenceException(nameof(connectionString));
+        string connectionString = configuration.GetConnectionString("Default") ?? throw new ArgumentNullException(nameof(connectionString));
 
         var dbFactory = new NpgsqlConnectionFactory(connectionString);
         using var connection = await dbFactory.CreateConnectionAsync();
@@ -55,7 +49,6 @@ public static class Storage
         {
             return;
         }
-
 
         if (_storage[typeof(T)] is not List<T> list)
         {

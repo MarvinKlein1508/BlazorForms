@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorForms.Application.Auth;
 public static class SaltGenerator
@@ -11,10 +6,10 @@ public static class SaltGenerator
     private static byte[] GenerateSalt(int size = 32)
     {
         byte[] salt = new byte[size];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
+
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
+
         return salt;
     }
 

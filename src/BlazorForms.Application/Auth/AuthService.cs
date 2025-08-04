@@ -1,4 +1,4 @@
-﻿using BlazorForms.Application.Database;
+using BlazorForms.Application.Database;
 using BlazorForms.Application.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Data;
@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace BlazorForms.Application.Auth;
 
-public class AuthService(AuthenticationStateProvider _authenticationStateProvider, IDbConnectionFactory _dbFactory,  UserRepository _userRepository)
+public class AuthService(AuthenticationStateProvider _authenticationStateProvider, IDbConnectionFactory _dbFactory, UserRepository _userRepository)
 {
     /// <summary>
     /// Converts the active claims into a <see cref="User"/> object

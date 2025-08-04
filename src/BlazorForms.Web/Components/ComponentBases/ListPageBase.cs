@@ -1,4 +1,4 @@
-﻿using BlazorForms.Application.Common;
+using BlazorForms.Application.Common;
 using BlazorForms.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -21,7 +21,7 @@ public abstract class ListPageBase<TModel, TService, TFilter> : BlazorFormsPageB
 
     public PagedResponse<TModel>? Data { get; set; }
 
-    protected bool UseFilterCaching { get; set; } = false;
+    protected bool UseFilterCaching { get; set; }
 
     protected Uri CurrentUri => NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
     protected override async Task OnParametersSetAsync()
@@ -90,7 +90,6 @@ public abstract class ListPageBase<TModel, TService, TFilter> : BlazorFormsPageB
         parameters.Remove("page");
         parameters.Add("page", pageNumber.ToString());
 
-
         NavigationManager.NavigateTo($"{CurrentUri.AbsolutePath}?{BuildQueryParameters(parameters)}");
 
         return Task.CompletedTask;
@@ -104,7 +103,7 @@ public abstract class ListPageBase<TModel, TService, TFilter> : BlazorFormsPageB
             return string.Empty;
         }
 
-        var queryString = string.Join("&", parameters.Select(p => $"{p.Key}={Uri.EscapeDataString(p!.Value)}"));
+        var queryString = string.Join("&", parameters.Select(p => $"{p.Key}={Uri.EscapeDataString(p.Value!)}"));
         return queryString;
     }
 }

@@ -1,5 +1,4 @@
-﻿using BlazorForms.Application;
-using BlazorForms.Application.Auth;
+using BlazorForms.Application;
 using BlazorForms.Application.Common;
 using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
@@ -47,8 +46,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 app.UseAntiforgery();
 
 app.UseAuthentication();

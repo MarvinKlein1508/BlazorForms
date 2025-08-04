@@ -1,9 +1,8 @@
-﻿using BlazorForms.Application.Common;
+using BlazorForms.Application.Common;
 using BlazorForms.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorForms.Web.Components.ComponentBases;
 
@@ -14,12 +13,11 @@ public abstract class CreatePageBase<TModel, TService, TIdentifier> : BlazorForm
     protected EditForm? _form;
     protected bool _showSpinner;
 
-    [SupplyParameterFromQuery(Name = "CopyId")] 
+    [SupplyParameterFromQuery(Name = "CopyId")]
     public TIdentifier? CopyId { get; set; }
 
     [Inject] public TService Service { get; set; } = default!;
     public TModel? Input { get; set; }
-    
     protected override async Task OnParametersSetAsync()
     {
         if (CopyId is not null)
@@ -49,6 +47,7 @@ public abstract class CreatePageBase<TModel, TService, TIdentifier> : BlazorForm
         {
             return;
         }
+
         _showSpinner = true;
         using var connection = await DbFactory.CreateConnectionAsync();
         var transaction = connection.BeginTransaction();

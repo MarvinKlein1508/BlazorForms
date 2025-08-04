@@ -1,11 +1,6 @@
-﻿using Dapper;
-using System;
-using System.Collections.Generic;
+using Dapper;
 using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorForms.Application.Domain;
 public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDescriptionRepository) : IModelService<FormStatus, int?, FormStatusFilter>
@@ -72,10 +67,7 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
             sql,
             (status, description) =>
             {
-                if (formStatus == null)
-                {
-                    formStatus = status;
-                }
+                formStatus ??= status;
 
                 if (description != null)
                 {

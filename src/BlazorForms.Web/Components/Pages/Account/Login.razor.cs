@@ -1,12 +1,10 @@
 using BlazorForms.Application.Auth;
-using BlazorForms.Application.Common;
 using BlazorForms.Application.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Security;
 using System.Security.Claims;
 
 namespace BlazorForms.Web.Components.Pages.Account;
@@ -65,8 +63,6 @@ public partial class Login
                     ldapUserGroup = UserGroup.Editors;
                 }
 
-
-
                 if (user is null)
                 {
                     user = new User()
@@ -90,7 +86,6 @@ public partial class Login
                     await userRepository.UpdateAsync(user, connection);
                 }
             }
-
         }
 
         if (user is not null)

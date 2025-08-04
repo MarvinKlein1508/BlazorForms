@@ -1,4 +1,4 @@
-﻿using BlazorForms.Application.Domain;
+using BlazorForms.Application.Domain;
 using BlazorForms.Application.Domain.Elements;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
@@ -85,10 +85,8 @@ public partial class FormEditor
         active ? new Icons.Filled.Size24.AppGeneric()
                : new Icons.Regular.Size24.AppGeneric();
 
-
     private void HandleOnClick(IAppBarItem item)
     {
-
 
     }
 
@@ -117,10 +115,7 @@ public partial class FormEditor
 
     private void OnColumnDropEnd(FluentDragEventArgs<FormColumn> e)
     {
-        var sourceRow = e.Source.Data as FormRow;
-        var targetRow = e.Target.Data as FormRow;
-
-        if (sourceRow is null || targetRow is null)
+        if (e.Source.Data is not FormRow sourceRow || e.Target.Data is not FormRow targetRow)
         {
             return;
         }
@@ -153,9 +148,8 @@ public partial class FormEditor
     private void OnDropElement(FluentDragEventArgs<FormElementBase> e)
     {
         var sourceColumn = e.Source.Data as FormColumn;
-        var targetColumn = e.Target.Data as FormColumn;
 
-        if (targetColumn is null)
+        if (e.Target.Data is not FormColumn targetColumn)
         {
             return;
         }
@@ -163,9 +157,7 @@ public partial class FormEditor
         var source = e.Source.Item;
         var target = e.Target.Item;
 
-
         int targetIndex = targetColumn.Elements.IndexOf(target);
-
 
         if (sourceColumn == targetColumn)
         {

@@ -1,4 +1,4 @@
-﻿using BlazorForms.Application.Common;
+using BlazorForms.Application.Common;
 using BlazorForms.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -34,12 +34,13 @@ public abstract class EditPageBase<TModel, TService, TIdentifier> : BlazorFormsP
         {
             return;
         }
+
         _showSpinner = true;
         if (_form.EditContext.Validate() && await OnValidateAsync())
         {
             using var connection = await DbFactory.CreateConnectionAsync();
             var transaction = connection.BeginTransaction();
-            
+
             try
             {
                 await BeforeSaveAsync(connection, transaction);
@@ -60,6 +61,7 @@ public abstract class EditPageBase<TModel, TService, TIdentifier> : BlazorFormsP
             await AfterSaveAsync(connection);
             await OnParametersSetAsync();
         }
+
         _showSpinner = false;
     }
     protected virtual Task BeforeSaveAsync(IDbConnection connection, IDbTransaction transaction) => Task.CompletedTask;
@@ -109,7 +111,6 @@ public abstract class EditPageBase<TModel, TService, TIdentifier> : BlazorFormsP
                 transaction.Rollback();
                 throw;
             }
-
 
             MessageService.ShowMessageBar(options =>
             {
