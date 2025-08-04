@@ -15,7 +15,11 @@ public partial class FormEditor
     [
         new FormTextElement(),
         new FormTextAreaElement(),
-        new FormLabelElement()
+        new FormLabelElement(),
+        new FormCheckboxElement(),
+        new FormRadioElement(),
+        new FormSelectElement(),
+        new FormDateElement(),
     ];
 
     private Form _testForm;
