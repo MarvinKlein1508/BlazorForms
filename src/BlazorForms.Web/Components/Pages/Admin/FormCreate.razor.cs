@@ -1,12 +1,19 @@
 ﻿using BlazorForms.Application.Domain;
 using BlazorForms.Application.Domain.Elements;
-using BlazorForms.Core.Models.Elements;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
 namespace BlazorForms.Web.Components.Pages.Admin;
 public partial class FormCreate
 {
+    private bool _dragFromToolbar;
+    public static List<FormElementBase> ToolbarElements { get; } =
+    [
+        new FormTextElement(),
+        new FormTextAreaElement(),
+        new FormLabelElement()
+    ];
+
     private Form _testForm;
     public FormCreate()
     {
@@ -40,7 +47,7 @@ public partial class FormCreate
             {
                 for (int i = 0; i < count; i++)
                 {
-                    column.Elements.Add(new FormElementBase
+                    column.Elements.Add(new FormTextElement
                     {
                         ElementId = elementIdCounter++
                     });
@@ -147,7 +154,7 @@ public partial class FormCreate
         var sourceColumn = e.Source.Data as FormColumn;
         var targetColumn = e.Target.Data as FormColumn;
 
-        if (sourceColumn is null || targetColumn is null)
+        if (targetColumn is null)
         {
             return;
         }
@@ -166,7 +173,11 @@ public partial class FormCreate
         }
         else
         {
-            sourceColumn.Elements.Remove(source);
+            if (sourceColumn is not null && !_dragFromToolbar)
+            {
+                sourceColumn.Elements.Remove(source);
+            }
+
             if (targetIndex != -1)
             {
                 targetColumn.Elements.Insert(targetIndex, source);
@@ -177,6 +188,7 @@ public partial class FormCreate
             }
         }
 
+        _dragFromToolbar = false;
         StateHasChanged();
     }
 }

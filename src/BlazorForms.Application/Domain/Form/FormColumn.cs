@@ -1,4 +1,4 @@
-﻿using BlazorForms.Core.Models.Elements;
+﻿using BlazorForms.Application.Domain.Elements;
 
 namespace BlazorForms.Application.Domain;
 
