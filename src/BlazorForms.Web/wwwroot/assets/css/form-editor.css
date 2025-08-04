@@ -2,10 +2,6 @@
     --base-padding: .5em;
 }
 
-::deep .fluentcx-drop-zone-placeholder {
-    height: var(--base-padding) !important;
-}
-
 .form-editor {
     display: flex;
     flex-direction: column;
@@ -47,97 +43,10 @@
     height: 100%;
 }
 
-    .dropzone.dropzone-inner {
-        display: flex;
-        align-items: stretch;
-        gap: var(--base-padding);
-    }
-
-
-.plk-flex .plk-dd-spacing {
-    width: 20px;
-    height: auto;
-}
-
-.plk-flex .plk-dd-dragged-over {
-    background-color: lightgray;
-    opacity: 0.6;
-    animation: blinker 1s linear infinite;
-}
-
-    .plk-flex .plk-dd-dragged-over > div {
-        background-color: lightgray;
-        opacity: 0.9;
-        animation: blinker 1s linear infinite;
-    }
-
-.plk-flex .plk-dd-in-transit {
-    background-color: orangered;
-}
-
-    .plk-flex .plk-dd-in-transit > div {
-        background-color: orangered;
-    }
-
-.plk-dd-noselect {
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-}
-
-
-/* Drag & Drop */
-
-/*add this to avoid flickering*/
-.plk-dd-inprogess > * {
-    pointer-events: none;
-}
-
-/*dropzone style style*/
-.plk-dd-dropzone {
-    min-height: 50px;
-}
-
-/*drag drop styles*/
-
-.plk-dd-spacing {
-    height: 10px;
-}
-
-.plk-dd-spacing-dragged-over {
-    padding: 25px;
-}
-
-.plk-dd-dragged-over {
-    background-color: lightgray;
-    opacity: 0.6;
-    animation: blinker 1s linear infinite;
-}
-
-    .plk-dd-dragged-over > div {
-        background-color: lightgray;
-        opacity: 0.6;
-        animation: blinker 1s linear infinite;
-    }
-
-.plk-dd-dragged-over-denied {
-    background-color: red;
-    opacity: 0.6;
-    animation: blinker 1s linear infinite;
-}
-
-.plk-dd-in-transit {
-    opacity: 0.6;
-}
-
-    .plk-dd-in-transit > div {
-        opacity: 0.6;
-    }
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
-}
-
-.blink_me {
-    animation: blinker 1s linear infinite;
+#form-row-dropzone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
 }

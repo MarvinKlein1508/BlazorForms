@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);
-builder.Services.AddScoped(typeof(DragDropService<>));
+//builder.Services.AddScoped(typeof(DragDropService<>));
 
 builder.Services.AddLocalization(options =>
 {
