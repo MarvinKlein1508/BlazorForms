@@ -8,11 +8,12 @@
 <div class="form-editor">
     <div class="form-editor-appbar">
         <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">
-            <FluentAppBarItem IconRest="HomeIcon()"
+            <FluentAppBarItem IconRest="@(new Icons.Regular.Size20.ArrowHookDownLeft())"
                               Text="Close"
                               OnClick="CloseItemAsync" />
-            <FluentAppBarItem IconRest="AppBarIcon()"
-                              Text="AppBar" />
+            <FluentAppBarItem IconRest="@(new Icons.Regular.Size20.DocumentSettings())"
+                              Text="Form settings"
+                              OnClick="() => _editFormProperties = true" />
             <FluentAppBarItem IconRest="WhatsNewIcon()"
                               Text="What's New"
                               OnClick="ShowSuccessAsync" />
@@ -24,7 +25,7 @@
         </FluentAppBar>
     </div>
     <div class="form-editor-wrapper">
-        @if (_selectedFormElement is not null)
+        @if (_selectedFormElement is not null && !_editFormProperties)
         {
             <div class="form-element-editor">
                 <FluentTabs>
@@ -34,7 +35,7 @@
                         <FluentTextField @bind-Value="_selectedFormElement.Name" Label="Name" Required Immediate />
 
                         <div class="d-flex flex-column gap-2 mt-2 mb-2">
-                            @if(_selectedFormElement is not FormLabelElement)
+                            @if (_selectedFormElement is not FormLabelElement)
                             {
                                 <FluentCheckbox @bind-Value="_selectedFormElement.IsRequired" Label="Required field" />
                             }
@@ -49,11 +50,36 @@
 
                             <label class="fluent-input-label" for="textelement-maxlength">Max length</label>
                             <InputNumber @bind-Value="textElement.TextMaxLength" class="fluent-control" id="textelement-maxlength" />
-                          
+
                             <FluentTextArea @bind-Value="textElement.RegexPattern" Label="Regex pattern" Immediate />
-                           
+
                             <FluentTextField @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
                         }
+
+                    </FluentTab>
+                </FluentTabs>
+            </div>
+        }
+        else if (_editFormProperties)
+        {
+            <div class="form-element-editor">
+                <FluentTabs>
+                    <FluentTab Label="General">
+                        <FluentTextField @bind-Value="_testForm.Name" Label="Name" Required />
+
+                        <FluentTextField @bind-Value="_testForm.DefaultName" Label="Default name" />
+
+                    </FluentTab>
+                    <FluentTab Label="Permissions">
+
+                    </FluentTab>
+                    <FluentTab Label="Manager">
+
+                    </FluentTab>
+                    <FluentTab Label="Logo">
+
+                    </FluentTab>
+                    <FluentTab Label="Image">
 
                     </FluentTab>
                 </FluentTabs>

@@ -3,6 +3,7 @@ public class Form
 {
     public int FormId { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string DefaultName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public bool IsActive { get; set; }
     public int DefaultStatusId { get; set; }
