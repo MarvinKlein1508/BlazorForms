@@ -1,4 +1,4 @@
-﻿using BlazorForms.Application.Auth;
+using BlazorForms.Application.Auth;
 using BlazorForms.Application.Database;
 using BlazorForms.Application.Domain;
 using Dapper;
@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddSingleton<UserRepository>();
         services.AddSingleton<FormStatusRepository>();
         services.AddSingleton<FormStatusDescriptionRepository>();
+        services.AddSingleton<ConfigRepository>();
         services.AddScoped<AuthService>();
 
         // Options

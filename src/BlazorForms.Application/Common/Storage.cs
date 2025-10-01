@@ -5,13 +5,14 @@ using System.Data;
 using System.Globalization;
 
 namespace BlazorForms.Application.Common;
+
 public static class Storage
 {
     private static IConfiguration? _configuration;
     private static readonly Dictionary<Type, object> _storage = [];
     public static List<CultureInfo> SupportedCultures { get; private set; } = [];
     public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
-
+    public static Config MainConfig { get; set; } = Config.DefaultMainConfig;
     public static async Task InitAsync(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -19,6 +20,8 @@ public static class Storage
 
         var dbFactory = new NpgsqlConnectionFactory(connectionString);
         using var connection = await dbFactory.CreateConnectionAsync();
+
+        MainConfig = await ConfigRepository.GetMainConfig(connection);
 
         _storage.Add(typeof(Language), await LanguageRepository.GetAllAsync(connection));
         _storage.Add(typeof(FormStatus), await FormStatusRepository.GetAllAsync(connection));

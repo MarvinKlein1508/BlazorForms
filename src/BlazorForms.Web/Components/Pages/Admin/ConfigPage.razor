@@ -1,0 +1,13 @@
+﻿@page "/Admin/Config"
+@inherits BlazorFormsPageBase
+@inject ConfigRepository configRepository
+
+<h3>ConfigPage</h3>
+
+
+@if (Input is null)
+{
+	return;
+}
+
+@Input.DefaultLanguageId
