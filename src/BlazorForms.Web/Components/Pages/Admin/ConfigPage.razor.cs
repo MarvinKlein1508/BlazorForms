@@ -9,6 +9,6 @@ public partial class ConfigPage
     protected override async Task OnInitializedAsync()
     {
         using var connection = await DbFactory.CreateConnectionAsync();
-        Input = await configRepository.GetAsync(ConfigRepository.MAIN_CONFIG_CODE, connection);
+        Input = await ConfigRepository.GetMainConfig(connection);
     }
 }
