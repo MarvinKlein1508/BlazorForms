@@ -1,35 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>c2a77e26-b6c2-4698-b8d1-4a58dfc672d5</UserSecretsId>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>c2a77e26-b6c2-4698-b8d1-4a58dfc672d5</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
+        <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BlazorForms.Application\BlazorForms.Application.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\BlazorForms.Application\BlazorForms.Application.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Languages\Components\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Languages\Components\" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.FluentUI.AspNetCore.Components">
-      <HintPath>Microsoft.FluentUI.AspNetCore.Components.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.FluentUI.AspNetCore.Components">
+            <HintPath>Microsoft.FluentUI.AspNetCore.Components.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Microsoft.FluentUI.AspNetCore.Components.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="Microsoft.FluentUI.AspNetCore.Components.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

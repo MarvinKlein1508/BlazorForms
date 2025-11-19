@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Database\Scripts\**\*" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Database\Scripts\**\*" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Dapper" />
-		<PackageReference Include="dbup-postgresql" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
-		<PackageReference Include="Npgsql" />
-		<PackageReference Include="System.DirectoryServices.Protocols" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Dapper" />
+        <PackageReference Include="dbup-postgresql" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+        <PackageReference Include="Npgsql" />
+        <PackageReference Include="System.DirectoryServices.Protocols" />
+    </ItemGroup>
 
 </Project>
