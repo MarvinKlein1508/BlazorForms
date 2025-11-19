@@ -59,6 +59,10 @@ html, body, .bb-page {
     height: 100%;
 }
 
+header {
+    position: relative;
+}
+
 footer {
     display: flex;
     justify-content: space-between;
