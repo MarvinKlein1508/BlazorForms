@@ -1,267 +1,269 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Configurations>Debug;Release;DebugKlein</Configurations>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugKlein</Configurations>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Database\Scripts\Script000001 - Tables.sql" />
-    <None Remove="Database\Scripts\Script000002 - Triggers.sql" />
-    <None Remove="Database\Scripts\Script000003 - Data.sql" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Database\Scripts\Script000001 - Tables.sql" />
+		<None Remove="Database\Scripts\Script000002 - Triggers.sql" />
+		<None Remove="Database\Scripts\Script000003 - Data.sql" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DbController" Version="5.0.0" />
-    <PackageReference Include="DbController.MySql" Version="5.0.0" />
-    <PackageReference Include="DbController.TypeHandler" Version="5.0.0" />
-    <PackageReference Include="dbup-mysql" Version="6.0.4" />
-    <PackageReference Include="FluentValidation" Version="11.11.0" />
-    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.1.0" />
-    <PackageReference Include="itext7.pdfhtml" Version="6.1.0" />
-    <PackageReference Include="MailKit" Version="4.11.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.4" />
-    <PackageReference Include="System.Text.Json" Version="9.0.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DbController" Version="5.0.0" />
+		<PackageReference Include="DbController.MySql" Version="5.0.0" />
+		<PackageReference Include="DbController.TypeHandler" Version="5.0.0" />
+		<PackageReference Include="dbup-mysql" Version="6.1.0" />
+		<PackageReference Include="FluentValidation" Version="12.1.0" />
+		<PackageReference Include="itext" Version="9.4.0" />
+		<PackageReference Include="itext.bouncy-castle-adapter" Version="9.4.0" />
+		<PackageReference Include="itext.pdfhtml" Version="6.3.0" />
+		<PackageReference Include="MailKit" Version="4.14.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pdf\Templates\CSS\bootstrap.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pdf\Templates\CSS\FormEntry.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pdf\Templates\CSS\General.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pdf\Templates\FormEntry.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Pdf\Templates\CSS\bootstrap.min.css">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Pdf\Templates\CSS\FormEntry.css">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Pdf\Templates\CSS\General.css">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Pdf\Templates\FormEntry.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pdf\Templates\images\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Pdf\Templates\images\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Database\Scripts\Script000001 - Tables.sql" />
-    <EmbeddedResource Include="Database\Scripts\Script000002 - Triggers.sql" />
-    <EmbeddedResource Include="Database\Scripts\Script000003 - Data.sql" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Database\Scripts\Script000001 - Tables.sql" />
+		<EmbeddedResource Include="Database\Scripts\Script000002 - Triggers.sql" />
+		<EmbeddedResource Include="Database\Scripts\Script000003 - Data.sql" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Languages\Extensions\DateTimeExtensions.en.Designer.cs">
-      <DependentUpon>DateTimeExtensions.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Extensions\DateTimeExtensions.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DateTimeExtensions.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTextElement.en.Designer.cs">
-      <DependentUpon>FormTextElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTextElement.Designer.cs">
-      <DependentUpon>FormTextElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTextareaElement.en.Designer.cs">
-      <DependentUpon>FormTextareaElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTextareaElement.Designer.cs">
-      <DependentUpon>FormTextareaElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTableElement.en.Designer.cs">
-      <DependentUpon>FormTableElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormTableElement.Designer.cs">
-      <DependentUpon>FormTableElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormSelectElement.en.Designer.cs">
-      <DependentUpon>FormSelectElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormSelectElement.Designer.cs">
-      <DependentUpon>FormSelectElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormRadioElement.en.Designer.cs">
-      <DependentUpon>FormRadioElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormRadioElement.Designer.cs">
-      <DependentUpon>FormRadioElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormNumberElement.en.Designer.cs">
-      <DependentUpon>FormNumberElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormNumberElement.Designer.cs">
-      <DependentUpon>FormNumberElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormLabelElement.en.Designer.cs">
-      <DependentUpon>FormLabelElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormLabelElement.Designer.cs">
-      <DependentUpon>FormLabelElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormFileElement.en.Designer.cs">
-      <DependentUpon>FormFileElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormFileElement.Designer.cs">
-      <DependentUpon>FormFileElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormDateElement.en.Designer.cs">
-      <DependentUpon>FormDateElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormDateElement.Designer.cs">
-      <DependentUpon>FormDateElement.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormCheckboxElement.en.Designer.cs">
-      <DependentUpon>FormCheckboxElement.en.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Languages\Models\FormElements\FormCheckboxElement.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FormCheckboxElement.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Languages\Extensions\DateTimeExtensions.en.Designer.cs">
+			<DependentUpon>DateTimeExtensions.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Extensions\DateTimeExtensions.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>DateTimeExtensions.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTextElement.en.Designer.cs">
+			<DependentUpon>FormTextElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTextElement.Designer.cs">
+			<DependentUpon>FormTextElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTextareaElement.en.Designer.cs">
+			<DependentUpon>FormTextareaElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTextareaElement.Designer.cs">
+			<DependentUpon>FormTextareaElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTableElement.en.Designer.cs">
+			<DependentUpon>FormTableElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormTableElement.Designer.cs">
+			<DependentUpon>FormTableElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormSelectElement.en.Designer.cs">
+			<DependentUpon>FormSelectElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormSelectElement.Designer.cs">
+			<DependentUpon>FormSelectElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormRadioElement.en.Designer.cs">
+			<DependentUpon>FormRadioElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormRadioElement.Designer.cs">
+			<DependentUpon>FormRadioElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormNumberElement.en.Designer.cs">
+			<DependentUpon>FormNumberElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormNumberElement.Designer.cs">
+			<DependentUpon>FormNumberElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormLabelElement.en.Designer.cs">
+			<DependentUpon>FormLabelElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormLabelElement.Designer.cs">
+			<DependentUpon>FormLabelElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormFileElement.en.Designer.cs">
+			<DependentUpon>FormFileElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormFileElement.Designer.cs">
+			<DependentUpon>FormFileElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormDateElement.en.Designer.cs">
+			<DependentUpon>FormDateElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormDateElement.Designer.cs">
+			<DependentUpon>FormDateElement.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormCheckboxElement.en.Designer.cs">
+			<DependentUpon>FormCheckboxElement.en.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Languages\Models\FormElements\FormCheckboxElement.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>FormCheckboxElement.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.en.resx">
-      <LastGenOutput>DateTimeExtensions.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DateTimeExtensions.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.en.resx">
-      <LastGenOutput>FormTextElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.resx">
-      <LastGenOutput>FormTextElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.en.resx">
-      <LastGenOutput>FormTextareaElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.resx">
-      <LastGenOutput>FormTextareaElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTableElement.en.resx">
-      <LastGenOutput>FormTableElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormTableElement.resx">
-      <LastGenOutput>FormTableElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormSelectElement.en.resx">
-      <LastGenOutput>FormSelectElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormSelectElement.resx">
-      <LastGenOutput>FormSelectElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.en.resx">
-      <LastGenOutput>FormRadioElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.resx">
-      <LastGenOutput>FormRadioElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.en.resx">
-      <LastGenOutput>FormNumberElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.resx">
-      <LastGenOutput>FormNumberElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.en.resx">
-      <LastGenOutput>FormLabelElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.resx">
-      <LastGenOutput>FormLabelElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormFileElement.en.resx">
-      <LastGenOutput>FormFileElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormFileElement.resx">
-      <LastGenOutput>FormFileElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.en.resx">
-      <LastGenOutput>FormDateElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.resx">
-      <LastGenOutput>FormDateElement.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormCheckboxElement.en.resx">
-      <LastGenOutput>FormCheckboxElement.en.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Languages\Models\FormElements\FormCheckboxElement.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FormCheckboxElement.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.en.resx">
+			<LastGenOutput>DateTimeExtensions.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Extensions\DateTimeExtensions.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>DateTimeExtensions.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.en.resx">
+			<LastGenOutput>FormTextElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTextElement.resx">
+			<LastGenOutput>FormTextElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.en.resx">
+			<LastGenOutput>FormTextareaElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTextareaElement.resx">
+			<LastGenOutput>FormTextareaElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTableElement.en.resx">
+			<LastGenOutput>FormTableElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormTableElement.resx">
+			<LastGenOutput>FormTableElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormSelectElement.en.resx">
+			<LastGenOutput>FormSelectElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormSelectElement.resx">
+			<LastGenOutput>FormSelectElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.en.resx">
+			<LastGenOutput>FormRadioElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormRadioElement.resx">
+			<LastGenOutput>FormRadioElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.en.resx">
+			<LastGenOutput>FormNumberElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormNumberElement.resx">
+			<LastGenOutput>FormNumberElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.en.resx">
+			<LastGenOutput>FormLabelElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormLabelElement.resx">
+			<LastGenOutput>FormLabelElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormFileElement.en.resx">
+			<LastGenOutput>FormFileElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormFileElement.resx">
+			<LastGenOutput>FormFileElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.en.resx">
+			<LastGenOutput>FormDateElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormDateElement.resx">
+			<LastGenOutput>FormDateElement.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormCheckboxElement.en.resx">
+			<LastGenOutput>FormCheckboxElement.en.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Languages\Models\FormElements\FormCheckboxElement.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>FormCheckboxElement.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>
