@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>c2a77e26-b6c2-4698-b8d1-4a58dfc672d5</UserSecretsId>
+        <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,8 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
-      <ProjectReference Include="..\BlazorForms.Infrastructure\BlazorForms.Infrastructure.csproj" />
+        <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
+        <ProjectReference Include="..\BlazorForms.Infrastructure\BlazorForms.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
