@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <EmbeddedResource Include="Database\Scripts\0000001_TABLE_LANGUAGES.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000002_DEFAULT_LANGUAGES.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000003_TABLE_USER_GROUPS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000004_DEFAULT_USER_GROUPS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000005_TABLE_USERS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000006_TABLE_FORM_STATUS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000007_TABLE_FORM_STATUS_DESCRIPTION.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000008_DEFAULT_FORM_STATUS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000009_DEFAULT_FORM_STATUS_DESCRIPTION.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000010_TABLE_CONFIG.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000011_DEFAULT_CONFIG.sql" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" />
+        <PackageReference Include="dbup-postgresql" />
+        <PackageReference Include="Npgsql" />
+        <PackageReference Include="System.DirectoryServices.Protocols" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

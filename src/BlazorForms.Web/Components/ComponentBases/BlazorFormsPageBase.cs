@@ -1,6 +1,6 @@
-﻿using BlazorForms.Application.Auth;
-using BlazorForms.Application.Database;
-using BlazorForms.Application.Domain;
+using BlazorForms.Domain.Entities;
+using BlazorForms.Infrastructure.Auth;
+using BlazorForms.Infrastructure.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.FluentUI.AspNetCore.Components;

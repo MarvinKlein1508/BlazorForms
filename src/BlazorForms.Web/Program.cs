@@ -1,11 +1,10 @@
-using BlazorForms.Application;
-using BlazorForms.Application.Common;
-using BlazorForms.Application.Database;
 using BlazorForms.Web.Components;
 using BlazorForms.Web.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
+using BlazorForms.Infrastructure;
+using BlazorForms.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;

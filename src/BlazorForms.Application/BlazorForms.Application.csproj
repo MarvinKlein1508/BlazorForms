@@ -7,18 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Database\Scripts\**\*" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Dapper" />
-        <PackageReference Include="dbup-postgresql" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
-        <PackageReference Include="Npgsql" />
-        <PackageReference Include="System.DirectoryServices.Protocols" />
     </ItemGroup>
 
 </Project>

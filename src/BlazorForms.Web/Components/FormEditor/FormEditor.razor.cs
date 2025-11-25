@@ -1,9 +1,10 @@
-using BlazorForms.Application.Domain;
-using BlazorForms.Application.Domain.Elements;
+using BlazorForms.Domain.Entities;
+using BlazorForms.Domain.Entities.Elements;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
 namespace BlazorForms.Web.Components;
+
 public partial class FormEditor
 {
     private bool _dragFromToolbar;

@@ -1,5 +1,5 @@
-using BlazorForms.Application.Common;
-using BlazorForms.Application.Common.Interfaces;
+using BlazorForms.Domain.Interfaces;
+using BlazorForms.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Data;

@@ -1,9 +1,10 @@
-using BlazorForms.Application.Auth;
-using BlazorForms.Application.Domain;
+using BlazorForms.Domain.Entities;
+using BlazorForms.Infrastructure.Auth;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 
 namespace BlazorForms.Web.Components.Pages.Admin;
+
 public partial class UserCreate
 {
     protected override string GetEntityRedirectUrl() => $"/Admin/Users/Edit?Id={Input!.GetIdentifier()}";

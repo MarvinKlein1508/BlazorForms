@@ -13,11 +13,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BlazorForms.Application\BlazorForms.Application.csproj" />
+        <Folder Include="Languages\Components\" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Languages\Components\" />
+      <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
+      <ProjectReference Include="..\BlazorForms.Infrastructure\BlazorForms.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
