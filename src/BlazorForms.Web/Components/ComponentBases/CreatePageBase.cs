@@ -18,6 +18,7 @@ public abstract class CreatePageBase<TModel, TService, TIdentifier> : BlazorForm
 
     [Inject] public TService Service { get; set; } = default!;
     public TModel? Input { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         if (CopyId is not null)

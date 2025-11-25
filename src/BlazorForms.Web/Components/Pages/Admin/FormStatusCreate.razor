@@ -1,0 +1,51 @@
+﻿@page "/Admin/Status/Create"
+@inherits CreatePageBase<FormStatus, FormStatusRepository, int?>
+<PageTitle>Neuer Status</PageTitle>
+
+<FluentBreadcrumb>
+    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/Admin/Status">Status</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>Neu</FluentBreadcrumbItem>
+</FluentBreadcrumb>
+
+@if (Input is null)
+{
+    return;
+}
+
+<FluentStack HorizontalAlignment="HorizontalAlignment.End">
+    <FluentAnchor Href="/Admin/Status"
+                  IconStart="@(new Icons.Regular.Size20.ArrowReply())">
+        Zurück
+    </FluentAnchor>
+
+    <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
+                  Appearance="Appearance.Accent"
+                  OnClick="SaveAsync">
+        Speichern
+    </FluentButton>
+</FluentStack>
+
+<EditForm Model="Input" @ref="_form">
+    <div class="row">
+        <div class="col-md-9">
+            <FluentTabs>
+                @foreach (var item in Input.Descriptions)
+                {
+                    <FluentTab Label="@(item.ToCulture().NativeName)">
+                        <FluentTextField @bind-Value="item.Name" Label="Name" />
+                        <FluentTextArea @bind-Value="item.Description" Label="Description" Rows="3" />
+                    </FluentTab>
+                }
+            </FluentTabs>
+        </div>
+        <div class="col-md-3">
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentSwitch @bind-Value="Input.RequiresApproval" Label="Freigabe benötigt" />
+                <FluentSwitch @bind-Value="Input.IsCompleted" Label="Vorgang abgeschlossen" />
+            </FluentStack>
+        </div>
+    </div>
+</EditForm>
+
