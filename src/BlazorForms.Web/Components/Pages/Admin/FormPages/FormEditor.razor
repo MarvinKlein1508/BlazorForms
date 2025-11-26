@@ -94,7 +94,7 @@
                      ondragover="event.preventDefault();"
                      ondragstart="event.dataTransfer.setData('', event.target.id);"
                      @ondrop="() => DropDelete()">
-                    <i class="bi bi-trash" />
+                    <FluentIcon Value="@(new Icons.Regular.Size32.Delete())" Color="Color.Error" />
                 </div>
             </div>
 

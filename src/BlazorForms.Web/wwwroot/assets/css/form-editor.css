@@ -114,7 +114,7 @@
     border-radius: .5em;
     min-height: 10em;
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .delete-wrapper-mobile {
@@ -126,12 +126,3 @@
     .delete-wrapper-mobile .delete-zone {
         min-height: 5em;
     }
-
-.delete-zone i {
-    width: 100%;
-    text-align: center;
-    font-size: 2.5rem;
-    opacity: .6;
-    color: #f66363;
-    height: initial !important;
-}
