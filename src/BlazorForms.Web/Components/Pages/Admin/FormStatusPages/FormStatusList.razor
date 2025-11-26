@@ -4,28 +4,22 @@
 
 <PageTitle>@Localizer.LIST_PAGE_TITLE</PageTitle>
 
-<FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
-</FluentBreadcrumb>
-
 <FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
-    <FluentAnchor Href="/Admin/Status/Create"
-                  IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
-                  Appearance="Appearance.Accent">
+    <FluentAnchorButton Href="/Admin/Status/Create"
+                  IconStart="@(new Icons.Regular.Size20.PersonAdd())"
+                  Appearance="ButtonAppearance.Primary">
         @Localizer.NEW_STATUS
-    </FluentAnchor>
+    </FluentAnchorButton>
 </FluentStack>
 
 <div class="row">
     <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
-        <FluentCard Height="auto" AreaRestricted="false">
-            <h4>@AppLocalizer.LABEL_SEARCH_FILTER</h4>
+        <FluentCard>
+            <FluentText Size="TextSize.Size600">@AppLocalizer.LABEL_SEARCH_FILTER</FluentText>
 
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <FluentStack Orientation="Orientation.Vertical">
-                    <FluentField @bind-Value="Filter.SearchPhrase"
+                    <FluentTextInput @bind-Value="Filter.SearchPhrase"
                                      Immediate="true"
                                      Label="@AppLocalizer.LABEL_SEARCHPHRASE"
                                      Placeholder="@Localizer.SEARCH_PHRASE_PLACEHOLDER"
@@ -43,10 +37,10 @@
         </FluentCard>
     </div>
     <div class="col-lg-9">
-        <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="@FluentConstants.FLUENTSTACK_VERTICAL_GAP">
             @if (_isLoading || Data is null)
             {
-                <FluentProgressRing />
+                <FluentSpinner />
             }
             else
             {
@@ -70,9 +64,9 @@
                             </div>
                         </div>
                         <div class="list-buttons">
-                            <FluentAnchor Href="@($"/Admin/Status/Edit?Id={item.GetIdentifier()}")">
+                            <FluentAnchorButton Href="@($"/Admin/Status/Edit?Id={item.GetIdentifier()}")">
                                 @AppLocalizer.BUTTON_EDIT
-                            </FluentAnchor>
+                            </FluentAnchorButton>
                         </div>
                     </div>
                 }
