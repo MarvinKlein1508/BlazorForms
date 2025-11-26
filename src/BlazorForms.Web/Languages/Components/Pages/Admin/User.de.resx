@@ -153,6 +153,9 @@
   <data name="MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT" xml:space="preserve">
     <value>Dieses Konto ist mit dem Active Directory verknüpft. Sie können daher nicht alle Eigenschaften bearbeiten.</value>
   </data>
+  <data name="SEARCH_PHRASE_PLACEHOLDER" xml:space="preserve">
+    <value>Username, Anzeigename, E-Mail</value>
+  </data>
   <data name="TAB_GENERAL" xml:space="preserve">
     <value>Allgemein</value>
   </data>

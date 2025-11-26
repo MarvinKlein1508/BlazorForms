@@ -169,6 +169,15 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Username, display name, email.
+        /// </summary>
+        public static string SEARCH_PHRASE_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("SEARCH_PHRASE_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string TAB_GENERAL {

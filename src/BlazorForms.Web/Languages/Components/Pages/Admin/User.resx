@@ -165,6 +165,10 @@
     <value>This account is linked to Active Directory. Therefore, you cannot edit all properties.</value>
     <comment>Warning message for connected actived directory accounts.</comment>
   </data>
+  <data name="SEARCH_PHRASE_PLACEHOLDER" xml:space="preserve">
+    <value>Username, display name, email</value>
+    <comment>Placeholder text for the basic search phrase</comment>
+  </data>
   <data name="TAB_GENERAL" xml:space="preserve">
     <value>General</value>
     <comment>Text for general tab</comment>
