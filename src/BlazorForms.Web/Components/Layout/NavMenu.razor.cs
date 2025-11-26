@@ -1,3 +1,4 @@
+using BlazorForms.Infrastructure.Auth;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -26,6 +27,7 @@ public partial class NavMenu
             new NavItem
             {
                 Text = "Administration",
+                Role = AuthConstants.ADMIN_ROLE,
                 ChildItems =
                 [
                     new NavItem

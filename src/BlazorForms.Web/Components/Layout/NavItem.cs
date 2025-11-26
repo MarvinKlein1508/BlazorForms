@@ -13,6 +13,11 @@ public class NavItem
     public string? Text { get; set; }
 
     /// <summary>
+    /// Gets or sets the required authorization role to view this navigation item.
+    /// </summary>
+    public string? Role { get; set; }
+
+    /// <summary>
     /// Gets or sets the collection of child navigation items.
     /// </summary>
     public IEnumerable<NavItem> ChildItems { get; set; } = [];

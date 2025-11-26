@@ -1,12 +1,16 @@
 ﻿@if (Item.ChildItems.Any())
 {
-    <a href="@Item.Href" class="nav-link" @onclick="() => _isExpanded = !_isExpanded">@Item.Text</a>
-    @if (_isExpanded)
+    @if (!string.IsNullOrEmpty(Item.Role))
     {
-        @foreach (var item in Item.ChildItems)
-        {
-            <NavMenuItem Item="item" />
-        }
+        <AuthorizeView Roles="@Item.Role">
+            <Authorized>
+                @NavGroupTemplate
+            </Authorized>
+        </AuthorizeView>
+    }
+    else
+    {
+        @NavGroupTemplate
     }
 }
 else
@@ -19,4 +23,17 @@ else
     public NavItem Item { get; set; }
 
     private bool _isExpanded;
+
+    private RenderFragment NavGroupTemplate => __builder =>
+    {
+        <a href="@Item.Href" class="nav-link" @onclick="() => _isExpanded = !_isExpanded">@Item.Text</a>
+        @if (_isExpanded)
+        {
+
+            @foreach (var item in Item.ChildItems)
+            {
+                <NavMenuItem Item="item" />
+            }
+        }
+    };
 }
