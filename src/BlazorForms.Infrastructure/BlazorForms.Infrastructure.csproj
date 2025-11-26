@@ -17,8 +17,6 @@
         <EmbeddedResource Include="Database\Scripts\0000007_TABLE_FORM_STATUS_DESCRIPTION.sql" />
         <EmbeddedResource Include="Database\Scripts\0000008_DEFAULT_FORM_STATUS.sql" />
         <EmbeddedResource Include="Database\Scripts\0000009_DEFAULT_FORM_STATUS_DESCRIPTION.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000010_TABLE_CONFIG.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000011_DEFAULT_CONFIG.sql" />
     </ItemGroup>
 
     <ItemGroup>
