@@ -3,33 +3,27 @@
 
 <PageTitle>Languages</PageTitle>
 
-<FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Languages</FluentBreadcrumbItem>
-</FluentBreadcrumb>
-
-<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
-    <FluentAnchor Href="/Admin/Users/Create"
-                  IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
-                  Appearance="Appearance.Accent">
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2" HorizontalGap="@FluentConstants.FLUENTSTACK_HORIZONTAL_GAP">
+    <FluentAnchorButton Href="/Admin/Users/Create"
+                  IconStart="@(new Icons.Regular.Size20.PersonAdd())"
+                  Appearance="ButtonAppearance.Primary">
         New Language
-    </FluentAnchor>
+    </FluentAnchorButton>
 </FluentStack>
 
 <div class="row">
     <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
-        <FluentCard Height="auto" AreaRestricted="false">
-            <h4>Filter</h4>
+        <FluentCard>
+            <FluentText Size="TextSize.Size600">@AppLocalizer.LABEL_SEARCH_FILTER</FluentText>
 
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <FluentStack Orientation="Orientation.Vertical">
-                    <FluentField @bind-Value="Filter.SearchPhrase" Immediate="true" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+                    <FluentTextInput @bind-Value="Filter.SearchPhrase" Immediate="true" Label="@AppLocalizer.LABEL_SEARCHPHRASE" Placeholder="Name, E-Mail" Autofocus />
 
                     <div class="d-flex justify-content-end mt-2 w-100">
                         <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
                                       Appearance="ButtonAppearance.Primary">
-                            Suchen
+                            @AppLocalizer.BUTTON_SEARCH
                         </FluentButton>
                     </div>
                 </FluentStack>
@@ -37,11 +31,11 @@
         </FluentCard>
     </div>
     <div class="col-lg-9">
-        <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="@FluentConstants.FLUENTSTACK_VERTICAL_GAP">
 
             @if (_isLoading || Data is null)
             {
-                <FluentProgressRing />
+                <FluentSpinner />
             }
             else
             {
@@ -50,7 +44,7 @@
                     <div class="list">
                         <div class="list-details">
                             <div class="list-item" hidden-when="xs sm">
-                                <label>Id</label>
+                                <label>@AppLocalizer.LABEL_ID</label>
                                 <span>@item.LanguageId</span>
                             </div>
                             <div class="list-item">
@@ -59,9 +53,9 @@
                             </div>
                         </div>
                         <div class="list-buttons">
-                            <FluentAnchor Href="@($"/Admin/Users/Edit?Id={item.GetIdentifier()}")">
+                            <FluentAnchorButton Href="@($"/Admin/Users/Edit?Id={item.GetIdentifier()}")">
                                 Bearbeiten
-                            </FluentAnchor>
+                            </FluentAnchorButton>
                         </div>
                     </div>
                 }

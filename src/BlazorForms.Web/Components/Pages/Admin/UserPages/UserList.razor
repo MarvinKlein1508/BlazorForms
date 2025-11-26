@@ -3,7 +3,7 @@
 
 <PageTitle>@Localizer.LIST_PAGE_TITLE</PageTitle>
 
-<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2" HorizontalGap="@FluentConstants.FLUENTSTACK_HORIZONTAL_GAP">
     <FluentAnchorButton Href="/Admin/Users/Create"
                         IconStart="@(new Icons.Regular.Size20.PersonAdd())"
                         Appearance="ButtonAppearance.Primary">
@@ -36,7 +36,7 @@
         </FluentCard>
     </div>
     <div class="col-lg-9">
-        <FluentStack Orientation="Orientation.Vertical" VerticalGap="10px">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="@FluentConstants.FLUENTSTACK_VERTICAL_GAP">
             @if (_isLoading || Data is null)
             {
                 <FluentSpinner />
