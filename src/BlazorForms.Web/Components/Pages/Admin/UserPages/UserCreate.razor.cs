@@ -3,7 +3,7 @@ using BlazorForms.Infrastructure.Auth;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 
-namespace BlazorForms.Web.Components.Pages.Admin;
+namespace BlazorForms.Web.Components.Pages.Admin.UserPages;
 
 public partial class UserCreate
 {
