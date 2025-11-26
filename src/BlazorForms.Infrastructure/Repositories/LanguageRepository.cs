@@ -103,6 +103,6 @@ public class LanguageRepository : IModelService<Language, int?, LanguageFilter>
 
         var result = await connection.QueryAsync<Language>(sql);
 
-        return result.ToList();
+        return result.AsList();
     }
 }
