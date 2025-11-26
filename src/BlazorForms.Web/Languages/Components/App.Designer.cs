@@ -106,6 +106,15 @@ namespace BlazorForms.Web.Languages.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string BUTTON_EDIT {
+            get {
+                return ResourceManager.GetString("BUTTON_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         public static string BUTTON_OPTIONS {
@@ -156,6 +165,15 @@ namespace BlazorForms.Web.Languages.Components {
         public static string LABEL_SEARCHPHRASE {
             get {
                 return ResourceManager.GetString("LABEL_SEARCHPHRASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No entries.
+        /// </summary>
+        public static string NO_ENTRIES {
+            get {
+                return ResourceManager.GetString("NO_ENTRIES", resourceCulture);
             }
         }
     }

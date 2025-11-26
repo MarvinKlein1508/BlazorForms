@@ -44,7 +44,6 @@
     </div>
     <div class="col-lg-9">
         <FluentStack Orientation="Orientation.Vertical">
-
             @if (_isLoading || Data is null)
             {
                 <FluentProgressRing />
@@ -72,7 +71,7 @@
                         </div>
                         <div class="list-buttons">
                             <FluentAnchor Href="@($"/Admin/Status/Edit?Id={item.GetIdentifier()}")">
-                                Bearbeiten
+                                @AppLocalizer.BUTTON_EDIT
                             </FluentAnchor>
                         </div>
                     </div>
@@ -81,7 +80,7 @@
                 @if (!_isLoading && !Data.Items.Any())
                 {
                     <div class="list justify-content-center">
-                        Keine Datensätze
+                        @AppLocalizer.NO_ENTRIES
                     </div>
                 }
 

@@ -150,4 +150,10 @@
   <data name="BUTTON_SAVE" xml:space="preserve">
     <value>Speichern</value>
   </data>
+  <data name="BUTTON_EDIT" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="NO_ENTRIES" xml:space="preserve">
+    <value>Keine Ergebnisse</value>
+  </data>
 </root>

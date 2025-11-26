@@ -161,4 +161,12 @@
     <value>Save</value>
     <comment>General save buttons</comment>
   </data>
+  <data name="BUTTON_EDIT" xml:space="preserve">
+    <value>Edit</value>
+    <comment>General text for edit buttons</comment>
+  </data>
+  <data name="NO_ENTRIES" xml:space="preserve">
+    <value>No entries</value>
+    <comment>General text for empty search results</comment>
+  </data>
 </root>
