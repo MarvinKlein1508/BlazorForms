@@ -44,6 +44,9 @@
             <FluentStack Orientation="Orientation.Vertical">
                 <FluentSwitch @bind-Value="Input.RequiresApproval" Label="Freigabe benötigt" />
                 <FluentSwitch @bind-Value="Input.IsCompleted" Label="Vorgang abgeschlossen" />
+
+                <label for="sort-order" class="fluent-input-label">Reihenfolge</label>
+                <InputNumber @bind-Value="Input.SortOrder" id="sort-order" class="fluent-control" />
             </FluentStack>
         </div>
     </div>
