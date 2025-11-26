@@ -3,23 +3,16 @@
 
 <PageTitle>@Localizer.CREATE_PAGE_TITLE</PageTitle>
 
-<FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem Href="/Admin/Status">@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_NEW</FluentBreadcrumbItem>
-</FluentBreadcrumb>
-
 @if (Input is null)
 {
     return;
 }
 
 <FluentStack HorizontalAlignment="HorizontalAlignment.End">
-    <FluentAnchor Href="/Admin/Status"
+    <FluentAnchorButton Href="/Admin/Status"
                   IconStart="@(new Icons.Regular.Size20.ArrowReply())">
         @AppLocalizer.BUTTON_BACK
-    </FluentAnchor>
+    </FluentAnchorButton>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="ButtonAppearance.Primary"
@@ -34,7 +27,7 @@
             <FluentTabs>
                 @foreach (var item in Input.Descriptions)
                 {
-                    <FluentTab Label="@(item.ToCulture().NativeName)">
+                    <FluentTab Header="@(item.ToCulture().NativeName)">
                         <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
                         <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Height="150px" />
                     </FluentTab>
