@@ -14,10 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Languages\Components\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
         <ProjectReference Include="..\BlazorForms.Infrastructure\BlazorForms.Infrastructure.csproj" />
     </ItemGroup>
@@ -26,6 +22,30 @@
         <Reference Include="Microsoft.FluentUI.AspNetCore.Components">
             <HintPath>Microsoft.FluentUI.AspNetCore.Components.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Languages\Components\App.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>App.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Languages\Components\Pages\Admin\FormStatus.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FormStatus.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Languages\Components\App.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>App.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Languages\Components\Pages\Admin\FormStatus.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>FormStatus.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

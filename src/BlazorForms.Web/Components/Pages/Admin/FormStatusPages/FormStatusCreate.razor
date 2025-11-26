@@ -1,12 +1,13 @@
 ﻿@page "/Admin/Status/Create"
 @inherits CreatePageBase<FormStatus, FormStatusRepository, int?>
-<PageTitle>Neuer Status</PageTitle>
+
+<PageTitle>@Localizer.CREATE_PAGE_TITLE</PageTitle>
 
 <FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem Href="/Admin/Status">Status</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Neu</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/Admin/Status">@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_NEW</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
 @if (Input is null)
@@ -17,13 +18,13 @@
 <FluentStack HorizontalAlignment="HorizontalAlignment.End">
     <FluentAnchor Href="/Admin/Status"
                   IconStart="@(new Icons.Regular.Size20.ArrowReply())">
-        Zurück
+        @AppLocalizer.BACK
     </FluentAnchor>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="Appearance.Accent"
                   OnClick="SaveAsync">
-        Speichern
+        @AppLocalizer.SAVE
     </FluentButton>
 </FluentStack>
 
@@ -34,18 +35,18 @@
                 @foreach (var item in Input.Descriptions)
                 {
                     <FluentTab Label="@(item.ToCulture().NativeName)">
-                        <FluentTextField @bind-Value="item.Name" Label="Name" />
-                        <FluentTextArea @bind-Value="item.Description" Label="Description" Rows="3" />
+                        <FluentTextField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
+                        <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Rows="3" />
                     </FluentTab>
                 }
             </FluentTabs>
         </div>
         <div class="col-md-3">
             <FluentStack Orientation="Orientation.Vertical">
-                <FluentSwitch @bind-Value="Input.RequiresApproval" Label="Freigabe benötigt" />
-                <FluentSwitch @bind-Value="Input.IsCompleted" Label="Vorgang abgeschlossen" />
+                <FluentSwitch @bind-Value="Input.RequiresApproval" Label="@Localizer.LABEL_REQUIRES_APPROVAL" />
+                <FluentSwitch @bind-Value="Input.IsCompleted" Label="@Localizer.LABEL_IS_COMPLETE" />
 
-                <label for="sort-order" class="fluent-input-label">Reihenfolge</label>
+                <label for="sort-order" class="fluent-input-label">@Localizer.LABEL_SORT_ORDER</label>
                 <InputNumber @bind-Value="Input.SortOrder" id="sort-order" class="fluent-control" />
             </FluentStack>
         </div>

@@ -2,35 +2,40 @@
 @using System.Globalization
 @inherits ListPageBase<FormStatus, FormStatusRepository, FormStatusFilter>
 
-<PageTitle>Benutzerliste</PageTitle>
+<PageTitle>@Localizer.LIST_PAGE_TITLE</PageTitle>
 
 <FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Benutzer</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
 <FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
     <FluentAnchor Href="/Admin/Status/Create"
                   IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
                   Appearance="Appearance.Accent">
-        Neuer Status
+        @Localizer.NEW_STATUS
     </FluentAnchor>
 </FluentStack>
 
 <div class="row">
     <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
         <FluentCard Height="auto" AreaRestricted="false">
-            <h4>Filter</h4>
+            <h4>@AppLocalizer.LABEL_SEARCH_FILTER</h4>
 
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <FluentStack Orientation="Orientation.Vertical">
-                    <FluentTextField @bind-Value="Filter.SearchPhrase" Immediate="true" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+                    <FluentTextField @bind-Value="Filter.SearchPhrase"
+                                     Immediate="true"
+                                     Label="@AppLocalizer.LABEL_SEARCHPHRASE"
+                                     Placeholder="@Localizer.SEARCH_PHRASE_PLACEHOLDER"
+                                     Autofocus />
 
                     <div class="d-flex justify-content-end mt-2 w-100">
-                        <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
+                        <FluentButton Type="ButtonType.Submit"
+                                      IconStart="@(new Icons.Regular.Size20.Search())"
                                       Appearance="Appearance.Accent">
-                            Suchen
+                            @AppLocalizer.BUTTON_SEARCH
                         </FluentButton>
                     </div>
                 </FluentStack>
@@ -52,16 +57,16 @@
                     <div class="list">
                         <div class="list-details">
                             <div class="list-item" hidden-when="xs sm">
-                                <label>Id</label>
+                                <label>@AppLocalizer.LABEL_ID</label>
                                 <span>@item.StatusId</span>
                             </div>
                             <div class="list-item">
-                                <label>Name</label>
+                                <label>@Localizer.LABEL_NAME</label>
                                 <span>@description?.Name</span>
                             </div>
 
                             <div class="list-item">
-                                <label>Beschreibung</label>
+                                <label>@Localizer.LABEL_DESCRIPTION</label>
                                 <span>@description?.Description</span>
                             </div>
                         </div>

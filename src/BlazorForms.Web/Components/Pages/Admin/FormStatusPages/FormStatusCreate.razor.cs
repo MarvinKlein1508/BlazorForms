@@ -1,8 +1,7 @@
-
 using BlazorForms.Domain.Entities;
 using BlazorForms.Infrastructure;
 
-namespace BlazorForms.Web.Components.Pages.Admin;
+namespace BlazorForms.Web.Components.Pages.Admin.FormStatusPages;
 
 public partial class FormStatusCreate
 {
@@ -13,6 +12,6 @@ public partial class FormStatusCreate
         await base.OnParametersSetAsync();
 
         var descriptions = Storage.Get<Language>().Select(l => new FormStatusDescription { Code = l.Code });
-        Input.Descriptions.AddRange(descriptions);
+        Input!.Descriptions.AddRange(descriptions);
     }
 }
