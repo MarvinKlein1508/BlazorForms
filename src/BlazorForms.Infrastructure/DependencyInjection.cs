@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddSingleton<UserRepository>();
         services.AddSingleton<FormStatusRepository>();
         services.AddSingleton<FormStatusDescriptionRepository>();
+        services.AddSingleton<LanguageRepository>();
         services.AddScoped<AuthService>();
 
         // Options

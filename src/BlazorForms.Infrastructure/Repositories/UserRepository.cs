@@ -155,7 +155,6 @@ public class UserRepository : IModelService<User, int?, UserFilter>
 
     public async Task<PagedResponse<User>> GetAsync(UserFilter filter, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-
         string sql =
             $"""
             SELECT 
