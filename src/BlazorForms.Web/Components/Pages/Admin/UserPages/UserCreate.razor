@@ -21,7 +21,7 @@
     </FluentAnchor>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
-                  Appearance="Appearance.Accent"
+                  Appearance="ButtonAppearance.Primary"
                   OnClick="SaveAsync">
         @AppLocalizer.BUTTON_SAVE
     </FluentButton>
@@ -30,7 +30,7 @@
 <EditForm Model="Input" @ref="_form">
     @if (ActiveDirectoryMode)
     {
-        <FluentMessageBar Title="Hinweis:" Intent="@MessageIntent.Warning" AllowDismiss="false" Class="mb-2 mt-2" FadeIn="false">
+        <FluentMessageBar Title="Hinweis:" Intent="@MessageBarIntent.Warning" AllowDismiss="false" Class="mb-2 mt-2" FadeIn="false">
             @Localizer.MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT
         </FluentMessageBar>
     }
@@ -42,20 +42,20 @@
                         @if (ActiveDirectoryMode)
                         {
                             <div class="col-12">
-                                <FluentTextField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="@Localizer.LABEL_ACTIVE_DIRECTORY_GUID" Disabled />
+                                <FluentField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="@Localizer.LABEL_ACTIVE_DIRECTORY_GUID" Disabled="true" />
                             </div>
                         }
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
-                            <FluentValidationMessage For="() => Input.Username" />
+                            <FluentField @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
+                            <ValidationMessage For="() => Input.Username" />
                         </div>
 
                         @if (!ActiveDirectoryMode)
                         {
                             <div class="col-12">
-                                <FluentTextField @bind-Value="Input.Password" Label="@Localizer.LABEL_PASSWORD" />
-                                <FluentValidationMessage For="() => Input.Password" />
+                                <FluentField @bind-Value="Input.Password" Label="@Localizer.LABEL_PASSWORD" />
+                                <ValidationMessage For="() => Input.Password" />
                             </div>
                         }
 
@@ -63,17 +63,17 @@
                             <FluentSelect @bind-SelectedOption="Input.UserGroupId"
                                           Label="@Localizer.LABEL_USER_GROUP"
                                           Items="Enum.GetValues<UserGroup>()" />
-                            <FluentValidationMessage For="() => Input.UserGroupId" />
+                            <ValidationMessage For="() => Input.UserGroupId" />
                         </div>
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.DisplayName" Label="@Localizer.LABEL_DISPLAY_NAME" Disabled="ActiveDirectoryMode" />
-                            <FluentValidationMessage For="() => Input.DisplayName" />
+                            <FluentField @bind-Value="Input.DisplayName" Label="@Localizer.LABEL_DISPLAY_NAME" Disabled="ActiveDirectoryMode" />
+                            <ValidationMessage For="() => Input.DisplayName" />
                         </div>
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.Email" Label="@Localizer.LABEL_EMAIL" Disabled="ActiveDirectoryMode" />
-                            <FluentValidationMessage For="() => Input.Email" />
+                            <FluentField @bind-Value="Input.Email" Label="@Localizer.LABEL_EMAIL" Disabled="ActiveDirectoryMode" />
+                            <ValidationMessage For="() => Input.Email" />
                         </div>
                     </div>
                 </div>

@@ -8,22 +8,7 @@
 
 <div class="form-editor">
     <div class="form-editor-appbar">
-        <FluentAppBar Orientation="Orientation.Horizontal" Style="width: 100%; justify-content: space-around;">
-            <FluentAppBarItem IconRest="@(new Icons.Regular.Size20.ArrowHookDownLeft())"
-                              Text="Close"
-                              OnClick="CloseItemAsync" />
-            <FluentAppBarItem IconRest="@(new Icons.Regular.Size20.DocumentSettings())"
-                              Text="Form settings"
-                              OnClick="() => _editFormProperties = true" />
-            <FluentAppBarItem IconRest="WhatsNewIcon()"
-                              Text="What's New"
-                              OnClick="ShowSuccessAsync" />
-            <FluentAppBarItem IconRest="IconsIcon()"
-                              Text="Icons"
-                              OnClick="ShowWarningAsync" />
-            <FluentAppBarItem IconRest="DialogIcon()"
-                              Text="Dialog" />
-        </FluentAppBar>
+        
     </div>
     <div class="form-editor-wrapper">
         @if (_selectedFormElement is not null && !_editFormProperties)
@@ -31,9 +16,9 @@
             <div class="form-element-editor">
                 <FluentTabs>
                     <FluentTab Label="General">
-                        <FluentTextField Value="@_selectedFormElement.GetElementType().ToString()" Label="Element type" ReadOnly />
+                        <FluentField Value="@_selectedFormElement.GetElementType().ToString()" Label="Element type" ReadOnly />
 
-                        <FluentTextField @bind-Value="_selectedFormElement.Name" Label="Name" Required Immediate />
+                        <FluentField @bind-Value="_selectedFormElement.Name" Label="Name" Required="true" Immediate />
 
                         <div class="d-flex flex-column gap-2 mt-2 mb-2">
                             @if (_selectedFormElement is not FormLabelElement)
@@ -54,7 +39,7 @@
 
                             <FluentTextArea @bind-Value="textElement.RegexPattern" Label="Regex pattern" Immediate />
 
-                            <FluentTextField @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
+                            <FluentField @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
                         }
 
                     </FluentTab>
@@ -66,9 +51,9 @@
             <div class="form-element-editor">
                 <FluentTabs>
                     <FluentTab Label="General">
-                        <FluentTextField @bind-Value="_testForm.Name" Label="Name" Required />
+                        <FluentField @bind-Value="_testForm.Name" Label="Name" Required="true" />
 
-                        <FluentTextField @bind-Value="_testForm.DefaultName" Label="Default name" />
+                        <FluentField @bind-Value="_testForm.DefaultName" Label="Default name" />
 
                         <InputCkEditor @bind-Value="_testForm.Description" Label="Description" />
                     </FluentTab>

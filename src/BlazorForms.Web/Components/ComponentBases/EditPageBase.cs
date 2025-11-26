@@ -57,7 +57,7 @@ public abstract class EditPageBase<TModel, TService, TIdentifier> : BlazorFormsP
             //Log.Information("Saved: {url}; Identifier: {identifier}; User: {user}", NavigationManager.Uri, Input.GetIdentifier(), CurrentUser?.DisplayName ?? "<UNBEKANNT>");
             Storage.UpdateStorage<TModel, TIdentifier>(Input);
 
-            ToastService.ShowSuccess("Datensatz wurde erfolgreich gespeichert");
+            //ToastService.ShowSuccess("Datensatz wurde erfolgreich gespeichert");
             await AfterSaveAsync(connection);
             await OnParametersSetAsync();
         }
@@ -86,42 +86,43 @@ public abstract class EditPageBase<TModel, TService, TIdentifier> : BlazorFormsP
     protected abstract string GetListUrl();
     protected virtual async Task ShowDeleteModalAsync()
     {
+        return;
         if (Input is null)
         {
             return;
         }
 
-        var dialog = await DialogService.ShowConfirmationAsync("Möchten Sie diesen Datensatz wirklich löschen?", "Löschen", "Abbrechen", "Datensatz löschen?");
-        var result = await dialog.Result;
+        //var dialog = await DialogService.ShowConfirmationAsync("Möchten Sie diesen Datensatz wirklich löschen?", "Löschen", "Abbrechen", "Datensatz löschen?");
+        //var result = await dialog.Result;
 
-        if (!result.Cancelled)
-        {
+        //if (!result.Cancelled)
+        //{
 
-            using var connection = await DbFactory.CreateConnectionAsync();
-            var transaction = connection.BeginTransaction();
-            try
-            {
-                await BeforeDeleteAsync(connection, transaction);
-                await Service.DeleteAsync(Input, connection, transaction);
-                transaction.Commit();
-                Storage.DeleteFromStorage<TModel, TIdentifier>(Input);
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                throw;
-            }
+        //    using var connection = await DbFactory.CreateConnectionAsync();
+        //    var transaction = connection.BeginTransaction();
+        //    try
+        //    {
+        //        await BeforeDeleteAsync(connection, transaction);
+        //        await Service.DeleteAsync(Input, connection, transaction);
+        //        transaction.Commit();
+        //        Storage.DeleteFromStorage<TModel, TIdentifier>(Input);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        transaction.Rollback();
+        //        throw;
+        //    }
 
-            MessageService.ShowMessageBar(options =>
-            {
-                options.Title = "Datensatz wurde erfolgreich gelöscht!";
-                options.Intent = MessageIntent.Success;
-                options.Section = FluentConstants.MESSAGEBAR_TOP_SECTION;
-                options.Timeout = 4000;
-            });
+        //    MessageService.ShowMessageBar(options =>
+        //    {
+        //        options.Title = "Datensatz wurde erfolgreich gelöscht!";
+        //        options.Intent = MessageIntent.Success;
+        //        options.Section = FluentConstants.MESSAGEBAR_TOP_SECTION;
+        //        options.Timeout = 4000;
+        //    });
 
-            NavigationManager.NavigateTo(GetListUrl());
-        }
+        //    NavigationManager.NavigateTo(GetListUrl());
+        //}
     }
     protected string GetTabNavLinkClass(bool active) => active ? "nav-link active" : "nav-link";
     protected string GetTabClass(bool active) => active ? "tab-pane fade active show" : "tab-pane fade";

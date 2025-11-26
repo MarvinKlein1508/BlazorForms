@@ -22,7 +22,7 @@
     </FluentAnchor>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
-                  Appearance="Appearance.Accent"
+                  Appearance="ButtonAppearance.Primary"
                   OnClick="SaveAsync">
         @AppLocalizer.BUTTON_SAVE
     </FluentButton>
@@ -35,7 +35,7 @@
                 @foreach (var item in Input.Descriptions)
                 {
                     <FluentTab Label="@(item.ToCulture().NativeName)">
-                        <FluentTextField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
+                        <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
                         <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Rows="3" />
                     </FluentTab>
                 }

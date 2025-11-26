@@ -68,7 +68,7 @@ public abstract class CreatePageBase<TModel, TService, TIdentifier> : BlazorForm
 
         Storage.UpdateStorage<TModel, TIdentifier>(Input);
         //Log.Information("Saved: {url}; Identifier: {identifier}; User: {user}", NavigationManager.Uri, CopyId?.ToString() ?? "<NEU>", CurrentUser?.DisplayName ?? "<UNBEKANNT>");
-        ToastService.ShowSuccess("Datensatz wurde erfolgreich gespeichert");
+        //ToastService.ShowSuccess("Datensatz wurde erfolgreich gespeichert");
 
         await AfterSaveAsync(connection);
 

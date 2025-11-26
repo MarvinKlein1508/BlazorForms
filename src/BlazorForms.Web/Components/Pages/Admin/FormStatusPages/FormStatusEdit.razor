@@ -20,7 +20,7 @@
         @AppLocalizer.BUTTON_BACK
     </FluentAnchor>
 
-    <FluentButton id="btnOpen1" Appearance="Appearance.Accent" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
+    <FluentButton id="btnOpen1" Appearance="ButtonAppearance.Outline" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
         @AppLocalizer.BUTTON_OPTIONS
     </FluentButton>
 
@@ -29,7 +29,7 @@
     </FluentMenu>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
-                  Appearance="Appearance.Accent"
+                  Appearance="ButtonAppearance.Primary"
                   OnClick="SaveAsync">
         @AppLocalizer.BUTTON_SAVE
     </FluentButton>
@@ -38,13 +38,13 @@
 <EditForm Model="Input" @ref="_form">
     <div class="row">
         <div class="col-md-9">
-            <FluentTextField Value="@Input.StatusId.ToString()" Label="@AppLocalizer.LABEL_ID" ReadOnly />
+            <FluentField @bind-Value="@Input.StatusId" Label="@AppLocalizer.LABEL_ID" readonly />
 
             <FluentTabs>
                 @foreach (var item in Input.Descriptions)
                 {
                     <FluentTab Label="@(item.ToCulture().NativeName)">
-                        <FluentTextField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
+                        <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
                         <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Rows="3" />
                     </FluentTab>
                 }

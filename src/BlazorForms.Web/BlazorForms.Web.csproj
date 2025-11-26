@@ -58,12 +58,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Microsoft.FluentUI.AspNetCore.Components.dll">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Components\FormEditor\" />
     </ItemGroup>
 

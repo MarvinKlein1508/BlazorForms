@@ -24,7 +24,7 @@
 
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <FluentStack Orientation="Orientation.Vertical">
-                    <FluentTextField @bind-Value="Filter.SearchPhrase"
+                    <FluentField @bind-Value="Filter.SearchPhrase"
                                      Immediate="true"
                                      Label="@AppLocalizer.LABEL_SEARCHPHRASE"
                                      Placeholder="@Localizer.SEARCH_PHRASE_PLACEHOLDER"
@@ -33,7 +33,7 @@
                     <div class="d-flex justify-content-end mt-2 w-100">
                         <FluentButton Type="ButtonType.Submit"
                                       IconStart="@(new Icons.Regular.Size20.Search())"
-                                      Appearance="Appearance.Accent">
+                                      Appearance="ButtonAppearance.Primary">
                             @AppLocalizer.BUTTON_SEARCH
                         </FluentButton>
                     </div>
