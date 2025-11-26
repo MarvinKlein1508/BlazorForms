@@ -11,6 +11,10 @@ public partial class FormEditor
     private bool _editFormProperties { get; set; }
     private Guid? _scrollToGuid;
     private FormElementBase? _selectedFormElement;
+    private FormRow? _activeDragFormRow;
+    private FormColumn? _activeDragFormColumn;
+    private FormElementBase? _activeDragFormElement;
+
     private readonly List<FormElementBase> _selectedFormElementStack = [];
     public static List<FormElementBase> ToolbarElements { get; } =
     [
@@ -113,6 +117,7 @@ public partial class FormEditor
 
         _testForm.Rows.Remove(source);
         _testForm.Rows.Insert(targetIndex, source);
+        CleanToolbarDrag();
     }
 
     private void OnColumnDropEnd(FluentDragEventArgs<FormColumn> e)
@@ -145,6 +150,7 @@ public partial class FormEditor
         }
 
         StateHasChanged();
+        CleanToolbarDrag();
     }
 
     private void OnDropElement(FluentDragEventArgs<FormElementBase> e)
@@ -185,6 +191,7 @@ public partial class FormEditor
 
         _dragFromToolbar = false;
         StateHasChanged();
+        CleanToolbarDrag();
     }
 
     private Task OpenFormElementAsync(FormElementBase element)
@@ -226,5 +233,69 @@ public partial class FormEditor
         //}
 
         return Task.CompletedTask;
+    }
+
+    private string GetDeleteWrapperClass()
+    {
+        if (!_dragFromToolbar && (_activeDragFormRow is not null || _activeDragFormColumn is not null || _activeDragFormElement is not null))
+        {
+            return "d-block";
+        }
+
+        return "d-none";
+    }
+
+    public void DropDelete()
+    {
+        if (_testForm is null)
+        {
+            return;
+        }
+
+        if (_activeDragFormRow is not null)
+        {
+            // Delete all rules for each element in the row
+            _testForm.RemoveRow(_activeDragFormRow);
+        }
+        else if (_activeDragFormColumn is not null)
+        {
+            // Delete all rules for each element in the column
+            _testForm.RemoveColumn(_activeDragFormColumn);
+            _testForm.RemoveEmptyRows();
+        }
+        else if (_activeDragFormElement is not null)
+        {
+            // Delete all rules for each element for this element
+            //_testForm.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
+            _testForm.RemoveElement(_activeDragFormElement);
+        }
+
+        CleanToolbarDrag();
+    }
+
+    public void CleanToolbarDrag()
+    {
+        _activeDragFormRow = null;
+        _activeDragFormColumn = null;
+        _activeDragFormElement = null;
+        _dragFromToolbar = false;
+    }
+
+    private async void OnRowDragStart(FluentDragEventArgs<FormRow> e)
+    {
+        _activeDragFormRow = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void OnColumnDragStart(FluentDragEventArgs<FormColumn> e)
+    {
+        _activeDragFormColumn = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void OnElementDragStart(FluentDragEventArgs<FormElementBase> e)
+    {
+        _activeDragFormElement = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
     }
 }

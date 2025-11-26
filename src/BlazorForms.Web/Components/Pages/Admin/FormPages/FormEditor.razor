@@ -89,9 +89,18 @@
         }
         else
         {
-            <FluentDragContainer TItem="FormRow" OnDropEnd="OnRowDropEnd" Class="dropzone">
-                <FluentDragContainer TItem="FormColumn" OnDropEnd="OnColumnDropEnd" Class="dropzone">
-                    <FluentDragContainer TItem="FormElementBase" OnDropEnd="OnDropElement" Class="dropzone form-editor-grid">
+            <div class="delete-wrapper delete-wrapper-mobile @GetDeleteWrapperClass()">
+                <div class="delete-zone"
+                     ondragover="event.preventDefault();"
+                     ondragstart="event.dataTransfer.setData('', event.target.id);"
+                     @ondrop="() => DropDelete()">
+                    <i class="bi bi-trash" />
+                </div>
+            </div>
+
+            <FluentDragContainer TItem="FormRow" OnDropEnd="OnRowDropEnd" OnDragStart="OnRowDragStart" Class="dropzone">
+                <FluentDragContainer TItem="FormColumn" OnDropEnd="OnColumnDropEnd" OnDragStart="OnColumnDragStart" Class="dropzone">
+                    <FluentDragContainer TItem="FormElementBase" OnDropEnd="OnDropElement" OnDragStart="OnElementDragStart" Class="dropzone form-editor-grid">
                         <div class="form-editor-content">
                             @foreach (var row in _testForm.Rows)
                             {
