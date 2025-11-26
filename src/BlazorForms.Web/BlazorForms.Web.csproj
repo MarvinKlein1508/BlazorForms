@@ -35,6 +35,11 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>FormStatus.resx</DependentUpon>
       </Compile>
+      <Compile Update="Languages\Components\Pages\Admin\User.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>User.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -45,6 +50,10 @@
       <EmbeddedResource Update="Languages\Components\Pages\Admin\FormStatus.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>FormStatus.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Languages\Components\Pages\Admin\User.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>User.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

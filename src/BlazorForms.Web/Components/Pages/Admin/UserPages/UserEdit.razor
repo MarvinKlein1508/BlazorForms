@@ -5,7 +5,7 @@
 <FluentBreadcrumb>
     <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem Href="/Admin/Users">Benutzer</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/Admin/Users">@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>@Identifier</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
@@ -26,7 +26,7 @@
     </FluentButton>
 
     <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
-        <FluentMenuItem @onclick="ShowDeleteModalAsync" Disabled="CurrentUser?.UserId == Input.UserId">Benutzer löschen</FluentMenuItem>
+        <FluentMenuItem @onclick="ShowDeleteModalAsync" Disabled="CurrentUser?.UserId == Input.UserId">@Localizer.BUTTON_DELETE_USER</FluentMenuItem>
     </FluentMenu>
 
 
@@ -41,47 +41,47 @@
     @if (ActiveDirectoryMode)
     {
         <FluentMessageBar Title="Hinweis:" Intent="@MessageIntent.Warning" AllowDismiss="false" Class="mb-2 mt-2" FadeIn="false">
-            Dieses Konto ist mit dem Active Directory verknüpft. Sie können daher nicht alle Eigenschaften bearbeiten.
+            @Localizer.MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT
         </FluentMessageBar>
     }
     <FluentTabs>
-        <FluentTab Label="Allgemein">
+        <FluentTab Label="@Localizer.TAB_GENERAL">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
 
                         <div class="col-12">
-                            <FluentNumberField @bind-Value="Input.UserId" Label="UserId" Disabled />
+                            <FluentNumberField @bind-Value="Input.UserId" Label="@AppLocalizer.LABEL_ID" Disabled />
                             <FluentValidationMessage For="() => Input.UserId" />
                         </div>
 
                         @if (ActiveDirectoryMode)
                         {
                             <div class="col-12">
-                                <FluentTextField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="ActiveDirectoryGuid" Disabled />
+                                <FluentTextField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="@Localizer.LABEL_ACTIVE_DIRECTORY_GUID" Disabled />
                             </div>
                         }
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.Username" Label="Username" Disabled="ActiveDirectoryMode" />
+                            <FluentTextField @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
                             <FluentValidationMessage For="() => Input.Username" />
                         </div>
 
                         <div class="col-12">
                             <FluentSelect @bind-SelectedOption="Input.UserGroupId"
-                                          Label="Benutzergruppe"
+                                          Label="@Localizer.LABEL_USER_GROUP"
                                           Items="Enum.GetValues<UserGroup>()"
                                           Disabled="ActiveDirectoryMode" />
                             <FluentValidationMessage For="() => Input.UserGroupId" />
                         </div>
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.DisplayName" Label="Anzeigename" Disabled="ActiveDirectoryMode" />
+                            <FluentTextField @bind-Value="Input.DisplayName" Label="@Localizer.LABEL_DISPLAY_NAME" Disabled="ActiveDirectoryMode" />
                             <FluentValidationMessage For="() => Input.DisplayName" />
                         </div>
 
                         <div class="col-12">
-                            <FluentTextField @bind-Value="Input.Email" Label="E-Mail" Disabled="ActiveDirectoryMode" />
+                            <FluentTextField @bind-Value="Input.Email" Label="@Localizer.LABEL_EMAIL" Disabled="ActiveDirectoryMode" />
                             <FluentValidationMessage For="() => Input.Email" />
                         </div>
 

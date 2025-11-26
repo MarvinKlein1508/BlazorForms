@@ -1,19 +1,19 @@
 ﻿@page "/Admin/Users"
 @inherits ListPageBase<User, UserRepository, UserFilter>
 
-<PageTitle>Benutzerliste</PageTitle>
+<PageTitle>@Localizer.LIST_PAGE_TITLE</PageTitle>
 
 <FluentBreadcrumb>
     <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Benutzer</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
 <FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
     <FluentAnchor Href="/Admin/Users/Create"
                   IconStart="@(new Icons.Regular.Size20.PersonAdd().WithColor(Color.Fill))"
                   Appearance="Appearance.Accent">
-        Neuer Benutzer
+        @Localizer.BUTTON_NEW_USER
     </FluentAnchor>
 </FluentStack>
 
@@ -31,7 +31,8 @@
                                      Autofocus />
 
                     <div class="d-flex justify-content-end mt-2 w-100">
-                        <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
+                        <FluentButton Type="ButtonType.Submit"
+                                      IconStart="@(new Icons.Regular.Size20.Search())"
                                       Appearance="Appearance.Accent">
                             @AppLocalizer.BUTTON_SEARCH
                         </FluentButton>
@@ -57,12 +58,12 @@
                                 <span>@item.UserId</span>
                             </div>
                             <div class="list-item">
-                                <label>Name</label>
+                                <label>@Localizer.LABEL_DISPLAY_NAME</label>
                                 <span>@item.DisplayName</span>
                             </div>
 
                             <div class="list-item">
-                                <label>E-Mail</label>
+                                <label>@Localizer.LABEL_EMAIL</label>
                                 <span>@item.Email</span>
                             </div>
                         </div>
