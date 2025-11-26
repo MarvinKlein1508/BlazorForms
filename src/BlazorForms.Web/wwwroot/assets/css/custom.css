@@ -4,10 +4,10 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    background: var(--fill-color);
-    color: var(--neutral-foreground-rest);
-    border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
-    border-radius: calc(var(--layer-corner-radius) * 1px);
+    background: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    border-radius: var(--borderRadiusMedium);
     box-shadow: var(--elevation-shadow-card-rest);
 }
 
