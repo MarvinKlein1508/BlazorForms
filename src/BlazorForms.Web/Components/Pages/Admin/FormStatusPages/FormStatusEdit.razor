@@ -2,31 +2,16 @@
 @inherits EditPageBase<FormStatus, FormStatusRepository, int?>
 <PageTitle>Status (@Identifier)</PageTitle>
 
-<FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem Href="/Admin/Status">@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@Identifier</FluentBreadcrumbItem>
-</FluentBreadcrumb>
-
 @if (Input is null)
 {
     return;
 }
 
 <FluentStack HorizontalAlignment="HorizontalAlignment.End">
-    <FluentAnchor Href="/Admin/Status"
-                  IconStart="@(new Icons.Regular.Size20.ArrowReply())">
+    <FluentAnchorButton Href="/Admin/Status"
+                        IconStart="@(new Icons.Regular.Size20.ArrowReply())">
         @AppLocalizer.BUTTON_BACK
-    </FluentAnchor>
-
-    <FluentButton id="btnOpen1" Appearance="ButtonAppearance.Outline" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
-        @AppLocalizer.BUTTON_OPTIONS
-    </FluentButton>
-
-    <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
-        <FluentMenuItem @onclick="ShowDeleteModalAsync">@Localizer.BUTTON_DELETE_STATUS</FluentMenuItem>
-    </FluentMenu>
+    </FluentAnchorButton>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="ButtonAppearance.Primary"
@@ -38,14 +23,14 @@
 <EditForm Model="Input" @ref="_form">
     <div class="row">
         <div class="col-md-9">
-            <FluentField @bind-Value="@Input.StatusId" Label="@AppLocalizer.LABEL_ID" readonly />
+            <FluentTextInput Value="@Input.StatusId.ToString()" Label="@AppLocalizer.LABEL_ID" ReadOnly />
 
             <FluentTabs>
                 @foreach (var item in Input.Descriptions)
                 {
-                    <FluentTab Label="@(item.ToCulture().NativeName)">
-                        <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
-                        <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Rows="3" />
+                    <FluentTab Header="@(item.ToCulture().NativeName)">
+                        <FluentTextInput @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
+                        <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Height="150px" />
                     </FluentTab>
                 }
             </FluentTabs>

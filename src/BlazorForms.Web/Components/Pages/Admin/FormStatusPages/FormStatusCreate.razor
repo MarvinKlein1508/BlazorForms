@@ -36,7 +36,7 @@
                 {
                     <FluentTab Label="@(item.ToCulture().NativeName)">
                         <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
-                        <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Rows="3" />
+                        <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Height="150px" />
                     </FluentTab>
                 }
             </FluentTabs>

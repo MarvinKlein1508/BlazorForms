@@ -18,6 +18,7 @@ builder.Services.AddFluentUIComponents(config =>
 {
     config.DefaultValues.For<FluentStack>().Set(p => p.HorizontalGap, FluentConstants.FLUENTSTACK_HORIZONTAL_GAP);
     config.DefaultValues.For<FluentStack>().Set(p => p.VerticalGap, FluentConstants.FLUENTSTACK_VERTICAL_GAP);
+    config.DefaultValues.For<FluentTextArea>().Set(p => p.Width, "100%");
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
