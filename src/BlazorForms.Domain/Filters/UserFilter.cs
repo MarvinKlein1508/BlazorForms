@@ -6,7 +6,7 @@ public class UserFilter : PageFilterBase
     {
         return new Dictionary<string, object?>
         {
-            { "SEARCH_PHRASE", $"%{SearchPhrase}%" }
+            { "SEARCH_PHRASE", $"%{SearchPhrase.ToUpper()}%" }
         };
     }
 }
