@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BACK" xml:space="preserve">
+  <data name="BUTTON_BACK" xml:space="preserve">
     <value>Back</value>
     <comment>General back button for pages</comment>
   </data>
@@ -141,7 +141,7 @@
     <value>Search</value>
     <comment>Text for search buttons</comment>
   </data>
-  <data name="CANCEL" xml:space="preserve">
+  <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>Cancel</value>
     <comment>General cancel button for pages and dialogs</comment>
   </data>
@@ -157,7 +157,7 @@
     <value>Search filter</value>
     <comment>General caption for search areas</comment>
   </data>
-  <data name="SAVE" xml:space="preserve">
+  <data name="BUTTON_SAVE" xml:space="preserve">
     <value>Save</value>
     <comment>General save buttons</comment>
   </data>

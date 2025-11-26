@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BACK" xml:space="preserve">
+  <data name="BUTTON_BACK" xml:space="preserve">
     <value>Zurück</value>
   </data>
   <data name="BREADCRUMB_ADMINISTRATION" xml:space="preserve">
@@ -135,7 +135,7 @@
   <data name="BUTTON_SEARCH" xml:space="preserve">
     <value>Suchen</value>
   </data>
-  <data name="CANCEL" xml:space="preserve">
+  <data name="BUTTON_CANCEL" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
   <data name="LABEL_ID" xml:space="preserve">
@@ -147,7 +147,7 @@
   <data name="LABEL_SEARCH_FILTER" xml:space="preserve">
     <value>Suchfilter</value>
   </data>
-  <data name="SAVE" xml:space="preserve">
+  <data name="BUTTON_SAVE" xml:space="preserve">
     <value>Speichern</value>
   </data>
 </root>

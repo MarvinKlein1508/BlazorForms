@@ -2,10 +2,9 @@
 @inherits EditPageBase<User, UserRepository, int?>
 <PageTitle>Benutzer (@Identifier)</PageTitle>
 
-
 <FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
     <FluentBreadcrumbItem Href="/Admin/Users">Benutzer</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>@Identifier</FluentBreadcrumbItem>
 </FluentBreadcrumb>
@@ -18,12 +17,12 @@
 <FluentStack HorizontalAlignment="HorizontalAlignment.End">
     <FluentAnchor Href="/Admin/Users"
                   IconStart="@(new Icons.Regular.Size20.ArrowReply())">
-        Zurück
+        @AppLocalizer.BUTTON_BACK
     </FluentAnchor>
 
 
     <FluentButton id="btnOpen1" Appearance="Appearance.Accent" @onclick="@(() => _showOptionsMenu = !_showOptionsMenu)">
-        Optionen
+        @AppLocalizer.BUTTON_OPTIONS
     </FluentButton>
 
     <FluentMenu Anchor="btnOpen1" @bind-Open="_showOptionsMenu" VerticalThreshold="170">
@@ -34,8 +33,7 @@
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="Appearance.Accent"
                   OnClick="SaveAsync">
-
-        Speichern
+        @AppLocalizer.BUTTON_SAVE
     </FluentButton>
 </FluentStack>
 
@@ -94,8 +92,4 @@
     </FluentTabs>
 </EditForm>
 
-@code {
-    protected override string GetListUrl() => "/Admin/Users";
 
-    public bool ActiveDirectoryMode => Input?.Origin is "ad";
-}

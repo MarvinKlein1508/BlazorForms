@@ -61,15 +61,6 @@ namespace BlazorForms.Web.Languages.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        public static string BACK {
-            get {
-                return ResourceManager.GetString("BACK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Administration.
         /// </summary>
         public static string BREADCRUMB_ADMINISTRATION {
@@ -97,6 +88,24 @@ namespace BlazorForms.Web.Languages.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BUTTON_BACK {
+            get {
+                return ResourceManager.GetString("BUTTON_BACK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string BUTTON_CANCEL {
+            get {
+                return ResourceManager.GetString("BUTTON_CANCEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         public static string BUTTON_OPTIONS {
@@ -106,20 +115,20 @@ namespace BlazorForms.Web.Languages.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string BUTTON_SAVE {
+            get {
+                return ResourceManager.GetString("BUTTON_SAVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string BUTTON_SEARCH {
             get {
                 return ResourceManager.GetString("BUTTON_SEARCH", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string CANCEL {
-            get {
-                return ResourceManager.GetString("CANCEL", resourceCulture);
             }
         }
         
@@ -147,15 +156,6 @@ namespace BlazorForms.Web.Languages.Components {
         public static string LABEL_SEARCHPHRASE {
             get {
                 return ResourceManager.GetString("LABEL_SEARCHPHRASE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string SAVE {
-            get {
-                return ResourceManager.GetString("SAVE", resourceCulture);
             }
         }
     }

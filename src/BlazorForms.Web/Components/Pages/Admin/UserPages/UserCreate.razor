@@ -2,12 +2,11 @@
 @inherits CreatePageBase<User, UserRepository, int?>
 <PageTitle>Neuer Benutzer</PageTitle>
 
-
 <FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
     <FluentBreadcrumbItem Href="/Admin/Users">Benutzer</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Neu</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_NEW</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
 @if (Input is null)
@@ -18,14 +17,13 @@
 <FluentStack HorizontalAlignment="HorizontalAlignment.End">
     <FluentAnchor Href="/Admin/Users"
                   IconStart="@(new Icons.Regular.Size20.ArrowReply())">
-        Zurück
+        @AppLocalizer.BUTTON_BACK
     </FluentAnchor>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="Appearance.Accent"
                   OnClick="SaveAsync">
-
-        Speichern
+        @AppLocalizer.BUTTON_SAVE
     </FluentButton>
 </FluentStack>
 

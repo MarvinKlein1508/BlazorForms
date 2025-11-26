@@ -4,8 +4,8 @@
 <PageTitle>Benutzerliste</PageTitle>
 
 <FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">Start</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>Administration</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
+    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
     <FluentBreadcrumbItem>Benutzer</FluentBreadcrumbItem>
 </FluentBreadcrumb>
 
@@ -20,16 +20,20 @@
 <div class="row">
     <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
         <FluentCard Height="auto" AreaRestricted="false">
-            <h4>Filter</h4>
+            <h4>@AppLocalizer.LABEL_SEARCH_FILTER</h4>
 
             <EditForm Model="Filter" OnValidSubmit="async () => await LoadAsync(true)">
                 <FluentStack Orientation="Orientation.Vertical">
-                    <FluentTextField @bind-Value="Filter.SearchPhrase" Immediate="true" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+                    <FluentTextField @bind-Value="Filter.SearchPhrase"
+                                     Immediate="true"
+                                     Label="@AppLocalizer.LABEL_SEARCHPHRASE"
+                                     Placeholder="Name, E-Mail"
+                                     Autofocus />
 
                     <div class="d-flex justify-content-end mt-2 w-100">
                         <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
                                       Appearance="Appearance.Accent">
-                            Suchen
+                            @AppLocalizer.BUTTON_SEARCH
                         </FluentButton>
                     </div>
                 </FluentStack>
@@ -38,7 +42,6 @@
     </div>
     <div class="col-lg-9">
         <FluentStack Orientation="Orientation.Vertical">
-
             @if (_isLoading || Data is null)
             {
                 <FluentProgressRing />
@@ -50,7 +53,7 @@
                     <div class="list">
                         <div class="list-details">
                             <div class="list-item" hidden-when="xs sm">
-                                <label>Id</label>
+                                <label>@AppLocalizer.LABEL_ID</label>
                                 <span>@item.UserId</span>
                             </div>
                             <div class="list-item">
