@@ -30,7 +30,7 @@
         font-variation-settings: "wght" 800, "opsz" 10.5;
     }
 
-fluent-text-input, fluent-field {
+fluent-text-input, fluent-field, fluent-dropdown {
     width: 100%;
     max-width: unset !important;
 }

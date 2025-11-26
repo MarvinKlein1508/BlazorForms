@@ -2,23 +2,16 @@
 @inherits CreatePageBase<User, UserRepository, int?>
 <PageTitle>@Localizer.CREATE_PAGE_TITLE</PageTitle>
 
-<FluentBreadcrumb>
-    <FluentBreadcrumbItem Href="/">@AppLocalizer.BREADCRUMB_HOME</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_ADMINISTRATION</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem Href="/Admin/Users">@Localizer.BREADCRUMB_LIST</FluentBreadcrumbItem>
-    <FluentBreadcrumbItem>@AppLocalizer.BREADCRUMB_NEW</FluentBreadcrumbItem>
-</FluentBreadcrumb>
-
 @if (Input is null)
 {
     return;
 }
 
-<FluentStack HorizontalAlignment="HorizontalAlignment.End">
-    <FluentAnchor Href="/Admin/Users"
-                  IconStart="@(new Icons.Regular.Size20.ArrowReply())">
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" HorizontalGap="10px">
+    <FluentAnchorButton Href="/Admin/Users"
+                        IconStart="@(new Icons.Regular.Size20.ArrowReply())">
         @AppLocalizer.BUTTON_BACK
-    </FluentAnchor>
+    </FluentAnchorButton>
 
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="ButtonAppearance.Primary"
@@ -34,48 +27,35 @@
             @Localizer.MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT
         </FluentMessageBar>
     }
+
     <FluentTabs>
-        <FluentTab Label="@Localizer.TAB_GENERAL">
+        <FluentTab Header="@Localizer.TAB_GENERAL">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="row">
-                        @if (ActiveDirectoryMode)
-                        {
-                            <div class="col-12">
-                                <FluentField Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="@Localizer.LABEL_ACTIVE_DIRECTORY_GUID" Disabled="true" />
-                            </div>
-                        }
+                    @if (ActiveDirectoryMode)
+                    {
+                        <FluentTextInput Value="@(Input.ActiveDirectoryGuid?.ToString() ?? string.Empty)" Label="@Localizer.LABEL_ACTIVE_DIRECTORY_GUID" Disabled="true" />
+                    }
 
-                        <div class="col-12">
-                            <FluentField @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
-                            <ValidationMessage For="() => Input.Username" />
-                        </div>
+                    <FluentTextInput @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
+                    <ValidationMessage For="() => Input.Username" />
 
-                        @if (!ActiveDirectoryMode)
-                        {
-                            <div class="col-12">
-                                <FluentField @bind-Value="Input.Password" Label="@Localizer.LABEL_PASSWORD" />
-                                <ValidationMessage For="() => Input.Password" />
-                            </div>
-                        }
+                    @if (!ActiveDirectoryMode)
+                    {
+                        <FluentTextInput @bind-Value="Input.Password" Label="@Localizer.LABEL_PASSWORD" />
+                        <ValidationMessage For="() => Input.Password" />
+                    }
 
-                        <div class="col-12">
-                            <FluentSelect @bind-SelectedOption="Input.UserGroupId"
-                                          Label="@Localizer.LABEL_USER_GROUP"
-                                          Items="Enum.GetValues<UserGroup>()" />
-                            <ValidationMessage For="() => Input.UserGroupId" />
-                        </div>
+                    <FluentSelect @bind-SelectedOption="Input.UserGroupId"
+                                  Label="@Localizer.LABEL_USER_GROUP"
+                                  Items="Enum.GetValues<UserGroup>()" />
+                    <ValidationMessage For="() => Input.UserGroupId" />
 
-                        <div class="col-12">
-                            <FluentField @bind-Value="Input.DisplayName" Label="@Localizer.LABEL_DISPLAY_NAME" Disabled="ActiveDirectoryMode" />
-                            <ValidationMessage For="() => Input.DisplayName" />
-                        </div>
+                    <FluentTextInput @bind-Value="Input.DisplayName" Label="@Localizer.LABEL_DISPLAY_NAME" Disabled="ActiveDirectoryMode" />
+                    <ValidationMessage For="() => Input.DisplayName" />
 
-                        <div class="col-12">
-                            <FluentField @bind-Value="Input.Email" Label="@Localizer.LABEL_EMAIL" Disabled="ActiveDirectoryMode" />
-                            <ValidationMessage For="() => Input.Email" />
-                        </div>
-                    </div>
+                    <FluentTextInput @bind-Value="Input.Email" Label="@Localizer.LABEL_EMAIL" Disabled="ActiveDirectoryMode" />
+                    <ValidationMessage For="() => Input.Email" />
                 </div>
             </div>
         </FluentTab>
