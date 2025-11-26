@@ -13,6 +13,13 @@
         @AppLocalizer.BUTTON_BACK
     </FluentAnchorButton>
 
+    <FluentButton Appearance="ButtonAppearance.Primary" Id="myButton">@AppLocalizer.BUTTON_OPTIONS</FluentButton>
+    <FluentMenu Trigger="myButton">
+        <FluentMenuList>
+            <FluentMenuItem OnClick="ShowDeleteModalAsync">@Localizer.BUTTON_DELETE_STATUS</FluentMenuItem>
+        </FluentMenuList>
+    </FluentMenu>
+
     <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
                   Appearance="ButtonAppearance.Primary"
                   OnClick="SaveAsync">

@@ -28,7 +28,7 @@
                 @foreach (var item in Input.Descriptions)
                 {
                     <FluentTab Header="@(item.ToCulture().NativeName)">
-                        <FluentField @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
+                        <FluentTextInput @bind-Value="item.Name" Label="@Localizer.LABEL_NAME" />
                         <FluentTextArea @bind-Value="item.Description" Label="@Localizer.LABEL_DESCRIPTION" Height="150px" />
                     </FluentTab>
                 }
