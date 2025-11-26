@@ -1,0 +1,22 @@
+﻿@if (Item.ChildItems.Any())
+{
+    <a href="@Item.Href" class="nav-link" @onclick="() => _isExpanded = !_isExpanded">@Item.Text</a>
+    @if (_isExpanded)
+    {
+        @foreach (var item in Item.ChildItems)
+        {
+            <NavMenuItem Item="item" />
+        }
+    }
+}
+else
+{
+    <a href="@Item.Href" class="nav-link">@Item.Text</a>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public NavItem Item { get; set; }
+
+    private bool _isExpanded;
+}

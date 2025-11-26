@@ -23,9 +23,9 @@
             <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <FluentStack Orientation="Orientation.Vertical">
-                <FluentField Name="Input.Username" @bind-Value="Input.Username" AutoComplete="username" Required="true" Label="Username" Style="width: 100%" />
+                <FluentTextInput Name="Input.Username" @bind-Value="Input.Username" AutoComplete="username" Required="true" Label="Username" Style="width: 100%" />
                 <ValidationMessage For="() => Input.Username" class="text-danger" />
-                <FluentField type="password" Name="Input.Password" @bind-Value="Input.Password" AutoComplete="current-password" Required="true" Placeholder="password" Label="Password" Style="width: 100%" />
+                <FluentTextInput type="password" Name="Input.Password" @bind-Value="Input.Password" AutoComplete="current-password" Required="true" Placeholder="password" Label="Password" Style="width: 100%" />
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
                 <FluentCheckbox Name="Input.RememberMe" @bind-Value="Input.RememberMe" Label="Remember me" />
                 <FluentButton Type="ButtonType.Submit" Style="width: 100%">Log in</FluentButton>

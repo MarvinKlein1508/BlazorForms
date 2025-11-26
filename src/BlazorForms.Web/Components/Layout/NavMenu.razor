@@ -1,0 +1,43 @@
+﻿@implements IDisposable
+<nav id="main-nav">
+    @foreach (var item in NavItems)
+    {
+        <NavMenuItem Item="item" />
+    }
+    <AuthorizeView>
+
+        <Authorized>
+            <form action="Account/Logout" method="post">
+                <AntiforgeryToken />
+                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                <FluentButton Type="ButtonType.Submit" Style="width: 100%;">Logout</FluentButton>
+            </form>
+        </Authorized>
+
+        <NotAuthorized>
+            <a href="Account/Login" class="nav-link">Login</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</nav>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+

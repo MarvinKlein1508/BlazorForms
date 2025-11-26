@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
 using BlazorForms.Infrastructure;
 using BlazorForms.Infrastructure.Database;
-using BlazorForms.Web.Components.Layout;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -21,7 +20,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);
-builder.Services.AddSingleton<MainNavProvider>();
 
 builder.Services.AddLocalization(options =>
 {
