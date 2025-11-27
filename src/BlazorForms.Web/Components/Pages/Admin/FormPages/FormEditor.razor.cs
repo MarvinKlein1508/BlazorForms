@@ -77,91 +77,91 @@ public partial class FormEditor
 
         _testForm.Rows.AddRange(rows);
     }
-    //private void OnRowDropEnd(FluentDragEventArgs<FormRow> e)
-    //{
-    //    var target = e.Target.Item;
-    //    var source = e.Source.Item;
+    private void OnRowDropEnd(FluentDragEventArgs<FormRow> e)
+    {
+        var target = e.Target.Item;
+        var source = e.Source.Item;
 
-    //    int targetIndex = _testForm.Rows.IndexOf(target);
+        int targetIndex = _testForm.Rows.IndexOf(target);
 
-    //    _testForm.Rows.Remove(source);
-    //    _testForm.Rows.Insert(targetIndex, source);
-    //    CleanToolbarDrag();
-    //}
+        _testForm.Rows.Remove(source);
+        _testForm.Rows.Insert(targetIndex, source);
+        CleanToolbarDrag();
+    }
 
-    //private void OnColumnDropEnd(FluentDragEventArgs<FormColumn> e)
-    //{
-    //    if (e.Source.Data is not FormRow sourceRow || e.Target.Data is not FormRow targetRow)
-    //    {
-    //        return;
-    //    }
+    private void OnColumnDropEnd(FluentDragEventArgs<FormColumn> e)
+    {
+        if (e.Source.Data is not FormRow sourceRow || e.Target.Data is not FormRow targetRow)
+        {
+            return;
+        }
 
-    //    var target = e.Target.Item;
-    //    var source = e.Source.Item;
-    //    int targetIndex = targetRow.Columns.IndexOf(target);
+        var target = e.Target.Item;
+        var source = e.Source.Item;
+        int targetIndex = targetRow.Columns.IndexOf(target);
 
-    //    if (sourceRow == targetRow)
-    //    {
-    //        sourceRow.Columns.Remove(source);
-    //        sourceRow.Columns.Insert(targetIndex, source);
-    //    }
-    //    else
-    //    {
-    //        sourceRow.Columns.Remove(source);
-    //        if (targetIndex != -1)
-    //        {
-    //            targetRow.Columns.Insert(targetIndex, source);
-    //        }
-    //        else
-    //        {
-    //            targetRow.Columns.Add(source);
-    //        }
-    //    }
+        if (sourceRow == targetRow)
+        {
+            sourceRow.Columns.Remove(source);
+            sourceRow.Columns.Insert(targetIndex, source);
+        }
+        else
+        {
+            sourceRow.Columns.Remove(source);
+            if (targetIndex != -1)
+            {
+                targetRow.Columns.Insert(targetIndex, source);
+            }
+            else
+            {
+                targetRow.Columns.Add(source);
+            }
+        }
 
-    //    StateHasChanged();
-    //    CleanToolbarDrag();
-    //}
+        StateHasChanged();
+        CleanToolbarDrag();
+    }
 
-    //private void OnDropElement(FluentDragEventArgs<FormElementBase> e)
-    //{
-    //    var sourceColumn = e.Source.Data as FormColumn;
+    private void OnDropElement(FluentDragEventArgs<FormElementBase> e)
+    {
+        var sourceColumn = e.Source.Data as FormColumn;
 
-    //    if (e.Target.Data is not FormColumn targetColumn)
-    //    {
-    //        return;
-    //    }
+        if (e.Target.Data is not FormColumn targetColumn)
+        {
+            return;
+        }
 
-    //    var source = e.Source.Item;
-    //    var target = e.Target.Item;
+        var source = e.Source.Item;
+        var target = e.Target.Item;
 
-    //    int targetIndex = targetColumn.Elements.IndexOf(target);
+        int targetIndex = targetColumn.Elements.IndexOf(target);
 
-    //    if (sourceColumn == targetColumn)
-    //    {
-    //        sourceColumn.Elements.Remove(source);
-    //        sourceColumn.Elements.Insert(targetIndex, source);
-    //    }
-    //    else
-    //    {
-    //        if (sourceColumn is not null && !_dragFromToolbar)
-    //        {
-    //            sourceColumn.Elements.Remove(source);
-    //        }
+        if (sourceColumn == targetColumn)
+        {
+            sourceColumn.Elements.Remove(source);
+            sourceColumn.Elements.Insert(targetIndex, source);
+        }
+        else
+        {
+            if (sourceColumn is not null && !_dragFromToolbar)
+            {
+                sourceColumn.Elements.Remove(source);
+            }
 
-    //        if (targetIndex != -1)
-    //        {
-    //            targetColumn.Elements.Insert(targetIndex, source);
-    //        }
-    //        else
-    //        {
-    //            targetColumn.Elements.Add(source);
-    //        }
-    //    }
+            if (targetIndex != -1)
+            {
+                targetColumn.Elements.Insert(targetIndex, source);
+            }
+            else
+            {
+                targetColumn.Elements.Add(source);
+            }
+        }
 
-    //    _dragFromToolbar = false;
-    //    StateHasChanged();
-    //    CleanToolbarDrag();
-    //}
+        _dragFromToolbar = false;
+        StateHasChanged();
+        CleanToolbarDrag();
+    }
 
     private Task OpenFormElementAsync(FormElementBase element)
     {
@@ -250,21 +250,21 @@ public partial class FormEditor
         _dragFromToolbar = false;
     }
 
-    //private async void OnRowDragStart(FluentDragEventArgs<FormRow> e)
-    //{
-    //    _activeDragFormRow = e.Source.Item;
-    //    await InvokeAsync(StateHasChanged);
-    //}
+    private async void OnRowDragStart(FluentDragEventArgs<FormRow> e)
+    {
+        _activeDragFormRow = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
+    }
 
-    //private async void OnColumnDragStart(FluentDragEventArgs<FormColumn> e)
-    //{
-    //    _activeDragFormColumn = e.Source.Item;
-    //    await InvokeAsync(StateHasChanged);
-    //}
+    private async void OnColumnDragStart(FluentDragEventArgs<FormColumn> e)
+    {
+        _activeDragFormColumn = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
+    }
 
-    //private async void OnElementDragStart(FluentDragEventArgs<FormElementBase> e)
-    //{
-    //    _activeDragFormElement = e.Source.Item;
-    //    await InvokeAsync(StateHasChanged);
-    //}
+    private async void OnElementDragStart(FluentDragEventArgs<FormElementBase> e)
+    {
+        _activeDragFormElement = e.Source.Item;
+        await InvokeAsync(StateHasChanged);
+    }
 }
