@@ -16,6 +16,7 @@
         <EmbeddedResource Include="Database\Scripts\0000006_TABLE_FORM_STATUS.sql" />
         <EmbeddedResource Include="Database\Scripts\0000007_TABLE_FORM_STATUS_DESCRIPTION.sql" />
         <EmbeddedResource Include="Database\Scripts\0000008_DEFAULT_FORM_STATUS.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000011_TABLE_FORM.sql" />
         <EmbeddedResource Include="Database\Scripts\0000010_RESEED.sql" />
         <EmbeddedResource Include="Database\Scripts\0000009_DEFAULT_FORM_STATUS_DESCRIPTION.sql" />
     </ItemGroup>

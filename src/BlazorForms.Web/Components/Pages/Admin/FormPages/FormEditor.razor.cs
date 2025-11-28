@@ -1,7 +1,7 @@
 using BlazorForms.Domain.Entities;
 using BlazorForms.Domain.Entities.Elements;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
 namespace BlazorForms.Web.Components;
 
@@ -27,65 +27,20 @@ public partial class FormEditor
         new FormDateElement(),
     ];
 
-    private Form _testForm;
-    public FormEditor()
-    {
-        _testForm = new Form();
+    [Parameter, EditorRequired]
+    public EventCallback OnSave { get; set; }
 
-        var rows = Enumerable.Range(1, 6)
-                             .Select(id => new FormRow { RowId = id })
-                             .ToList();
-
-        var columns = Enumerable.Range(1, 9)
-                                .Select(id => new FormColumn { ColumnId = id })
-                                .ToList();
-
-        var elementMap = new Dictionary<int, int>
-        {
-            { 1, 2 },
-            { 2, 1 },
-            { 3, 3 },
-            { 4, 0 },
-            { 5, 2 },
-            { 6, 1 },
-            { 7, 0 },
-            { 8, 1 },
-            { 9, 0 }
-        };
-
-        int elementIdCounter = 1;
-        foreach (var column in columns)
-        {
-            if (elementMap.TryGetValue(column.ColumnId, out int count))
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    column.Elements.Add(new FormTextElement
-                    {
-                        ElementId = elementIdCounter++
-                    });
-                }
-            }
-        }
-
-        rows[0].Columns.AddRange([columns[0], columns[1]]);
-        rows[1].Columns.Add(columns[2]);
-        rows[2].Columns.Add(columns[3]);
-        rows[3].Columns.AddRange([columns[4], columns[5]]);
-        rows[4].Columns.AddRange([columns[6], columns[7]]);
-        rows[5].Columns.Add(columns[8]);
-
-        _testForm.Rows.AddRange(rows);
-    }
+    [Parameter, EditorRequired]
+    public Form? Input { get; set; }
     private void OnRowDropEnd(FluentDragEventArgs<FormRow> e)
     {
         var target = e.Target.Item;
         var source = e.Source.Item;
 
-        int targetIndex = _testForm.Rows.IndexOf(target);
+        int targetIndex = Input.Rows.IndexOf(target);
 
-        _testForm.Rows.Remove(source);
-        _testForm.Rows.Insert(targetIndex, source);
+        Input.Rows.Remove(source);
+        Input.Rows.Insert(targetIndex, source);
         CleanToolbarDrag();
     }
 
@@ -216,7 +171,7 @@ public partial class FormEditor
 
     public void DropDelete()
     {
-        if (_testForm is null)
+        if (Input is null)
         {
             return;
         }
@@ -224,19 +179,19 @@ public partial class FormEditor
         if (_activeDragFormRow is not null)
         {
             // Delete all rules for each element in the row
-            _testForm.RemoveRow(_activeDragFormRow);
+            Input.RemoveRow(_activeDragFormRow);
         }
         else if (_activeDragFormColumn is not null)
         {
             // Delete all rules for each element in the column
-            _testForm.RemoveColumn(_activeDragFormColumn);
-            _testForm.RemoveEmptyRows();
+            Input.RemoveColumn(_activeDragFormColumn);
+            Input.RemoveEmptyRows();
         }
         else if (_activeDragFormElement is not null)
         {
             // Delete all rules for each element for this element
             //_testForm.DeleteRulesForElement(dragDropServiceElements.ActiveItem);
-            _testForm.RemoveElement(_activeDragFormElement);
+            Input.RemoveElement(_activeDragFormElement);
         }
 
         CleanToolbarDrag();

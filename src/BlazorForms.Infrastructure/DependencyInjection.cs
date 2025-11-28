@@ -18,6 +18,10 @@ public static class DependencyInjection
         services.AddSingleton<FormStatusRepository>();
         services.AddSingleton<FormStatusDescriptionRepository>();
         services.AddSingleton<LanguageRepository>();
+        services.AddSingleton<FormRepository>();
+        services.AddSingleton<FormRowRepository>();
+        services.AddSingleton<FormColumnRepository>();
+        services.AddSingleton<FormElementRepository>();
         services.AddScoped<AuthService>();
 
         // Options

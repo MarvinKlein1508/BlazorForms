@@ -2,7 +2,7 @@ using BlazorForms.Domain.Entities.Elements;
 
 namespace BlazorForms.Domain.Entities;
 
-public class Form
+public class Form : IDbModel<int?>
 {
     public int FormId { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -51,4 +51,6 @@ public class Form
             Rows.Remove(item);
         }
     }
+
+    public int? GetIdentifier() => FormId > 0 ? FormId : null;
 }

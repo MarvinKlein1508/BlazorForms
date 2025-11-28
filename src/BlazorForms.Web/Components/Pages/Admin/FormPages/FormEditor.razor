@@ -6,11 +6,17 @@
     <link rel="stylesheet" href="@Assets["/assets/css/form-editor.css"]" />
 </SectionContent>
 
+
+@if (Input is null)
+{
+    return;
+}
+
 <div class="form-editor">
     <div class="form-editor-appbar">
         <FluentButton @onclick="CloseItemAsync">Back</FluentButton>
         <FluentButton @onclick="() => _editFormProperties = true">Edit</FluentButton>
-        <FluentButton>Save</FluentButton>
+        <FluentButton @onclick="async () => await OnSave.InvokeAsync()">Save</FluentButton>
     </div>
     <div class="form-editor-wrapper">
         @if (_selectedFormElement is not null && !_editFormProperties)
@@ -57,11 +63,11 @@
             <div class="form-element-editor">
                 <FluentTabs>
                     <FluentTab Header="General">
-                        <FluentTextInput @bind-Value="_testForm.Name" Label="Name" Required="true" />
+                        <FluentTextInput @bind-Value="Input.Name" Label="Name" Required="true" />
 
-                        <FluentTextInput @bind-Value="_testForm.DefaultName" Label="Default name" />
+                        <FluentTextInput @bind-Value="Input.DefaultName" Label="Default name" />
 
-                        <InputCkEditor @bind-Value="_testForm.Description" Label="Description" />
+                        <InputCkEditor @bind-Value="Input.Description" Label="Description" />
                     </FluentTab>
                     <FluentTab Header="Permissions">
 
@@ -93,7 +99,7 @@
                 <FluentDragContainer TItem="FormColumn" OnDropEnd="OnColumnDropEnd" OnDragStart="OnColumnDragStart" Class="dropzone">
                     <FluentDragContainer TItem="FormElementBase" OnDropEnd="OnDropElement" OnDragStart="OnElementDragStart" Class="dropzone form-editor-grid">
                         <div class="form-editor-content">
-                            @foreach (var row in _testForm.Rows)
+                            @foreach (var row in Input.Rows)
                             {
                                 <FluentDropZone StopPropagation="true" Item="row" Class="form-row" Draggable="true" Droppable="true">
                                     <span>Row: @row.RowId</span>
