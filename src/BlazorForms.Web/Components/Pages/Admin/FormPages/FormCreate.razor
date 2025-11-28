@@ -2,4 +2,11 @@
 @layout EmptyLayout
 @inherits CreatePageBase<Form, FormRepository, int?>
 
-<FormEditor Input="Input" OnSave="SaveAsync" />
+@if (Input is null)
+{
+    return;
+}
+
+<EditForm Model="Input" @ref="_form">
+    <FormEditor Input="Input" OnSave="SaveAsync" />
+</EditForm>
