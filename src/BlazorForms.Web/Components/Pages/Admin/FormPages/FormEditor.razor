@@ -33,8 +33,12 @@
 
                         @if (_selectedFormElement is FormTextElementBase textElement)
                         {
-                            <label class="fluent-input-label" for="textelement-minlength">Min length</label>
-                            <InputNumber @bind-Value="textElement.TextMinLength" class="fluent-control" id="textelement-minlength" />
+
+                            <div class="input-wrapper">
+                                <label class="fluent-input-label" for="textelement-minlength">Min length</label>
+                                <InputNumber @bind-Value="textElement.TextMinLength" class="fluent-control" id="textelement-minlength" />
+                            </div>
+
 
                             <label class="fluent-input-label" for="textelement-maxlength">Max length</label>
                             <InputNumber @bind-Value="textElement.TextMaxLength" class="fluent-control" id="textelement-maxlength" />

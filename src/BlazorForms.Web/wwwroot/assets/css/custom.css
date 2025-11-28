@@ -35,35 +35,43 @@ fluent-text-input, fluent-field, fluent-dropdown, fluent-textarea {
     max-width: unset !important;
 }
 
-.fluent-input-label {
-    margin-bottom: calc(var(--design-unit) * 1px);
+.input-wrapper {
+    position: relative;
+    display: block;
 }
 
+    .input-wrapper:focus-within::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--colorCompoundBrandStroke);
+        border-radius: 10px;
+        transition: height 0.2s, background 0.2s;
+    }
+
 .fluent-control {
-    appearance: none;
+    background-color: transparent;
     color: inherit;
-    background: transparent;
-    border: 0px;
-    height: calc(100% - 4px);
-    margin-top: auto;
-    margin-bottom: auto;
-    padding: 0 calc(var(--design-unit) * 2px + 1px);
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
+    padding: var(--spacingHorizontalS);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    border-radius: var(--borderRadiusMedium);
+    font-family: var(--fontFamilyBase);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
     width: 100%;
-    outline: none;
-    box-sizing: border-box;
-    position: relative;
-    color: inherit;
-    border: calc(var(--stroke-width) * 1px) solid transparent;
-    border-radius: calc(var(--control-corner-radius) * 1px);
-    height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    background: padding-box linear-gradient(var(--neutral-fill-input-rest),var(--neutral-fill-input-rest)),border-box var(--neutral-stroke-input-rest);
 }
+
+    .fluent-control:focus-within {
+        outline: 0;
+    }
+
+    .fluent-control::placeholder {
+        color: var(--colorNeutralForeground4);
+    }
+
 
 .nav-link {
     font: var(--fontWeightRegular) var(--fontSizeBase300) / var(--lineHeightBase300) var(--fontFamilyBase);
