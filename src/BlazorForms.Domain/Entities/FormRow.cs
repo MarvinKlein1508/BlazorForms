@@ -16,4 +16,31 @@ public class FormRow
     /// Gets or sets all columns for this row.
     /// </summary>
     public List<FormColumn> Columns { get; set; } = [];
+
+    public Form? Form { get; set; }
+
+    /// <summary>
+    /// Creates an empty row.
+    /// </summary>
+    public FormRow()
+    {
+
+    }
+    /// <summary>
+    /// Creates a new row with a specified amount of columns.
+    /// </summary>
+    /// <param name="columns"></param>
+    public FormRow(Form form, int columns)
+    {
+        Form = form;
+        for (int i = 0; i < columns; i++)
+        {
+            var column = new FormColumn(form)
+            {
+                Parent = this
+            };
+
+            Columns.Add(column);
+        }
+    }
 }

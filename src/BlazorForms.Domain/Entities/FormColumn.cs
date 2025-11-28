@@ -14,4 +14,16 @@ public class FormColumn
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
     public List<FormElementBase> Elements { get; set; } = [];
+    public FormRow? Parent { get; set; }
+    public Form? Form { get; set; }
+
+    public FormColumn()
+    {
+
+    }
+
+    public FormColumn(Form form)
+    {
+        Form = form;
+    }
 }

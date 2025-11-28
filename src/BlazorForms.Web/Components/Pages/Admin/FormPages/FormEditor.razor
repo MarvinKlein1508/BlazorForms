@@ -136,6 +136,8 @@
                         <div class="toolbar-wrapper">
                             <h4>Toolbar</h4>
                             <ul id="element-toolbar">
+                                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">New row</li>
+                                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">New colum</li>
                                 @foreach (var element in ToolbarElements)
                                 {
                                     <li class="toolbar-element">

@@ -14,6 +14,8 @@ public partial class FormEditor
     private FormRow? _activeDragFormRow;
     private FormColumn? _activeDragFormColumn;
     private FormElementBase? _activeDragFormElement;
+    private FormRow? _toolbarRow;
+    private FormColumn? _toolbarColumn;
 
     private readonly List<FormElementBase> _selectedFormElementStack = [];
     public static List<FormElementBase> ToolbarElements { get; } =
@@ -221,5 +223,25 @@ public partial class FormEditor
     {
         _activeDragFormElement = e.Source.Item;
         await InvokeAsync(StateHasChanged);
+    }
+    public void StartDragRowFromToolbar()
+    {
+        if (Input is not null)
+        {
+            _toolbarRow = new FormRow(Input, 1);
+            _dragFromToolbar = true;
+        }
+
+        StateHasChanged();
+    }
+    public void StartDragColumnFromToolbar()
+    {
+        if (Input is not null)
+        {
+            _toolbarColumn = new FormColumn(Input);
+            _dragFromToolbar = true;
+        }
+
+        StateHasChanged();
     }
 }
