@@ -8,17 +8,19 @@
 
 <div class="form-editor">
     <div class="form-editor-appbar">
-        
+        <FluentButton @onclick="CloseItemAsync">Back</FluentButton>
+        <FluentButton @onclick="() => _editFormProperties = true">Edit</FluentButton>
+        <FluentButton>Save</FluentButton>
     </div>
     <div class="form-editor-wrapper">
         @if (_selectedFormElement is not null && !_editFormProperties)
         {
             <div class="form-element-editor">
                 <FluentTabs>
-                    <FluentTab Label="General">
-                        <FluentField Value="@_selectedFormElement.GetElementType().ToString()" Label="Element type" ReadOnly />
+                    <FluentTab Header="General">
+                        <FluentTextInput Value="@_selectedFormElement.GetElementType().ToString()" Label="Element type" Disabled="true" />
 
-                        <FluentField @bind-Value="_selectedFormElement.Name" Label="Name" Required="true" Immediate />
+                        <FluentTextInput @bind-Value="_selectedFormElement.Name" Label="Name" Required="true" Immediate />
 
                         <div class="d-flex flex-column gap-2 mt-2 mb-2">
                             @if (_selectedFormElement is not FormLabelElement)
@@ -39,7 +41,7 @@
 
                             <FluentTextArea @bind-Value="textElement.RegexPattern" Label="Regex pattern" Immediate />
 
-                            <FluentField @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
+                            <FluentTextInput @bind-Value="textElement.RegexValidationMessage" Label="Regex error message" />
                         }
 
                     </FluentTab>
@@ -50,23 +52,23 @@
         {
             <div class="form-element-editor">
                 <FluentTabs>
-                    <FluentTab Label="General">
-                        <FluentField @bind-Value="_testForm.Name" Label="Name" Required="true" />
+                    <FluentTab Header="General">
+                        <FluentTextInput @bind-Value="_testForm.Name" Label="Name" Required="true" />
 
-                        <FluentField @bind-Value="_testForm.DefaultName" Label="Default name" />
+                        <FluentTextInput @bind-Value="_testForm.DefaultName" Label="Default name" />
 
                         <InputCkEditor @bind-Value="_testForm.Description" Label="Description" />
                     </FluentTab>
-                    <FluentTab Label="Permissions">
+                    <FluentTab Header="Permissions">
 
                     </FluentTab>
-                    <FluentTab Label="Manager">
+                    <FluentTab Header="Manager">
 
                     </FluentTab>
-                    <FluentTab Label="Logo">
+                    <FluentTab Header="Logo">
 
                     </FluentTab>
-                    <FluentTab Label="Image">
+                    <FluentTab Header="Image">
 
                     </FluentTab>
                 </FluentTabs>
