@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@Body
-<FluentTooltipProvider />
-<FluentDialogProvider />
-<FluentMenuProvider />
-<FluentToastProvider RemoveToastsOnNavigation="false" Position="ToastPosition.TopCenter" />
+<FluentErrorBoundary DisplayErrorDetails="ErrorBoundaryDetails.ErrorMessage" OnCloseRedirectUrl="/">
+    @Body
+</FluentErrorBoundary>
+<FluentProviders />
