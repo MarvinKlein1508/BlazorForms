@@ -12,10 +12,11 @@
     display: flex;
     flex-direction: column;
     height: 100dvh;
+    background-color: var(--colorNeutralBackground5);
 }
 
 .form-editor-wrapper {
-    background-color: var(--neutral-layer-2);
+    background-color: var(--colorNeutralBackground3);
     flex: 1;
 }
 
@@ -39,7 +40,6 @@
 .empty-zone {
     width: 100%;
     min-height: 50px;
-    background-color: yellow;
     height: 100%;
 }
 
@@ -79,13 +79,9 @@
 }
 
 .toolbar-wrapper {
-    background-color: var(--fill-color);
+    background-color: var(--colorNeutralBackground5);
     text-align: center;
 }
-
-    .toolbar-wrapper h4 {
-        padding-top: var(--base-padding);
-    }
 
 .toolbar-element {
     list-style: none;
@@ -95,8 +91,13 @@
     .toolbar-element > div {
         padding: calc(var(--base-padding) * 2);
         cursor: grab !important;
-        background-color: var(--neutral-layer-4);
+        background-color: var(--colorNeutralBackground2);
+        border-top: 1px solid var(--colorNeutralBackground1Selected);
     }
+
+        .toolbar-element > div:hover {
+            background-color: var(--colorNeutralBackground3Hover);
+        }
 
 #element-toolbar {
     padding: 0;
