@@ -14,8 +14,8 @@ public partial class FormEditor
     private FormRow? _activeDragFormRow;
     private FormColumn? _activeDragFormColumn;
     private FormElementBase? _activeDragFormElement;
-    private FormRow _toolbarRow = new();
-    private FormColumn? _toolbarColumn;
+    private readonly FormRow _toolbarRow = new();
+    private readonly FormColumn _toolbarColumn = new();
 
     private readonly List<FormElementBase> _selectedFormElementStack = [];
     public static List<FormElementBase> ToolbarElements { get; } =
@@ -67,13 +67,27 @@ public partial class FormEditor
 
     private void OnColumnDropEnd(FluentDragEventArgs<FormColumn> e)
     {
-        if (e.Source.Data is not FormRow sourceRow || e.Target.Data is not FormRow targetRow)
+        if (Input is null)
+        {
+            return;
+        }
+
+        var sourceRow = e.Source.Data as FormRow;
+        var targetRow = e.Target.Data as FormRow;
+
+        if (targetRow is null)
         {
             return;
         }
 
         var target = e.Target.Item;
         var source = e.Source.Item;
+
+        if (_dragFromToolbar)
+        {
+            source = new FormColumn(Input);
+        }
+
         int targetIndex = targetRow.Columns.IndexOf(target);
 
         if (sourceRow == targetRow)
@@ -83,7 +97,11 @@ public partial class FormEditor
         }
         else
         {
-            sourceRow.Columns.Remove(source);
+            if (!_dragFromToolbar && sourceRow is not null)
+            {
+                sourceRow.Columns.Remove(source);
+            }
+
             if (targetIndex != -1)
             {
                 targetRow.Columns.Insert(targetIndex, source);
@@ -135,7 +153,6 @@ public partial class FormEditor
         }
 
         _dragFromToolbar = false;
-        StateHasChanged();
         CleanToolbarDrag();
     }
 
@@ -224,6 +241,7 @@ public partial class FormEditor
         _activeDragFormColumn = null;
         _activeDragFormElement = null;
         _dragFromToolbar = false;
+        StateHasChanged();
     }
 
     private async void OnRowDragStart(FluentDragEventArgs<FormRow> e)
@@ -242,25 +260,5 @@ public partial class FormEditor
     {
         _activeDragFormElement = e.Source.Item;
         await InvokeAsync(StateHasChanged);
-    }
-    public void StartDragRowFromToolbar()
-    {
-        if (Input is not null)
-        {
-            _toolbarRow = new FormRow(Input, 1);
-            _dragFromToolbar = true;
-        }
-
-        StateHasChanged();
-    }
-    public void StartDragColumnFromToolbar()
-    {
-        if (Input is not null)
-        {
-            _toolbarColumn = new FormColumn(Input);
-            _dragFromToolbar = true;
-        }
-
-        StateHasChanged();
     }
 }

@@ -143,10 +143,17 @@
                         <div class="toolbar-wrapper">
                             <h4>Toolbar</h4>
                             <ul id="element-toolbar">
-                                <FluentDropZone StopPropagation="true" Item="_toolbarRow" OnDragStart="(e) => StartDragRowFromToolbar()" TItem="FormRow" Draggable="true" Droppable="false">
-                                    New row
-                                </FluentDropZone>
-                                
+                                <li class="toolbar-element">
+                                    <FluentDropZone StopPropagation="true" Item="_toolbarRow" OnDragStart="(e) => _dragFromToolbar = true" TItem="FormRow" Draggable="true" Droppable="false">
+                                        New row
+                                    </FluentDropZone>
+                                </li>
+                                <li class="toolbar-element">
+                                    <FluentDropZone StopPropagation="true" Item="_toolbarColumn" OnDragStart="(e) => _dragFromToolbar = true" TItem="FormColumn" Draggable="true" Droppable="false">
+                                        New column
+                                    </FluentDropZone>
+                                </li>
+
                                 @foreach (var element in ToolbarElements)
                                 {
                                     <li class="toolbar-element">
