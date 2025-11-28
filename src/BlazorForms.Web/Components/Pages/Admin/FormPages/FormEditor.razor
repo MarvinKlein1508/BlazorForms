@@ -99,45 +99,54 @@
                 <FluentDragContainer TItem="FormColumn" OnDropEnd="OnColumnDropEnd" OnDragStart="OnColumnDragStart" Class="dropzone">
                     <FluentDragContainer TItem="FormElementBase" OnDropEnd="OnDropElement" OnDragStart="OnElementDragStart" Class="dropzone form-editor-grid">
                         <div class="form-editor-content">
-                            @foreach (var row in Input.Rows)
+                            @if (Input.Rows.Count is 0)
                             {
-                                <FluentDropZone StopPropagation="true" Item="row" Class="form-row" Draggable="true" Droppable="true">
-                                    <span>Row: @row.RowId</span>
-                                    @if (row.Columns.Count == 0)
-                                    {
-                                        <FluentDropZone StopPropagation="true" Data="@row" TItem="FormColumn" Class="empty-zone" Draggable="false" Droppable="true" />
-                                    }
-                                    else
-                                    {
-                                        @foreach (var column in row.Columns)
+                                <FluentDropZone StopPropagation="true" TItem="FormRow" Class="empty-zone" Draggable="false" Droppable="true" />
+                            }
+                            else
+                            {
+                                @foreach (var row in Input.Rows)
+                                {
+                                    <FluentDropZone StopPropagation="true" Item="row" Class="form-row" Draggable="true" Droppable="true">
+                                        <span>Row: @row.RowId</span>
+                                        @if (row.Columns.Count == 0)
                                         {
-                                            <FluentDropZone StopPropagation="true" Item="column" Data="@row" Class="form-column form-editor-flex" Draggable="true" Droppable="true">
-                                                <span>Column: @column.ColumnId</span>
-                                                @if (column.Elements.Count == 0)
-                                                {
-                                                    <FluentDropZone StopPropagation="true" Data="@column" TItem="FormElementBase" Class="empty-zone" Draggable="false" Droppable="true" />
-                                                }
-                                                else
-                                                {
-                                                    @foreach (var element in column.Elements)
-                                                    {
-                                                        <FluentDropZone StopPropagation="true" Item="element" Data="@column" Class="form-element" Draggable="true" Droppable="true">
-                                                            <span>[@element.GetElementType()] @element.Name</span>
-                                                            <FluentButton OnClick="async () => await OpenFormElementAsync(element)" IconEnd="@(new Icons.Regular.Size20.Edit())" />
-                                                        </FluentDropZone>
-                                                    }
-                                                }
-                                            </FluentDropZone>
+                                            <FluentDropZone StopPropagation="true" Data="@row" TItem="FormColumn" Class="empty-zone" Draggable="false" Droppable="true" />
                                         }
-                                    }
-                                </FluentDropZone>
+                                        else
+                                        {
+                                            @foreach (var column in row.Columns)
+                                            {
+                                                <FluentDropZone StopPropagation="true" Item="column" Data="@row" Class="form-column form-editor-flex" Draggable="true" Droppable="true">
+                                                    <span>Column: @column.ColumnId</span>
+                                                    @if (column.Elements.Count == 0)
+                                                    {
+                                                        <FluentDropZone StopPropagation="true" Data="@column" TItem="FormElementBase" Class="empty-zone" Draggable="false" Droppable="true" />
+                                                    }
+                                                    else
+                                                    {
+                                                        @foreach (var element in column.Elements)
+                                                        {
+                                                            <FluentDropZone StopPropagation="true" Item="element" Data="@column" Class="form-element" Draggable="true" Droppable="true">
+                                                                <span>[@element.GetElementType()] @element.Name</span>
+                                                                <FluentButton OnClick="async () => await OpenFormElementAsync(element)" IconEnd="@(new Icons.Regular.Size20.Edit())" />
+                                                            </FluentDropZone>
+                                                        }
+                                                    }
+                                                </FluentDropZone>
+                                            }
+                                        }
+                                    </FluentDropZone>
+                                }
                             }
                         </div>
                         <div class="toolbar-wrapper">
                             <h4>Toolbar</h4>
                             <ul id="element-toolbar">
-                                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragRowFromToolbar">New row</li>
-                                <li draggable="true" class="toolbar-element" @ondragend="CleanToolbarDrag" @ondragstart="StartDragColumnFromToolbar">New colum</li>
+                                <FluentDropZone StopPropagation="true" Item="_toolbarRow" OnDragStart="(e) => StartDragRowFromToolbar()" TItem="FormRow" Draggable="true" Droppable="false">
+                                    New row
+                                </FluentDropZone>
+                                
                                 @foreach (var element in ToolbarElements)
                                 {
                                     <li class="toolbar-element">

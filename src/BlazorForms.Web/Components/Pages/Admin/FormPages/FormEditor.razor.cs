@@ -14,7 +14,7 @@ public partial class FormEditor
     private FormRow? _activeDragFormRow;
     private FormColumn? _activeDragFormColumn;
     private FormElementBase? _activeDragFormElement;
-    private FormRow? _toolbarRow;
+    private FormRow _toolbarRow = new();
     private FormColumn? _toolbarColumn;
 
     private readonly List<FormElementBase> _selectedFormElementStack = [];
@@ -36,12 +36,31 @@ public partial class FormEditor
     public Form? Input { get; set; }
     private void OnRowDropEnd(FluentDragEventArgs<FormRow> e)
     {
+        if (Input is null)
+        {
+            return;
+        }
+
         var target = e.Target.Item;
         var source = e.Source.Item;
 
+        if (_dragFromToolbar)
+        {
+            source = new FormRow(Input, 1);
+        }
+
         int targetIndex = Input.Rows.IndexOf(target);
 
-        Input.Rows.Remove(source);
+        if (targetIndex < 0)
+        {
+            targetIndex = 0;
+        }
+
+        if (!_dragFromToolbar)
+        {
+            Input.Rows.Remove(source);
+        }
+
         Input.Rows.Insert(targetIndex, source);
         CleanToolbarDrag();
     }
