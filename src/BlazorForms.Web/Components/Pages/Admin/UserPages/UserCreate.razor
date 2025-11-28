@@ -47,7 +47,7 @@
                         <ValidationMessage For="() => Input.Password" />
                     }
 
-                    <FluentSelect @bind-SelectedOption="Input.UserGroupId"
+                    <FluentSelect @bind-Value="Input.UserGroupId"
                                   Label="@Localizer.LABEL_USER_GROUP"
                                   Items="Enum.GetValues<UserGroup>()" />
                     <ValidationMessage For="() => Input.UserGroupId" />

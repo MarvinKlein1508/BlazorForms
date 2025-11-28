@@ -43,7 +43,7 @@
                     <FluentTextInput @bind-Value="Input.Username" Label="@Localizer.LABEL_USERNAME" Disabled="ActiveDirectoryMode" />
                     <ValidationMessage For="() => Input.Username" />
 
-                    <FluentSelect @bind-SelectedOption="Input.UserGroupId"
+                    <FluentSelect @bind-Value="Input.UserGroupId"
                                   Label="@Localizer.LABEL_USER_GROUP"
                                   Items="Enum.GetValues<UserGroup>()"
                                   Disabled="ActiveDirectoryMode" />
