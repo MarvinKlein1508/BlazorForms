@@ -1,43 +1,17 @@
-﻿@implements IDisposable
-<nav id="main-nav">
-    @foreach (var item in NavItems)
-    {
-        <NavMenuItem Item="item" />
-    }
-    <AuthorizeView>
+﻿<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="15" Style="width: 100%; position: relative;">
+    <FluentNav @ref="@nav" Style="width: 100%">
+        <FluentNavItem Href="/" Icon="@(new Icons.Regular.Size20.Board())">Home</FluentNavItem>
 
-        <Authorized>
-            <form action="Account/Logout" method="post">
-                <AntiforgeryToken />
-                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                <FluentButton Type="ButtonType.Submit" Style="width: 100%;">Logout</FluentButton>
-            </form>
-        </Authorized>
-
-        <NotAuthorized>
-            <a href="Account/Login" class="nav-link">Login</a>
-        </NotAuthorized>
-    </AuthorizeView>
-</nav>
+        <FluentNavCategory Title="Administration" Icon="@(new Icons.Regular.Size20.Settings())">
+            <FluentNavItem Href="/Admin/Users" Icon="@(new Icons.Regular.Size20.People())">Users</FluentNavItem>
+            <FluentNavItem Href="/Admin/Languages" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Languages</FluentNavItem>
+            <FluentNavItem Href="/Admin/Status" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Statuses</FluentNavItem>
+            <FluentNavItem Href="/Admin/Forms" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Forms</FluentNavItem>
+            <FluentNavItem Href="/Admin/Entries" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Entries</FluentNavItem>
+        </FluentNavCategory>
+    </FluentNav>
+</FluentStack>
 
 @code {
-    private string? currentUrl;
-
-    protected override void OnInitialized()
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;
-    }
-
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
+    private FluentNav nav = default!;
 }
-
