@@ -14,6 +14,12 @@
 
             <FluentSpacer />
 
+            @* DarkTheme *@
+            <FluentButton IconStart="@(new Icons.Regular.Size20.DarkTheme().WithColor("var(--colorNeutralForegroundOnBrand)"))"
+                          OnClick="@SwitchThemeAsync"
+                          Appearance="ButtonAppearance.Transparent"
+                          Title="Switch to Light/Dark theme" />
+
         </FluentStack>
     </FluentLayoutItem>
 
@@ -46,3 +52,4 @@
 </FluentLayout>
 
 <FluentProviders />
+
