@@ -1,6 +1,6 @@
-﻿<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="15" Style="width: 100%; position: relative;">
-    <FluentNav @ref="@nav" Style="width: 100%">
-        <FluentNavItem Href="/" Icon="@(new Icons.Regular.Size20.Board())">Home</FluentNavItem>
+﻿<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="15" Style="width: 100%; height: 100%; position: relative;">
+    <FluentNav @ref="@nav">
+        <FluentNavItem Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Board())">Home</FluentNavItem>
 
         <FluentNavCategory Title="Administration" Icon="@(new Icons.Regular.Size20.Settings())">
             <FluentNavItem Href="/Admin/Users" Icon="@(new Icons.Regular.Size20.People())">Users</FluentNavItem>
