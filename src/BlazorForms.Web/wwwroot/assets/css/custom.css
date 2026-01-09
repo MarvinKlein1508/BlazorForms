@@ -1,3 +1,24 @@
+:root {
+    --ck-color-base-background: var(--colorNeutralBackground2) !important;
+    --ck-color-text: var(--colorNeutralForeground2) !important;
+    --ck-color-base-border: var(--colorNeutralStrokeAccessible) !important;
+    --ck-color-button-default-hover-background: var(--colorNeutralBackground3) !important;
+    --ck-color-split-button-hover-background: var(--colorNeutralBackground3) !important;
+    --ck-color-button-default-active-background: var(--colorNeutralBackground3) !important;
+    --ck-color-button-on-hover-background: var(--colorNeutralBackground3) !important;
+    --ck-color-button-on-active-background: var(--colorNeutralBackground3) !important;
+    --ck-color-list-button-on-background: var(--colorNeutralBackground3) !important;
+    --ck-color-list-button-on-text: var(--colorNeutralForeground2) !important;
+}
+
+.ck-editor {
+    padding-top: var(--spacingVerticalXXS) !important;
+}
+
+.ck-content {
+    min-height: 300px;
+}
+
 .list {
     display: flex;
     padding: 1em;
@@ -92,3 +113,11 @@ fluent-text-input, fluent-field, fluent-dropdown, fluent-textarea {
     .nav-link:hover {
         background-color: var(--colorSubtleBackgroundHover);
     }
+
+.fluent-label {
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase300);
+    margin-bottom: var(--spacingVerticalXXS);
+}
