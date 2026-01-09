@@ -2,12 +2,13 @@ using BlazorForms.Domain.Entities.Elements;
 
 namespace BlazorForms.Domain.Entities;
 
-public class Form : IDbModel<int?>
+public class Form : IDbModel<int?>, IDbParameterizable
 {
     public int FormId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string DefaultName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public bool LoginRequired { get; set; }
     public bool IsActive { get; set; }
     public int DefaultStatusId { get; set; }
     public int LanguageId { get; set; }
@@ -53,4 +54,20 @@ public class Form : IDbModel<int?>
     }
 
     public int? GetIdentifier() => FormId > 0 ? FormId : null;
+
+    public Dictionary<string, object?> GetParameters()
+    {
+        return new Dictionary<string, object?>
+        {
+            { "FORM_ID", FormId },
+            { "NAME", Name },
+            { "DESCRIPTION", Description },
+            { "LOGO", Logo },
+            { "LOGIN_REQUIRED", LoginRequired },
+            { "IS_ACTIVE", IsActive },
+            { "DEFAULT_STATUS_ID", DefaultStatusId },
+            { "LANGUAGE_ID", LanguageId },
+            { "DEFAULT_NAME", DefaultName },
+        };
+    }
 }

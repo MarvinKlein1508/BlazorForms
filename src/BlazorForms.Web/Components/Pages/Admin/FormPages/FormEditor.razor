@@ -1,6 +1,7 @@
 ﻿@namespace BlazorForms.Web.Components
 @using BlazorForms.Domain.Entities.Elements
 @using BlazorForms.Domain.Entities
+@using System.Globalization
 @inject IDialogService DialogService
 <SectionContent SectionName="additional-css">
     <link rel="stylesheet" href="@Assets["/assets/css/form-editor.css"]" />
@@ -68,24 +69,47 @@
                         <FluentTextInput @bind-Value="Input.DefaultName" Label="Default name" />
 
                         <label class="fluent-label">Description</label>
-                        <InputCkEditor @bind-Value="Input.Description" Label="Description" />
-                    </FluentTab>
-                    <FluentTab Header="Permissions">
+                        <InputCkEditor @bind-Value="Input.Description" />
 
-                    </FluentTab>
-                    <FluentTab Header="Manager">
+                        <FluentSelect @bind-Value:get="CurrentFormLanguage"
+                                      @bind-Value:set="(item) => {
+                                      Input.LanguageId = item?.LanguageId ?? 0;
+                                      EditContext.NotifyFieldChanged(new FieldIdentifier(Input, nameof(Input.LanguageId)));
+                                  }"
+                                  Items="Storage.Get<Language>()"
+                                  Label="Language"
+                                  OptionText="(item) => item?.Name" />
 
-                    </FluentTab>
-                    <FluentTab Header="Logo">
+                        <FluentSelect @bind-Value:get="CurrentDefaultFormStatus"
+                                      @bind-Value:set="(item) => {
+                                      Input.DefaultStatusId = item?.StatusId ?? 0;
+                                      EditContext.NotifyFieldChanged(new FieldIdentifier(Input, nameof(Input.DefaultStatusId)));
+                                  }"
+                                  Items="Storage.Get<FormStatus>()"
+                                  Label="Default status"
+                                  OptionText="(item) => {
+                                      var description = item.GetLocalization(CultureInfo.CurrentCulture);
+                                      return description?.Name;
+                                  }" />
 
-                    </FluentTab>
-                    <FluentTab Header="Image">
+                    <FluentSwitch @bind-Value="Input.IsActive" Label="Active" />
+                </FluentTab>
+                <FluentTab Header="Permissions">
+                    <FluentSwitch @bind-Value="Input.LoginRequired" Label="Login required to fill out" />
+                </FluentTab>
+                <FluentTab Header="Manager">
 
-                    </FluentTab>
-                </FluentTabs>
-            </div>
-        }
-        else
+                </FluentTab>
+                <FluentTab Header="Logo">
+
+                </FluentTab>
+                <FluentTab Header="Image">
+
+                </FluentTab>
+            </FluentTabs>
+        </div>
+                }
+                else
         {
             <div class="delete-wrapper delete-wrapper-mobile @GetDeleteWrapperClass()">
                 <div class="delete-zone"

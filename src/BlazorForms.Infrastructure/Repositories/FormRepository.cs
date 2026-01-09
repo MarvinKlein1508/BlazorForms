@@ -6,9 +6,46 @@ namespace BlazorForms.Infrastructure.Repositories;
 
 public sealed class FormRepository(FormRowRepository _formRowRepository) : IModelService<Form, int?, FormFilter>
 {
-    public Task CreateAsync(Form input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Form input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        string sql =
+            $"""
+            INSERT INTO forms
+            (
+                name,
+                description,
+                logo,
+                image,
+                login_required,
+                is_active,
+                default_status_id,
+                language_id,
+                default_name
+            )
+            VALUES
+            (
+                @NAME,
+                @DESCRIPTION,
+                @LOGO,
+                @IMAGE,
+                @LOGIN_REQUIRED,
+                @IS_ACTIVE,
+                @DEFAULT_STATUS_ID,
+                @LANGUAGE_ID,
+                @DEFAULT_NAME
+            ) RETURNING form_id
+            """;
+
+        var command = new CommandDefinition
+        (
+            commandText: sql,
+            commandType: CommandType.Text,
+            parameters: input.GetParameters(),
+            transaction: transaction,
+            cancellationToken: cancellationToken
+        );
+
+        input.FormId = await connection.ExecuteScalarAsync<int>(command);
     }
 
     public Task DeleteAsync(Form input, IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)

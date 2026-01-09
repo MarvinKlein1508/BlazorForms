@@ -1,6 +1,8 @@
 using BlazorForms.Domain.Entities;
 using BlazorForms.Domain.Entities.Elements;
+using BlazorForms.Infrastructure;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorForms.Web.Components;
@@ -16,6 +18,11 @@ public partial class FormEditor
     private FormElementBase? _activeDragFormElement;
     private readonly FormRow _toolbarRow = new();
     private readonly FormColumn _toolbarColumn = new();
+
+    [CascadingParameter]
+    public required EditContext EditContext { get; set; }
+    private Language? CurrentFormLanguage => Storage.Get<Language, int?>(Input.LanguageId);
+    private FormStatus? CurrentDefaultFormStatus => Storage.Get<FormStatus, int?>(Input.DefaultStatusId);
 
     private readonly List<FormElementBase> _selectedFormElementStack = [];
     public static List<FormElementBase> ToolbarElements { get; } =
