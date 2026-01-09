@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-
 namespace CKEditor;
 
 public partial class InputCkEditor : IAsyncDisposable
@@ -50,6 +49,7 @@ public partial class InputCkEditor : IAsyncDisposable
             _sb.Clear();
             Value = value;
             await ValueChanged.InvokeAsync(Value);
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
         }
     }
 
