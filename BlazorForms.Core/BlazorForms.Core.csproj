@@ -19,18 +19,18 @@
 		<PackageReference Include="DbController.MySql" Version="5.0.0" />
 		<PackageReference Include="DbController.TypeHandler" Version="5.0.0" />
 		<PackageReference Include="dbup-mysql" Version="6.1.0" />
-		<PackageReference Include="FluentValidation" Version="12.1.0" />
-		<PackageReference Include="itext" Version="9.4.0" />
-		<PackageReference Include="itext.bouncy-castle-adapter" Version="9.4.0" />
-		<PackageReference Include="itext.pdfhtml" Version="6.3.0" />
-		<PackageReference Include="MailKit" Version="4.14.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.0" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
+		<PackageReference Include="itext" Version="9.5.0" />
+		<PackageReference Include="itext.bouncy-castle-adapter" Version="9.5.0" />
+		<PackageReference Include="itext.pdfhtml" Version="6.3.1" />
+		<PackageReference Include="MailKit" Version="4.15.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
