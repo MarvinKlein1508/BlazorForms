@@ -32,11 +32,11 @@ public static class Storage
         new FormLabelElement { Name = "Label"}
     ];
 
-    public static bool IsLdapLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
-    public static bool IsLocalLoginEnabled => _configuration?.GetSection("LdapSettings").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
-    public static string LdapServer => _configuration?["LdapSettings:LDAP_SERVER"] ?? string.Empty;
-    public static string LdapDomainServer => _configuration?["LdapSettings:DOMAIN_SERVER"] ?? string.Empty;
-    public static string LdapDistinguishedName => _configuration?["LdapSettings:DistinguishedName"] ?? string.Empty;
+    public static bool IsLdapLoginEnabled => _configuration?.GetSection("LdapOptions").GetValue<bool>("ENABLE_LDAP_LOGIN") ?? false;
+    public static bool IsLocalLoginEnabled => _configuration?.GetSection("LdapOptions").GetValue<bool>("ENABLE_LOCAL_LOGIN") ?? false;
+    public static string LdapServer => _configuration?["LdapOptions:LDAP_SERVER"] ?? string.Empty;
+    public static string LdapDomainServer => _configuration?["LdapOptions:DOMAIN_SERVER"] ?? string.Empty;
+    public static string LdapDistinguishedName => _configuration?["LdapOptions:DistinguishedName"] ?? string.Empty;
     public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
 
     public static void RegisterProvider(string name, Func<Dictionary<Type, object>, IDbController, Task> provider)
