@@ -2,6 +2,7 @@ using BlazorBootstrap;
 using BlazorForms.Core;
 using BlazorForms.Core.Constants;
 using BlazorForms.Core.Extensions;
+using BlazorForms.Core.Infrastructure;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
 using BlazorForms.Core.Pdf;
@@ -9,9 +10,7 @@ using DbController;
 using DbController.MySql;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MimeKit;
 using System.Globalization;
-using Priority = BlazorForms.Core.Enums.Priority;
 
 namespace BlazorForms.Components.Pages
 {
@@ -197,11 +196,9 @@ namespace BlazorForms.Components.Pages
                 }
 
                 // E-Mail support
-                if (emailConfig.Value.Enabled && createEntry && Input.Form.ManagerUsers.Count != 0)
+                if (createEntry && Input.Form.ManagerUsers.Count != 0)
                 {
-                    MimeMessage email = new();
-                    email.From.Add(new MailboxAddress(emailConfig.Value.SenderName, emailConfig.Value.SenderEmail));
-
+                    EmailMessage message = new();
                     var status = Storage.Get<FormStatus, int?>(Input.Form.DefaultStatusId) ?? throw new NullReferenceException($"Status cannot be null");
 
                     foreach (var manager in Input.Form.ManagerUsers)
@@ -211,31 +208,25 @@ namespace BlazorForms.Components.Pages
                         {
                             if (manager.EmailEnabled && StringExtensions.IsEmail(manager.Email))
                             {
-                                email.To.Add(new MailboxAddress(manager.Email, manager.Email));
-
+                                message.To.Add(manager.Email);
                             }
                         }
                     }
 
-                    if (email.To.Count != 0)
+                    if (message.To.Count != 0)
                     {
-                        email.Subject = String.Format(localizer["EMAIL_NEW_ENTRY_SUBJECT"], Input.Form.Name);
+                        message.Subject = String.Format(localizer["EMAIL_NEW_ENTRY_SUBJECT"], Input.Form.Name);
 
-                        email.Priority = Input.Priority switch
-                        {
-                            Priority.Low => MessagePriority.NonUrgent,
-                            Priority.Normal => MessagePriority.Normal,
-                            Priority.High => MessagePriority.Urgent,
-                            _ => MessagePriority.Normal,
-                        };
+                        //email.Priority = Input.Priority switch
+                        //{
+                        //    Priority.Low => MessagePriority.NonUrgent,
+                        //    Priority.Normal => MessagePriority.Normal,
+                        //    Priority.High => MessagePriority.Urgent,
+                        //    _ => MessagePriority.Normal,
+                        //};
 
                         ReportFormEntry entry = await ReportFormEntry.CreateAsync(Input);
                         var bytes = entry.GetBytes();
-
-                        var body = new TextPart("html")
-                        {
-                            Text = string.Format(localizer["EMAIL_NEW_ENTRY_BODY"], Input.Form.Name, navigationManager.BaseUri, Input.EntryId)
-                        };
 
                         string filename = Input.Name;
 
@@ -244,31 +235,12 @@ namespace BlazorForms.Components.Pages
                             filename = $"{Input.Form.Name}_{Input.EntryId}";
                         }
 
-                        using MemoryStream memoryStream = new(bytes);
-                        // create an image attachment for the file located at path
-                        var attachment = new MimePart("application", "pdf")
-                        {
-                            Content = new MimeContent(memoryStream),
-                            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                            ContentTransferEncoding = ContentEncoding.Base64,
-                            FileName = $"{filename}.pdf"
-                        };
-
-                        // now create the multipart/mixed container to hold the message text and the
-                        // image attachment
-                        var multipart = new Multipart("mixed")
-                        {
-                            body,
-                            attachment
-                        };
-
-                        // now set the multipart/mixed as the message body
-                        email.Body = multipart;
-
+                        message.Attachments.Add((filename, bytes));
+                        message.Body = string.Format(localizer["EMAIL_NEW_ENTRY_BODY"], Input.Form.Name, navigationManager.BaseUri, Input.EntryId);
+                       
                         try
                         {
-                            EmailExtensions.SendMail(email, emailConfig.Value);
-
+                            await emailService.SendAsync(message);
                         }
                         catch (Exception ex)
                         {
@@ -284,8 +256,6 @@ namespace BlazorForms.Components.Pages
         }
         private async Task OpenStatusModalAsync()
         {
-
-
             await _statusModal.ShowAsync();
         }
         private async Task OnEntryStatusSavedAsync(FormEntryStatusChange newStatus)
@@ -306,7 +276,7 @@ namespace BlazorForms.Components.Pages
             foreach (var extension in fileElement.AcceptedFileTypes)
             {
                 string blank_extension = extension.Replace(".", string.Empty).ToLower();
-                if (Storage.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
+                if (AppSettings.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
                 {
                     allowedMimeTypes.Add(mimeType);
                 }
@@ -325,7 +295,7 @@ namespace BlazorForms.Components.Pages
 
 
                 // Check file extension in MimeType list
-                if (!Storage.MimeTypes.TryGetValue(extension, out var mimeType))
+                if (!AppSettings.MimeTypes.TryGetValue(extension, out var mimeType))
                 {
                     await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_INVALID_FILETYPE"]);
                     continue;

@@ -2,9 +2,9 @@ using BlazorDownloadFile;
 using BlazorForms.Components;
 using BlazorForms.Core;
 using BlazorForms.Core.Database;
+using BlazorForms.Core.Infrastructure;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Services;
-using BlazorForms.Core.Settings;
 using Dapper;
 using DbController;
 using DbController.MySql;
@@ -55,10 +55,25 @@ builder.Services.AddLocalization(options =>
     options.ResourcesPath = "Languages";
 });
 
+builder.Services.AddSingleton<IEmailSender, GraphSender>();
+builder.Services.AddSingleton<IEmailSender, SmtpSender>();
+builder.Services.AddSingleton<IEmailSender, NoneSender>();
+builder.Services.AddSingleton<IEmailSenderFactory, EmailSenderFactory>();
+builder.Services.AddScoped<EmailService>();
+
 builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), false, true);
 
-builder.Services.AddOptions<EmailSettings>()
-    .Bind(config.GetRequiredSection(EmailSettings.SectionName));
+builder.Services.AddOptions<AppSettings>()
+    .Bind(config.GetRequiredSection(AppSettings.SectionName));
+
+builder.Services.AddOptions<LdapOptions>()
+    .Bind(config.GetRequiredSection(LdapOptions.SectionName));
+
+builder.Services.AddOptions<GraphOptions>()
+    .Bind(config.GetRequiredSection(GraphOptions.SectionName));
+
+builder.Services.AddOptions<SmtpOptions>()
+    .Bind(config.GetRequiredSection(SmtpOptions.SectionName));
 
 #if DEBUG
 builder.Configuration.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.development.json"), true, true);

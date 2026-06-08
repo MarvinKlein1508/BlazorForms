@@ -1,6 +1,7 @@
 using BlazorForms.Core;
 using BlazorForms.Core.Extensions;
 using BlazorForms.Core.Filters;
+using BlazorForms.Core.Infrastructure;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
 using BlazorForms.Core.Services;
@@ -52,7 +53,7 @@ namespace BlazorForms.Components.Pages.Admin.Forms
                 return false;
             }
 
-            if (!Storage.MimeTypes.TryGetValue(fileType, out var _))
+            if (!AppSettings.MimeTypes.TryGetValue(fileType, out var _))
             {
                 await JSRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_INVALID_FILETYPE"]);
                 return false;

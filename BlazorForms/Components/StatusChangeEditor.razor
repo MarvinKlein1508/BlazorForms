@@ -4,8 +4,9 @@
 @inject UserService userService
 @inject AuthService authService
 @inject NavigationManager navigationManager
-@inject IOptions<EmailSettings> emailSettings
 @inject IStringLocalizer<StatusChangeEditor> localizer
+@inject IOptions<AppSettings> appSettings
+@inject EmailService emailService
 @if (Input is not null)
 {
     <EditForm Model="Input" @ref="_form">
@@ -27,7 +28,7 @@
             <label for="status-comment">@localizer["LABEL_COMMENT"]</label>
             <ValidationMessage For="() => Input.Comment" />
         </div>
-        @if (emailSettings.Value.Enabled && Input.Notifiers.Any())
+        @if (appSettings.Value.MailProvider is not MailProvider.None && Input.Notifiers.Any())
         {
             <h4>@localizer["HEADING_NOTIFY"]</h4>
             <div class="notify-container mb-3">

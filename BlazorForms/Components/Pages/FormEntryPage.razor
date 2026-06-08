@@ -6,8 +6,8 @@
 @inject AuthService authService
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
-@inject IOptions<EmailSettings> emailConfig
 @inject IStringLocalizer<FormEntryPage> localizer
+@inject EmailService emailService
 
 @if (Input is not null && Input.Form is not null)
 {
@@ -106,7 +106,7 @@
                                                     @* Style wird über das Input gestezt, da es über razor.css nicht funktioniert *@
                                                     <InputFile id="@($"form-{element.Guid}")"
                                                                multiple="@formFileElement.AllowMultipleFiles"
-                                                               accept="@formFileElement.GetAcceptTypesDefinition(Storage.MimeTypes)"
+                                                               accept="@formFileElement.GetAcceptTypesDefinition(AppSettings.MimeTypes)"
                                                                OnChange="(e) => UploadFileAsync(formFileElement, e)"
                                                                style="opacity: 0; width: 100%; cursor: pointer;" />
                                                 </div>
