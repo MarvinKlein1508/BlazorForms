@@ -1,6 +1,7 @@
 using BlazorForms.Core;
 using BlazorForms.Core.Constants;
 using BlazorForms.Core.Extensions;
+using BlazorForms.Core.Infrastructure;
 using BlazorForms.Core.Models;
 using DbController;
 using DbController.MySql;
@@ -163,7 +164,7 @@ namespace BlazorForms.Components
 
 
                 // Send E-Mails
-                if (emailSettings.Value.Enabled && Input.Notifiers.Any(x => x.Notify))
+                if (appSettings.Value.MailProvider is not MailProvider.None && Input.Notifiers.Any(x => x.Notify))
                 {
                     List<string> email_addresses = [];
 
@@ -175,7 +176,7 @@ namespace BlazorForms.Components
 
                     if (email_addresses.Count != 0)
                     {
-                        await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
+                        //await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
                     }
                 }
 

@@ -6,8 +6,8 @@
 @inject AuthService authService
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
-@inject IOptions<EmailSettings> emailConfig
 @inject IStringLocalizer<FormEntryPage> localizer
+@inject EmailService emailService
 
 @if (Input is not null && Input.Form is not null)
 {
