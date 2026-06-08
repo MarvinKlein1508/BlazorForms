@@ -8,6 +8,9 @@ using DbController.MySql;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MimeKit;
+using System.Buffers.Text;
+using System.Globalization;
+using static iText.IO.Util.IntHashtable;
 
 namespace BlazorForms.Components
 {
@@ -162,7 +165,6 @@ namespace BlazorForms.Components
                     throw;
                 }
 
-
                 // Send E-Mails
                 if (appSettings.Value.MailProvider is not MailProvider.None && Input.Notifiers.Any(x => x.Notify))
                 {
@@ -176,12 +178,42 @@ namespace BlazorForms.Components
 
                     if (email_addresses.Count != 0)
                     {
-                        //await Input.SendMailForEntryStatusChangeAsync(email_addresses, Entry, navigationManager.BaseUri, emailSettings.Value);
-                    }
-                }
+                        EmailMessage message = new();
+                        foreach (var emailAdress in email_addresses)
+                        {
+                            bool hasBeenAddedAlready = message.Bcc.Any(address => address == emailAdress);
+                            if (!hasBeenAddedAlready && StringExtensions.IsEmail(emailAdress))
+                            {
+                                message.Bcc.Add(emailAdress);
+                            }
+                        }
 
-                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
-                await OnSaved.InvokeAsync(Input);
+                        if (message.Bcc.Count != 0)
+                        {
+                            message.Subject = $"Statusänderung des Formulareintrags {Entry.Name} ({Entry.EntryId})";
+
+                            var status = Storage.Get<FormStatus, int?>(Input.StatusId);
+                            var status_description = status?.GetLocalization(CultureInfo.CurrentCulture) ?? new();
+
+                            message.Body =
+$"""
+Der Status des Formulareintrages {Entry.Name} für das Formular {Entry.Form.Name} wurde geändert. 
+<br /><br />
+Neuer Status: {status_description.Name}<br />
+Kommentar: <br />
+{Input.Comment.Nl2Br()}
+<br /><br />
+<a href="{navigationManager.BaseUri}Entry/{Entry.EntryId}">Klicken Sie hier</a> um den Formulareintrag einzusehen
+
+<p><strong>Diese E-Mail wurde maschinell erstellt. Bitte antworten Sie nicht auf diese. Nutzen Sie stattdessen den obenstehenden Link.</strong></p>
+""";
+                            await emailService.SendAsync(message);
+                        }
+                    }
+
+                    await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
+                    await OnSaved.InvokeAsync(Input);
+                }
             }
         }
     }

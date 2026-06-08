@@ -6,6 +6,7 @@
 @inject NavigationManager navigationManager
 @inject IStringLocalizer<StatusChangeEditor> localizer
 @inject IOptions<AppSettings> appSettings
+@inject EmailService emailService
 @if (Input is not null)
 {
     <EditForm Model="Input" @ref="_form">
