@@ -1,4 +1,5 @@
-﻿using BlazorForms.Core.Interfaces;
+﻿using BlazorForms.Core.Infrastructure;
+using BlazorForms.Core.Interfaces;
 using BlazorForms.Core.Models;
 using BlazorForms.Core.Models.FormElements;
 using BlazorForms.Core.Services;
@@ -37,7 +38,7 @@ public static class Storage
     public static string LdapServer => _configuration?["LdapOptions:LDAP_SERVER"] ?? string.Empty;
     public static string LdapDomainServer => _configuration?["LdapOptions:DOMAIN_SERVER"] ?? string.Empty;
     public static string LdapDistinguishedName => _configuration?["LdapOptions:DistinguishedName"] ?? string.Empty;
-    public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
+    public static int PageLimit => _configuration?.GetSection(AppSettings.SectionName)?.GetValue<int>("PageLimit") ?? 30;
 
     public static void RegisterProvider(string name, Func<Dictionary<Type, object>, IDbController, Task> provider)
     {
