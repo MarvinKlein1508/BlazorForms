@@ -37,8 +37,6 @@ public static class Storage
     public static string LdapServer => _configuration?["LdapSettings:LDAP_SERVER"] ?? string.Empty;
     public static string LdapDomainServer => _configuration?["LdapSettings:DOMAIN_SERVER"] ?? string.Empty;
     public static string LdapDistinguishedName => _configuration?["LdapSettings:DistinguishedName"] ?? string.Empty;
-
-    public static Dictionary<string, string> MimeTypes => _configuration?.GetSection("MimeTypes").GetChildren().ToDictionary(x => x.Key, x => x.Value!) ?? [];
     public static int PageLimit => _configuration?.GetValue<int>("PageLimit") ?? 30;
 
     public static void RegisterProvider(string name, Func<Dictionary<Type, object>, IDbController, Task> provider)

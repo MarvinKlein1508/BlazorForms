@@ -276,7 +276,7 @@ namespace BlazorForms.Components.Pages
             foreach (var extension in fileElement.AcceptedFileTypes)
             {
                 string blank_extension = extension.Replace(".", string.Empty).ToLower();
-                if (Storage.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
+                if (AppSettings.MimeTypes.TryGetValue(blank_extension, out var mimeType) && mimeType is not null)
                 {
                     allowedMimeTypes.Add(mimeType);
                 }
@@ -295,7 +295,7 @@ namespace BlazorForms.Components.Pages
 
 
                 // Check file extension in MimeType list
-                if (!Storage.MimeTypes.TryGetValue(extension, out var mimeType))
+                if (!AppSettings.MimeTypes.TryGetValue(extension, out var mimeType))
                 {
                     await jsRuntime.ShowToastAsync(ToastType.error, localizer["ERROR_UPLOAD_INVALID_FILETYPE"]);
                     continue;
