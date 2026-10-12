@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
 using BlazorForms.Infrastructure;
 using BlazorForms.Infrastructure.Database;
+using BlazorForms.Domain;
+using Microsoft.AspNetCore.Identity;
+using BlazorForms.Infrastructure.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -37,6 +40,33 @@ var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 var result = await dbInitializer.InitializeAsync();
 
 await Storage.InitAsync(config);
+
+////
+//// Create a test user
+////
+//var userRepository = app.Services.GetRequiredService<UserRepository>();
+//var dbFactory = app.Services.GetRequiredService<IDbConnectionFactory>();
+//using var connection = await dbFactory.CreateConnectionAsync();
+//User user = new User
+//{
+//    AccountType = AccountType.Internal,
+//    Username = "admin",
+//    Password = "admin",
+//    DisplayName = "Admin",
+//    IsActive = true,
+//    Email = "admin@localhost",
+//    Salt = SaltGenerator.GenerateSaltBase64(),
+//    Role = UserRole.Administrator,
+//};
+
+//PasswordHasher<User> hasher = new();
+//string passwordHashed = hasher.HashPassword(user, user.Password + user.Salt);
+//user.Password = passwordHashed;
+//await userRepository.CreateAsync(user, connection);
+
+////
+//// End create test user
+////
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

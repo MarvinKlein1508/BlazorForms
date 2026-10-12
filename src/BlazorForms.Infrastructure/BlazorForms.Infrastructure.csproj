@@ -8,6 +8,7 @@
 
 
     <ItemGroup>
+        <EmbeddedResource Include="Database\Scripts\0000002_DEFAULT_USER.sql" />
         <EmbeddedResource Include="Database\Scripts\0000001_TABLE_USERS.sql" />
     </ItemGroup>
 
