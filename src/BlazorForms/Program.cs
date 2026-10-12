@@ -17,11 +17,20 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-builder.Services.AddFluentUIComponents(config =>
+builder.Services.AddFluentUIComponents(options =>
 {
-    config.DefaultValues.For<FluentTextArea>().Set(p => p.Width, "100%");
-    config.DefaultValues.For<FluentSwitch>().Set(p => p.Margin, "0");
-    config.DefaultValues.For<FluentCheckbox>().Set(p => p.Margin, "0");
+    options.DefaultValues.ForAny<FluentDataGrid<object>>().Set(p => p.DisplayMode, DataGridDisplayMode.Table);
+    options.DefaultValues.ForAny<FluentDataGrid<object>>().Set(p => p.RowSize, DataGridRowSize.Medium);
+    options.DefaultValues.ForAny<FluentTextInput>().Set(p => p.Width, "100%");
+    options.DefaultValues.For<FluentStack>().Set(p => p.HorizontalGap, "10px");
+    options.DefaultValues.For<FluentStack>().Set(p => p.VerticalGap, "10px");
+    options.DefaultValues.For<FluentSwitch>().Set(p => p.Padding, "0");
+    options.DefaultValues.For<FluentSwitch>().Set(p => p.Margin, "0");
+    options.DefaultValues.For<FluentCheckbox>().Set(p => p.Padding, "0");
+    options.DefaultValues.For<FluentCheckbox>().Set(p => p.Margin, "0");
+
+    options.Toast.AllowDismiss = true;
+    options.Toast.Position = ToastPosition.TopCenter;
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)

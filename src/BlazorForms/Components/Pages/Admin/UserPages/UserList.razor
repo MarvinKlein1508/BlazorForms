@@ -1,0 +1,69 @@
+﻿@page "/admin/users"
+@inherits ListPageBase<User, UserRepository, UserFilter>
+
+<PageTitle>Benutzerliste</PageTitle>
+
+<FluentStack HorizontalAlignment="HorizontalAlignment.End" Class="mb-2">
+    <FluentAnchorButton Href="@($"/admin/users/create")"
+                        IconStart="@(new Icons.Filled.Size20.PersonAdd())"
+                        Appearance="ButtonAppearance.Primary">
+        Neuer Benutzer
+    </FluentAnchorButton>
+</FluentStack>
+
+<div class="row">
+
+    <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
+        <FluentCard>
+            <h4>Filter</h4>
+
+            <EditForm Model="Filter" OnValidSubmit="async () => await RefreshItemsAsync(new GridItemsProviderRequest<User>() { StartIndex = 0 })">
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentTextInput @bind-Value="Filter.SearchPhrase" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
+
+                    <FluentButton Type="ButtonType.Submit" IconStart="@(new Icons.Regular.Size20.Search())"
+                                  Appearance="ButtonAppearance.Primary">
+                        Suchen
+                    </FluentButton>
+                </FluentStack>
+
+            </EditForm>
+        </FluentCard>
+    </div>
+
+    <div class="col-lg-9">
+        <FluentPaginator State="_pagination" SummaryTemplate="@SharedFragments.EmptyPaginationTemplate" />
+        <div style="display: table; table-layout: fixed; width: 100%;">
+            <div style="overflow-x: auto;">
+                <FluentDataGrid Items="Items"
+                                RefreshItems="RefreshItemsAsync"
+                                Loading="_isLoading"
+                                RowSize="@DataGridRowSize.Medium"
+                                DisplayMode="DataGridDisplayMode.Table"
+                                Pagination="_pagination"
+                                StripedRows="true"
+                                Style="min-width: 100%; width: auto !important;">
+                    <PropertyColumn Property="@(p => p.UserId)" Title="Id" />
+                    <PropertyColumn Property="@(p => p.DisplayName)" Title="Name" />
+                    <PropertyColumn Property="@(p => p.Email)" Title="E-Mail" />
+                    <TemplateColumn Title="Status">
+                        @if (context.IsActive)
+                        {
+                            <FluentBadge Color="BadgeColor.Success" Content="Aktiv" />
+                        }
+                        else
+                        {
+                            <FluentBadge Color="BadgeColor.Danger" Content="Inaktiv" />
+                        }
+                    </TemplateColumn>
+                    <TemplateColumn Title="Aktionen" Width="120px" Pin="DataGridColumnPin.End">
+                        <FluentAnchorButton Href="@($"/admin/users/edit?id={context.GetIdentifier()}")">
+                            Bearbeiten
+                        </FluentAnchorButton>
+                    </TemplateColumn>
+                </FluentDataGrid>
+            </div>
+        </div>
+        <FluentPaginator State="_pagination" />
+    </div>
+</div>
