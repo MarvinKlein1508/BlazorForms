@@ -1,0 +1,33 @@
+﻿@page "/account/loginwith2fa"
+@inherits BlazorFormsPageBase
+@attribute [ExcludeFromInteractiveRouting]
+@attribute [AllowAnonymous]
+@layout EmptyLayout
+@inject UserRepository userRepository
+
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+	<div class="row w-100 justify-content-center">
+		<div class="col-12 col-sm-10 col-md-6 col-lg-4">
+			@if (!string.IsNullOrWhiteSpace(_errorMessage))
+			{
+				<FluentMessageBar Intent="@MessageBarIntent.Error" AllowDismiss="false" Class="mb-2 mt-2">
+					@_errorMessage
+				</FluentMessageBar>
+			}
+			<FluentCard>
+				<FluentText Size="TextSize.Size600">Zwei-Faktor-Authentifizierung</FluentText>
+				<EditForm Model="Input" OnValidSubmit="HandleVerify" FormName="login-with-2fa">
+					<DataAnnotationsValidator />
+					<ValidationSummary class="text-danger" role="alert" />
+
+					<FluentTextInput Name="Input.TwoFactorCode" @bind-Value="Input.TwoFactorCode" Label="Verifizierungscode" Width="100%" Style="width:100%;" Required="true" />
+
+					<FluentButton Type="ButtonType.Submit" Style="width: 100%">Anmelden</FluentButton>
+
+				</EditForm>
+			</FluentCard>
+		</div>
+	</div>
+</div>
+
+

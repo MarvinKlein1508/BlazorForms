@@ -59,7 +59,7 @@ public partial class Login
         {
             await HttpContext.SetTwoFactorCookieAsync(user);
             redirectManager.RedirectTo(
-                "Account/LoginWith2fa",
+                "account/loginwith2fa",
                 new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
         }
         else
