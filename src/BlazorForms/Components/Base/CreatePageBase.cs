@@ -1,7 +1,7 @@
 using BlazorForms.Domain;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Web.Components;
+namespace BlazorForms.Components;
 
 public abstract class CreatePageBase<TModel, TRepository, TIdentifier> : BlazorFormsPageBase
     where TModel : class, IDbModel<TIdentifier>, new()

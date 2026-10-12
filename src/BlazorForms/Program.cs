@@ -1,4 +1,4 @@
-using BlazorForms.Web.Components;
+using BlazorForms.Components;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -16,8 +16,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddFluentUIComponents(config =>
 {
-    config.DefaultValues.For<FluentStack>().Set(p => p.HorizontalGap, FluentConstants.FLUENTSTACK_HORIZONTAL_GAP);
-    config.DefaultValues.For<FluentStack>().Set(p => p.VerticalGap, FluentConstants.FLUENTSTACK_VERTICAL_GAP);
     config.DefaultValues.For<FluentTextArea>().Set(p => p.Width, "100%");
     config.DefaultValues.For<FluentSwitch>().Set(p => p.Margin, "0");
     config.DefaultValues.For<FluentCheckbox>().Set(p => p.Margin, "0");
@@ -67,11 +65,11 @@ accountGroup.MapPost("/Logout", async (HttpContext context) =>
     return Results.LocalRedirect("/Account/Login");
 });
 
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(Storage.SupportedCultures[0].Name)
-    .AddSupportedCultures(Storage.SupportedCultureCodes)
-    .AddSupportedUICultures(Storage.SupportedCultureCodes);
+//var localizationOptions = new RequestLocalizationOptions()
+//    .SetDefaultCulture(Storage.SupportedCultures[0].Name)
+//    .AddSupportedCultures(Storage.SupportedCultureCodes)
+//    .AddSupportedUICultures(Storage.SupportedCultureCodes);
 
-app.UseRequestLocalization(localizationOptions);
+//app.UseRequestLocalization(localizationOptions);
 
 app.Run();

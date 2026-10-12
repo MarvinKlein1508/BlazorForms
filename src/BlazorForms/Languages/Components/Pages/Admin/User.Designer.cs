@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BlazorForms.Web.Languages.Components {
+namespace BlazorForms.Languages.Components.Pages.Admin {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace BlazorForms.Web.Languages.Components {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class App {
+    public class User {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal App() {
+        internal User() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BlazorForms.Web.Languages.Components {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Web.Languages.Components.App", typeof(App).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Languages.Components.Pages.Admin.User", typeof(User).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,119 +61,128 @@ namespace BlazorForms.Web.Languages.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Administration.
+        ///   Looks up a localized string similar to Users.
         /// </summary>
-        public static string BREADCRUMB_ADMINISTRATION {
+        public static string BREADCRUMB_LIST {
             get {
-                return ResourceManager.GetString("BREADCRUMB_ADMINISTRATION", resourceCulture);
+                return ResourceManager.GetString("BREADCRUMB_LIST", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Home.
+        ///   Looks up a localized string similar to Delete user.
         /// </summary>
-        public static string BREADCRUMB_HOME {
+        public static string BUTTON_DELETE_USER {
             get {
-                return ResourceManager.GetString("BREADCRUMB_HOME", resourceCulture);
+                return ResourceManager.GetString("BUTTON_DELETE_USER", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New.
+        ///   Looks up a localized string similar to New user.
         /// </summary>
-        public static string BREADCRUMB_NEW {
+        public static string BUTTON_NEW_USER {
             get {
-                return ResourceManager.GetString("BREADCRUMB_NEW", resourceCulture);
+                return ResourceManager.GetString("BUTTON_NEW_USER", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
+        ///   Looks up a localized string similar to New user.
         /// </summary>
-        public static string BUTTON_BACK {
+        public static string CREATE_PAGE_TITLE {
             get {
-                return ResourceManager.GetString("BUTTON_BACK", resourceCulture);
+                return ResourceManager.GetString("CREATE_PAGE_TITLE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to ActiveDirectoryGuid.
         /// </summary>
-        public static string BUTTON_CANCEL {
+        public static string LABEL_ACTIVE_DIRECTORY_GUID {
             get {
-                return ResourceManager.GetString("BUTTON_CANCEL", resourceCulture);
+                return ResourceManager.GetString("LABEL_ACTIVE_DIRECTORY_GUID", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to Display name.
         /// </summary>
-        public static string BUTTON_EDIT {
+        public static string LABEL_DISPLAY_NAME {
             get {
-                return ResourceManager.GetString("BUTTON_EDIT", resourceCulture);
+                return ResourceManager.GetString("LABEL_DISPLAY_NAME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
-        public static string BUTTON_OPTIONS {
+        public static string LABEL_EMAIL {
             get {
-                return ResourceManager.GetString("BUTTON_OPTIONS", resourceCulture);
+                return ResourceManager.GetString("LABEL_EMAIL", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string BUTTON_SAVE {
+        public static string LABEL_PASSWORD {
             get {
-                return ResourceManager.GetString("BUTTON_SAVE", resourceCulture);
+                return ResourceManager.GetString("LABEL_PASSWORD", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search.
+        ///   Looks up a localized string similar to User group.
         /// </summary>
-        public static string BUTTON_SEARCH {
+        public static string LABEL_USER_GROUP {
             get {
-                return ResourceManager.GetString("BUTTON_SEARCH", resourceCulture);
+                return ResourceManager.GetString("LABEL_USER_GROUP", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Id.
+        ///   Looks up a localized string similar to Username.
         /// </summary>
-        public static string LABEL_ID {
+        public static string LABEL_USERNAME {
             get {
-                return ResourceManager.GetString("LABEL_ID", resourceCulture);
+                return ResourceManager.GetString("LABEL_USERNAME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search filter.
+        ///   Looks up a localized string similar to Users.
         /// </summary>
-        public static string LABEL_SEARCH_FILTER {
+        public static string LIST_PAGE_TITLE {
             get {
-                return ResourceManager.GetString("LABEL_SEARCH_FILTER", resourceCulture);
+                return ResourceManager.GetString("LIST_PAGE_TITLE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search phrase.
+        ///   Looks up a localized string similar to This account is linked to Active Directory. Therefore, you cannot edit all properties..
         /// </summary>
-        public static string LABEL_SEARCHPHRASE {
+        public static string MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT {
             get {
-                return ResourceManager.GetString("LABEL_SEARCHPHRASE", resourceCulture);
+                return ResourceManager.GetString("MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No entries.
+        ///   Looks up a localized string similar to Username, display name, email.
         /// </summary>
-        public static string NO_ENTRIES {
+        public static string SEARCH_PHRASE_PLACEHOLDER {
             get {
-                return ResourceManager.GetString("NO_ENTRIES", resourceCulture);
+                return ResourceManager.GetString("SEARCH_PHRASE_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string TAB_GENERAL {
+            get {
+                return ResourceManager.GetString("TAB_GENERAL", resourceCulture);
             }
         }
     }

@@ -3,7 +3,7 @@ using BlazorForms.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace BlazorForms.Web.Components;
+namespace BlazorForms.Components;
 
 public abstract class ListPageBase<TModel, TRepository, TFilter> : BlazorFormsPageBase
     where TModel : class, new()

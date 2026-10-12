@@ -1,0 +1,22 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+    <File Path="README.MD" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/BlazorForms.Domain/BlazorForms.Domain.csproj" />
+    <Project Path="src/BlazorForms.Infrastructure/BlazorForms.Infrastructure.csproj" />
+    <Project Path="src/BlazorForms/BlazorForms.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Platform Project="AnyCPU" />
+    <Build />
+  </Project>
+</Solution>

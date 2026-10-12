@@ -1,16 +1,15 @@
 using BlazorForms.Domain;
-using BlazorForms.Infrastructure.Auth;
 using BlazorForms.Infrastructure.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorForms.Web.Components;
+namespace BlazorForms.Components;
 
 public abstract class BlazorFormsPageBase : ComponentBase
 {
-    [Inject] protected AuthService AuthService { get; set; } = default!;
+    //[Inject] protected AuthService AuthService { get; set; } = default!;
     [Inject] protected IDbConnectionFactory DbFactory { get; set; } = default!;
     [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
     [Inject] protected IJSRuntime JSRuntime { get; set; } = default!;
@@ -22,7 +21,7 @@ public abstract class BlazorFormsPageBase : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentUser = await AuthService.GetUserAsync();
+        //CurrentUser = await AuthService.GetUserAsync();
         //Log.Information("Visit: {url}; UserId: {user}", NavigationManager.Uri, CurrentUser?.DisplayName.ToString() ?? "<UNBEKANNT>");
     }
 }

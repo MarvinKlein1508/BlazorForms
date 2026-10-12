@@ -2,7 +2,7 @@ using BlazorForms.Domain;
 using BlazorForms.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorForms.Web.Components;
+namespace BlazorForms.Components;
 
 public abstract class EditPageBase<TModel, TRepository, TIdentifier> : BlazorFormsPageBase
     where TModel : class, IDbModel<TIdentifier>, new()

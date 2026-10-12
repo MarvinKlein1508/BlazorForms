@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BlazorForms.Web.Languages.Components.Pages.Admin {
+namespace BlazorForms.Languages.Components.Pages.Admin {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class User {
+    public class FormStatus {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal User() {
+        internal FormStatus() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Web.Languages.Components.Pages.Admin.User", typeof(User).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Languages.Components.Pages.Admin.FormStatus", typeof(FormStatus).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Users.
+        ///   Looks up a localized string similar to Form statuses.
         /// </summary>
         public static string BREADCRUMB_LIST {
             get {
@@ -70,25 +70,16 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete user.
+        ///   Looks up a localized string similar to Delete status.
         /// </summary>
-        public static string BUTTON_DELETE_USER {
+        public static string BUTTON_DELETE_STATUS {
             get {
-                return ResourceManager.GetString("BUTTON_DELETE_USER", resourceCulture);
+                return ResourceManager.GetString("BUTTON_DELETE_STATUS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New user.
-        /// </summary>
-        public static string BUTTON_NEW_USER {
-            get {
-                return ResourceManager.GetString("BUTTON_NEW_USER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New user.
+        ///   Looks up a localized string similar to New form status.
         /// </summary>
         public static string CREATE_PAGE_TITLE {
             get {
@@ -97,61 +88,52 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ActiveDirectoryGuid.
+        ///   Looks up a localized string similar to Description.
         /// </summary>
-        public static string LABEL_ACTIVE_DIRECTORY_GUID {
+        public static string LABEL_DESCRIPTION {
             get {
-                return ResourceManager.GetString("LABEL_ACTIVE_DIRECTORY_GUID", resourceCulture);
+                return ResourceManager.GetString("LABEL_DESCRIPTION", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display name.
+        ///   Looks up a localized string similar to Is completed.
         /// </summary>
-        public static string LABEL_DISPLAY_NAME {
+        public static string LABEL_IS_COMPLETE {
             get {
-                return ResourceManager.GetString("LABEL_DISPLAY_NAME", resourceCulture);
+                return ResourceManager.GetString("LABEL_IS_COMPLETE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string LABEL_EMAIL {
+        public static string LABEL_NAME {
             get {
-                return ResourceManager.GetString("LABEL_EMAIL", resourceCulture);
+                return ResourceManager.GetString("LABEL_NAME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Requires approval.
         /// </summary>
-        public static string LABEL_PASSWORD {
+        public static string LABEL_REQUIRES_APPROVAL {
             get {
-                return ResourceManager.GetString("LABEL_PASSWORD", resourceCulture);
+                return ResourceManager.GetString("LABEL_REQUIRES_APPROVAL", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User group.
+        ///   Looks up a localized string similar to Sort order.
         /// </summary>
-        public static string LABEL_USER_GROUP {
+        public static string LABEL_SORT_ORDER {
             get {
-                return ResourceManager.GetString("LABEL_USER_GROUP", resourceCulture);
+                return ResourceManager.GetString("LABEL_SORT_ORDER", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Username.
-        /// </summary>
-        public static string LABEL_USERNAME {
-            get {
-                return ResourceManager.GetString("LABEL_USERNAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Users.
+        ///   Looks up a localized string similar to Form statuses.
         /// </summary>
         public static string LIST_PAGE_TITLE {
             get {
@@ -160,29 +142,20 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This account is linked to Active Directory. Therefore, you cannot edit all properties..
+        ///   Looks up a localized string similar to New form status.
         /// </summary>
-        public static string MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT {
+        public static string NEW_STATUS {
             get {
-                return ResourceManager.GetString("MESSAGE_ACTIVE_DIRECTORY_CONNECTED_ACCOUNT", resourceCulture);
+                return ResourceManager.GetString("NEW_STATUS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Username, display name, email.
+        ///   Looks up a localized string similar to Status name.
         /// </summary>
         public static string SEARCH_PHRASE_PLACEHOLDER {
             get {
                 return ResourceManager.GetString("SEARCH_PHRASE_PLACEHOLDER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to General.
-        /// </summary>
-        public static string TAB_GENERAL {
-            get {
-                return ResourceManager.GetString("TAB_GENERAL", resourceCulture);
             }
         }
     }

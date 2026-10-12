@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlazorForms.Web.Controllers;
+namespace BlazorForms.Controllers;
 
 [Route("[controller]/[action]")]
 public class CultureController : Controller

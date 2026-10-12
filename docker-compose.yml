@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY-}blazorformsweb
     build:
       context: .
-      dockerfile: src/BlazorForms.Web/Dockerfile
+      dockerfile: src/BlazorForms/Dockerfile
     depends_on:
       postgres:
         condition: service_healthy

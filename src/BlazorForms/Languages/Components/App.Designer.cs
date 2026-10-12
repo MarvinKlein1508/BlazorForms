@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BlazorForms.Web.Languages.Components.Pages.Admin {
+namespace BlazorForms.Languages.Components {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class FormStatus {
+    public class App {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal FormStatus() {
+        internal App() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Web.Languages.Components.Pages.Admin.FormStatus", typeof(FormStatus).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorForms.Languages.Components.App", typeof(App).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,101 +61,119 @@ namespace BlazorForms.Web.Languages.Components.Pages.Admin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Form statuses.
+        ///   Looks up a localized string similar to Administration.
         /// </summary>
-        public static string BREADCRUMB_LIST {
+        public static string BREADCRUMB_ADMINISTRATION {
             get {
-                return ResourceManager.GetString("BREADCRUMB_LIST", resourceCulture);
+                return ResourceManager.GetString("BREADCRUMB_ADMINISTRATION", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete status.
+        ///   Looks up a localized string similar to Home.
         /// </summary>
-        public static string BUTTON_DELETE_STATUS {
+        public static string BREADCRUMB_HOME {
             get {
-                return ResourceManager.GetString("BUTTON_DELETE_STATUS", resourceCulture);
+                return ResourceManager.GetString("BREADCRUMB_HOME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New form status.
+        ///   Looks up a localized string similar to New.
         /// </summary>
-        public static string CREATE_PAGE_TITLE {
+        public static string BREADCRUMB_NEW {
             get {
-                return ResourceManager.GetString("CREATE_PAGE_TITLE", resourceCulture);
+                return ResourceManager.GetString("BREADCRUMB_NEW", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Description.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        public static string LABEL_DESCRIPTION {
+        public static string BUTTON_BACK {
             get {
-                return ResourceManager.GetString("LABEL_DESCRIPTION", resourceCulture);
+                return ResourceManager.GetString("BUTTON_BACK", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is completed.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string LABEL_IS_COMPLETE {
+        public static string BUTTON_CANCEL {
             get {
-                return ResourceManager.GetString("LABEL_IS_COMPLETE", resourceCulture);
+                return ResourceManager.GetString("BUTTON_CANCEL", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
-        public static string LABEL_NAME {
+        public static string BUTTON_EDIT {
             get {
-                return ResourceManager.GetString("LABEL_NAME", resourceCulture);
+                return ResourceManager.GetString("BUTTON_EDIT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requires approval.
+        ///   Looks up a localized string similar to Options.
         /// </summary>
-        public static string LABEL_REQUIRES_APPROVAL {
+        public static string BUTTON_OPTIONS {
             get {
-                return ResourceManager.GetString("LABEL_REQUIRES_APPROVAL", resourceCulture);
+                return ResourceManager.GetString("BUTTON_OPTIONS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort order.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string LABEL_SORT_ORDER {
+        public static string BUTTON_SAVE {
             get {
-                return ResourceManager.GetString("LABEL_SORT_ORDER", resourceCulture);
+                return ResourceManager.GetString("BUTTON_SAVE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Form statuses.
+        ///   Looks up a localized string similar to Search.
         /// </summary>
-        public static string LIST_PAGE_TITLE {
+        public static string BUTTON_SEARCH {
             get {
-                return ResourceManager.GetString("LIST_PAGE_TITLE", resourceCulture);
+                return ResourceManager.GetString("BUTTON_SEARCH", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New form status.
+        ///   Looks up a localized string similar to Id.
         /// </summary>
-        public static string NEW_STATUS {
+        public static string LABEL_ID {
             get {
-                return ResourceManager.GetString("NEW_STATUS", resourceCulture);
+                return ResourceManager.GetString("LABEL_ID", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status name.
+        ///   Looks up a localized string similar to Search filter.
         /// </summary>
-        public static string SEARCH_PHRASE_PLACEHOLDER {
+        public static string LABEL_SEARCH_FILTER {
             get {
-                return ResourceManager.GetString("SEARCH_PHRASE_PLACEHOLDER", resourceCulture);
+                return ResourceManager.GetString("LABEL_SEARCH_FILTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search phrase.
+        /// </summary>
+        public static string LABEL_SEARCHPHRASE {
+            get {
+                return ResourceManager.GetString("LABEL_SEARCHPHRASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No entries.
+        /// </summary>
+        public static string NO_ENTRIES {
+            get {
+                return ResourceManager.GetString("NO_ENTRIES", resourceCulture);
             }
         }
     }
