@@ -162,7 +162,7 @@ public class UserRepository : IModelService<User, int?, UserFilter>
             FROM users
             WHERE 1 = 1 {GetFilterWhere(filter)}  
             ORDER BY user_id DESC
-            LIMIT {filter.Limit} OFFSET {(filter.PageNumber - 1) * filter.Limit} 
+            LIMIT {filter.PageSize} OFFSET {(filter.Page - 1) * filter.PageSize} 
             """;
 
         var command = new CommandDefinition
@@ -180,8 +180,8 @@ public class UserRepository : IModelService<User, int?, UserFilter>
         var response = new PagedResponse<User>
         {
             Items = results.AsList(),
-            Page = filter.PageNumber,
-            PageSize = filter.Limit,
+            Page = filter.Page,
+            PageSize = filter.PageSize,
             Total = total
         };
 

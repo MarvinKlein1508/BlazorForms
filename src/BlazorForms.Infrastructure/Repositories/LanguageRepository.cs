@@ -30,7 +30,7 @@ public class LanguageRepository : IModelService<Language, int?, LanguageFilter>
             FROM languages
             WHERE 1 = 1 {GetFilterWhere(filter)}  
             ORDER BY sort_order DESC
-            LIMIT {filter.Limit} OFFSET {(filter.PageNumber - 1) * filter.Limit} 
+            LIMIT {filter.PageSize} OFFSET {(filter.Page - 1) * filter.PageSize} 
             """;
 
         var command = new CommandDefinition
@@ -48,8 +48,8 @@ public class LanguageRepository : IModelService<Language, int?, LanguageFilter>
         var response = new PagedResponse<Language>
         {
             Items = results.AsList(),
-            Page = filter.PageNumber,
-            PageSize = filter.Limit,
+            Page = filter.Page,
+            PageSize = filter.PageSize,
             Total = total
         };
 

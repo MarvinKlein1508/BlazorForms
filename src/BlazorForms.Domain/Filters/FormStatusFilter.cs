@@ -2,10 +2,11 @@ using System.Globalization;
 
 namespace BlazorForms.Domain;
 
-public class FormStatusFilter : PageFilterBase
+public class FormStatusFilter : PagedFilter, IDbParameterizable
 {
+    public string? SearchPhrase { get; set; }
     public string LanguageCode => CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-    public override Dictionary<string, object?> GetParameters()
+    public Dictionary<string, object?> GetParameters()
     {
         return new Dictionary<string, object?>
         {

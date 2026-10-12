@@ -61,4 +61,8 @@
         </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Pages\Admin\" />
+    </ItemGroup>
+
 </Project>

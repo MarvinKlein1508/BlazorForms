@@ -67,7 +67,7 @@ public sealed class FormRepository(FormRowRepository _formRowRepository) : IMode
             FROM forms
             WHERE 1 = 1 {GetFilterWhere(filter)}  
             ORDER BY form_id DESC
-            LIMIT {filter.Limit} OFFSET {(filter.PageNumber - 1) * filter.Limit} 
+            LIMIT {filter.PageSize} OFFSET {(filter.Page - 1) * filter.PageSize} 
             """;
 
         var command = new CommandDefinition
@@ -85,8 +85,8 @@ public sealed class FormRepository(FormRowRepository _formRowRepository) : IMode
         var response = new PagedResponse<Form>
         {
             Items = results.AsList(),
-            Page = filter.PageNumber,
-            PageSize = filter.Limit,
+            Page = filter.Page,
+            PageSize = filter.PageSize,
             Total = total
         };
 

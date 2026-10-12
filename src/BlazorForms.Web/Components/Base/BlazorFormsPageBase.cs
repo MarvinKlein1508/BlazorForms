@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorForms.Web.Components.Base;
+namespace BlazorForms.Web.Components;
 
 public abstract class BlazorFormsPageBase : ComponentBase
 {

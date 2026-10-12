@@ -1,8 +1,9 @@
 namespace BlazorForms.Domain;
 
-public class FormFilter : PageFilterBase
+public class FormFilter : PagedFilter, IDbParameterizable
 {
-    public override Dictionary<string, object?> GetParameters()
+    public string? SearchPhrase { get; set; }
+    public Dictionary<string, object?> GetParameters()
     {
         return new Dictionary<string, object?>
         {

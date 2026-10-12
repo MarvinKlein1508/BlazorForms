@@ -195,8 +195,8 @@ public class FormStatusRepository(FormStatusDescriptionRepository _formStatusDes
         var response = new PagedResponse<FormStatus>
         {
             Items = list,
-            Page = filter.PageNumber,
-            PageSize = filter.Limit,
+            Page = filter.Page,
+            PageSize = filter.PageSize,
             Total = total
         };
 

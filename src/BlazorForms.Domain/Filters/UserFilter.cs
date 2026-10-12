@@ -1,12 +1,14 @@
 namespace BlazorForms.Domain;
 
-public class UserFilter : PageFilterBase
+public class UserFilter : PagedFilter, IDbParameterizable
 {
-    public override Dictionary<string, object?> GetParameters()
+    public string? SearchPhrase { get; set; }
+
+    public Dictionary<string, object?> GetParameters()
     {
         return new Dictionary<string, object?>
         {
-            { "SEARCH_PHRASE", $"%{SearchPhrase.ToUpper()}%" }
+            { "SEARCH_PHRASE", $"%{SearchPhrase?.ToUpper()}%" }
         };
     }
 }
