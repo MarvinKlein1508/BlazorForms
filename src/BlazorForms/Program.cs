@@ -105,11 +105,11 @@ accountGroup.MapGet("/logout", async (HttpContext context) =>
     return Results.LocalRedirect("/account/login");
 });
 
-//var localizationOptions = new RequestLocalizationOptions()
-//    .SetDefaultCulture(Storage.SupportedCultures[0].Name)
-//    .AddSupportedCultures(Storage.SupportedCultureCodes)
-//    .AddSupportedUICultures(Storage.SupportedCultureCodes);
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(BlazorFormConstants.SupportedCultures[0].Name)
+    .AddSupportedCultures(BlazorFormConstants.SupportedCultureCodes)
+    .AddSupportedUICultures(BlazorFormConstants.SupportedCultureCodes);
 
-//app.UseRequestLocalization(localizationOptions);
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();

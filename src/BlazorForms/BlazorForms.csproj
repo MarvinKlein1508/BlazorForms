@@ -36,6 +36,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>App.resx</DependentUpon>
         </Compile>
+        <Compile Update="Languages\Components\Pages\Account\Login.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Login.resx</DependentUpon>
+        </Compile>
         <Compile Update="Languages\Components\Pages\Admin\FormStatus.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -52,6 +57,10 @@
         <EmbeddedResource Update="Languages\Components\App.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
             <LastGenOutput>App.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Languages\Components\Pages\Account\Login.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Login.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Languages\Components\Pages\Admin\FormStatus.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>

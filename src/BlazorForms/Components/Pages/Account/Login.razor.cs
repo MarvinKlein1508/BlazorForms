@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using BlazorForms.Domain;
 using Microsoft.AspNetCore.Components;
+using Localizer = BlazorForms.Languages.Components.Pages.Account.Login;
 
 namespace BlazorForms.Components.Pages.Account;
 
@@ -45,15 +46,15 @@ public partial class Login
 
         if (user is null)
         {
-            _errorMessage = "Username oder Passwort ist falsch.";
+            _errorMessage = Localizer.ERROR_WRONG_CREDENTIALS;
         }
         else if (!user.IsActive)
         {
-            _errorMessage = "Ihr Konto ist deaktiviert. Bitte wenden Sie sich an den Administrator.";
+            _errorMessage = Localizer.ERROR_DISABLED_ACCOUNT;
         }
         else if (user.LockoutEnd is not null && user.LockoutEnd > DateTimeOffset.UtcNow)
         {
-            _errorMessage = $"Ihr Konto ist gesperrt bis {user.LockoutEnd.Value.LocalDateTime}.";
+            _errorMessage = string.Join(Localizer.ERROR_ACCOUNT_LOCKED, user.LockoutEnd.Value.LocalDateTime);
         }
         else if (user.TwoFactorEnabled && !HttpContext.IsIPAddressWhitelisted())
         {

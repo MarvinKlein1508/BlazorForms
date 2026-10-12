@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace BlazorForms.Infrastructure;
 
 public static class BlazorFormConstants
@@ -9,4 +11,16 @@ public static class BlazorFormConstants
     /// https://github.com/microsoft/fluentui-blazor/issues/4743
     /// </summary>
     public const int FLUENTUI_SEARCH_DELAY_IN_MS = 5;
+
+    public static CultureInfo[] SupportedCultures { get; private set; } = [];
+    public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
+
+    static BlazorFormConstants()
+    {
+        SupportedCultures =
+        [
+            new CultureInfo("en"),
+            new CultureInfo("de")
+        ];
+    }
 }

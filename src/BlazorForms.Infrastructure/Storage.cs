@@ -1,7 +1,6 @@
 using BlazorForms.Infrastructure.Database;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Globalization;
 
 namespace BlazorForms.Infrastructure;
 
@@ -9,8 +8,6 @@ public static class Storage
 {
     private static IConfiguration? _configuration;
     private static readonly Dictionary<Type, object> _storage = [];
-    public static List<CultureInfo> SupportedCultures { get; private set; } = [];
-    public static string[] SupportedCultureCodes => SupportedCultures.Select(x => x.Name).ToArray();
     public static async Task InitAsync(IConfiguration configuration)
     {
         _configuration = configuration;

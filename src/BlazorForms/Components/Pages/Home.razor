@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Globalization
 @inherits BlazorFormsPageBase
 <PageTitle>Home</PageTitle>
 
@@ -14,3 +15,5 @@ else
 {
     <p>CurrentUser: @CurrentUser.DisplayName (@CurrentUser.UserId)</p>
 }
+
+<p>Culture: @CultureInfo.CurrentCulture.NativeName</p>

@@ -6,6 +6,7 @@
 @inject UserRepository userRepository
 @inject LoginService loginService
 @inject RedirectManager redirectManager
+@using Localizer = BlazorForms.Languages.Components.Pages.Account.Login
 
 <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
     <div class="row w-100 justify-content-center">
@@ -30,8 +31,8 @@
                                      @bind-Value="Input.Username"
                                      AutoComplete="username"
                                      Required="true"
-                                     Placeholder="Username"
-                                     Label="Username"
+                                     Placeholder="@Localizer.INPUT_USERNAME_PLACEHOLDER"
+                                     Label="@Localizer.INPUT_USERNAME_LABEL"
                                      Width="100%;"
                                      Autofocus
                                      Style="width: 100%;" />
@@ -42,8 +43,8 @@
                                      @bind-Value="Input.Password"
                                      AutoComplete="current-password"
                                      Required="true"
-                                     Placeholder="Passwort"
-                                     Label="Passwort"
+                                     Placeholder="@Localizer.INPUT_PASSWORD_PLACEHOLDER"
+                                     Label="@Localizer.INPUT_PASSWORD_LABEL"
                                      Width="100%;"
                                      Style="width: 100%;" />
                     <ValidationMessage For="() => Input.Password" class="text-danger" />
@@ -51,20 +52,19 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="6px" Class="mb-3">
                         <label>
                             <InputCheckbox @bind-Value="Input.UseLdap" />
-                            Verwende Active Directory
+                            @Localizer.INPUT_USE_ACTIVE_DIRECTORY_LABEL
                         </label>
 
                         <label>
                             <InputCheckbox @bind-Value="Input.RememberMe" />
-                            Angemeldet bleiben
+                            @Localizer.INPUT_REMEMBER_ME_LABEL
                         </label>
                     </FluentStack>
 
                     @* Not yet supported in FluentUI. See: https://github.com/microsoft/fluentui-blazor/issues/4473 *@
-                    @* <FluentSwitch Name="Input.UseLdap" @bind-Value="Input.UseLdap" Label="Verwende Active Directory" />
-				<FluentCheckbox Name="Input.RememberMe" @bind-Value="Input.RememberMe" Label="Angemeldet bleiben" /> *@
-                    <FluentButton Type="ButtonType.Submit" Style="width: 100%">Anmelden</FluentButton>
-
+                    @* <FluentSwitch Name="Input.UseLdap" @bind-Value="Input.UseLdap" Label="@Localizer.INPUT_USE_ACTIVE_DIRECTORY_LABEL" />
+				<FluentCheckbox Name="Input.RememberMe" @bind-Value="Input.RememberMe" Label="@Localizer.INPUT_REMEMBER_ME_LABEL" /> *@
+                    <FluentButton Type="ButtonType.Submit" Style="width: 100%">@Localizer.BUTTON_LOGIN</FluentButton>
                 </EditForm>
             </FluentCard>
         </div>
