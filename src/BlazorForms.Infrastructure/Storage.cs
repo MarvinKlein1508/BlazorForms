@@ -18,20 +18,6 @@ public static class Storage
 
         var dbFactory = new NpgsqlConnectionFactory(connectionString);
         using var connection = await dbFactory.CreateConnectionAsync();
-
-        
-        foreach (var language in Get<Language>())
-        {
-            try
-            {
-                // Could crash here when there is an invalid language code within the database.
-                SupportedCultures.Add(new CultureInfo(language.Code));
-            }
-            catch (Exception)
-            {
-
-            }
-        }
     }
 
     /// <summary>

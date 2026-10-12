@@ -8,17 +8,7 @@
 
 
     <ItemGroup>
-        <EmbeddedResource Include="Database\Scripts\0000001_TABLE_LANGUAGES.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000002_DEFAULT_LANGUAGES.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000003_TABLE_USER_GROUPS.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000004_DEFAULT_USER_GROUPS.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000005_TABLE_USERS.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000006_TABLE_FORM_STATUS.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000007_TABLE_FORM_STATUS_DESCRIPTION.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000008_DEFAULT_FORM_STATUS.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000011_TABLE_FORM.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000010_RESEED.sql" />
-        <EmbeddedResource Include="Database\Scripts\0000009_DEFAULT_FORM_STATUS_DESCRIPTION.sql" />
+        <EmbeddedResource Include="Database\Scripts\0000001_TABLE_USERS.sql" />
     </ItemGroup>
 
     <ItemGroup>
