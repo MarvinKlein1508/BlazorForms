@@ -88,12 +88,12 @@ app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-var accountGroup = app.MapGroup("/Account");
+var accountGroup = app.MapGroup("/account");
 
-accountGroup.MapPost("/Logout", async (HttpContext context) =>
+accountGroup.MapPost("/logout", async (HttpContext context) =>
 {
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-    return Results.LocalRedirect("/Account/Login");
+    return Results.LocalRedirect("/account/login");
 });
 
 //var localizationOptions = new RequestLocalizationOptions()
