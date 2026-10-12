@@ -1,0 +1,32 @@
+services:
+  blazorforms.web:
+    image: ${DOCKER_REGISTRY-}blazorformsweb
+    build:
+      context: .
+      dockerfile: src/BlazorForms.Web/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=BlazorForms;Username=blazorforms;Password=${POSTGRES_PASSWORD}"
+
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: BlazorForms
+      POSTGRES_USER: blazorforms
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blazorforms -d BlazorForms"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:

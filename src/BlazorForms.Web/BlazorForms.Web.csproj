@@ -6,11 +6,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>c2a77e26-b6c2-4698-b8d1-4a58dfc672d5</UserSecretsId>
         <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
+        <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
         <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     </ItemGroup>
 
     <ItemGroup>
