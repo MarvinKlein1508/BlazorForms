@@ -11,12 +11,11 @@
     </FluentAnchorButton>
 </FluentStack>
 
-<div class="row">
-
-    <div class="col-lg-3 col-sm-12 order-lg-3 mb-3">
+<FluentGrid>
+    <FluentGridItem Lg="3">
         <FluentCard>
             <h4>Filter</h4>
-            
+
             <EditForm Model="Filter" OnValidSubmit="async () => await RefreshItemsAsync(new GridItemsProviderRequest<User>() { StartIndex = 0 })">
                 <FluentStack Orientation="Orientation.Vertical">
                     <FluentTextInput @bind-Value="Filter.SearchPhrase" Label="Suchbegriff" Placeholder="Name, E-Mail" Autofocus />
@@ -29,9 +28,8 @@
 
             </EditForm>
         </FluentCard>
-    </div>
-
-    <div class="col-lg-9">
+    </FluentGridItem>
+    <FluentGridItem Lg="9">
         <FluentPaginator State="_pagination" SummaryTemplate="@SharedFragments.EmptyPaginationTemplate" />
         <div style="display: table; table-layout: fixed; width: 100%;">
             <div style="overflow-x: auto;">
@@ -65,5 +63,6 @@
             </div>
         </div>
         <FluentPaginator State="_pagination" />
-    </div>
-</div>
+    </FluentGridItem>
+</FluentGrid>
+

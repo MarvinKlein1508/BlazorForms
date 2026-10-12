@@ -28,6 +28,8 @@ builder.Services.AddFluentUIComponents(options =>
     options.DefaultValues.For<FluentSwitch>().Set(p => p.Margin, "0");
     options.DefaultValues.For<FluentCheckbox>().Set(p => p.Padding, "0");
     options.DefaultValues.For<FluentCheckbox>().Set(p => p.Margin, "0");
+    options.DefaultValues.For<FluentGridItem>().Set(p => p.Xs, 12);
+    options.DefaultValues.For<FluentGrid>().Set(p => p.Spacing, 3);
 
     options.Toast.AllowDismiss = true;
     options.Toast.Position = ToastPosition.TopCenter;
