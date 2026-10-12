@@ -1,0 +1,89 @@
+﻿@page "/account/manage"
+@inherits BlazorFormsPageBase
+@inject UserRepository userRepository
+@inject LoginService loginService
+<PageTitle>Accountdetails</PageTitle>
+<h3>Accountdetails</h3>
+
+@if (CurrentUser is null)
+{
+    return;
+}
+
+<FluentTabs>
+    <FluentTab Header="Allgemein">
+        <p>Die folgenden Information von Ihnen werden von der App verwendet.</p>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td class="text-bold-500">Anzeigename</td>
+                    <td>@CurrentUser.DisplayName</td>
+                </tr>
+                <tr>
+                    <td class="text-bold-500">Username</td>
+                    <td>@CurrentUser.Username</td>
+                </tr>
+                <tr>
+                    <td class="text-bold-500">UserId</td>
+                    <td>@CurrentUser.UserId</td>
+                </tr>
+                <tr>
+                    <td class="text-bold-500">E-Mail</td>
+                    <td>@CurrentUser.Email</td>
+                </tr>
+                <tr>
+                    <td class="text-bold-500">Kontotyp</td>
+                    <td>@CurrentUser.AccountType</td>
+                </tr>
+            </tbody>
+        </table>
+    </FluentTab>
+    <FluentTab Header="Zwei-Faktor-Authentifizierung (2FA)">
+        @if (CurrentUser.TwoFactorEnabled)
+        {
+            <FluentText>Zwei-Faktor-Authentifizierung ist aktiv.</FluentText>
+            <FluentButton Appearance="ButtonAppearance.Transparent" BackgroundColor="var(--colorPaletteRedBackground3)" Color="#fff" OnClick="DisableTwoFactorAuthenticationAsync">Zwei-Faktor-Authentifizierung deaktivieren</FluentButton>
+        }
+        else
+        {
+            <FluentCard>
+                <p>Um eine Authenticator-App zu verwenden, gehen Sie wie folgt vor:</p>
+                <ol>
+                    <li>Laden Sie eine Zwei-Faktor-Authenticator-App wie Google Authenticator oder Microsoft Authenticator herunter.</li>
+                    <li>Scannen Sie den QR-Code oder geben Sie diesen Schlüssel <kbd>@_base32Secret</kbd> in Ihre Zwei-Faktor-Authenticator-App ein. Leerzeichen sowie Groß-/Kleinschreibung spielen keine Rolle.</li>
+                    <li>Nachdem Sie den QR-Code gescannt oder den Schlüssel eingegeben haben, erzeugt Ihre Zwei-Faktor-Authenticator-App einen eindeutigen Code. Geben Sie diesen Code unten in das Bestätigungsfeld ein.</li>
+                </ol>
+
+                @if (!string.IsNullOrWhiteSpace(_qrCodeAsBase64))
+                {
+                    <img src="data:image/png;base64,@_qrCodeAsBase64" width="200" height="200" />
+                }
+
+                <EditForm Model="this" OnSubmit="EnableTwoFactorAuthenticationAsync">
+                    <FluentStack Orientation="Orientation.Vertical">
+                        <FluentTextInput @bind-Value="_verificationToken" Label="Verifizierungscode" Immediate />
+                        <FluentButton Type="ButtonType.Submit" Appearance="ButtonAppearance.Primary">Verifizieren</FluentButton>
+                    </FluentStack>
+                </EditForm>
+
+            </FluentCard>
+        }
+    </FluentTab>
+    <FluentTab Header="Passwort ändern" Disabled="@(CurrentUser.ActiveDirectoryGuid is not null)">
+        <EditForm Model="_passwordChangeInput">
+            <DataAnnotationsValidator />
+            <FluentValidationSummary />
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+                <FluentTextInput @bind-Value="_passwordChangeInput.CurrentPassword" Label="Aktuelles Passwort" TextInputType="TextInputType.Password" Immediate />
+                <ValidationMessage For="() => _passwordChangeInput.CurrentPassword" />
+                <FluentTextInput @bind-Value="_passwordChangeInput.NewPassword" Label="Neues Passwort" TextInputType="TextInputType.Password" Immediate />
+                <ValidationMessage For="() => _passwordChangeInput.NewPassword" />
+                <FluentTextInput @bind-Value="_passwordChangeInput.ConfirmNewPassword" Label="Neues Passwort bestätigen" TextInputType="TextInputType.Password" Immediate />
+                <ValidationMessage For="() => _passwordChangeInput.ConfirmNewPassword" />
+                <FluentButton Type="ButtonType.Submit" Appearance="ButtonAppearance.Primary" OnClick="ChangePasswordAsync">Passwort ändern</FluentButton>
+            </FluentStack>
+        </EditForm>
+    </FluentTab>
+</FluentTabs>
+

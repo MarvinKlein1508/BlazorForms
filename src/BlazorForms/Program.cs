@@ -90,7 +90,7 @@ app.MapRazorComponents<App>()
 
 var accountGroup = app.MapGroup("/account");
 
-accountGroup.MapPost("/logout", async (HttpContext context) =>
+accountGroup.MapGet("/logout", async (HttpContext context) =>
 {
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     return Results.LocalRedirect("/account/login");
