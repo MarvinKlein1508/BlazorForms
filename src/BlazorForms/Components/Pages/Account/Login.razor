@@ -1,0 +1,72 @@
+﻿@page "/account/login"
+@inherits BlazorFormsPageBase
+@layout EmptyLayout
+@attribute [ExcludeFromInteractiveRouting]
+@attribute [AllowAnonymous]
+@inject UserRepository userRepository
+@inject LoginService loginService
+@inject RedirectManager redirectManager
+
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+    <div class="row w-100 justify-content-center">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+            <div class="d-flex justify-content-center mb-6">
+                <img src="/images/logo-light.webp" />
+            </div>
+            @if (!string.IsNullOrWhiteSpace(_errorMessage))
+            {
+                <FluentMessageBar Intent="@MessageBarIntent.Error" AllowDismiss="false" Class="mb-2 mt-2">
+                    @_errorMessage
+                </FluentMessageBar>
+            }
+            <FluentCard>
+                <EditForm Model="Input" OnValidSubmit="HandleLogin" FormName="login">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" role="alert" />
+					
+                    @* Autofocus is still broken in the underlying web-components. See: https://github.com/microsoft/fluentui/issues/35685 *@
+                    <FluentTextInput Name="Input.Username"
+                                     Id="login-username"
+                                     @bind-Value="Input.Username"
+                                     AutoComplete="username"
+                                     Required="true"
+                                     Placeholder="Username"
+                                     Label="Username"
+                                     Width="100%;"
+                                     Autofocus
+                                     Style="width: 100%;" />
+                    <ValidationMessage For="() => Input.Username" class="text-danger" />
+
+                    <FluentTextInput TextInputType="TextInputType.Password"
+                                     Name="Input.Password"
+                                     @bind-Value="Input.Password"
+                                     AutoComplete="current-password"
+                                     Required="true"
+                                     Placeholder="Passwort"
+                                     Label="Passwort"
+                                     Width="100%;"
+                                     Style="width: 100%;" />
+                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="6px" Class="mb-3">
+                        <label>
+                            <InputCheckbox @bind-Value="Input.UseLdap" />
+                            Verwende Active Directory
+                        </label>
+
+                        <label>
+                            <InputCheckbox @bind-Value="Input.RememberMe" />
+                            Angemeldet bleiben
+                        </label>
+                    </FluentStack>
+
+                    @* Not yet supported in FluentUI. See: https://github.com/microsoft/fluentui-blazor/issues/4473 *@
+                    @* <FluentSwitch Name="Input.UseLdap" @bind-Value="Input.UseLdap" Label="Verwende Active Directory" />
+				<FluentCheckbox Name="Input.RememberMe" @bind-Value="Input.RememberMe" Label="Angemeldet bleiben" /> *@
+                    <FluentButton Type="ButtonType.Submit" Style="width: 100%">Anmelden</FluentButton>
+
+                </EditForm>
+            </FluentCard>
+        </div>
+    </div>
+</div>

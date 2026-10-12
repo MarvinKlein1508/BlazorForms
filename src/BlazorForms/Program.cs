@@ -24,7 +24,8 @@ builder.Services.AddFluentUIComponents(config =>
     config.DefaultValues.For<FluentCheckbox>().Set(p => p.Margin, "0");
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(AuthConstants.TwoFactorCookieName);
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);

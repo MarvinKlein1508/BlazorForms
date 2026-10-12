@@ -2,5 +2,10 @@
            UseSingleExpanded="false"
            Density="@NavDensity.Medium">
     <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())" IconActive="@(new Icons.Filled.Size20.Home())">Home</FluentNavItem>
+    <AuthorizeView>
+        <NotAuthorized>
+            <FluentNavItem Href="/account/login" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())" IconActive="@(new Icons.Filled.Size20.Home())">Login</FluentNavItem>
+        </NotAuthorized>
+    </AuthorizeView>
 </FluentNav>
 

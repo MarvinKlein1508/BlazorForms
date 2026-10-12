@@ -16,9 +16,14 @@ public static class DependencyInjection
 
         services.AddScoped<UserRepository>();
 
+        services.AddScoped<LoginService>();
+        services.AddScoped<LdapProvider>();
+        services.AddScoped<AuthService>();
+        services.AddScoped<RedirectManager>();
+
         // Options
-        services.AddOptions<LoginOptions>()
-            .Bind(config.GetRequiredSection(LoginOptions.SectionName));
+        services.AddOptions<LdapOptions>()
+            .Bind(config.GetRequiredSection(LdapOptions.SectionName));
 
         return services;
     }
