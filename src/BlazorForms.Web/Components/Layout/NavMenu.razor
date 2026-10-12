@@ -1,17 +1,6 @@
-﻿<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="15" Style="width: 100%; height: 100%; position: relative;">
-    <FluentNav @ref="@nav">
-        <FluentNavItem Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Board())">Home</FluentNavItem>
+﻿<FluentNav Style="padding-top:10px; height: 100%;"
+           UseSingleExpanded="false"
+           Density="@NavDensity.Medium">
+    <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())" IconActive="@(new Icons.Filled.Size20.Home())">Home</FluentNavItem>
+</FluentNav>
 
-        <FluentNavCategory Title="Administration" Icon="@(new Icons.Regular.Size20.Settings())">
-            <FluentNavItem Href="/Admin/Users" Icon="@(new Icons.Regular.Size20.People())">Users</FluentNavItem>
-            <FluentNavItem Href="/Admin/Languages" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Languages</FluentNavItem>
-            <FluentNavItem Href="/Admin/Status" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Statuses</FluentNavItem>
-            <FluentNavItem Href="/Admin/Forms" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Forms</FluentNavItem>
-            <FluentNavItem Href="/Admin/Entries" Icon="@(new Icons.Regular.Size20.LocalLanguage())">Entries</FluentNavItem>
-        </FluentNavCategory>
-    </FluentNav>
-</FluentStack>
-
-@code {
-    private FluentNav nav = default!;
-}
