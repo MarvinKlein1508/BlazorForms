@@ -3,15 +3,15 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Dapper" Version="2.1.66" />
-    <PackageVersion Include="dbup-postgresql" Version="6.1.5" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.1" />
+    <PackageVersion Include="Dapper" Version="2.1.89" />
+    <PackageVersion Include="dbup-postgresql" Version="7.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0-preview.26008.6" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.2" />
-    <PackageVersion Include="Npgsql" Version="10.0.1" />
-    <PackageVersion Include="System.DirectoryServices.Protocols" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.1-preview.26284.4" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0" />
+    <PackageVersion Include="Npgsql" Version="10.0.3" />
+    <PackageVersion Include="System.DirectoryServices.Protocols" Version="10.0.12" />
   </ItemGroup>
 </Project>
