@@ -1,6 +1,4 @@
-using BlazorForms.Domain.Common;
-using BlazorForms.Domain.Filters;
-using BlazorForms.Domain.Interfaces;
+using BlazorForms.Domain;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.WebUtilities;

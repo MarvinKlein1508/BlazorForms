@@ -1,6 +1,4 @@
-using BlazorForms.Domain.Entities.Elements;
-
-namespace BlazorForms.Domain.Entities;
+namespace BlazorForms.Domain;
 
 public class Form : IDbModel<int?>, IDbParameterizable
 {

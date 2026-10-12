@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace BlazorForms.Domain.Filters;
+namespace BlazorForms.Domain;
 
 public class FormStatusFilter : PageFilterBase
 {

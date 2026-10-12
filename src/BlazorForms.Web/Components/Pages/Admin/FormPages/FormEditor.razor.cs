@@ -1,5 +1,4 @@
-using BlazorForms.Domain.Entities;
-using BlazorForms.Domain.Entities.Elements;
+using BlazorForms.Domain;
 using BlazorForms.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;

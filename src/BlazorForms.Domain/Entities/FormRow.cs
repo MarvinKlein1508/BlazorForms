@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Entities;
+namespace BlazorForms.Domain;
 
 /// <summary>
 /// Represents a row within the Form.

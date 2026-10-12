@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Common;
+namespace BlazorForms.Domain;
 
 public class PagedResponse<TResponse>
 {

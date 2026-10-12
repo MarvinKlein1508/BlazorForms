@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Entities.Elements;
+namespace BlazorForms.Domain;
 
 // TODO: Make abstract again
 public abstract class FormElementBase

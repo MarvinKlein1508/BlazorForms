@@ -1,8 +1,7 @@
-using BlazorForms.Domain.Interfaces;
+using BlazorForms.Domain;
 using BlazorForms.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.FluentUI.AspNetCore.Components;
 using System.Data;
 
 namespace BlazorForms.Web.Components.ComponentBases;

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace BlazorForms.Domain.Common;
+namespace BlazorForms.Domain;
 
 public abstract class LocalizationModelBase<T> where T : ILocalizationHelper
 {

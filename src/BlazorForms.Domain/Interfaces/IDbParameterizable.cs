@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Interfaces;
+namespace BlazorForms.Domain;
 /// <summary>
 /// Interface to generalize parameters for Dapper queries.
 /// </summary>

@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Filters;
+namespace BlazorForms.Domain;
 
 public abstract class PageFilterBase : FilterBase
 {

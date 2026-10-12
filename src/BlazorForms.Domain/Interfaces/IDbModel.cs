@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Interfaces;
+namespace BlazorForms.Domain;
 
 public interface IDbModel<TIdentifier>
 {

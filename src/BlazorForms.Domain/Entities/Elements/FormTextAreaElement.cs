@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Entities.Elements;
+namespace BlazorForms.Domain;
 
 public sealed class FormTextAreaElement : FormTextElementBase
 {

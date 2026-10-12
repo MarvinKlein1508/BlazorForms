@@ -1,4 +1,4 @@
-namespace BlazorForms.Domain.Entities;
+namespace BlazorForms.Domain;
 
 public class FormStatus : LocalizationModelBase<FormStatusDescription>, IDbModel<int?>, IDbParameterizable
 {

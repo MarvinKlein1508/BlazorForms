@@ -1,4 +1,4 @@
-using BlazorForms.Domain.Entities;
+using BlazorForms.Domain;
 using BlazorForms.Infrastructure.Auth;
 using BlazorForms.Infrastructure.Database;
 using Microsoft.AspNetCore.Components;

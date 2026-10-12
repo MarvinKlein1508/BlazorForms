@@ -1,4 +1,4 @@
-using BlazorForms.Domain.Entities;
+using BlazorForms.Domain;
 using BlazorForms.Infrastructure;
 
 namespace BlazorForms.Web.Components.Pages.Admin.FormStatusPages;

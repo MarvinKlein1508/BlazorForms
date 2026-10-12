@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace BlazorForms.Domain.Interfaces;
+namespace BlazorForms.Domain;
 
 /// <summary>
 /// Provides generalized CUD operations for an object Service.

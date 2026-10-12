@@ -1,4 +1,4 @@
-using BlazorForms.Domain.Entities;
+using BlazorForms.Domain;
 using BlazorForms.Infrastructure.Repositories;
 using BlazorForms.Web.Components.ComponentBases;
 

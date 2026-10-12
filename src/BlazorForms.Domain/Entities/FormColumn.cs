@@ -1,6 +1,4 @@
-using BlazorForms.Domain.Entities.Elements;
-
-namespace BlazorForms.Domain.Entities;
+namespace BlazorForms.Domain;
 
 /// <summary>
 /// Represents a column for a <see cref="FormRow"/>
