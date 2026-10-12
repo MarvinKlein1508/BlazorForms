@@ -8,7 +8,7 @@ public class UserFilter : PagedFilter, IDbParameterizable
     {
         return new Dictionary<string, object?>
         {
-            { "SEARCH_PHRASE", $"%{SearchPhrase?.ToUpper()}%" }
+            { nameof(SearchPhrase), $"%{SearchPhrase?.ToUpper()}%" }
         };
     }
 }

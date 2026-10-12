@@ -1,5 +1,6 @@
 using BlazorForms.Infrastructure.Auth;
 using BlazorForms.Infrastructure.Database;
+using BlazorForms.Infrastructure.Repositories;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,8 @@ public static class DependencyInjection
         // Configure dapper
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-        
+        services.AddScoped<UserRepository>();
+
         // Options
         services.AddOptions<LoginOptions>()
             .Bind(config.GetRequiredSection(LoginOptions.SectionName));

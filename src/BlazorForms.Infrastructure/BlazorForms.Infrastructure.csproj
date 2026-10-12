@@ -24,8 +24,4 @@
         <ProjectReference Include="..\BlazorForms.Domain\BlazorForms.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Repositories\" />
-    </ItemGroup>
-
 </Project>
