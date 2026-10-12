@@ -24,7 +24,7 @@
                 <EditForm Model="Input" OnValidSubmit="HandleLogin" FormName="login">
                     <DataAnnotationsValidator />
                     <ValidationSummary class="text-danger" role="alert" />
-					
+
                     @* Autofocus is still broken in the underlying web-components. See: https://github.com/microsoft/fluentui/issues/35685 *@
                     <FluentTextInput Name="Input.Username"
                                      Id="login-username"
@@ -67,6 +67,9 @@
                     <FluentButton Type="ButtonType.Submit" Style="width: 100%">@Localizer.BUTTON_LOGIN</FluentButton>
                 </EditForm>
             </FluentCard>
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" Margin="@Margin.Top3">
+                <CultureSelector @rendermode="InteractiveServer" />
+            </FluentStack>
         </div>
     </div>
 </div>
