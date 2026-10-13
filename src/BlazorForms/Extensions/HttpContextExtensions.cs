@@ -25,6 +25,8 @@ internal static class HttpContextExtensions
             IsPersistent = rememberMe
         };
 
+        claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
+
         await httpContext.SignOutAsync(AuthConstants.TwoFactorCookieName);
         await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
     }
