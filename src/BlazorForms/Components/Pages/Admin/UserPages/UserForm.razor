@@ -1,0 +1,31 @@
+﻿@inherits FormComponentBase<User>
+
+@ToolbarFragment
+
+<EditForm EditContext="_editContext">
+    <FluentTabs>
+        <FluentTab Header="Allgemein">
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Sm="9">
+                    <FluentTextInput @bind-Value="Input.Username" Label="Username" Disabled="ActiveDirectoryMode" Autofocus="!ActiveDirectoryMode" />
+
+                    <FluentTextInput Value="@Input.AccountType.ToString()" Label="Accounttyp" Disabled="true" />
+
+                    <FluentTextInput @bind-Value="Input.DisplayName" Label="Anzeigename" Disabled="ActiveDirectoryMode" />
+
+                    <FluentTextInput @bind-Value="Input.Email" Label="E-Mail" Disabled="ActiveDirectoryMode" />
+                </FluentGridItem>
+                <FluentGridItem Xs="12" Sm="3">
+                    <FluentStack Orientation="Orientation.Vertical">
+                        <FluentSwitch @bind-Value="@Input.IsActive" Label="Aktiv" />
+                        <FluentSwitch @bind-Value="@Input.TwoFactorEnabled" Label="Zwei-Faktor-Authentifizierung (2FA)" />
+                    </FluentStack>
+                </FluentGridItem>
+            </FluentGrid>
+        </FluentTab>
+    </FluentTabs>
+</EditForm>
+
+@code {
+    public bool ActiveDirectoryMode => Input.ActiveDirectoryGuid is not null || Input.AccountType is AccountType.ActiveDirectory;
+}

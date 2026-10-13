@@ -1,0 +1,54 @@
+﻿@page "/admin/users/edit"
+@using Microsoft.AspNetCore.Identity
+@inherits EditPageBase<User, UserRepository, int?>
+
+<PageTitle>Benutzer (@StartCopy?.DisplayName)</PageTitle>
+
+@if (Input is null)
+{
+    return;
+}
+
+<CascadingValue Value="CurrentUser" IsFixed="true">
+    <UserForm Input="Input"
+              OnValidSubmit="SaveAsync"
+              EditMode="EditMode.Edit">
+        <ToolbarTemplate>
+            <FluentMenu>
+                <FluentMenuButton>Optionen</FluentMenuButton>
+                <FluentMenuList>
+                    <FluentMenuItem OnClick="ShowPasswordChangeDialogAsync" Disabled="Input.AccountType is AccountType.ActiveDirectory">Passwort ändern</FluentMenuItem>
+                </FluentMenuList>
+            </FluentMenu>
+        </ToolbarTemplate>
+    </UserForm>
+</CascadingValue>
+
+@code {
+    private async Task ShowPasswordChangeDialogAsync()
+    {
+        if (StartCopy is null)
+        {
+            return;
+        }
+
+        DialogOptions parameters = new()
+        {
+            Width = "500px",
+            Modal = true,
+        };
+
+        var result = await DialogService.ShowDialogAsync<PasswordChangeDialog>(parameters);
+
+        if (!result.Cancelled && result.Value is string newPassword)
+        {
+            StartCopy.Salt = SaltGenerator.GenerateSaltBase64();
+            PasswordHasher<User> hasher = new();
+            string passwordHashed = hasher.HashPassword(StartCopy, newPassword + StartCopy.Salt);
+            StartCopy.Password = passwordHashed;
+            using var connection = await DbFactory.CreateConnectionAsync();
+            await Service.ChangePasswordAsync(StartCopy, connection);
+            await NotificationService.ShowSuccessToastAsync("Passwort wurde erfolgreich geändert!");
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿@page "/admin/users/create"
+@inherits CreatePageBase<User, UserRepository, int?>
+
+<PageTitle>Neuer Benutzer</PageTitle>
+
+@if (Input is null)
+{
+    return;
+}
+
+<CascadingValue Value="CurrentUser" IsFixed="true">
+    <UserForm Input="Input"
+              OnValidSubmit="SaveAsync"
+              EditMode="EditMode.Create" />
+</CascadingValue>
