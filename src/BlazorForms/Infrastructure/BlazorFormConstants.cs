@@ -4,6 +4,12 @@ namespace BlazorForms.Infrastructure;
 
 public static class BlazorFormConstants
 {
+    public static class Roles
+    {
+        public const string Admin = "ADMIN";
+        public const string Editor = "EDITOR";
+        public const string User = "USER";
+    }
     /// <summary>
     /// Temporary workaround for an issue in FluentUI Blazor.
     /// Introduces a short delay to allow the components to fully load their values

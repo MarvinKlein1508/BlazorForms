@@ -3,6 +3,11 @@
            Density="@NavDensity.Medium">
     <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())" IconActive="@(new Icons.Filled.Size20.Home())">Home</FluentNavItem>
 
+    <AuthorizeView Roles="@($"{BlazorFormConstants.Roles.Admin}")">
+        <FluentNavSectionHeader Title="Administration" />
+        <FluentNavItem Href="/admin/users" IconActive="@(new Icons.Filled.Size20.PeopleList())" IconRest="@(new Icons.Regular.Size20.PeopleList())">Benutzer</FluentNavItem>
+    </AuthorizeView>
+
     <FluentNavSectionHeader Title="Account" />
     <AuthorizeView>
         <NotAuthorized>

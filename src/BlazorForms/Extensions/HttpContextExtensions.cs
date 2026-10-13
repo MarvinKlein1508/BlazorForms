@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using BlazorForms.Domain;
+using BlazorForms.Infrastructure;
 using BlazorForms.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,14 +19,21 @@ internal static class HttpContextExtensions
             new("userId", user.UserId.ToString(CultureInfo.InvariantCulture)),
         };
 
+        string role = user.Role switch
+        {
+            UserRole.Admin => BlazorFormConstants.Roles.Admin,
+            UserRole.Editor => BlazorFormConstants.Roles.Editor,
+            _ => BlazorFormConstants.Roles.User
+        };
+
+        claims.Add(new Claim(ClaimTypes.Role, role));
+
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
         var authProperties = new AuthenticationProperties
         {
             IsPersistent = rememberMe
         };
-
-        claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
 
         await httpContext.SignOutAsync(AuthConstants.TwoFactorCookieName);
         await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
