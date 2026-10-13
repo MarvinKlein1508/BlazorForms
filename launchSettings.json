@@ -1,11 +1,14 @@
 {
-  "profiles": {
-    "Docker Compose": {
-      "commandName": "DockerCompose",
-      "commandVersion": "1.0",
-      "serviceActions": {
-        "blazorforms.web": "StartDebugging"
-      }
+    "profiles": {
+        "Docker Compose": {
+            "commandName": "DockerCompose",
+            "commandVersion": "1.0",
+            "composeLaunchAction": "LaunchBrowser",
+            "composeLaunchServiceName": "blazorforms.web",
+            "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/admin/forms/create",
+            "serviceActions": {
+                "blazorforms.web": "StartDebugging"
+            }
+        }
     }
-  }
 }

@@ -1,0 +1,73 @@
+﻿@page "/admin/forms/create"
+@inherits BlazorFormsPageBase
+@layout EmptyLayout
+
+@if (CurrentUser is null)
+{
+    return;
+}
+<CascadingValue Value="CurrentUser" IsFixed="true">
+    <FormEditor Input="Input"
+                OnValidSubmit="() => {}"
+                EditMode="EditMode.Create" />
+</CascadingValue>
+
+@code {
+    public Form Input { get; set; } = new();
+
+    protected override Task OnInitializedAsync()
+    {
+      
+        Input.Rows.Add(new FormRow
+        {
+            Columns =
+            [
+                new FormColumn
+                {
+                    Elements =
+                    [
+                        new FormTextElement(),
+                        new FormTextElement(),
+                        new FormTextElement(),
+                        new FormTextElement(),
+                    ]
+                },
+                new FormColumn
+                {
+                    Elements =
+                    [
+                        new FormTextElement(),
+                        new FormTextElement(),
+                    ]
+                },
+            ]
+        });
+        Input.Rows.Add(new FormRow
+        {
+            Columns =
+            [
+                new FormColumn
+                {
+                    Elements =
+                    [
+                        new FormTextElement(),
+                        new FormTextElement(),
+                        new FormTextElement(),
+                        new FormTextElement(),
+                    ]
+                },
+                new FormColumn
+                {
+
+                },
+                new FormColumn
+                {
+
+                },
+            ]
+        });
+        Input.Rows.Add(new FormRow());
+
+        return base.OnInitializedAsync();
+    }
+}

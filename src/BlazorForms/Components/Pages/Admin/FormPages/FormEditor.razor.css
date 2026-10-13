@@ -1,0 +1,59 @@
+.form-editor-wrapper {
+    height: 100vh;
+    height: 100dvh;
+    position: relative;
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+}
+
+.form-editor {
+    background-color: var(--colorNeutralBackground2);
+    display: flex;
+}
+
+.toolbar {
+    background-color: var(--colorNeutralBackground3);
+}
+
+    .form-editor ::deep div {
+        width: 100%;
+    }
+
+::deep .form-row {
+    border: 1px dashed red;
+    border-radius: .5em;
+    background-color: var(--colorNeutralBackground1);
+    flex: 1;
+    padding: 1em;
+    display: flex;
+    gap: 1em;
+}
+
+::deep .form-column {
+    flex: 1;
+    border: 2px dashed orange;
+    border-radius: .5em;
+    min-height: 5em;
+    padding: .5rem;
+}
+
+::deep .empty-zone {
+    width: 100%;
+    min-height: 50px;
+    background-color: yellow;
+    height: 100%;
+}
+
+::deep .form-element {
+    border: 1px solid green;
+    border-radius: .5em;
+    padding: 1rem;
+}
+
+/* This class needs to be applied to the last last nested FluentDragContainer */
+::deep .inner-drag-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacingVerticalM);
+    padding: var(--spacingHorizontalM);
+}

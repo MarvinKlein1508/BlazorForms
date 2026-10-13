@@ -34,9 +34,21 @@ builder.Services.AddFluentUIComponents(options =>
     options.Toast.AllowDismiss = true;
     options.Toast.Position = ToastPosition.TopCenter;
 });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services
+        .AddAuthentication("Debug")
+        .AddScheme<AuthenticationSchemeOptions, DebugAuthenticationHandler>(
+            "Debug",
+            options => { });
+}
+else
+{
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(AuthConstants.TwoFactorCookieName);
+}
 
 builder.Services.AddDatabase(config.GetConnectionString("Default")!);
 builder.Services.AddApplication(config);
