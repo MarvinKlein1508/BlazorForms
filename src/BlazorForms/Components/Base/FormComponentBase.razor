@@ -1,0 +1,20 @@
+﻿@typeparam TModel
+@namespace BlazorForms.Components
+@code {
+    protected RenderFragment ToolbarFragment => __builder =>
+    {
+        <FluentStack HorizontalAlignment="HorizontalAlignment.End" Margin="@Margin.Bottom1">
+            @if (ToolbarTemplate is not null)
+            {
+                @ToolbarTemplate
+            }
+
+            <FluentButton IconStart="@(new Icons.Regular.Size20.Save())"
+                          Appearance="ButtonAppearance.Primary"
+                          OnClick="SubmitAsync">
+                Speichern
+            </FluentButton>
+        </FluentStack>
+    };
+
+}
