@@ -8,8 +8,16 @@ retryButton.addEventListener("click", retry);
 const resumeButton = document.getElementById("components-resume-button");
 resumeButton.addEventListener("click", resume);
 
+let isUnloading = false;
+window.addEventListener("beforeunload", () => { isUnloading = true; });
+window.addEventListener("pagehide", () => { isUnloading = true; });
+window.addEventListener("pageshow", () => { isUnloading = false; });
+
 function handleReconnectStateChanged(event) {
     if (event.detail.state === "show") {
+        if (isUnloading) {
+            return;
+        }
         reconnectModal.showModal();
     } else if (event.detail.state === "hide") {
         reconnectModal.close();
