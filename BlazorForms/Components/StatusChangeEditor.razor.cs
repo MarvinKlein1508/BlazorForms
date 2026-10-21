@@ -210,10 +210,10 @@ Kommentar: <br />
                             await emailService.SendAsync(message);
                         }
                     }
-
-                    await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
-                    await OnSaved.InvokeAsync(Input);
                 }
+
+                await JSRuntime.ShowToastAsync(ToastType.success, AppLocalizer["SAVE_MESSAGE"]);
+                await OnSaved.InvokeAsync(Input);
             }
         }
     }
